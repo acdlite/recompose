@@ -124,8 +124,8 @@ const ContainerComponent = compose(
 Technically, this also means you can use them as decorators (if that's your thing):
 
 ```js
-@withState(...),
-@mapProps(...),
+@withState(...)
+@mapProps(...)
 @onWillReceiveProps(...)
 class Component extends React.Component {...}
 ```
