@@ -3,7 +3,7 @@ import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
 
 const lifecycle = (setup, teardown, BaseComponent) => (
-  class Sink extends React.Component {
+  class Lifecycle extends React.Component {
     static displayName = wrapDisplayName(BaseComponent, 'lifecycle');
 
     constructor(props, context) {
