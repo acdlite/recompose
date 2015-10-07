@@ -1,0 +1,34 @@
+{
+  "extends": "eslint-config-airbnb",
+  "env": {
+    "browser": true,
+    "mocha": true,
+    "node": true
+  },
+  "globals": {
+    "expect": true,
+    "sinon": true
+  },
+  "rules": {
+    "comma-dangle": 0,
+    "no-wrap-func": 0,
+    "spaced-comment": 0,
+    "id-length": 0,
+
+    // Doesn't play nice with chai's assertions
+    "no-unused-expressions": 0,
+
+    "react/no-multi-comp": 0,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/react-in-jsx-scope": 2,
+
+    //Temporaerirly disabled due to a possible bug in babel-eslint (todomvc example)
+    "block-scoped-var": 0,
+    // Temporarily disabled for test/* until babel/babel-eslint#33 is resolved
+    "padded-blocks": 0
+  },
+  "plugins": [
+    "react"
+  ]
+}

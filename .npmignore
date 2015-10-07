@@ -1,0 +1,4 @@
+src/**/__tests__
+.babelrc
+.eslintrc
+.gitignore

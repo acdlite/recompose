@@ -1,0 +1,33 @@
+import React from 'react';
+import { expect } from 'chai';
+import { doOnReceiveProps, compose, withState, mapProps } from '../';
+import { BaseComponent } from './utils';
+
+import {
+  findRenderedComponentWithType,
+  renderIntoDocument
+} from 'react-addons-test-utils';
+
+describe('doOnReceiveProps()', () => {
+  it('fires a callback when receiving new props', () => {
+    const spy = sinon.spy();
+    const Counter = compose(
+      withState('counter', 'updateCounter', 0),
+      mapProps(({ updateCounter, ...rest }) => ({
+        increment: () => updateCounter(n => n + 1),
+        ...rest
+      })),
+      doOnReceiveProps(spy)
+    )(BaseComponent);
+
+    const tree = renderIntoDocument(<Counter pass="through" />);
+    const base = findRenderedComponentWithType(tree, BaseComponent);
+
+    expect(base.props.pass).to.equal('through');
+    expect(spy.lastCall.args[0].counter).to.equal(0);
+    base.props.increment();
+    expect(spy.lastCall.args[0].counter).to.equal(1);
+    base.props.increment();
+    expect(spy.lastCall.args[0].counter).to.equal(2);
+  });
+});

@@ -1,0 +1,32 @@
+import React from 'react';
+import curry from 'lodash/function/curry';
+import isFunction from 'lodash/lang/isFunction';
+import wrapDisplayName from './wrapDisplayName';
+
+export const withState = (
+  stateName,
+  stateUpdaterName,
+  initialState,
+  BaseComponent
+) => (
+  class extends React.Component {
+    static displayName = wrapDisplayName(BaseComponent, 'withState');
+    state = { stateValue: initialState };
+    updateStateValue = updateFn => (
+      this.setState(({ stateValue }) => ({
+        stateValue: isFunction(updateFn) ? updateFn(stateValue) : updateFn
+      }))
+    )
+
+    render() {
+      const childProps = {
+        ...this.props,
+        [stateName]: this.state.stateValue,
+        [stateUpdaterName]: this.updateStateValue
+      };
+      return <BaseComponent {...childProps}/>;
+    }
+  }
+);
+
+export default curry(withState);
