@@ -21,7 +21,7 @@ import { compose, withState, mapProps } from 'recompose';
 
 const Counter = ({ counter, increment, decrement }) => (
   <p>
-    Clicked: {counter} times
+    Count: {counter}
     <button onClick={increment}>+</button>
     <button onClick={decrement}>-</button>
   </p>
@@ -29,9 +29,10 @@ const Counter = ({ counter, increment, decrement }) => (
 
 const CounterContainer = compose(
   withState('counter', 'setCounter', 0),
-  mapProps(({ setCounter }) => ({
+  mapProps(({  counter, setCounter, ...rest }) => ({
     increment: () => setCounter(n => n + 1),
-    decrement: () => setCounter(n => n - 1)
+    decrement: () => setCounter(n => n - 1),
+    ...rest
   }))
 )(Counter);
 ```
