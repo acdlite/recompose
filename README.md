@@ -36,6 +36,8 @@ const CounterContainer = compose(
 )(Counter);
 ```
 
+More complex examples are coming soon. Here's a [mini React Redux clone](https://github.com/acdlite/recompose/blob/master/src/__tests__/withContext-test.js#L13) from the test suite.
+
 Read on for more about the library, its goals, and how it works.
 
 ## API docs
