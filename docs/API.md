@@ -130,7 +130,7 @@ Accepts a test function and two higher-order components. The test function is pa
 ### `shouldUpdate()`
 
 ```js
-branch(
+shouldUpdate(
   test: (props: Object, nextProps: Object) => boolean,
   BaseComponent: Class<ReactComponent>
 ): Class<ReactComponent>
