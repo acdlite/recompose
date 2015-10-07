@@ -29,7 +29,7 @@ const Counter = ({ counter, increment, decrement }) => (
 
 const CounterContainer = compose(
   withState('counter', 'setCounter', 0),
-  mapProps(({ counter, setCounter, ...rest }) => ({
+  mapProps(({ setCounter, ...rest }) => ({
     increment: () => setCounter(n => n + 1),
     decrement: () => setCounter(n => n - 1),
     ...rest
