@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import jsdom from 'mocha-jsdom';
 import omit from 'lodash/object/omit';
 import { withState } from '../';
 import { BaseComponent } from './utils';
@@ -11,8 +10,6 @@ import {
 } from 'react-addons-test-utils';
 
 describe('withState()', () => {
-  jsdom();
-
   const Counter = withState('counter', 'updateCounter', 0)(BaseComponent);
 
   it('adds a stateful value and a function for updating it', () => {

@@ -36,7 +36,6 @@
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "0.0.9",
     "eslint-plugin-react": "^3.4.2",
-    "jsdom": "^6.5.1",
     "karma": "^0.13.10",
     "karma-chrome-launcher": "^0.2.0",
     "karma-mocha": "^0.2.0",
