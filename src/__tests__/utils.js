@@ -6,13 +6,7 @@ export class BaseComponent extends React.Component {
   renderCount = 0;
 
   render() {
-    return (
-      <div
-        ownerProps={this.props}
-        renderCount={this.renderCount}
-        {...this.props}
-      />
-    );
+    return <div {...this.props}/>;
   }
 }
 
