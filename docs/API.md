@@ -186,7 +186,7 @@ Gets values from context and passes them along as props. Use along with `withCon
 
 ```js
 doOnReceiveProps(
-  callback: props,
+  callback: (props: Object) => void,
   BaseComponent: Class<ReactComponent>
 ): Class<ReactComponent>
 ```
