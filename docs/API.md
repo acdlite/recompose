@@ -81,6 +81,29 @@ renameProps(
 
 Renames multiple props, using a map of old prop names to new prop names.
 
+### `flattenProp()`
+
+```js
+renameProps(
+  propName: string,
+  baseComponent: Class<ReactComponent>
+): Class<ReactComponent>
+```
+
+Flattens an prop so that its fields are spread out into the props object.
+
+```js
+const Abc = compose(
+  withProps({
+    object: { a: 'a', b: 'b' },
+    c: 'c'
+  }),
+  flattenProp('object')
+)(BaseComponent);
+
+// Base component receives props: { a: 'a', b: 'b', c: 'c' }
+```
+
 ### `withState()`
 
 ```js
@@ -114,6 +137,23 @@ const addCounting = compose(
 ```
 
 The second form accepts a single value, which is used as the new state.
+
+### `withReducer()`
+
+```js
+withReducer<T, U>(
+  stateName: string,
+  dispatchName, string,
+  reducer: (state: T, action: U) => T,
+  initialState: T,
+  BaseComponent: Class<ReactComponent>
+): Class<ReactComponent>
+```
+
+Similar to `withState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
+
+Passes two additional props to the base component: a state value, and a dispatch method. The dispatch method sends an action to the reducer, and the new state is applied.
+
 
 ### `branch()`
 
