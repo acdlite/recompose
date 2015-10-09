@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { expect } from 'chai';
-import { withContext, getContext, compose, mapProps } from '../';
+import { withContext, getContext, compose, mapProps } from 'recompose';
 import { BaseComponent } from './utils';
 
 import {

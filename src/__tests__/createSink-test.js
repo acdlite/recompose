@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { createSink, compose, withState, mapProps } from '../';
+import { createSink, compose, withState, mapProps } from 'recompose';
 
 import {
   findRenderedComponentWithType,

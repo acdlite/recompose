@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { doOnReceiveProps, compose, withState, mapProps } from '../';
+import { doOnReceiveProps, compose, withState, mapProps } from 'recompose';
 import { BaseComponent } from './utils';
 
 import {

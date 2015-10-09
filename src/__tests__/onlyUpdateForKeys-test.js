@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { onlyUpdateForKeys, compose, withState } from '../';
+import { onlyUpdateForKeys, compose, withState } from 'recompose';
 import { BaseComponent, countRenders } from './utils';
 
 import {

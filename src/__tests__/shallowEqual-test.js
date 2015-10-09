@@ -1,4 +1,4 @@
-import { shallowEqual } from '../';
+import { shallowEqual } from 'recompose';
 import { expect } from 'chai';
 
 // Adapted from https://github.com/rackt/react-redux/blob/master/test/utils/shallowEqual.spec.js

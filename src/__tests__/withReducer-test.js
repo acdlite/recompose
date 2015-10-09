@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { withReducer, compose, flattenProp } from '../';
+import { withReducer, compose, flattenProp } from 'recompose';
 import { BaseComponent } from './utils';
 
 import {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { wrapDisplayName } from '../';
+import { wrapDisplayName } from 'recompose';
 
 describe('wrapDisplayName()', () => {
   it('wraps the display name of a React component with the name of an HoC, Relay-style', () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { withProps, renameProps, compose } from '../';
+import { withProps, renameProps, compose } from 'recompose';
 import { BaseComponent } from './utils';
 
 import {

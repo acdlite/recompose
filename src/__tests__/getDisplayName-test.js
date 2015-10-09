@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { getDisplayName } from '../';
+import { getDisplayName } from 'recompose';
 
 describe('getDisplayName()', () => {
   it('gets the display name of a React component', () => {

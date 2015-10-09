@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { mapPropsOnUpdate, withState, compose } from '../';
+import { mapPropsOnUpdate, withState, compose } from 'recompose';
 import { BaseComponent } from './utils';
 
 import {
