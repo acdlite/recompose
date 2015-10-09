@@ -26,6 +26,7 @@
     "test": "karma start"
   },
   "dependencies": {
+    "babel-runtime": "^5.8.25",
     "lodash": "^3.10.1"
   },
   "peerDependencies": {
@@ -39,6 +40,7 @@
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "0.0.9",
     "eslint-plugin-react": "^3.4.2",
+    "gzip-size-cli": "^1.0.0",
     "karma": "^0.13.10",
     "karma-chrome-launcher": "^0.2.0",
     "karma-mocha": "^0.2.0",

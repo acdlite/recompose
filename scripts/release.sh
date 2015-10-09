@@ -39,6 +39,8 @@ fi
 
 update_version 'package.json' $next_version
 
+scripts/build-umd.sh
+
 git commit -am "Version $next_version"
 
 git tag $next_ref
