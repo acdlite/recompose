@@ -26,7 +26,6 @@
     "test": "karma start"
   },
   "dependencies": {
-    "babel-runtime": "^5.8.25",
     "lodash": "^3.10.1"
   },
   "peerDependencies": {
