@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { flattenProp } from '../';
+import { flattenProp } from 'recompose';
 import { BaseComponent } from './utils';
 
 import {

@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { expect } from 'chai';
-import { lifecycle, compose, withState } from '../';
+import { lifecycle, compose, withState } from 'recompose';
 import { BaseComponent } from './utils';
 
 import {
