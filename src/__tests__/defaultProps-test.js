@@ -27,4 +27,12 @@ describe('defaultProps()', () => {
 
     expect(base.props).to.eql({ so: 'do', la: 'ti' });
   });
+
+  it('it overrides undefined owner props', () => {
+    const tree = renderIntoDocument(<DoReMi la={undefined} />);
+    const base = findRenderedComponentWithType(tree, BaseComponent);
+
+    expect(base.props).to.eql({ so: 'do', la: 'fa' });
+  });
+
 });
