@@ -1,4 +1,5 @@
 import React from 'react';
+import omit from 'lodash/object/omit';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
 
@@ -8,7 +9,12 @@ const defaultProps = (props, BaseComponent) => (
     static displayName = wrapDisplayName(BaseComponent, 'defaultProps');
 
     render() {
-      return <BaseComponent {...props} {...this.props} />;
+      const nextProps = omit(
+        this.props,
+        (value, key) => (key in props) && (value === undefined)
+      );
+
+      return <BaseComponent {...props} {...nextProps} />;
     }
   }
 );
