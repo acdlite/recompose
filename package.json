@@ -51,6 +51,7 @@
     "karma-webpack": "^1.7.0",
     "mocha": "^2.3.3",
     "phantomjs": "^1.9.18",
+    "pretty-bytes": "^2.0.1",
     "react": "^0.14.0",
     "react-addons-test-utils": "^0.14.0",
     "rimraf": "^2.4.3",

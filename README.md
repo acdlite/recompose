@@ -53,7 +53,11 @@ All functions are available on the top-level export.
 import { compose, mapProps, withState /* ... */ } from 'recompose';
 ```
 
-Or if you only want to require specify modules, you can import them individually:
+### Optimizing bundle size
+
+The total gzipped size of the entire library is **<!-- gzipped-size -->8.98 kB<!-- end -->**. You can reduce this number by only including the modules that you need.
+
+All top-level exports can be imported individually:
 
 ```js
 import compose from 'recompose/compose';
@@ -63,6 +67,8 @@ import withState from 'recompose/withState';
 ```
 
 This is a good option for library authors who don't want to bloat their bundle sizes.
+
+Recompose includes some lodash modules, like `curry` and `compose`, as dependencies. If you're already using lodash, then the net bundle increase from using Recompose will be even smaller.
 
 ## Background
 
