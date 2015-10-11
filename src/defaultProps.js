@@ -7,8 +7,10 @@ const defaultProps = (props, BaseComponent) => (
   class extends React.Component {
     static displayName = wrapDisplayName(BaseComponent, 'defaultProps');
 
+    static defaultProps = props;
+
     render() {
-      return <BaseComponent {...props} {...this.props} />;
+      return <BaseComponent {...this.props} />;
     }
   }
 );
