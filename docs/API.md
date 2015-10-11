@@ -118,8 +118,8 @@ withState(
 Passes two additional props to the base component: a state value, and a function to update that state value. The state updater has the following signature:
 
 ```js
-stateUpdater<T>((prevValue: T) => T): void
-stateUpdate(newValue: any): void
+stateUpdater<T>((prevValue: T) => T, callback: Function): void
+stateUpdate(newValue: any, callback: Function): void
 ```
 
 The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `mapProps()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
@@ -137,6 +137,8 @@ const addCounting = compose(
 ```
 
 The second form accepts a single value, which is used as the new state.
+
+Both forms accept as second parameter, a callback function that will be executed once `setState()` is completed and the component is re-rendered.
 
 ### `withReducer()`
 
