@@ -43,4 +43,17 @@ describe('withState()', () => {
       pass: 'through'
     });
   });
+
+  it('accepts setState() callback', () => {
+    const tree = renderIntoDocument(<Counter pass="through" />);
+    const base = findRenderedComponentWithType(tree, BaseComponent);
+    const spy = sinon.spy();
+
+    base.props.updateCounter(18, spy);
+    expect(spy.callCount).to.eql(1);
+
+    base.props.updateCounter(n => n + 1, spy);
+    expect(spy.callCount).to.eql(2);
+  });
+
 });

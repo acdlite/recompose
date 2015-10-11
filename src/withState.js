@@ -12,10 +12,10 @@ export const withState = (
   class extends React.Component {
     static displayName = wrapDisplayName(BaseComponent, 'withState');
     state = { stateValue: initialState };
-    updateStateValue = updateFn => (
+    updateStateValue = (updateFn, callback) => (
       this.setState(({ stateValue }) => ({
         stateValue: isFunction(updateFn) ? updateFn(stateValue) : updateFn
-      }))
+      }), callback)
     )
 
     render() {
