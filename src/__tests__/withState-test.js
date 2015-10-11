@@ -1,8 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { withState } from 'recompose';
-import { BaseComponent } from './utils';
+import { withState, compose } from 'recompose';
+import { BaseComponent, countRenders } from './utils';
 
 import {
   findRenderedComponentWithType,
@@ -43,4 +43,22 @@ describe('withState()', () => {
       pass: 'through'
     });
   });
+
+  it('accepts setState() callback', () => {
+    const Counter2 = compose(
+      withState('counter', 'updateCounter', 0),
+      countRenders
+    )(BaseComponent);
+
+    const tree = renderIntoDocument(<Counter2 pass="through" />);
+    const base = findRenderedComponentWithType(tree, BaseComponent);
+    const spy = sinon.spy(() => {
+      expect(base.props.renderCount).to.equal(2);
+    });
+
+    expect(base.props.renderCount).to.equal(1);
+    base.props.updateCounter(18, spy);
+    expect(spy.callCount).to.eql(1);
+  });
+
 });
