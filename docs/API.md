@@ -130,7 +130,7 @@ const addCounting = compose(
   mapProps({ setCounter, ...rest } => ({
     increment: () => setCounter(n => n + 1),
     decrement: () => setCounter(n => n - 1),
-    reset: () => setCounter(() => 0),
+    reset: () => setCounter(0),
     ...rest
   }))
 );
