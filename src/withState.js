@@ -11,7 +11,12 @@ export const withState = (
 ) => (
   class extends React.Component {
     static displayName = wrapDisplayName(BaseComponent, 'withState');
-    state = { stateValue: initialState };
+    state = {
+      stateValue: isFunction(initialState)
+        ? initialState(this.props)
+        : initialState
+    };
+
     updateStateValue = (updateFn, callback) => (
       this.setState(({ stateValue }) => ({
         stateValue: isFunction(updateFn) ? updateFn(stateValue) : updateFn
