@@ -1,41 +1,38 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { branch, compose, withState, withProps } from 'recompose';
-import { BaseComponent } from './utils';
+import { branch, compose, withState, withProps, createSpy } from 'recompose';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('branch()', () => {
   it('tests props and applies one of two HoCs, for true and false', () => {
+    const spy = createSpy();
+
     const SayMyName = compose(
       withState('isBad', 'updateIsBad', false),
       branch(
         props => props.isBad,
         withProps({ name: 'Heisenberg' }),
         withProps({ name: 'Walter' })
-      )
-    )(BaseComponent);
+      ),
+      spy
+    )('div');
 
     expect(SayMyName.displayName).to.equal(
-      'withState(branch(BaseComponent))'
+      'withState(branch(spy(div)))'
     );
 
-    const tree = renderIntoDocument(<SayMyName pass="through" />);
-    let base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<SayMyName pass="through" />);
 
-    expect(omit(base.props, 'updateIsBad')).to.eql({
+    expect(omit(spy.getProps(), 'updateIsBad')).to.eql({
       isBad: false,
       name: 'Walter',
       pass: 'through'
     });
 
-    base.props.updateIsBad(() => true);
-    base = findRenderedComponentWithType(tree, BaseComponent);
-    expect(omit(base.props, 'updateIsBad')).to.eql({
+    spy.getProps().updateIsBad(() => true);
+    expect(omit(spy.getProps(), 'updateIsBad')).to.eql({
       isBad: true,
       name: 'Heisenberg',
       pass: 'through'

@@ -25,5 +25,6 @@ describe('getDisplayName()', () => {
     expect(getDisplayName(SomeOtherComponent)).to.equal('CustomDisplayName');
     expect(getDisplayName(YetAnotherComponent)).to.equal('YetAnotherComponent');
     expect(getDisplayName(() => <div />)).to.equal('Component');
+    expect(getDisplayName('div')).to.equal('div');
   });
 });

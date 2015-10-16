@@ -1,38 +1,36 @@
 import React from 'react';
 import { expect } from 'chai';
-import { defaultProps } from 'recompose';
+import { defaultProps, compose, createSpy } from 'recompose';
 import { BaseComponent } from './utils';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('defaultProps()', () => {
-  const DoReMi = defaultProps({ so: 'do', la: 'fa' })(BaseComponent);
+  const spy = createSpy();
+  const DoReMi = compose(
+    defaultProps({ so: 'do', la: 'fa' }),
+    spy
+  )(BaseComponent);
 
   it('passes additional props to base component', () => {
     expect(DoReMi.displayName)
-      .to.equal('defaultProps(BaseComponent)');
+      .to.equal('defaultProps(spy(BaseComponent))');
 
-    const tree = renderIntoDocument(<DoReMi />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<DoReMi />);
 
-    expect(base.props).to.eql({ so: 'do', la: 'fa' });
+    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' });
   });
 
   it('owner props take precendence', () => {
-    const tree = renderIntoDocument(<DoReMi la="ti" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<DoReMi la="ti" />);
 
-    expect(base.props).to.eql({ so: 'do', la: 'ti' });
+    expect(spy.getProps()).to.eql({ so: 'do', la: 'ti' });
   });
 
   it('it overrides undefined owner props', () => {
-    const tree = renderIntoDocument(<DoReMi la={undefined} />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<DoReMi la={undefined} />);
 
-    expect(base.props).to.eql({ so: 'do', la: 'fa' });
+    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' });
   });
 
 });

@@ -20,17 +20,19 @@ describe('createSpy', () => {
     )('div');
 
     renderIntoDocument(<Counter />);
-    const { updateCounter } = spy.getProps(0, 0);
+    const { updateCounter } = spy.getProps();
+
+
+    expect(omit(spy.getProps(), 'updateCounter')).to.eql({ counter: 0 });
 
     updateCounter(1);
+    expect(omit(spy.getProps(), 'updateCounter')).to.eql({ counter: 1 });
+
     updateCounter(2);
+    expect(omit(spy.getProps(), 'updateCounter')).to.eql({ counter: 2 });
 
-    expect(omit(spy.getProps(0, 0), 'updateCounter')).to.eql({ counter: 0 });
-    expect(omit(spy.getProps(0, 1), 'updateCounter')).to.eql({ counter: 1 });
-    expect(omit(spy.getProps(0, 2), 'updateCounter')).to.eql({ counter: 2 });
-
-    expect(spy.getComponentInfo().length).to.equal(1);
+    expect(spy.getInfo().length).to.equal(1);
     updateCounter(123); // Unmount spy
-    expect(spy.getComponentInfo().length).to.equal(0);
+    expect(spy.getInfo().length).to.equal(0);
   });
 });

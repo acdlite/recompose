@@ -1,13 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { withReducer, compose, flattenProp } from 'recompose';
-import { BaseComponent } from './utils';
+import { withReducer, compose, flattenProp, createSpy } from 'recompose';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('withReducer()', () => {
   const SET_COUNTER = 'SET_COUNTER';
@@ -20,6 +16,7 @@ describe('withReducer()', () => {
 
   const initialState = { counter: 0 };
 
+  const spy = createSpy();
   const Counter = compose(
     withReducer(
       'state',
@@ -27,24 +24,24 @@ describe('withReducer()', () => {
       reducer,
       initialState
     ),
-    flattenProp('state')
-  )(BaseComponent);
+    flattenProp('state'),
+    spy
+  )('div');
 
   it('adds a stateful value and a function for updating it', () => {
     expect(Counter.displayName).to.equal(
-      'withReducer(flattenProp(BaseComponent))'
+      'withReducer(flattenProp(spy(div)))'
     );
 
-    const tree = renderIntoDocument(<Counter pass="through" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<Counter pass="through" />);
 
-    expect(omit(base.props, 'dispatch')).to.eql({
+    expect(omit(spy.getProps(), 'dispatch')).to.eql({
       counter: 0,
       pass: 'through'
     });
 
-    base.props.dispatch({ type: SET_COUNTER, payload: 18 });
-    expect(omit(base.props, 'dispatch')).to.eql({
+    spy.getProps().dispatch({ type: SET_COUNTER, payload: 18 });
+    expect(omit(spy.getProps(), 'dispatch')).to.eql({
       counter: 18,
       pass: 'through'
     });

@@ -1,12 +1,11 @@
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
 import { expect } from 'chai';
-import { lifecycle, compose, withState } from 'recompose';
-import { BaseComponent } from './utils';
+import { lifecycle, compose, withState, branch, createSpy } from 'recompose';
+import identity from 'lodash/utility/identity';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
+
+const noop = () => {};
 
 describe('lifecycle()', () => {
   it('gives access to the component instance on setup and teardown', () => {
@@ -23,54 +22,44 @@ describe('lifecycle()', () => {
       listeners.forEach(l => l());
     };
 
+    const spy = createSpy();
+
     const Lifecycle = compose(
-      lifecycle(
-        component => {
-          component.state = { counter: 0 };
-          component.dispose = subscribe(() => {
-            component.setState(state => ({ counter: state.counter + 1 }));
-          });
-        },
-        component => {
-          component.dispose();
-        }
-      )
-    )(BaseComponent);
+      withState('isVisible', 'updateIsVisible', false),
+      branch(
+        props => props.isVisible,
+        lifecycle(
+          component => {
+            component.state = { counter: 0 };
+            component.dispose = subscribe(() => (
+              component.setState(state => ({ counter: state.counter + 1 }))
+            ));
+          },
+          component => {
+            component.dispose();
+          }
+        ),
+        identity
+      ),
+      spy
+    )('div');
 
-    // TODO: Use stateless component once React TestUtils supports it
-    class Toggle extends Component {
-      static propTypes = {
-        isVisible: PropTypes.bool
-      };
+    renderIntoDocument(<Lifecycle pass="through" />);
 
-      static defaultProps = {
-        isVisible: false
-      };
-
-      render() {
-        return this.props.isVisible
-          ? <Lifecycle />
-          : null;
-      }
-    }
-
-    const ToggleContainer =
-      withState('isVisible', 'updateIsVisible', false)(Toggle);
-
-    const tree = renderIntoDocument(<ToggleContainer pass="through" />);
-    const toggle = findRenderedComponentWithType(tree, Toggle);
-
-    toggle.props.updateIsVisible(true);
+    spy.getProps().updateIsVisible(true);
     expect(listeners.length).to.equal(1);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
 
-    expect(base.props.counter).to.equal(0);
+    expect(spy.getProps().counter).to.equal(0);
     emit();
-    expect(base.props.counter).to.equal(1);
+    expect(spy.getProps().counter).to.equal(1);
     emit();
-    expect(base.props.counter).to.equal(2);
+    expect(spy.getProps().counter).to.equal(2);
 
-    toggle.props.updateIsVisible(false);
+    spy.getProps().updateIsVisible(false);
     expect(listeners.length).to.equal(0);
+  });
+
+  it('sets proper display name', () => {
+    expect(lifecycle(noop, noop, 'div').displayName).to.equal('lifecycle(div)');
   });
 });

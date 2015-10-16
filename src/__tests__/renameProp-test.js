@@ -1,27 +1,24 @@
 import React from 'react';
 import { expect } from 'chai';
-import { withProps, renameProp, compose } from 'recompose';
-import { BaseComponent } from './utils';
+import { withProps, renameProp, compose, createSpy } from 'recompose';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('renameProp()', () => {
   it('renames a single prop', () => {
+    const spy = createSpy();
     const StringConcat = compose(
       withProps({ so: 123, la: 456 }),
       renameProp('so', 'do'),
-    )(BaseComponent);
+      spy
+    )('div');
 
     expect(StringConcat.displayName).to.equal(
-      'withProps(renameProp(BaseComponent))'
+      'withProps(renameProp(spy(div)))'
     );
 
-    const tree = renderIntoDocument(<StringConcat />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<StringConcat />);
 
-    expect(base.props).to.eql({ do: 123, la: 456 });
+    expect(spy.getProps()).to.eql({ do: 123, la: 456 });
   });
 });

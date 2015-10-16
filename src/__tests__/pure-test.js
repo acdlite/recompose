@@ -1,48 +1,44 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { pure, compose, withState } from 'recompose';
-import { BaseComponent, countRenders } from './utils';
+import { pure, compose, withState, createSpy } from 'recompose';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('pure()', () => {
   it('implements shouldComponentUpdate() using shallowEqual()', () => {
+    const spy = createSpy();
     const initialTodos = ['eat', 'drink', 'sleep'];
     const Counter = compose(
       withState('todos', 'updateTodos', initialTodos),
       pure,
-      countRenders
-    )(BaseComponent);
+      spy
+    )('div');
 
     expect(Counter.displayName).to.equal(
-      'withState(pure(countRenders(BaseComponent)))'
+      'withState(pure(spy(div)))'
     );
 
-    const tree = renderIntoDocument(<Counter pass="through" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<Counter pass="through" />);
 
-    expect(omit(base.props, 'updateTodos')).to.eql({
+    expect(omit(spy.getProps(), 'updateTodos')).to.eql({
       todos: initialTodos,
-      pass: 'through',
-      renderCount: 1
+      pass: 'through'
     });
+    expect(spy.getRenderCount()).to.equal(1);
 
-    base.props.updateTodos(initialTodos);
-    expect(omit(base.props, 'updateTodos')).to.eql({
+    spy.getProps().updateTodos(initialTodos);
+    expect(omit(spy.getProps(), 'updateTodos')).to.eql({
       todos: initialTodos,
-      pass: 'through',
-      renderCount: 1
+      pass: 'through'
     });
+    expect(spy.getRenderCount()).to.equal(1);
 
-    base.props.updateTodos(todos => todos.slice(0, -1));
-    expect(omit(base.props, 'updateTodos')).to.eql({
+    spy.getProps().updateTodos(todos => todos.slice(0, -1));
+    expect(omit(spy.getProps(), 'updateTodos')).to.eql({
       todos: ['eat', 'drink'],
-      pass: 'through',
-      renderCount: 2
+      pass: 'through'
     });
+    expect(spy.getRenderCount()).to.equal(2);
   });
 });
