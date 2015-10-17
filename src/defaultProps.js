@@ -2,17 +2,15 @@ import React from 'react';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
 
-const defaultProps = (props, BaseComponent) => (
-  // TODO: Use stateless component once React TestUtils supports it
-  class extends React.Component {
-    static displayName = wrapDisplayName(BaseComponent, 'defaultProps');
+const defaultProps = (props, BaseComponent) => {
+  const DefaultProps = ownerProps => (
+    <BaseComponent {...ownerProps} />
+  );
 
-    static defaultProps = props;
+  DefaultProps.defaultProps = props;
+  DefaultProps.displayName = wrapDisplayName(BaseComponent, 'defaultProps');
 
-    render() {
-      return <BaseComponent {...this.props} />;
-    }
-  }
-);
+  return DefaultProps;
+};
 
 export default curry(defaultProps);

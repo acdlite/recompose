@@ -16,7 +16,7 @@ describe('createSink()', () => {
       }))
     )(Sink);
 
-    renderIntoDocument(<Counter />);
+    renderIntoDocument(<div><Counter /></div>);
 
     const { increment } = spy.lastCall.args[0];
     expect(spy.lastCall.args[0].counter).to.equal(0);

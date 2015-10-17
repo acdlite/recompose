@@ -2,23 +2,18 @@ import React from 'react';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
 
-const createSink = (callback, BaseComponent) => (
-  class DoOnReceiveProps extends React.Component {
-    static displayName = wrapDisplayName(BaseComponent, 'doOnReceiveProps');
+const doOnReceiveProps = (callback, BaseComponent) => {
+  const DoOnReceiveProps = props => {
+    callback(props);
+    return <BaseComponent {...props} />;
+  };
 
-    constructor(props, context) {
-      super(props, context);
-      callback(props);
-    }
+  DoOnReceiveProps.displayName = wrapDisplayName(
+    BaseComponent,
+    'doOnReceiveProps'
+  );
 
-    componentWillReceiveProps(nextProps) {
-      callback(nextProps);
-    }
+  return DoOnReceiveProps;
+};
 
-    render() {
-      return <BaseComponent {...this.props} />;
-    }
-  }
-);
-
-export default curry(createSink);
+export default curry(doOnReceiveProps);

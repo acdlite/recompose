@@ -1,18 +1,12 @@
 import React from 'react';
 
-const createSink = callback => class Sink extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+const createSink = callback => {
+  const Sink = props => {
     callback(props);
-  }
+    return <div />;
+  };
 
-  componentWillReceiveProps(nextProps) {
-    callback(nextProps);
-  }
-
-  render() {
-    return null;
-  }
+  return Sink;
 };
 
 export default createSink;
