@@ -1,9 +1,10 @@
-import React from 'react';
+import { Component } from 'react';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
+import createElement from './createElement';
 
 const shouldUpdate = (test, BaseComponent) => (
-  class extends React.Component {
+  class extends Component {
     static displayName = wrapDisplayName(BaseComponent, 'shouldUpdate');
 
     shouldComponentUpdate(nextProps) {
@@ -11,7 +12,7 @@ const shouldUpdate = (test, BaseComponent) => (
     }
 
     render() {
-      return <BaseComponent {...this.props} />;
+      return createElement(BaseComponent, this.props);
     }
   }
 );

@@ -1,13 +1,14 @@
-import React from 'react';
+import { Component } from 'react';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
 import shallowEqual from './shallowEqual';
 import pick from 'lodash/object/pick';
+import createElement from './createElement';
 
 const mapPropsOnUpdate = (depdendentPropKeys, propsMapper, BaseComponent) => {
   const pickDependentProps = props => pick(props, depdendentPropKeys);
 
-  return class extends React.Component {
+  return class extends Component {
     static displayName = wrapDisplayName(BaseComponent, 'mapPropsOnUpdate');
     childProps = propsMapper(this.props);
 
@@ -21,7 +22,7 @@ const mapPropsOnUpdate = (depdendentPropKeys, propsMapper, BaseComponent) => {
     }
 
     render() {
-      return <BaseComponent {...this.childProps} />;
+      return createElement(BaseComponent, this.childProps);
     }
   };
 };

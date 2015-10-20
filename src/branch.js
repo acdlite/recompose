@@ -1,6 +1,7 @@
 import React from 'react';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
+import createElement from './createElement';
 
 const branch = (test, left, right, BaseComponent) => (
   class extends React.Component {
@@ -29,7 +30,7 @@ const branch = (test, left, right, BaseComponent) => (
 
     render() {
       const { Component } = this;
-      return <Component {...this.props} />;
+      return createElement(Component, this.props);
     }
   }
 );

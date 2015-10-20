@@ -1,7 +1,8 @@
-import React from 'react';
+import { Component } from 'react';
 import curry from 'lodash/function/curry';
 import isFunction from 'lodash/lang/isFunction';
 import wrapDisplayName from './wrapDisplayName';
+import createElement from './createElement';
 
 const withReducer = (
   stateName,
@@ -10,7 +11,7 @@ const withReducer = (
   initialState,
   BaseComponent
 ) => (
-  class extends React.Component {
+  class extends Component {
     static displayName = wrapDisplayName(BaseComponent, 'withReducer');
 
     state = {
@@ -24,15 +25,11 @@ const withReducer = (
     }));
 
     render() {
-      return (
-        <BaseComponent
-          {...{
-            ...this.props,
-            [stateName]: this.state.stateValue,
-            [dispatchName]: this.dispatch
-          }}
-        />
-      );
+      return createElement(BaseComponent, {
+        ...this.props,
+        [stateName]: this.state.stateValue,
+        [dispatchName]: this.dispatch
+      });
     }
   }
 );
