@@ -23,4 +23,3 @@ export wrapDisplayName from './wrapDisplayName';
 export shallowEqual from './shallowEqual';
 
 export createSink from './createSink';
-export createSpy from './createSpy';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { defaultProps, compose, createSpy } from 'recompose';
-import { BaseComponent } from './utils';
+import { defaultProps, compose } from 'recompose';
+import createSpy from './createSpy';
 
 import { renderIntoDocument } from 'react-addons-test-utils';
 
@@ -10,11 +10,11 @@ describe('defaultProps()', () => {
   const DoReMi = compose(
     defaultProps({ so: 'do', la: 'fa' }),
     spy
-  )(BaseComponent);
+  )('div');
 
   it('passes additional props to base component', () => {
     expect(DoReMi.displayName)
-      .to.equal('defaultProps(spy(BaseComponent))');
+      .to.equal('defaultProps(spy(div))');
 
     renderIntoDocument(<DoReMi />);
 

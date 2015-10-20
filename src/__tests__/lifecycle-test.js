@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import { lifecycle, compose, withState, branch, createSpy } from 'recompose';
 import identity from 'lodash/utility/identity';
+import { lifecycle, compose, withState, branch } from 'recompose';
+import createSpy from './createSpy';
 
 import { renderIntoDocument } from 'react-addons-test-utils';
 

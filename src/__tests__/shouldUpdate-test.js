@@ -1,7 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { shouldUpdate, compose, withState, createSpy } from 'recompose';
+import { shouldUpdate, compose, withState } from 'recompose';
+import createSpy from './createSpy';
 
 import { renderIntoDocument } from 'react-addons-test-utils';
 

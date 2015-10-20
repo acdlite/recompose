@@ -1,12 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { expect } from 'chai';
-import {
-  withContext,
-  getContext,
-  compose,
-  mapProps,
-  createSpy
-} from 'recompose';
+import { withContext, getContext, compose, mapProps } from 'recompose';
+import createSpy from './createSpy';
 
 import { renderIntoDocument } from 'react-addons-test-utils';
 
