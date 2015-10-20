@@ -1,7 +1,8 @@
-import React from 'react';
+import { Component } from 'react';
 import curry from 'lodash/function/curry';
 import isFunction from 'lodash/lang/isFunction';
 import wrapDisplayName from './wrapDisplayName';
+import createElement from './createElement';
 
 export const withState = (
   stateName,
@@ -9,7 +10,7 @@ export const withState = (
   initialState,
   BaseComponent
 ) => (
-  class extends React.Component {
+  class extends Component {
     static displayName = wrapDisplayName(BaseComponent, 'withState');
     state = {
       stateValue: isFunction(initialState)
@@ -24,12 +25,11 @@ export const withState = (
     )
 
     render() {
-      const childProps = {
+      return createElement(BaseComponent, {
         ...this.props,
         [stateName]: this.state.stateValue,
         [stateUpdaterName]: this.updateStateValue
-      };
-      return <BaseComponent {...childProps}/>;
+      });
     }
   }
 );

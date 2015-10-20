@@ -1,9 +1,9 @@
-import React from 'react';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
+import createElement from './createElement';
 
 const mapProps = (propsMapper, BaseComponent) => {
-  const MapProps = props => <BaseComponent {...propsMapper(props)} />;
+  const MapProps = props => createElement(BaseComponent, propsMapper(props));
 
   MapProps.displayName = wrapDisplayName(BaseComponent, 'mapProps');
 

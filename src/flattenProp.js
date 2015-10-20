@@ -1,14 +1,14 @@
-import React from 'react';
 import curry from 'lodash/function/curry';
 import omit from 'lodash/object/omit';
 import wrapDisplayName from './wrapDisplayName';
+import createElement from './createElement';
 
 const flattenProp = (propName, BaseComponent) => {
   const FlattenProps = props => (
-    <BaseComponent
-      {...omit(props, propName)}
-      {...props[propName]}
-    />
+    createElement(BaseComponent, {
+      ...omit(props, propName),
+      ...props[propName]
+    })
   );
 
   FlattenProps.displayName = wrapDisplayName(BaseComponent, 'flattenProp');

@@ -1,6 +1,7 @@
 import React from 'react';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
+import createElement from './createElement';
 
 const lifecycle = (setup, teardown, BaseComponent) => (
   class Lifecycle extends React.Component {
@@ -16,7 +17,10 @@ const lifecycle = (setup, teardown, BaseComponent) => (
     }
 
     render() {
-      return <BaseComponent {...this.props} {...this.state} />;
+      return createElement(BaseComponent, {
+        ...this.props,
+        ...this.state
+      });
     }
   }
 );

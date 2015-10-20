@@ -1,16 +1,19 @@
-import React from 'react';
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
+import createElement from './createElement';
 
-const getContext = (contextTypes, BaseComponent) => (
-  class extends React.Component {
-    static displayName = wrapDisplayName(BaseComponent, 'getContext');
-    static contextTypes = contextTypes;
+const getContext = (contextTypes, BaseComponent) => {
+  const GetContext = (ownerProps, context) => (
+    createElement(BaseComponent, {
+      ...ownerProps,
+      ...context
+    })
+  );
 
-    render() {
-      return <BaseComponent {...this.props} {...this.context} />;
-    }
-  }
-);
+  GetContext.displayName = wrapDisplayName(BaseComponent, 'getContext');
+  GetContext.contextTypes = contextTypes;
+
+  return GetContext;
+};
 
 export default curry(getContext);
