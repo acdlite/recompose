@@ -59,18 +59,17 @@ describe('withState()', () => {
   });
 
   it('also accepts initialState as function of props', () => {
-    const spy = sinon.spy((props) => {
-      expect(props.defaultCounter).to.equal(21);
-      return props.defaultCounter;
-    });
+    const spy2 = createSpy();
+    const Counter3 = compose(
+      withState('counter', 'updateCounter', props => props.initialCounter),
+      spy2
+    )('div');
 
-    const Counter3 = withState('counter', 'updateCounter', spy)(BaseComponent);
+    renderIntoDocument(<Counter3 initialCounter={1} />);
 
-    const tree = renderIntoDocument(<Counter3 defaultCounter={21} pass="through" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
-
-    expect(spy.callCount).to.eql(1);
-    expect(base.props.counter).to.equal(21);
+    expect(spy2.getProps().counter).to.equal(1);
+    spy2.getProps().updateCounter(n => n * 3);
+    expect(spy2.getProps().counter).to.equal(3);
   });
 
 });

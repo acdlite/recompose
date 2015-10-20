@@ -6,7 +6,7 @@ const createSpy = () => {
   let spyInfo = [];
 
   function addSpyInstance(spyInstance) {
-    spyInfo.push({
+    spyInfo.unshift({
       _spy: spyInstance,
       component: null,
       props: []
@@ -22,7 +22,7 @@ const createSpy = () => {
 
     if (!info) return;
 
-    info.props.push(props);
+    info.props.unshift(props);
   }
 
   function updateComponent(spyInstance, component) {
@@ -58,24 +58,15 @@ const createSpy = () => {
   };
 
   spy.getInfo = () => spyInfo;
-  spy.getProps = (_componentIndex, _renderIndex) => {
-    const componentIndex = isUndefined(_componentIndex)
-      ? spyInfo.length - 1
-      : _componentIndex;
-    const renderIndex = isUndefined(_renderIndex)
-      ? spyInfo[componentIndex].props.length - 1
-      : _renderIndex;
-
-    return spyInfo[componentIndex].props[renderIndex];
-  };
-  spy.getRenderCount = (_componentIndex) => {
-    const componentIndex = isUndefined(_componentIndex)
-      ? spyInfo.length - 1
-      : _componentIndex;
-
-    return spyInfo[componentIndex].props.length;
-  };
-  spy.getComponent = componentIndex => spyInfo[componentIndex].component;
+  spy.getProps = (componentIndex = 0, renderIndex = 0) => (
+    spyInfo[componentIndex].props[renderIndex]
+  );
+  spy.getRenderCount = (componentIndex = 0) => (
+    spyInfo[componentIndex].props.length
+  );
+  spy.getComponent = (componentIndex = 0) => (
+    spyInfo[componentIndex].component
+  );
 
   return spy;
 };
