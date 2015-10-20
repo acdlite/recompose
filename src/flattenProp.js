@@ -3,19 +3,17 @@ import curry from 'lodash/function/curry';
 import omit from 'lodash/object/omit';
 import wrapDisplayName from './wrapDisplayName';
 
-const flattenProp = (propName, BaseComponent) => (
-  class extends React.Component {
-    static displayName = wrapDisplayName(BaseComponent, 'flattenProp');
+const flattenProp = (propName, BaseComponent) => {
+  const FlattenProps = props => (
+    <BaseComponent
+      {...omit(props, propName)}
+      {...props[propName]}
+    />
+  );
 
-    render() {
-      return (
-        <BaseComponent
-          {...omit(this.props, propName)}
-          {...this.props[propName]}
-        />
-      );
-    }
-  }
-);
+  FlattenProps.displayName = wrapDisplayName(BaseComponent, 'flattenProp');
+
+  return FlattenProps;
+};
 
 export default curry(flattenProp);

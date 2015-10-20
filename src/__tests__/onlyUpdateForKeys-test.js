@@ -2,50 +2,47 @@ import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
 import { onlyUpdateForKeys, compose, withState } from 'recompose';
-import { BaseComponent, countRenders } from './utils';
+import createSpy from './createSpy';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('onlyUpdateForKeys()', () => {
   it('implements shouldComponentUpdate()', () => {
+    const spy = createSpy();
     const Counter = compose(
       withState('counter', 'updateCounter', 0),
       withState('foobar', 'updateFoobar', 'foobar'),
       onlyUpdateForKeys(['counter']),
-      countRenders
-    )(BaseComponent);
+      spy
+    )('div');
 
     expect(Counter.displayName).to.equal(
-      'withState(withState(onlyUpdateForKeys(countRenders(BaseComponent))))'
+      'withState(withState(onlyUpdateForKeys(spy(div))))'
     );
 
-    const tree = renderIntoDocument(<Counter pass="through" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<Counter pass="through" />);
 
-    expect(omit(base.props, ['updateCounter', 'updateFoobar'])).to.eql({
+    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
       counter: 0,
       foobar: 'foobar',
-      pass: 'through',
-      renderCount: 1
+      pass: 'through'
     });
+    expect(spy.getRenderCount()).to.equal(1);
 
-    base.props.updateFoobar(() => 'barbaz');
-    expect(omit(base.props, ['updateCounter', 'updateFoobar'])).to.eql({
+    spy.getProps().updateFoobar(() => 'barbaz');
+    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
       counter: 0,
       foobar: 'foobar',
-      pass: 'through',
-      renderCount: 1
+      pass: 'through'
     });
+    expect(spy.getRenderCount()).to.equal(1);
 
-    base.props.updateCounter(n => n + 1);
-    expect(omit(base.props, ['updateCounter', 'updateFoobar'])).to.eql({
+    spy.getProps().updateCounter(n => n + 1);
+    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
       counter: 1,
       pass: 'through',
-      foobar: 'barbaz',
-      renderCount: 2
+      foobar: 'barbaz'
     });
+    expect(spy.getRenderCount()).to.equal(2);
   });
 });

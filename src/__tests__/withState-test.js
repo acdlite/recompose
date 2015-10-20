@@ -2,43 +2,42 @@ import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
 import { withState, compose } from 'recompose';
-import { BaseComponent, countRenders } from './utils';
+import createSpy from './createSpy';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('withState()', () => {
-  const Counter = withState('counter', 'updateCounter', 0)(BaseComponent);
+  const spy = createSpy();
+  const Counter = compose(
+    withState('counter', 'updateCounter', 0),
+    spy
+  )('div');
 
   it('adds a stateful value and a function for updating it', () => {
     expect(Counter.displayName).to.equal(
-      'withState(BaseComponent)'
+      'withState(spy(div))'
     );
 
-    const tree = renderIntoDocument(<Counter pass="through" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<Counter pass="through" />);
 
-    expect(omit(base.props, 'updateCounter')).to.eql({
+    expect(omit(spy.getProps(), 'updateCounter')).to.eql({
       counter: 0,
       pass: 'through'
     });
 
-    base.props.updateCounter(n => n + 9);
-    base.props.updateCounter(n => n * 2);
-    expect(omit(base.props, 'updateCounter')).to.eql({
+    spy.getProps().updateCounter(n => n + 9);
+    spy.getProps().updateCounter(n => n * 2);
+    expect(omit(spy.getProps(), 'updateCounter')).to.eql({
       counter: 18,
       pass: 'through'
     });
   });
 
   it('also accepts a non-function, which is passed directly to setState()', () => {
-    const tree = renderIntoDocument(<Counter pass="through" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<Counter pass="through" />);
 
-    base.props.updateCounter(18);
-    expect(omit(base.props, 'updateCounter')).to.eql({
+    spy.getProps().updateCounter(18);
+    expect(omit(spy.getProps(), 'updateCounter')).to.eql({
       counter: 18,
       pass: 'through'
     });
@@ -47,33 +46,31 @@ describe('withState()', () => {
   it('accepts setState() callback', () => {
     const Counter2 = compose(
       withState('counter', 'updateCounter', 0),
-      countRenders
-    )(BaseComponent);
+      spy
+    )('div');
 
-    const tree = renderIntoDocument(<Counter2 pass="through" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
-    const spy = sinon.spy(() => {
-      expect(base.props.renderCount).to.equal(2);
+    renderIntoDocument(<Counter2 pass="through" />);
+    const renderSpy = sinon.spy(() => {
+      expect(spy.getRenderCount()).to.equal(2);
     });
 
-    expect(base.props.renderCount).to.equal(1);
-    base.props.updateCounter(18, spy);
-    expect(spy.callCount).to.eql(1);
+    expect(spy.getRenderCount()).to.equal(1);
+    spy.getProps().updateCounter(18, renderSpy);
+    expect(renderSpy.callCount).to.eql(1);
   });
 
   it('also accepts initialState as function of props', () => {
-    const spy = sinon.spy((props) => {
-      expect(props.defaultCounter).to.equal(21);
-      return props.defaultCounter;
-    });
+    const spy2 = createSpy();
+    const Counter3 = compose(
+      withState('counter', 'updateCounter', props => props.initialCounter),
+      spy2
+    )('div');
 
-    const Counter3 = withState('counter', 'updateCounter', spy)(BaseComponent);
+    renderIntoDocument(<Counter3 initialCounter={1} />);
 
-    const tree = renderIntoDocument(<Counter3 defaultCounter={21} pass="through" />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
-
-    expect(spy.callCount).to.eql(1);
-    expect(base.props.counter).to.equal(21);
+    expect(spy2.getProps().counter).to.equal(1);
+    spy2.getProps().updateCounter(n => n * 3);
+    expect(spy2.getProps().counter).to.equal(3);
   });
 
 });

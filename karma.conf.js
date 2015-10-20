@@ -19,11 +19,11 @@ module.exports = function(config) {
     reporters: ['mocha'],
 
     files: [
-      'src/**/*-test.js'
+      'tests.webpack.js'
     ],
 
     preprocessors: {
-      'src/**/*-test.js': ['webpack', 'sourcemap'],
+      'tests.webpack.js': ['webpack', 'sourcemap'],
     },
 
     webpack: {

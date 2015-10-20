@@ -32,6 +32,12 @@ export const countRenders = BaseComponent2 => (
   }
 );
 
+export class NullComponent extends React.Component {
+  render() {
+    return null;
+  }
+}
+
 export const addForceUpdate = BaseComponent2 => (
   class extends React.Component {
     static displayName = wrapDisplayName(BaseComponent2);

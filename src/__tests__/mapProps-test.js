@@ -2,35 +2,33 @@ import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
 import { mapProps, withState, compose } from 'recompose';
-import { BaseComponent } from './utils';
+import createSpy from './createSpy';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('mapProps()', () => {
   it('maps owner props to child props', () => {
+    const spy = createSpy();
     const StringConcat = compose(
       withState('strings', 'updateStrings', ['do', 're', 'mi']),
       mapProps(({ strings, ...rest }) => ({
         ...rest,
         string: strings.join('')
-      }))
-    )(BaseComponent);
+      })),
+      spy
+    )('div');
 
     expect(StringConcat.displayName)
-      .to.equal('withState(mapProps(BaseComponent))');
+      .to.equal('withState(mapProps(spy(div)))');
 
-    const tree = renderIntoDocument(<StringConcat />);
-    const base = findRenderedComponentWithType(tree, BaseComponent);
+    renderIntoDocument(<StringConcat />);
 
-    expect(omit(base.props, 'updateStrings')).to.eql({
+    expect(omit(spy.getProps(), 'updateStrings')).to.eql({
       string: 'doremi'
     });
 
-    base.props.updateStrings(strings => [...strings, 'fa']);
-    expect(omit(base.props, 'updateStrings')).to.eql({
+    spy.getProps().updateStrings(strings => [...strings, 'fa']);
+    expect(omit(spy.getProps(), 'updateStrings')).to.eql({
       string: 'doremifa'
     });
   });

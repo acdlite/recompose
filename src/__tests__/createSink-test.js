@@ -2,10 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { createSink, compose, withState, mapProps } from 'recompose';
 
-import {
-  findRenderedComponentWithType,
-  renderIntoDocument
-} from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils';
 
 describe('createSink()', () => {
   it('creates a React component that fires a callback when receiving new props', () => {
@@ -19,13 +16,13 @@ describe('createSink()', () => {
       }))
     )(Sink);
 
-    const tree = renderIntoDocument(<Counter />);
-    const sink = findRenderedComponentWithType(tree, Sink);
+    renderIntoDocument(<div><Counter /></div>);
 
+    const { increment } = spy.lastCall.args[0];
     expect(spy.lastCall.args[0].counter).to.equal(0);
-    sink.props.increment();
+    increment();
     expect(spy.lastCall.args[0].counter).to.equal(1);
-    sink.props.increment();
+    increment();
     expect(spy.lastCall.args[0].counter).to.equal(2);
   });
 });
