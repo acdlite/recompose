@@ -1,5 +1,4 @@
 import React from 'react';
-import isUndefined from 'lodash/lang/isUndefined';
 import wrapDisplayName from './wrapDisplayName';
 
 const createSpy = () => {
