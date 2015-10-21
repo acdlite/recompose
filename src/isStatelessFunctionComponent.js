@@ -1,6 +1,8 @@
 const isStatelessFunctionComponent = Component => (
+  Component &&
   typeof Component !== 'string' &&
-  !('prototype' in Component)
+  !(Component.prototype && Component.prototype.render) &&
+  !Component.contextTypes
 );
 
 export default isStatelessFunctionComponent;

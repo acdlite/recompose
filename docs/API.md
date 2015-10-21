@@ -110,7 +110,7 @@ const Abc = compose(
 withState(
   stateName: string,
   stateUpdaterName, string,
-  initialState: any,
+  initialState: any | (props: Object) => any,
   BaseComponent: Class<ReactComponent>
 ): Class<ReactComponent>
 ```
@@ -139,6 +139,8 @@ const addCounting = compose(
 The second form accepts a single value, which is used as the new state.
 
 Both forms accept an optional second parameter, a callback function that will be executed once `setState()` is completed and the component is re-rendered.
+
+An initial state value is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
 
 ### `withReducer()`
 
