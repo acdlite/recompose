@@ -55,7 +55,7 @@ import { compose, mapProps, withState /* ... */ } from 'recompose';
 
 ### Optimizing bundle size
 
-The total gzipped size of the entire library is **8.98 kB**. You can reduce this number by only including the modules that you need.
+The total gzipped size of the entire library is **9.01 kB**. You can reduce this number by only including the modules that you need.
 
 All top-level exports can be imported individually:
 
