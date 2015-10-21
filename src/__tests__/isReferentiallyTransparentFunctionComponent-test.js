@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { expect } from 'chai';
-import isStatelessFunctionComponent from '../isStatelessFunctionComponent';
+import isReferentiallyTransparentFunctionComponent
+  from '../isReferentiallyTransparentFunctionComponent';
 
-describe('isStatelessFunctionComponent', () => {
+describe('isReferentiallyTransparentFunctionComponent()', () => {
   it('returns false for strings', () => {
-    expect(isStatelessFunctionComponent('div')).to.be.false;
+    expect(isReferentiallyTransparentFunctionComponent('div')).to.be.false;
   });
 
   it('returns false for class components', () => {
@@ -20,20 +21,20 @@ describe('isStatelessFunctionComponent', () => {
       }
     });
 
-    expect(isStatelessFunctionComponent(Foo)).to.be.false;
-    expect(isStatelessFunctionComponent(Bar)).to.be.false;
+    expect(isReferentiallyTransparentFunctionComponent(Foo)).to.be.false;
+    expect(isReferentiallyTransparentFunctionComponent(Bar)).to.be.false;
   });
 
   it('returns true for functions', () => {
     const Foo = props => <div {...props} />;
 
-    expect(isStatelessFunctionComponent(Foo)).to.be.true;
+    expect(isReferentiallyTransparentFunctionComponent(Foo)).to.be.true;
   });
 
   it('returns false for functions that use context', () => {
     const Foo = (props, context) => <div {...props} {...context} />;
     Foo.contextTypes = { store: PropTypes.object };
 
-    expect(isStatelessFunctionComponent(Foo)).to.be.false;
+    expect(isReferentiallyTransparentFunctionComponent(Foo)).to.be.false;
   });
 });

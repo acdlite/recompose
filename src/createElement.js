@@ -1,8 +1,9 @@
 import React from 'react';
-import isStatelessFunctionComponent from './isStatelessFunctionComponent';
+import isReferentiallyTransparentFunctionComponent
+  from './isReferentiallyTransparentFunctionComponent';
 
 const createElement = (Component, props) => (
-  isStatelessFunctionComponent(Component)
+  isReferentiallyTransparentFunctionComponent(Component)
     ? /* eslint-disable */ Component(props) /* eslint-enable */
     : <Component {...props} />
 );
