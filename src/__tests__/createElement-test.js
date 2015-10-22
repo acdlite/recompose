@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import expect from 'expect';
-import expectJSX from 'expect-jsx';
 import createElement from '../createElement';
-
-expect.extend(expectJSX);
 
 import { createRenderer } from 'react-addons-test-utils';
 

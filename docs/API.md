@@ -1,16 +1,30 @@
 # API
 
-## Higher-order components
+Docs are annotated using Flow type notation, given the following types:
 
-Most Recompose helpers are higher-order components. All HoCs are automatically curried, and the final parameter is a React component class.
+```js
+type StatelessFunctionComponent = (props: Object, ?context: Object) => ReactElement;
+type ReactElementType = Class<ReactComponent> | StatelessFunctionComponent | string;
+type HigherOrderComponent = (BaseComponent: ReactElementType) => ReactElementType;
+```
+For the purposes of typing, a higher-order component is a function that accepts a base React component and returns a new React component. However, sometimes we use the term higher-order component to refer to a function that takes one or more parameters in addition to a base component. For example, `mapProps()` takes both a props mapping function and a base component. Higher-order components helpers in Recompose are component-last and curried, so when we call a helper with all its parameters except the final one, it returns a "true" higher-order component. The distinction isn't all that important in most cases except for type signatures; just be aware that it exists.
+
+```js
+
+```
+
+## Higher-order component helper
+
+
+Higher-order component helpers are automatically curried, and the final parameter is a React component class.
 
 ### `mapProps()`
 
 ```js
 mapProps(
   propsMapper: (ownerProps: Object) => Object,
-  baseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  baseComponent: ReactElementType
+): ReactElementType
 ```
 
 Accepts a function that maps owner props to a new collection of props that are passed to the base component.
@@ -27,8 +41,8 @@ const omitProps = (keys, BaseComponent) => mapProps(omit(keys), BaseComponent);
 mapPropsOnUpdate(
   depdendentPropKeys: Array<string>,
   propsMapper: (ownerProps: Object) => Object,
-  baseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  baseComponent: ReactElementType
+): ReactElementType
 ```
 
 Same as `mapProps()`, but child props are only re-computed when one of the props specified by `dependentPropKeys` has been updated. This helps ensure that computationally intense `propsMapper` functions are only executed when necessary.
@@ -38,8 +52,8 @@ Same as `mapProps()`, but child props are only re-computed when one of the props
 ```js
 withProps(
   props: Object,
-  baseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  baseComponent: ReactElementType
+): ReactElementType
 ```
 
 Passes additional props to the base component. Similar to `defaultProps()`, except the provided props take precedence over props from the owner.
@@ -49,8 +63,8 @@ Passes additional props to the base component. Similar to `defaultProps()`, exce
 ```js
 defaultProps(
   props: Object,
-  baseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  baseComponent: ReactElementType
+): ReactElementType
 ```
 
 Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided to the HoC.
@@ -64,8 +78,8 @@ Although it has the same effect, using the `defaultProps()` HoC is *not* the sam
 renameProp(
   oldName: string,
   newName: string,
-  baseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  baseComponent: ReactElementType
+): ReactElementType
 ```
 
 Renames a single prop.
@@ -75,8 +89,8 @@ Renames a single prop.
 ```js
 renameProps(
   nameMap: { [key: string]: string },
-  baseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  baseComponent: ReactElementType
+): ReactElementType
 ```
 
 Renames multiple props, using a map of old prop names to new prop names.
@@ -86,8 +100,8 @@ Renames multiple props, using a map of old prop names to new prop names.
 ```js
 renameProps(
   propName: string,
-  baseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  baseComponent: ReactElementType
+): ReactElementType
 ```
 
 Flattens an prop so that its fields are spread out into the props object.
@@ -104,6 +118,21 @@ const Abc = compose(
 // Base component receives props: { a: 'a', b: 'b', c: 'c' }
 ```
 
+An example use for `flattenProps()` is when receiving fragment data from Relay. Relay fragments are passes as an object of props, which you often want flattened out into its constituent fields:
+
+```js
+// The `post` prop is an object with title, author, and content fields
+const Post = flattenProp('post', ({ title, author, content }) => (
+  ({ title, content, author }) => (
+    <article>
+      <h1>{title}</h1>
+      <h2>By {author.name}</h2>
+      <div>{content}</div>
+    </article>
+  )
+)
+```
+
 ### `withState()`
 
 ```js
@@ -111,8 +140,8 @@ withState(
   stateName: string,
   stateUpdaterName, string,
   initialState: any | (props: Object) => any,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Passes two additional props to the base component: a state value, and a function to update that state value. The state updater has the following signature:
@@ -150,8 +179,8 @@ withReducer<T, U>(
   dispatchName, string,
   reducer: (state: T, action: U) => T,
   initialState: T,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Similar to `withState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
@@ -166,19 +195,65 @@ branch(
   test: (props: Object) => boolean,
   left: HigherOrderComponent,
   right: HigherOrderComponent,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the `right` higher-order component is applied.
+
+### `renderComponent()`
+
+```js
+renderComponent(
+  Component: ReactElementType,
+  BaseComponent: any
+): ReactElementType
+```
+
+Takes a component and returns a higher-order component version of that component. The last parameter, BaseComponent, can be anything or nothing: it is ignored completely.
+
+This is useful in combination with another helper that expects a higher-order component, like `branch()`:
+
+```js
+// `hasLoaded()` is a function that returns whether or not the the component
+// has all the props it needs
+const spinnerWhileLoading = (hasLoaded, BaseComponent) => branch(
+  hasLoaded,
+  BaseComponent,
+  renderComponent(Spinner) // <Spinner> is a React component
+);
+
+// Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
+// base component
+const Post = spinnerWhileLoading(
+  props => props.title && post.author && post.content
+  ({ title, author, content }) => (
+    <article>
+      <h1>{title}</h1>
+      <h2>By {author.name}</h2>
+      <div>{content}</div>
+    </article>
+  )
+);
+```
+
+### `renderComponent()`
+
+```js
+renderComponent(
+  BaseComponent: any
+): ReactElementType
+```
+
+Like `renderComponent()`, but renders `null`.
 
 ### `shouldUpdate()`
 
 ```js
 shouldUpdate(
   test: (props: Object, nextProps: Object) => boolean,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Higher-order component version of [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/component-specs.html#updating-shouldcomponentupdate). The test function accepts both the current props and the next props.
@@ -187,7 +262,7 @@ Higher-order component version of [`shouldComponentUpdate()`](https://facebook.g
 ### `pure()`
 
 ```js
-pure(BaseComponent: Class<ReactComponent>): Class<ReactComponent>
+pure(BaseComponent: ReactElementType): ReactElementType
 ```
 
 Prevents the component from updating unless a prop has changed. Uses `shallowEqual()` to test for changes.
@@ -197,11 +272,35 @@ Prevents the component from updating unless a prop has changed. Uses `shallowEqu
 ```js
 onlyUpdateForKeys(
   propKeys: Array<string>,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Prevents the component from updating unless a prop corresponding to one of the given keys has updated. Uses `shallowEqual()` to test for changes.
+
+This is a much better optimization than the popular approach of using PureRenderMixin, `shouldPureComponentUpdate()`, or Recompose's own `pure()` helper, because those tools compare *every* prop, whereas `onlyUpdateForKeys()` only cares about the props that you specify.
+
+Example:
+
+```js
+/**
+ * If the owner passes unnecessary props (say, an array of comments), it will
+ * not lead to wasted render cycles.
+ *
+ * Goes well with destructuring because it's clear which props the component
+ * actually cares about.
+ */
+const Post = onlyUpdateForKeys(
+  ['title', 'content', 'author'],
+  ({ title, content, author }) => (
+    <article>
+      <h1>{title}</h1>
+      <h2>By {author.name}</h2>
+      <div>{content}</div>
+    </article>
+  )
+);
+```
 
 ### `withContext()`
 
@@ -209,8 +308,8 @@ Prevents the component from updating unless a prop corresponding to one of the g
 withContext(
   childContextTypes: Object,
   getChildContext: (props: Object) => Object,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Provides context to the component's children. `childContextTypes` is an object of React prop types. `getChildContext()` is a function that returns the child context. Use along with `getContext()`.
@@ -220,8 +319,8 @@ Provides context to the component's children. `childContextTypes` is an object o
 ```js
 getContext(
   contextTypes: Object,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Gets values from context and passes them along as props. Use along with `withContext()`.
@@ -231,8 +330,8 @@ Gets values from context and passes them along as props. Use along with `withCon
 ```js
 doOnReceiveProps(
   callback: (props: Object) => void,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Executes a callback when the component is receiving new props. Also called at initialization.
@@ -243,8 +342,8 @@ Executes a callback when the component is receiving new props. Also called at in
 lifecycle(
   setup: (component: ReactComponent) => void
   teardown: (component: ReactComponent) => void,
-  BaseComponent: Class<ReactComponent>
-): Class<ReactComponent>
+  BaseComponent: ReactElementType
+): ReactElementType
 ```
 
 Provides access to the React component instance on initialization (setup) and unmounting (teardown). The most common use case for this is to manage subscriptions to an external source.
@@ -270,7 +369,7 @@ There's currently no difference between using this `compose()` and using the `co
 ### `getDisplayName()`
 
 ```js
-getDisplayName(component: Class<ReactComponent>): string
+getDisplayName(component: ReactElementType): string
 ```
 
 Returns the display name of a React component. Falls back to `'Component'`.
@@ -278,7 +377,7 @@ Returns the display name of a React component. Falls back to `'Component'`.
 ### `wrapDisplayName()`
 
 ```js
-wrapDisplayName(component: Class<ReactComponent>, wrapperName: string): string
+wrapDisplayName(component: ReactElementType, wrapperName: string): string
 ```
 
 Returns a wrapped version of a React component's display name. For instance, if the display name of `component` is `'Post'`, and `wrapperName` is `'mapProps'`, the return value is `'mapProps(Post)'`. Most Recompose higher-order components use `wrapDisplayName()`.
@@ -294,7 +393,7 @@ Returns true if objects are shallowly equal.
 ### `createSink()`
 
 ```js
-createSink(callback: (props: Object) => void): Class<ReactComponent>
+createSink(callback: (props: Object) => void): ReactElementType
 ```
 
 Creates a component that renders nothing (null) but calls a callback when receiving new props.
