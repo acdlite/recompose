@@ -111,7 +111,7 @@ That being said, any abstraction over an existing API is going to come with trad
 
 However, many of Recompose's higher-order component helpers are implemented using stateless function components rather than class components. Eventually, React will include optimizations for stateless components. Until then, we can do our own optimizations by taking advantage of referential transparency. In other words, creating an element from a stateless function is effectively* the same as calling the function and returning its output.
 
-* *Stateless function components are not referentially transparent if they access context; we detect that by checking for the existence of `contextTypes`.*
+\* *Stateless function components are not referentially transparent if they access context; we detect that by checking for the existence of `contextTypes`.*
 
 To accomplish this, Recompose uses a special version of `createElement()` that returns the output of stateless functions instead of creating a new element. For class components, it uses the built-in `React.createElement()`.
 
