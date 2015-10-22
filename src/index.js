@@ -8,6 +8,8 @@ export flattenProp from './flattenProp';
 export withState from './withState';
 export withReducer from './withReducer';
 export branch from './branch';
+export renderComponent from './renderComponent';
+export renderNothing from './renderNothing';
 export shouldUpdate from './shouldUpdate';
 export pure from './pure';
 export onlyUpdateForKeys from './onlyUpdateForKeys';
