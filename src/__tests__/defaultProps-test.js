@@ -39,7 +39,7 @@ describe('defaultProps()', () => {
     expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' });
   });
 
-  it('it should work in combination with other recompose decorators', () => {
+  it('it should work in combination with other Recompose decorators', () => {
     renderIntoDocument(<DoSiLaSol />);
 
     expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' });

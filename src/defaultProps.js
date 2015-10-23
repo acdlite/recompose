@@ -1,14 +1,11 @@
 import curry from 'lodash/function/curry';
 import wrapDisplayName from './wrapDisplayName';
 import createElement from './createElement';
-import assign from 'lodash/object/assign';
 
 const defaultProps = (props, BaseComponent) => {
-  const DefaultProps = ownerProps => createElement(
-      BaseComponent,
-      assign({...ownerProps}, props, (oV, sV) => oV === undefined ? sV : oV)
-    );
+  const DefaultProps = ownerProps => createElement(BaseComponent, ownerProps);
 
+  DefaultProps.defaultProps = props;
   DefaultProps.displayName = wrapDisplayName(BaseComponent, 'defaultProps');
 
   return DefaultProps;
