@@ -44,4 +44,11 @@ describe('isReferentiallyTransparentFunctionComponent()', () => {
 
     expect(isReferentiallyTransparentFunctionComponent(Foo)).to.be.false;
   });
+
+  it('returns false for functions that use propTypes', () => {
+    const Foo = (props, context) => <div {...props} {...context} />;
+    Foo.propTypes = { store: PropTypes.object };
+
+    expect(isReferentiallyTransparentFunctionComponent(Foo)).to.be.false;
+  });
 });
