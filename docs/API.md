@@ -18,7 +18,7 @@ Higher-order component helpers are automatically curried, and the final paramete
 ```js
 mapProps(
   propsMapper: (ownerProps: Object) => Object,
-  baseComponent: ReactElementType
+  BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
@@ -36,7 +36,7 @@ const omitProps = (keys, BaseComponent) => mapProps(omit(keys), BaseComponent);
 mapPropsOnChange(
   depdendentPropKeys: Array<string>,
   propsMapper: (ownerProps: Object) => Object,
-  baseComponent: ReactElementType
+  BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
@@ -47,7 +47,7 @@ Same as `mapProps()`, but child props are only re-computed when one of the props
 ```js
 withProps(
   props: Object,
-  baseComponent: ReactElementType
+  BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
@@ -58,7 +58,7 @@ Passes additional props to the base component. Similar to `defaultProps()`, exce
 ```js
 defaultProps(
   props: Object,
-  baseComponent: ReactElementType
+  BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
@@ -73,7 +73,7 @@ Although it has the same effect, using the `defaultProps()` HoC is *not* the sam
 renameProp(
   oldName: string,
   newName: string,
-  baseComponent: ReactElementType
+  BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
@@ -84,7 +84,7 @@ Renames a single prop.
 ```js
 renameProps(
   nameMap: { [key: string]: string },
-  baseComponent: ReactElementType
+  BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
@@ -95,7 +95,7 @@ Renames multiple props, using a map of old prop names to new prop names.
 ```js
 renameProps(
   propName: string,
-  baseComponent: ReactElementType
+  BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
