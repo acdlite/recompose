@@ -5,16 +5,16 @@ import shallowEqual from './shallowEqual';
 import pick from 'lodash/object/pick';
 import createElement from './createElement';
 
-const mapPropsOnUpdate = (depdendentPropKeys, propsMapper, BaseComponent) => {
+const mapPropsOnChange = (depdendentPropKeys, propsMapper, BaseComponent) => {
   const pickDependentProps = props => pick(props, depdendentPropKeys);
 
   return class extends Component {
-    static displayName = wrapDisplayName(BaseComponent, 'mapPropsOnUpdate');
+    static displayName = wrapDisplayName(BaseComponent, 'mapPropsOnChange');
     childProps = propsMapper(this.props);
 
     componentWillReceiveProps(nextProps) {
       if (!shallowEqual(
-        pickDependentProps(this.props),
+        pickDependentProps(this.childProps),
         pickDependentProps(nextProps)
       )) {
         this.childProps = propsMapper(nextProps);
@@ -27,4 +27,4 @@ const mapPropsOnUpdate = (depdendentPropKeys, propsMapper, BaseComponent) => {
   };
 };
 
-export default curry(mapPropsOnUpdate);
+export default curry(mapPropsOnChange);

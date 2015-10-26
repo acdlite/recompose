@@ -30,10 +30,10 @@ Accepts a function that maps owner props to a new collection of props that are p
 const omitProps = (keys, BaseComponent) => mapProps(omit(keys), BaseComponent);
 ```
 
-### `mapPropsOnUpdate()`
+### `mapPropsOnChange()`
 
 ```js
-mapPropsOnUpdate(
+mapPropsOnChange(
   depdendentPropKeys: Array<string>,
   propsMapper: (ownerProps: Object) => Object,
   baseComponent: ReactElementType

@@ -1,6 +1,6 @@
 // Higher-order component helpers
 export mapProps from './mapProps';
-export mapPropsOnUpdate from './mapPropsOnUpdate';
+export mapPropsOnChange from './mapPropsOnChange';
 export withProps from './withProps';
 export defaultProps from './defaultProps';
 export renameProp from './renameProp';
