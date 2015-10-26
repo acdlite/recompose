@@ -21,10 +21,13 @@ export lifecycle from './lifecycle';
 
 // Static property helpers
 export setStatic from './setStatic';
+export setPropTypes from './setPropTypes';
+export setDisplayName from './setDisplayName';
 
+// Composition function
 export compose from 'lodash/function/compose';
 
-// Other helpers
+// Other utils
 export getDisplayName from './getDisplayName';
 export wrapDisplayName from './wrapDisplayName';
 export shallowEqual from './shallowEqual';
