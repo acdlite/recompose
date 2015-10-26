@@ -1,3 +1,4 @@
+// Higher-order component helpers
 export mapProps from './mapProps';
 export mapPropsOnUpdate from './mapPropsOnUpdate';
 export withProps from './withProps';
@@ -18,10 +19,13 @@ export getContext from './getContext';
 export doOnReceiveProps from './doOnReceiveProps';
 export lifecycle from './lifecycle';
 
+// Static property helpers
+export setStatic from './setStatic';
+
 export compose from 'lodash/function/compose';
 
+// Other helpers
 export getDisplayName from './getDisplayName';
 export wrapDisplayName from './wrapDisplayName';
 export shallowEqual from './shallowEqual';
-
 export createSink from './createSink';
