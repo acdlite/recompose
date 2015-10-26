@@ -1,19 +1,19 @@
 import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
-import { mapPropsOnUpdate, withState, compose } from 'recompose';
+import { mapPropsOnChange, withState, compose } from 'recompose';
 import createSpy from './createSpy';
 
 import { renderIntoDocument } from 'react-addons-test-utils';
 
-describe('mapPropsOnUpdate()', () => {
+describe('mapPropsOnChange()', () => {
   it('maps owner props to child props, only when dependent props update', () => {
     const mapSpy = sinon.spy();
     const spy = createSpy();
     const StringConcat = compose(
       withState('strings', 'updateStrings', ['do', 're', 'mi']),
       withState('foobar', 'updateFoobar', 'foobar'),
-      mapPropsOnUpdate('strings', ({ strings, ...rest }) => {
+      mapPropsOnChange('strings', ({ strings, ...rest }) => {
         mapSpy();
         return {
           ...rest,
@@ -24,7 +24,7 @@ describe('mapPropsOnUpdate()', () => {
     )('div');
 
     expect(StringConcat.displayName).to.equal(
-      'withState(withState(mapPropsOnUpdate(spy(div))))'
+      'withState(withState(mapPropsOnChange(spy(div))))'
     );
 
     renderIntoDocument(<StringConcat />);
