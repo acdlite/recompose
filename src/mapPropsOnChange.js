@@ -14,7 +14,7 @@ const mapPropsOnChange = (depdendentPropKeys, propsMapper, BaseComponent) => {
 
     componentWillReceiveProps(nextProps) {
       if (!shallowEqual(
-        pickDependentProps(this.childProps),
+        pickDependentProps(this.props),
         pickDependentProps(nextProps)
       )) {
         this.childProps = propsMapper(nextProps);

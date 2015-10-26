@@ -49,5 +49,5 @@ describe('mapPropsOnChange()', () => {
       foobar: 'barbaz'
     });
     expect(mapSpy.callCount).to.equal(2);
-  mapPropsOnChange
+  });
 });
