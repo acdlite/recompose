@@ -9,8 +9,7 @@ type HigherOrderComponent = (BaseComponent: ReactElementType) => ReactElementTyp
 ```
 For the purposes of typing, a higher-order component is a function that accepts a base React component and returns a new React component. However, sometimes we use the term higher-order component to refer to a function that takes one or more parameters in addition to a base component. For example, `mapProps()` takes both a props mapping function and a base component. Higher-order components helpers in Recompose are component-last and curried, so when we call a helper with all its parameters except the final one, it returns a "true" higher-order component. The distinction isn't all that important in most cases except for type signatures; just be aware that it exists.
 
-## Higher-order component helper
-
+## Higher-order component helpers
 
 Higher-order component helpers are automatically curried, and the final parameter is a React component class.
 
@@ -347,6 +346,44 @@ Provides access to the React component instance on initialization (setup) and un
 `setup` is called within the component's constructor, so you can set the initial state using assignment as in a normal React component class. After initialization ,calls to `component.setState()` will update the state as expected.
 
 The state object is mixed into the props and passed to the base component.
+
+## Static property helpers
+
+These functions look like higher-order component helpers — they are curried and component-last. However, rather than returning a new component, they mutate the base component by setting or overriding a static property.
+
+### `setStatic()`
+
+```js
+setStatic(
+  key: string,
+  value: any,
+  BaseComponent: ReactElementType
+): ReactElementType
+```
+
+Assigns a value to a static property on the base component.
+
+### `setPropTypes()`
+
+```js
+setPropTypes(
+  propTypes: Object,
+  BaseComponent: ReactElementType
+): ReactElementType
+```
+
+Assigns to the `propTypes` property on the base component.
+
+### `setDisplayName()`
+
+```js
+setDisplayName(
+  propTypes: string,
+  BaseComponent: ReactElementType
+): ReactElementType
+```
+
+Assigns to the `displayName` property on the base component.
 
 ## Utilities
 
