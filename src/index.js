@@ -32,3 +32,4 @@ export getDisplayName from './getDisplayName';
 export wrapDisplayName from './wrapDisplayName';
 export shallowEqual from './shallowEqual';
 export createSink from './createSink';
+export reduceProps from './reduceProps';
