@@ -8,7 +8,7 @@ type ReactElementType = Class<ReactComponent> | StatelessFunctionComponent | str
 type HigherOrderComponent = (BaseComponent: ReactElementType) => ReactElementType;
 ```
 For the purposes of typing, a higher-order component is a function that accepts a base React component and returns a new React component. However, sometimes we use the term higher-order component to refer to a function that takes one or more parameters in addition to a base component. For example, `mapProps()` takes both a props mapping function and a base component. Higher-order components helpers in Recompose are component-last and curried, so when we call a helper with all its parameters except the final one, it returns a "true" higher-order component. The distinction isn't all that important in most cases except for type signatures; just be aware that it exists.
-
+s
 ## Higher-order component helpers
 
 Higher-order component helpers are automatically curried, and the final parameter is a React component class.
@@ -305,31 +305,25 @@ onlyUpdateForProps(
 ): ReactElementType
 ```
 
-There are also cases when using `onlyUpdateForKeys()` would have created too much boilerplate. Chances are your component already defines the `propTypes` he uses. This is especially useful when working with `eslint` rule that prohibits refering props without having them defined explicitly.
+If you are already using `setPropTypes` to define types of props your component uses, you may find `onlyUpdateForProps` a better fit. It uses `onlyUpdateForKeys` internally with an exception that you don't have to pass propKeys explicitly. They are automatically infered from propTypes of your component.
 
 ```js
 /**
  * In this example, our component will work just like the one from the previous example
- * with an exception that you don't have to pass propKeys explicitly. 
- * They are automatically infered from propTypes of your component.
  */
-const Post = ({ title, content, author }) => (
+const Post = onlyUpdateForProps(
+  setPropTypes({
+    title: React.PropTypes.string.isRequired,
+    content: React.PropTypes.string.isRequired,
+    author: React.PropTypes.object.isRequired
+  }),
+  ({ title, content, author }) => (
   <article>
     <h1>{title}</h1>
     <h2>By {author.name}</h2>
     <div>{content}</div>
   </article>
-);
-
-Post.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  content: React.PropTypes.string.isRequired,
-  author: React.PropTypes.object.isRequired
-};
-
-export default onlyUpdateForProps(Post);
-// the above line is equivallent to
-// export default onlyUpdateForKeys(['title', 'content', 'author'], Post);
+));
 ```
 
 ### `withContext()`
