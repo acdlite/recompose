@@ -262,7 +262,7 @@ pure(BaseComponent: ReactElementType): ReactElementType
 
 Prevents the component from updating unless a prop has changed. Uses `shallowEqual()` to test for changes.
 
-### `onlyUpdateForKeys()` 
+### `onlyUpdateForKeys()`
 
 ```js
 onlyUpdateForKeys(
