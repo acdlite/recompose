@@ -18,6 +18,7 @@ export withContext from './withContext';
 export getContext from './getContext';
 export doOnReceiveProps from './doOnReceiveProps';
 export lifecycle from './lifecycle';
+export toClass from './toClass';
 
 // Static property helpers
 export setStatic from './setStatic';
