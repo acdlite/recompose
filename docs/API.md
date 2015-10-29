@@ -262,7 +262,7 @@ pure(BaseComponent: ReactElementType): ReactElementType
 
 Prevents the component from updating unless a prop has changed. Uses `shallowEqual()` to test for changes.
 
-### `onlyUpdateForKeys()`
+### `onlyUpdateForKeys()` 
 
 ```js
 onlyUpdateForKeys(
@@ -295,6 +295,41 @@ const Post = onlyUpdateForKeys(
     </article>
   )
 );
+```
+
+### `onlyUpdateForProps()`
+
+```js
+onlyUpdateForProps(
+  BaseComponent: ReactElementType
+): ReactElementType
+```
+
+There are also cases when using `onlyUpdateForKeys()` would have created too much boilerplate. Chances are your component already defines the `propTypes` he uses. This is especially useful when working with `eslint` rule that prohibits refering props without having them defined explicitly.
+
+```js
+/**
+ * In this example, our component will work just like the one from the previous example
+ * with an exception that you don't have to pass propKeys explicitly. 
+ * They are automatically infered from propTypes of your component.
+ */
+const Post = ({ title, content, author }) => (
+  <article>
+    <h1>{title}</h1>
+    <h2>By {author.name}</h2>
+    <div>{content}</div>
+  </article>
+);
+
+Post.propTypes = {
+  title: React.PropTypes.string.isRequired,
+  content: React.PropTypes.string.isRequired,
+  author: React.PropTypes.object.isRequired
+};
+
+export default onlyUpdateForProps(Post);
+// the above line is equivallent to
+// export default onlyUpdateForKeys(['title', 'content', 'author'], Post);
 ```
 
 ### `withContext()`
