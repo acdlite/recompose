@@ -8,7 +8,7 @@ type ReactElementType = Class<ReactComponent> | StatelessFunctionComponent | str
 type HigherOrderComponent = (BaseComponent: ReactElementType) => ReactElementType;
 ```
 For the purposes of typing, a higher-order component is a function that accepts a base React component and returns a new React component. However, sometimes we use the term higher-order component to refer to a function that takes one or more parameters in addition to a base component. For example, `mapProps()` takes both a props mapping function and a base component. Higher-order components helpers in Recompose are component-last and curried, so when we call a helper with all its parameters except the final one, it returns a "true" higher-order component. The distinction isn't all that important in most cases except for type signatures; just be aware that it exists.
-s
+
 ## Higher-order component helpers
 
 Higher-order component helpers are automatically curried, and the final parameter is a React component class.
