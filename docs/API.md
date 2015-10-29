@@ -316,14 +316,14 @@ const Post = onlyUpdateForProps(
     title: React.PropTypes.string.isRequired,
     content: React.PropTypes.string.isRequired,
     author: React.PropTypes.object.isRequired
-  }),
-  ({ title, content, author }) => (
-  <article>
-    <h1>{title}</h1>
-    <h2>By {author.name}</h2>
-    <div>{content}</div>
-  </article>
-));
+  }, ({ title, content, author }) => (
+    <article>
+      <h1>{title}</h1>
+      <h2>By {author.name}</h2>
+      <div>{content}</div>
+    </article>
+  ))
+);
 ```
 
 ### `withContext()`
