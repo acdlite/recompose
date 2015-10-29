@@ -311,19 +311,20 @@ If you are already using `setPropTypes` to define types of props your component 
 /**
  * In this example, our component will work just like the one from the previous example
  */
-const Post = onlyUpdateForProps(
+const Post = compose(
+  onlyUpdateForProps,
   setPropTypes({
     title: React.PropTypes.string.isRequired,
     content: React.PropTypes.string.isRequired,
     author: React.PropTypes.object.isRequired
-  }, ({ title, content, author }) => (
-    <article>
-      <h1>{title}</h1>
-      <h2>By {author.name}</h2>
-      <div>{content}</div>
-    </article>
-  ))
-);
+  })
+)(({ title, content, author }) => (
+  <article>
+    <h1>{title}</h1>
+    <h2>By {author.name}</h2>
+    <div>{content}</div>
+  </article>
+));
 ```
 
 ### `withContext()`
