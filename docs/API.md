@@ -347,6 +347,18 @@ Provides access to the React component instance on initialization (setup) and un
 
 The state object is mixed into the props and passed to the base component.
 
+### `toClass()`
+
+```js
+toClass(
+  BaseComponent: ReactElementType
+): ReactElementType
+```
+
+Takes a function component and wraps it in a class. This can be used as a fallback for libraries that need to add a ref to a component, like Relay.
+
+When given an component that is already a class, it returns the given component.
+
 ## Static property helpers
 
 These functions look like higher-order component helpers — they are curried and component-last. However, rather than returning a new component, they mutate the base component by setting or overriding a static property.
