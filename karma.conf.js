@@ -1,5 +1,13 @@
+require('babel/register');
 var path = require('path');
 var webpack = require('webpack');
+var getPackageNames = require('./scripts/getPackageNames').getPackageNames;
+var PACKAGES_SRC_DIR = require('./scripts/getPackageNames').PACKAGES_SRC_DIR;
+
+var packageAliases = getPackageNames().reduce(function(result, packageName) {
+  result[packageName] = path.resolve(PACKAGES_SRC_DIR, packageName);
+  return result;
+}, {});
 
 module.exports = function(config) {
   if (process.env.TRAVIS) {
@@ -36,9 +44,7 @@ module.exports = function(config) {
         }]
       },
       resolve: {
-        alias: {
-          'recompose': path.join(__dirname, 'src')
-        }
+        alias: packageAliases
       },
       plugins: [
         new webpack.DefinePlugin({
