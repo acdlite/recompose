@@ -390,12 +390,23 @@ Assigns to the `propTypes` property on the base component.
 
 ```js
 setDisplayName(
-  propTypes: string,
+  displayName: string,
   BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
 Assigns to the `displayName` property on the base component.
+
+### `setContextTypes()`
+
+```js
+setContextTypes(
+  contextTypes: Object,
+  BaseComponent: ReactElementType
+): ReactElementType
+```
+
+Assigns to the `contextTypes` property on the base component.
 
 ## Utilities
 

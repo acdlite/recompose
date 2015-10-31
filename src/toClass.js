@@ -4,7 +4,7 @@ import compose from './compose';
 import getDisplayName from './getDisplayName';
 import setDisplayName from './setDisplayName';
 import setContextTypes from './setContextTypes';
-import setDefaultProps from './setDefaultProps';
+import setStatic from './setStatic';
 import setPropTypes from './setPropTypes';
 
 const toClass = baseComponent => {
@@ -21,7 +21,7 @@ const toClass = baseComponent => {
   return compose(
     setDisplayName(getDisplayName(baseComponent)),
     setContextTypes(baseComponent.contextTypes),
-    setDefaultProps(baseComponent.defaultProps),
+    setStatic('defaultProps', baseComponent.defaultProps),
     setPropTypes(baseComponent.propTypes)
   )(ClassWrapper);
 };
