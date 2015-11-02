@@ -32,4 +32,5 @@ export compose from 'lodash/function/compose';
 export getDisplayName from './getDisplayName';
 export wrapDisplayName from './wrapDisplayName';
 export shallowEqual from './shallowEqual';
+export isClassComponent from './isClassComponent';
 export createSink from './createSink';

@@ -355,8 +355,9 @@ toClass(
 ): ReactElementType
 ```
 
-Take a stateless function component and wrap it in a class. This can be used as a fallback for libraries that need to add a ref to a component, like Relay.
-When the given base component is already a class, it just returns the given component.
+Takes a function component and wraps it in a class. This can be used as a fallback for libraries that need to add a ref to a component, like Relay.
+
+If the base component is already a class, it returns the given component.
 
 ## Static property helpers
 
@@ -389,7 +390,7 @@ Assigns to the `propTypes` property on the base component.
 
 ```js
 setDisplayName(
-  propTypes: string,
+  displayName: string,
   BaseComponent: ReactElementType
 ): ReactElementType
 ```
@@ -433,6 +434,14 @@ shallowEqual(a: Object, b: Object): boolean
 ```
 
 Returns true if objects are shallowly equal.
+
+### `isClassComponent()`
+
+```js
+isClassComponent(value: any): boolean
+```
+
+Returns true if the given value is a React component class.
 
 ### `createSink()`
 
