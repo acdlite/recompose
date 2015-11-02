@@ -21,15 +21,17 @@ const log = compose(consoleLog, chalk.bold);
 const logSuccess = compose(consoleLog, chalk.green.bold);
 const logError = compose(consoleLog, chalk.red.bold);
 
-const writeFile = (path, string) => fs.writeFileSync(path, string, 'utf8');
+const writeFile = (filepath, string) => (
+  fs.writeFileSync(filepath, string, 'utf8')
+);
 
-// if (exec('git diff-files --quiet').code !== 0) {
-//   logError(
-//     'You have unsaved changes in the working tree. Commit or stash changes ' +
-//     'before releasing.'
-//   );
-//   exit(1);
-// }
+if (exec('git diff-files --quiet').code !== 0) {
+  logError(
+    'You have unsaved changes in the working tree. Commit or stash changes ' +
+    'before releasing.'
+  );
+  exit(1);
+}
 
 const packageNames = getPackageNames();
 
@@ -61,12 +63,12 @@ while (!(
 
 log('Running tests...');
 
-// if (exec('npm run lint && npm test -- --single-run').code !== 0) {
-//   logError(
-//     'The test command did not exit cleanly. Aborting release.'
-//   );
-//   exit(1);
-// }
+if (exec('npm run lint && npm test -- --single-run').code !== 0) {
+  logError(
+    'The test command did not exit cleanly. Aborting release.'
+  );
+  exit(1);
+}
 
 logSuccess('Tests were successful.');
 
@@ -109,7 +111,7 @@ log(`About to publish ${packageName}@${nextVersion} to npm.`);
 readline.keyInYN('Sound good? ');
 
 log('Publishing...');
-// exec(`cd ${outDir} && npm publish`);
+exec(`cd ${outDir} && npm publish`);
 
 logSuccess(`${packageName}@${nextVersion} was successfully published.`);
 
@@ -117,12 +119,12 @@ log('Updating VERSION file...');
 writeFile(versionLoc, `${nextVersion}\n`);
 
 log('Committing and tagging release...');
-// const newTagName = `v${nextVersion}`;
-// exec(`git commit -m ${newTagName}`);
-// exec(`git tag ${newTagName}`);
-//
+const newTagName = `v${nextVersion}`;
+exec(`git commit -m ${newTagName}`);
+exec(`git tag ${newTagName}`);
+
 log('Pushing to GitHub...');
-// exec('git push');
-// exec('git push --tags');
+exec('git push');
+exec('git push --tags');
 
 logSuccess('Done.');
