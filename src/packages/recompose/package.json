@@ -1,0 +1,18 @@
+{
+  "description": "A React utility belt for function components and higher-order components",
+  "keywords": [
+    "react",
+    "higher-order",
+    "components",
+    "microcomponentization",
+    "toolkit",
+    "utilities",
+    "composition"
+  ],
+  "dependencies": {
+    "lodash": "^3.0.0"
+  },
+  "peerDependencies": {
+    "react": "^0.14.0"
+  }
+}
