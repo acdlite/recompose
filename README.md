@@ -55,7 +55,7 @@ import { compose, mapProps, withState /* ... */ } from 'recompose';
 
 ### Optimizing bundle size
 
-You can reduce your bundle size number by only including the modules that you need.
+You can reduce your bundle size by only including the modules that you need.
 
 All top-level exports can be imported individually:
 
