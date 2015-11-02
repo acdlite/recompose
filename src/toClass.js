@@ -1,10 +1,14 @@
 import { Component } from 'react';
-import wrapDisplayName from './wrapDisplayName';
+import getDisplayName from './getDisplayName';
+import isClassComponent from './isClassComponent';
 
-const toClass = (baseComponent) => (
-  ( baseComponent.prototype && baseComponent.prototype.isReactComponent ) ? baseComponent :
-  class extends Component {
-    static displayName = wrapDisplayName(baseComponent, 'toClass');
+const toClass = baseComponent => {
+  if (isClassComponent(baseComponent)) {
+    return baseComponent;
+  }
+
+  return class extends Component {
+    static displayName = getDisplayName(baseComponent);
     static propTypes = baseComponent.propTypes;
     static contextTypes = baseComponent.contextTypes;
     static defaultProps = baseComponent.defaultProps;
@@ -12,7 +16,7 @@ const toClass = (baseComponent) => (
     render() {
       return baseComponent(this.props, this.context);
     }
-  }
-);
+  };
+};
 
 export default toClass;

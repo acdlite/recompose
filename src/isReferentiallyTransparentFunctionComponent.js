@@ -1,7 +1,8 @@
-const isReferentiallyTransparentFunctionComponent = Component => (
-  Component &&
-  typeof Component !== 'string' &&
-  !(Component.prototype && Component.prototype.render) &&
+import isClassComponent from './isClassComponent.js';
+
+const isReferentiallyTransparentFunctionComponent = Component => Boolean(
+  typeof Component === 'function' &&
+  !isClassComponent(Component) &&
   !Component.defaultProps &&
   !Component.contextTypes &&
   !Component.propTypes
