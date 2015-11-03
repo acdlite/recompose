@@ -125,7 +125,7 @@ writeFile(versionLoc, `${nextVersion}\n`);
 log('Committing changes...');
 const newTagName = `v${nextVersion}`;
 exec(`git add ${versionLoc}`);
-exec(`git commit -m ${packageName} ${newTagName}`);
+exec(`git commit -m "${packageName} ${newTagName}"`);
 
 if (packageName === 'recompose') {
   log(`Tagging release... (${newTagName})`);
