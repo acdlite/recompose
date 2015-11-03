@@ -1,6 +1,8 @@
 recompose-relay
 ===============
 
+[![npm version](https://img.shields.io/npm/v/recompose-relay.svg?style=flat-square)](https://www.npmjs.com/package/recompose-relay)
+
 [Recompose](https://github.com/acdlite/recompose) helpers for [Relay](https://facebook.github.io/relay).
 
 ## API
