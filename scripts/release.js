@@ -83,23 +83,24 @@ exec(`${BIN}/babel ${sourceDir} --out-dir ${outDir}`);
 
 log('Copying additional project files...');
 const additionalProjectFiles = [
-  'README.md'
+  'README.md',
+  '.npmignore'
 ];
 additionalProjectFiles.forEach(filename => {
   const src = path.resolve(sourceDir, filename);
-  const out = path.resolve(outDir, filename);
 
   if (!test('-e', src)) return;
 
-  cp('-Rf', src, out);
+  cp('-Rf', src, outDir);
 });
 
 log('Generating package.json...');
 const packageConfig = {
+  name: packageName,
+  version: nextVersion,
   ...require(BASE_PACKAGE_LOC),
   ...require(path.resolve(sourceDir, 'package.json')),
-  version: nextVersion,
-  private: undefined
+  private: undefined,
 };
 
 writeFile(
@@ -111,7 +112,10 @@ log(`About to publish ${packageName}@${nextVersion} to npm.`);
 readline.keyInYN('Sound good? ');
 
 log('Publishing...');
-exec(`cd ${outDir} && npm publish`);
+if (exec(`cd ${outDir} && npm publish`).code !== 0) {
+  logError('Publish failed. Aborting release.');
+  exit(1);
+}
 
 logSuccess(`${packageName}@${nextVersion} was successfully published.`);
 
@@ -120,6 +124,7 @@ writeFile(versionLoc, `${nextVersion}\n`);
 
 log('Committing and tagging release...');
 const newTagName = `v${nextVersion}`;
+exec(`git add ${versionLoc}`);
 exec(`git commit -m ${newTagName}`);
 exec(`git tag ${newTagName}`);
 
