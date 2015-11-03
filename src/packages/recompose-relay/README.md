@@ -38,7 +38,7 @@ const Post = compose(
     }
   }),
   flattenProp('post')
-)({ title, content, author }) => (
+)(({ title, content, author }) => (
   <article>
     <h1>{title}</h1>
     <h2>By {author.name}</h2>
