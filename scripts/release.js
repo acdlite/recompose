@@ -115,7 +115,10 @@ writeFile(
 );
 
 log(`About to publish ${packageName}@${nextVersion} to npm.`);
-readline.keyInYN('Sound good? ');
+if (!readline.keyInYN('Sound good? ')) {
+  log('OK. Stopping release.');
+  exit(0);
+}
 
 log('Publishing...');
 if (exec(`cd ${outDir} && npm publish`).code !== 0) {
