@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import omit from 'lodash/object/omit';
 import { shouldUpdate, compose, withState } from 'recompose';
-import createSpy from './createSpy';
+import createSpy from 'recompose/createSpy';
 
 import { renderIntoDocument } from 'react-addons-test-utils';
 

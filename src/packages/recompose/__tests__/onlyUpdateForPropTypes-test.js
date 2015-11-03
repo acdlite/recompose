@@ -9,7 +9,7 @@ import {
   setPropTypes
 } from 'recompose';
 
-import createSpy from './createSpy';
+import createSpy from 'recompose/createSpy';
 
 import { renderIntoDocument } from 'react-addons-test-utils';
 
@@ -66,5 +66,7 @@ describe('onlyUpdateForPropTypes()', () => {
       '`onlyUpdateForPropTypes()`. Check the implementation of the component ' +
       'with display name "div".'
     );
+
+    console.warn.restore();
   });
 });

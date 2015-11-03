@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { compose, withState, branch } from 'recompose';
-import createSpy from './createSpy';
+import createSpy from 'recompose/createSpy';
 import omit from 'lodash/object/omit';
 import { NullComponent } from './utils';
 
