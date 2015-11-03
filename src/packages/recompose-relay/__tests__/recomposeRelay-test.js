@@ -123,6 +123,8 @@ describe('createContainer()', () => {
     await relayTest(Tyrion, spy);
 
     expect(error.callCount).to.equal(0);
+    /* eslint-disable */
     console.error.restore();
+    /* eslint-enable */
   });
 });

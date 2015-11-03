@@ -67,6 +67,8 @@ describe('onlyUpdateForPropTypes()', () => {
       'with display name "div".'
     );
 
+    /* eslint-disable */
     console.warn.restore();
+    /* eslint-enable */
   });
 });

@@ -7,11 +7,13 @@ const onlyUpdateForPropTypes = (BaseComponent) => {
 
   if (process.env.NODE_ENV !== 'production') {
     if (!propTypes) {
+      /* eslint-disable */
       console.warn(
         'A component without any `propTypes` was passed to ' +
         '`onlyUpdateForPropTypes()`. Check the implementation of the ' +
         `component with display name "${getDisplayName(BaseComponent)}".`
       );
+      /* eslint-enable */
     }
   }
 

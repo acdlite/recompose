@@ -8,10 +8,12 @@ import { introspectionQuery, printSchema } from 'graphql/utilities';
 async () => {
   const result = await graphql(Schema, introspectionQuery);
   if (result.errors) {
+    /* eslint-disable */
     console.error(
       'ERROR introspecting schema: ',
       JSON.stringify(result.errors, null, 2)
     );
+    /* eslint-enable */
   } else {
     fs.writeFileSync(
       path.join(__dirname, './data/schema.json'),
