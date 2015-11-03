@@ -5,6 +5,7 @@
     "url": "https://github.com/acdlite/recompose.git"
   },
   "license": "MIT",
+  "main": "index.js",
   "bugs": {
     "url": "https://github.com/acdlite/recompose/issues"
   },
