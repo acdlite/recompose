@@ -40,7 +40,10 @@ module.exports = function(config) {
         loaders: [{
           test: /\.js$/,
           exclude: /node_modules/,
-          loader: 'babel'
+          loader: 'babel',
+          query: {
+            plugins: ['./src/packages/recompose-relay/babelRelayPlugin']
+          }
         }]
       },
       resolve: {

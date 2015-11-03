@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { withProps, renameProps, compose } from 'recompose';
-import createSpy from './createSpy';
+import createSpy from 'recompose/createSpy';
 
 import { renderIntoDocument } from 'react-addons-test-utils';
 
