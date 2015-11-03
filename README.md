@@ -4,7 +4,7 @@ Recompose
 [![build status](https://img.shields.io/travis/acdlite/recompose/master.svg?style=flat-square)](https://travis-ci.org/acdlite/recompose)
 [![npm version](https://img.shields.io/npm/v/recompose.svg?style=flat-square)](https://www.npmjs.com/package/recompose)
 
-Recompose is a microcomponentization toolkit for React. Think of it like lodash, but for React components.
+Recompose is a React utility belt for function components and higher-order components. Think of it like lodash for React.
 
 ```
 npm install recompose --save
