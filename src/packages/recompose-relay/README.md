@@ -36,7 +36,7 @@ const Post = compose(
         }
       `
     }
-  })
+  }),
   flattenProp('post')
 )({ title, content, author }) => (
   <article>
