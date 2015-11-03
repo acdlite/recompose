@@ -41,6 +41,10 @@ More complex examples are coming soon. Here's a [mini React Redux clone](https:/
 
 Read on for more about the library, its goals, and how it works.
 
+### See also
+
+- [**recompose-relay**](https://github.com/acdlite/recompose/tree/master/src/packages/recompose-relay) — Recompose helpers for Relay
+
 ## API docs
 
 [Read them here](docs/API.md)
