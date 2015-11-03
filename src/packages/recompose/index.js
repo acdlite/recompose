@@ -14,6 +14,7 @@ export renderNothing from './renderNothing';
 export shouldUpdate from './shouldUpdate';
 export pure from './pure';
 export onlyUpdateForKeys from './onlyUpdateForKeys';
+export onlyUpdateForPropTypes from './onlyUpdateForPropTypes';
 export withContext from './withContext';
 export getContext from './getContext';
 export doOnReceiveProps from './doOnReceiveProps';

@@ -297,6 +297,35 @@ const Post = onlyUpdateForKeys(
 );
 ```
 
+### `onlyUpdateForPropTypes()`
+
+```js
+onlyUpdateForProps(
+  BaseComponent: ReactElementType
+): ReactElementType
+```
+
+Works like `onlyUpdateForKeys()`, but prop keys are inferred from the `propTypes` of the base component. Useful in conjunction with `setPropTypes()`.
+
+If the base component does not have any `propTypes`, the component will never receive any updates. This probably isn't the expected behavior, so a warning is printed to the console.
+
+```js
+const Post = compose(
+  onlyUpdateForPropTypes,
+  setPropTypes({
+    title: React.PropTypes.string.isRequired,
+    content: React.PropTypes.string.isRequired,
+    author: React.PropTypes.object.isRequired
+  })
+)(({ title, content, author }) => (
+  <article>
+    <h1>{title}</h1>
+    <h2>By {author.name}</h2>
+    <div>{content}</div>
+  </article>
+));
+```
+
 ### `withContext()`
 
 ```js
