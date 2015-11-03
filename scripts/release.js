@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import { compose } from 'lodash';
 import readline from 'readline-sync';
 import semver from 'semver';
+import glob from 'glob';
 
 const BIN = './node_modules/.bin';
 
@@ -79,7 +80,12 @@ log('Cleaning destination directory...');
 rm('-rf', outDir);
 
 log('Compiling source files...');
-exec(`${BIN}/babel ${sourceDir} --out-dir ${outDir}`);
+
+const sourceFiles = glob.sync(`${sourceDir}/**/*.js`, {
+  ignore: `${sourceDir}/node_modules/**/*.js`
+}).map(to => path.relative(sourceDir, to));
+
+exec(`cd ${sourceDir} && ${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} --out-dir ${path.resolve(outDir)}`);
 
 log('Copying additional project files...');
 const additionalProjectFiles = [
