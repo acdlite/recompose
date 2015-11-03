@@ -20,7 +20,7 @@ A curried, component-last version of `Relay.createContainer()`. This makes it co
 
 If the base component is not a class component, it is converted to one using `toClass()`. This allows Relay to add a ref to the base component without causing React to print a warning. (Function components cannot have refs.) This behavior will be removed once Relay updates to support function components.
 
-Tip: Use `flattenProps()` in combination with `createContainer()` to flatten fragment props:
+Tip: Use `flattenProp()` in combination with `createContainer()` to flatten fragment props:
 
 ```js
 const Post = compose(
