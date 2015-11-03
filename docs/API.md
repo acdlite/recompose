@@ -297,7 +297,7 @@ const Post = onlyUpdateForKeys(
 );
 ```
 
-### `onlyUpdateForProps()`
+### `onlyUpdateForPropTypes()`
 
 ```js
 onlyUpdateForProps(
@@ -305,14 +305,13 @@ onlyUpdateForProps(
 ): ReactElementType
 ```
 
-If you are already using `setPropTypes` to define types of props your component uses, you may find `onlyUpdateForProps` a better fit. It uses `onlyUpdateForKeys` internally with an exception that you don't have to pass propKeys explicitly. They are automatically infered from propTypes of your component.
+Works like `onlyUpdateForKeys()`, but prop keys are inferred from the `propTypes` of the base component. Useful in conjunction with `setPropTypes()`.
+
+If the base component does not have any `propTypes`, the component will never receive any updates. This probably isn't the expected behavior, so a warning is printed to the console.
 
 ```js
-/**
- * In this example, our component will work just like the one from the previous example
- */
 const Post = compose(
-  onlyUpdateForProps,
+  onlyUpdateForPropTypes,
   setPropTypes({
     title: React.PropTypes.string.isRequired,
     content: React.PropTypes.string.isRequired,
