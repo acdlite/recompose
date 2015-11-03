@@ -30,7 +30,9 @@ const Post = compose(
         fragment on Post {
           title,
           content,
-          author
+          author {
+            name
+          }
         }
       `
     }
