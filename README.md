@@ -44,6 +44,7 @@ Read on for more about the library, its goals, and how it works.
 ### See also
 
 - [**recompose-relay**](https://github.com/acdlite/recompose/tree/master/src/packages/recompose-relay) — Recompose helpers for Relay
+- [**rx-recompose**](https://github.com/acdlite/recompose/tree/master/src/packages/rx-recompose) — RxJS utilities for Recompose and React
 
 ## API docs
 
