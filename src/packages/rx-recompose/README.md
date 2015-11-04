@@ -5,6 +5,9 @@ rx-recompose
 
 [RxJS](https://github.com/ReactiveX/RxJS) utilities for [Recompose](https://github.com/acdlite/recompose).
 
+```
+npm install --save rx-recompose
+```
 
 ## API
 
