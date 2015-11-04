@@ -20,11 +20,11 @@ Here's an example of a stateful counter component created using only pure functi
 import { compose, withState, mapProps } from 'recompose';
 
 const Counter = ({ counter, increment, decrement }) => (
-  <p>
+  <div>
     Count: {counter}
     <button onClick={increment}>+</button>
     <button onClick={decrement}>-</button>
-  </p>
+  </div>
 );
 
 const CounterContainer = compose(
