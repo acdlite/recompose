@@ -43,7 +43,7 @@ createEventHandler(): Function & Subject
 Creates a Subject that is also a function. When called, the subject emits a new value. This type of function is ideal for passing event handlers from `observeProps()`:
 
 ```js
-const Counter = mapProps(
+const Counter = observeProps(
   props$ => {
     const increment$ = createEventHandler();
     const decrement$ = createEventHandler();
