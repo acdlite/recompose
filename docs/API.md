@@ -479,3 +479,24 @@ createSink(callback: (props: Object) => void): ReactElementType
 ```
 
 Creates a component that renders nothing (null) but calls a callback when receiving new props.
+
+### `componentFromProp()`
+
+```js
+componentFromProp(propName: string): ReactElementType
+```
+
+Creates a component that accepts a component as a prop and renders it with the remaining props.
+
+Example:
+
+```js
+const Button = defaultProps(
+  { component: 'button' },
+  componentFromProp('component')
+);
+
+<Button foo="bar" /> // renders <button foo="bar" />
+<Button component="a" foo="bar" />  // renders <a foo="bar" />
+<Button component={Link} foo="bar" />  // renders <Link foo="bar" />
+```
