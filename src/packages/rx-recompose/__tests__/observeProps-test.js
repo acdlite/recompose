@@ -44,7 +44,7 @@ function testSmartButton(element) {
   expect(button.props.pass).to.equal('through');
 }
 
-describe('observeProps', () => {
+describe('observeProps()', () => {
   it('maps a stream of owner props to a stream of child props', () => {
     const SmartButton = createSmartButton(props => <Button {...props} />);
     expect(SmartButton.displayName).to.equal('observeProps(Component)');
