@@ -35,3 +35,4 @@ export wrapDisplayName from './wrapDisplayName';
 export shallowEqual from './shallowEqual';
 export isClassComponent from './isClassComponent';
 export createSink from './createSink';
+export componentFromProp from './componentFromProp';
