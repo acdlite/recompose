@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { expect } from 'chai';
 import { compose, withState, branch } from 'recompose';
 import createSpy from 'recompose/createSpy';
@@ -96,6 +96,10 @@ describe('createSpy', () => {
       it('gets a ref to the spied component for a given index', () => {
         const spy = createSpy();
         const Spy = spy(class extends React.Component {
+          static propTypes = {
+            n: PropTypes.number
+          };
+
           n = this.props.n;
 
           render() {
