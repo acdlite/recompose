@@ -214,7 +214,7 @@ This is useful in combination with another helper that expects a higher-order co
 // has all the props it needs
 const spinnerWhileLoading = (hasLoaded, BaseComponent) => branch(
   hasLoaded,
-  BaseComponent,
+  renderComponent(BaseComponent),
   renderComponent(Spinner) // <Spinner> is a React component
 );
 
