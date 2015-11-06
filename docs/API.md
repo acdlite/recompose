@@ -232,10 +232,10 @@ const Post = spinnerWhileLoading(
 );
 ```
 
-### `renderComponent()`
+### `renderNothing()`
 
 ```js
-renderComponent(
+renderNothing(
   BaseComponent: any
 ): ReactElementType
 ```
