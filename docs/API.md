@@ -216,7 +216,7 @@ const spinnerWhileLoading = (hasLoaded, BaseComponent) => branch(
   hasLoaded,
   renderComponent(BaseComponent),
   renderComponent(Spinner) // <Spinner> is a React component
-)(renderNothing());
+);
 
 // Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
 // base component
