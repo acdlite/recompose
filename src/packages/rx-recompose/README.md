@@ -25,7 +25,7 @@ Maps an observable stream of owner props to a stream of child props.
 It turns out that much of the React Component API can be expressed in terms of observables:
 
 - Instead of `setState()`, combine multiple streams together.
-- Instead of `getIntialState()`, use `startWith()`.
+- Instead of `getInitialState()`, use `startWith()`.
 - Instead of `shouldComponentUpdate()`, use `distinctUntilChanged()`, `debounce()`, etc.
 
 Other benefits include:
