@@ -24,7 +24,7 @@ module.exports = function(config) {
   }
 
   config.set({
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage'],
 
     files: [
       'tests.webpack.js'
@@ -34,12 +34,32 @@ module.exports = function(config) {
       'tests.webpack.js': ['webpack', 'sourcemap'],
     },
 
+    coverageReporter: {
+      dir: 'coverage',
+      reporters: [
+        { type: 'lcov', subdir: '.' },
+        { type: 'text', subdir: '.' },
+        { type: 'html', subdir: '.' }
+      ]
+    },
+
     webpack: {
       devtool: 'inline-source-map',
       module: {
-        loaders: [{
+        preLoaders: [{
           test: /\.js$/,
-          exclude: /node_modules/,
+          exclude: [
+            /__tests__/,
+            /node_modules/,
+            path.resolve(__dirname, './src/packages/recompose-relay/data')
+          ],
+          loader: 'isparta'
+        }, {
+          test: /\.js$/,
+          include: [
+            /__tests__/,
+            path.resolve(__dirname, './src/packages/recompose-relay/data')
+          ],
           loader: 'babel',
           query: {
             plugins: ['./src/packages/recompose-relay/babelRelayPlugin']
