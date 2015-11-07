@@ -27,6 +27,16 @@ describe('shallowEqual()', () => {
     ).to.be.true;
   });
 
+  it('returns false if either argument is null or undefined', () => {
+    expect(
+      shallowEqual(null, { a: 1, b: 2 })
+    ).to.be.false;
+
+    expect(
+      shallowEqual({ a: 1, b: 2 }, null)
+    ).to.be.false;
+  });
+
   it('returns false if first argument has too many keys', () => {
     expect(
       shallowEqual(
