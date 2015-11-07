@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import React from 'react';
 import { Observable } from 'rx';
-import { toClass, withState } from 'recompose';
+import { toClass, withState, compose, branch } from 'recompose';
+import identity from 'lodash/utility/identity';
 import createSpy from 'recompose/createSpy';
 import { observeProps, createEventHandler } from 'rx-recompose';
 
@@ -73,5 +74,39 @@ describe('observeProps()', () => {
     expect(spy.getProps().label).to.equal('Count');
     spy.getProps().updateLabel('Current count');
     expect(spy.getProps().label).to.equal('Current count');
+  });
+
+  it('unsubscribes before unmounting', () => {
+    const spy = createSpy();
+    const increment$ = createEventHandler();
+    let count = 0;
+
+    const Container = compose(
+      withState('observe', 'updateObserve', false),
+      spy,
+      branch(
+        props => props.observe,
+        observeProps(props$ => Observable.combineLatest(
+          props$, increment$.do(() => count += 1),
+          props => props
+        )),
+        identity
+      )
+    )('div');
+
+    renderIntoDocument(<Container />);
+
+    const { updateObserve } = spy.getProps();
+    expect(count).to.equal(0);
+    updateObserve(true); // Mount component
+    increment$();
+    expect(count).to.equal(1);
+    increment$();
+    increment$();
+    expect(count).to.equal(3);
+    updateObserve(false); // Unmount component
+    increment$();
+    increment$();
+    expect(count).to.equal(3);
   });
 });

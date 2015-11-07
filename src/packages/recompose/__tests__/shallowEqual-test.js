@@ -3,6 +3,10 @@ import { expect } from 'chai';
 
 // Adapted from https://github.com/rackt/react-redux/blob/master/test/utils/shallowEqual.spec.js
 describe('shallowEqual()', () => {
+  it('returns true if arguments are equal', () => {
+    expect(shallowEqual(expect, expect)).to.be.true;
+  });
+
   it('returns true if arguments fields are equal', () => {
     expect(
       shallowEqual(
