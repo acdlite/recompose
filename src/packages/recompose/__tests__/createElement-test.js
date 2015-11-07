@@ -14,22 +14,22 @@ describe('createElement()', () => {
 
     class InnerDiv extends Component {
       render() {
-        return <div foo="bar" />;
+        return <div bar="baz" />;
       }
     }
 
     class OuterDiv extends Component {
       render() {
-        return createElement('div', {
-          children: createElement(InnerDiv)
-        });
+        return createElement('div', { foo: 'bar' },
+          createElement(InnerDiv)
+        );
       }
     }
 
     renderer.render(<OuterDiv />);
 
     expect(renderer.getRenderOutput()).toEqualJSX(
-      <div>
+      <div foo="bar">
         <InnerDiv />
       </div>
     );
@@ -38,11 +38,11 @@ describe('createElement()', () => {
   it('calls stateless function components instead of creating an intermediate React element', () => {
     const renderer = createRenderer();
 
-    const InnerDiv = () => <div foo="bar" />;
+    const InnerDiv = () => <div bar="baz" />;
     const OuterDiv = () => (
-      createElement('div', {
-        children: createElement(InnerDiv)
-      })
+      createElement('div', { foo: 'bar' },
+        createElement(InnerDiv)
+      )
     );
 
     renderer.render(<OuterDiv />);
@@ -53,8 +53,30 @@ describe('createElement()', () => {
      * here, createElement() can take advantage of referential transparency
      */
     expect(renderer.getRenderOutput()).toEqualJSX(
-      <div>
-        <div foo="bar" />
+      <div foo="bar">
+        <div bar="baz" />
+      </div>
+    );
+  });
+
+  it('passes children correctly', () => {
+    const renderer = createRenderer();
+
+    const Div = props => <div {...props} />;
+    const InnerDiv = () => <div bar="baz" />;
+    const OuterDiv = () => (
+      createElement(Div, { foo: 'bar' },
+        createElement(InnerDiv)
+      )
+    );
+
+    renderer.render(
+      <OuterDiv />
+    );
+
+    expect(renderer.getRenderOutput()).toEqualJSX(
+      <div foo="bar">
+        <div bar="baz" />
       </div>
     );
   });
