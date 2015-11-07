@@ -86,10 +86,7 @@ describe('observeProps()', () => {
       spy,
       branch(
         props => props.observe,
-        observeProps(props$ => Observable.combineLatest(
-          props$, increment$.do(() => count += 1),
-          props => props
-        )),
+        observeProps(() => increment$.do(() => count += 1).map(() => ({}))),
         identity
       )
     )('div');
@@ -102,11 +99,9 @@ describe('observeProps()', () => {
     increment$();
     expect(count).to.equal(1);
     increment$();
-    increment$();
-    expect(count).to.equal(3);
+    expect(count).to.equal(2);
     updateObserve(false); // Unmount component
     increment$();
-    increment$();
-    expect(count).to.equal(3);
+    expect(count).to.equal(2);
   });
 });
