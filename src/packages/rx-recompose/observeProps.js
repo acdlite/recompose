@@ -1,13 +1,10 @@
 import { Component } from 'react'
-import curry from 'lodash/function/curry'
 import createElement from 'recompose/createElement'
-import wrapDisplayName from 'recompose/wrapDisplayName'
+import createHelper from 'recompose/createHelper'
 import { Subject } from 'rx'
 
 const observeProps = (propsSequenceMapper, BaseComponent) => (
   class extends Component {
-    static displayName = wrapDisplayName(BaseComponent, 'observeProps')
-
     state = {}
 
     // Subject that receives props from owner
@@ -53,4 +50,4 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
   }
 )
 
-export default curry(observeProps)
+export default createHelper(observeProps, 'observeProps')
