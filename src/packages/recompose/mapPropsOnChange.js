@@ -1,15 +1,13 @@
 import { Component } from 'react'
-import curry from 'lodash/function/curry'
-import wrapDisplayName from './wrapDisplayName'
-import shallowEqual from './shallowEqual'
 import pick from 'lodash/object/pick'
+import shallowEqual from './shallowEqual'
+import createHelper from './createHelper'
 import createElement from './createElement'
 
 const mapPropsOnChange = (depdendentPropKeys, propsMapper, BaseComponent) => {
   const pickDependentProps = props => pick(props, depdendentPropKeys)
 
   return class extends Component {
-    static displayName = wrapDisplayName(BaseComponent, 'mapPropsOnChange')
     childProps = propsMapper(this.props)
 
     componentWillReceiveProps(nextProps) {
@@ -27,4 +25,4 @@ const mapPropsOnChange = (depdendentPropKeys, propsMapper, BaseComponent) => {
   }
 }
 
-export default curry(mapPropsOnChange)
+export default createHelper(mapPropsOnChange, 'mapPropsOnChange')

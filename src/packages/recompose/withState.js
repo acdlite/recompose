@@ -1,7 +1,6 @@
 import { Component } from 'react'
-import curry from 'lodash/function/curry'
 import isFunction from 'lodash/lang/isFunction'
-import wrapDisplayName from './wrapDisplayName'
+import createHelper from './createHelper'
 import createElement from './createElement'
 
 export const withState = (
@@ -9,9 +8,8 @@ export const withState = (
   stateUpdaterName,
   initialState,
   BaseComponent
-) => (
+) =>
   class extends Component {
-    static displayName = wrapDisplayName(BaseComponent, 'withState')
     state = {
       stateValue: isFunction(initialState)
         ? initialState(this.props)
@@ -32,6 +30,5 @@ export const withState = (
       })
     }
   }
-)
 
-export default curry(withState)
+export default createHelper(withState, 'withState')

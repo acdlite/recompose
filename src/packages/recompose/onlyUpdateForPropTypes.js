@@ -1,14 +1,14 @@
 import onlyUpdateForKeys from './onlyUpdateForKeys'
-import wrapDisplayName from './wrapDisplayName'
-import getDisplayName from './getDisplayName'
+import createHelper from './createHelper'
 
-const onlyUpdateForPropTypes = (BaseComponent) => {
+const onlyUpdateForPropTypes = BaseComponent => {
   const propTypes = BaseComponent.propTypes
 
   if (process.env.NODE_ENV !== 'production') {
+    const getDisplayName = require('./getDisplayName')
     if (!propTypes) {
       /* eslint-disable */
-      console.warn(
+      console.error(
         'A component without any `propTypes` was passed to ' +
         '`onlyUpdateForPropTypes()`. Check the implementation of the ' +
         `component with display name "${getDisplayName(BaseComponent)}".`
@@ -20,12 +20,7 @@ const onlyUpdateForPropTypes = (BaseComponent) => {
   const propKeys = Object.keys(propTypes || {})
   const OnlyUpdateForPropTypes = onlyUpdateForKeys(propKeys, BaseComponent)
 
-  OnlyUpdateForPropTypes.displayName = wrapDisplayName(
-    BaseComponent,
-    'onlyUpdateForPropTypes'
-  )
-
   return OnlyUpdateForPropTypes
 }
 
-export default onlyUpdateForPropTypes
+export default createHelper(onlyUpdateForPropTypes, 'onlyUpdateForPropTypes')

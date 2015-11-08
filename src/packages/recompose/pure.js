@@ -1,15 +1,7 @@
 import shouldUpdate from './shouldUpdate'
 import shallowEqual from './shallowEqual'
-import wrapDisplayName from './wrapDisplayName'
+import createHelper from './createHelper'
 
-const pure = BaseComponent => {
-  const Pure = shouldUpdate(
-    (props, nextProps) => !shallowEqual(props, nextProps)
-  )(BaseComponent)
+const pure = shouldUpdate((props, nextProps) => !shallowEqual(props, nextProps))
 
-  Pure.displayName = wrapDisplayName(BaseComponent, 'pure')
-
-  return Pure
-}
-
-export default pure
+export default createHelper(pure, 'pure', 1)

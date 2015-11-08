@@ -1,8 +1,8 @@
 import { expect } from 'chai'
 import { renderNothing } from 'recompose'
 
-describe('mapProps()', () => {
-  it('maps owner props to child props', () => {
+describe('renderNothing()', () => {
+  it('returns a component that renders null', () => {
     const Nothing = renderNothing('div')
     const n = Nothing
     expect(n()).to.be.null

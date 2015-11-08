@@ -1,13 +1,7 @@
-import curry from 'lodash/function/curry'
-import wrapDisplayName from './wrapDisplayName'
+import createHelper from './createHelper'
 import createElement from './createElement'
 
-const mapProps = (propsMapper, BaseComponent) => {
-  const MapProps = props => createElement(BaseComponent, propsMapper(props))
+const mapProps = (propsMapper, BaseComponent) =>
+  props => createElement(BaseComponent, propsMapper(props))
 
-  MapProps.displayName = wrapDisplayName(BaseComponent, 'mapProps')
-
-  return MapProps
-}
-
-export default curry(mapProps)
+export default createHelper(mapProps, 'mapProps')

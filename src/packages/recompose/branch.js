@@ -1,11 +1,9 @@
 import React from 'react'
-import curry from 'lodash/function/curry'
-import wrapDisplayName from './wrapDisplayName'
+import createHelper from './createHelper'
 import createElement from './createElement'
 
-const branch = (test, left, right, BaseComponent) => (
+const branch = (test, left, right, BaseComponent) =>
   class extends React.Component {
-    static displayName = wrapDisplayName(BaseComponent, 'branch')
     LeftComponent = null
     RightComponent = null
 
@@ -33,6 +31,5 @@ const branch = (test, left, right, BaseComponent) => (
       return createElement(Component, this.props)
     }
   }
-)
 
-export default curry(branch)
+export default createHelper(branch, 'branch')

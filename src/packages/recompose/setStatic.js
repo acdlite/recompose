@@ -1,8 +1,8 @@
-import curry from 'lodash/function/curry'
+import createHelper from './createHelper'
 
 const setStatic = (key, value, BaseComponent) => {
   BaseComponent[key] = value
   return BaseComponent
 }
 
-export default curry(setStatic)
+export default createHelper(setStatic, 'setStatic', 3, false)

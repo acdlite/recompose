@@ -27,7 +27,7 @@ export setPropTypes from './setPropTypes'
 export setDisplayName from './setDisplayName'
 
 // Composition function
-export compose from 'lodash/function/compose'
+export compose from './compose'
 
 // Other utils
 export getDisplayName from './getDisplayName'
