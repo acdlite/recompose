@@ -1,1 +1,1 @@
-export default from 'lodash/function/compose';
+export default from 'lodash/function/compose'

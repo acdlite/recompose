@@ -1,73 +1,73 @@
-import React from 'react';
-import wrapDisplayName from './wrapDisplayName';
+import React from 'react'
+import wrapDisplayName from './wrapDisplayName'
 
 const createSpy = () => {
-  let spyInfo = [];
+  let spyInfo = []
 
   function addSpyInstance(spyInstance) {
     spyInfo.unshift({
       _spy: spyInstance,
       component: null,
       props: []
-    });
+    })
   }
 
   function removeSpyInstance(spyInstance) {
-    spyInfo = spyInfo.filter(s => s._spy !== spyInstance);
+    spyInfo = spyInfo.filter(s => s._spy !== spyInstance)
   }
 
   function receiveProps(spyInstance, props) {
-    const info = spyInfo.find(s => s._spy === spyInstance);
+    const info = spyInfo.find(s => s._spy === spyInstance)
 
-    if (!info) return;
+    if (!info) return
 
-    info.props.unshift(props);
+    info.props.unshift(props)
   }
 
   function updateComponent(spyInstance, component) {
-    const info = spyInfo.find(s => s._spy === spyInstance);
+    const info = spyInfo.find(s => s._spy === spyInstance)
 
-    if (!info) return;
+    if (!info) return
 
-    info.component = component;
+    info.component = component
   }
 
   const spy = BaseComponent => class extends React.Component {
-    static displayName = wrapDisplayName(BaseComponent, 'spy');
+    static displayName = wrapDisplayName(BaseComponent, 'spy')
 
     constructor(props, context) {
-      super(props, context);
-      addSpyInstance(this);
-      receiveProps(this, props);
+      super(props, context)
+      addSpyInstance(this)
+      receiveProps(this, props)
     }
 
     componentWillReceiveProps(nextProps) {
-      receiveProps(this, nextProps);
+      receiveProps(this, nextProps)
     }
 
     componentWillUnmount() {
-      removeSpyInstance(this);
+      removeSpyInstance(this)
     }
 
-    refCallback = ref => updateComponent(this, ref);
+    refCallback = ref => updateComponent(this, ref)
 
     render() {
-      return <BaseComponent {...this.props} ref={this.refCallback} />;
+      return <BaseComponent {...this.props} ref={this.refCallback} />
     }
-  };
+  }
 
-  spy.getInfo = () => spyInfo;
+  spy.getInfo = () => spyInfo
   spy.getProps = (componentIndex = 0, renderIndex = 0) => (
     spyInfo[componentIndex].props[renderIndex]
-  );
+  )
   spy.getRenderCount = (componentIndex = 0) => (
     spyInfo[componentIndex].props.length
-  );
+  )
   spy.getComponent = (componentIndex = 0) => (
     spyInfo[componentIndex].component
-  );
+  )
 
-  return spy;
-};
+  return spy
+}
 
-export default createSpy;
+export default createSpy

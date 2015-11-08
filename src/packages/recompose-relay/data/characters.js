@@ -1,4 +1,4 @@
-import { find } from 'lodash';
+import { find } from 'lodash'
 
 const characters = [{
   id: 1,
@@ -36,12 +36,12 @@ const characters = [{
     { characterId: 2, kind: 'complicated' },
     { characterId: 3, kind: 'father' }
   ]
-}];
+}]
 
 export function getCharacter(id) {
-  return find(characters, c => c.id === id);
+  return find(characters, c => c.id === id)
 }
 
 export function getCharacterByName(name) {
-  return find(characters, c => c.name === name);
+  return find(characters, c => c.name === name)
 }

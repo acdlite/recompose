@@ -1,15 +1,15 @@
-import shouldUpdate from './shouldUpdate';
-import shallowEqual from './shallowEqual';
-import wrapDisplayName from './wrapDisplayName';
+import shouldUpdate from './shouldUpdate'
+import shallowEqual from './shallowEqual'
+import wrapDisplayName from './wrapDisplayName'
 
 const pure = BaseComponent => {
   const Pure = shouldUpdate(
     (props, nextProps) => !shallowEqual(props, nextProps)
-  )(BaseComponent);
+  )(BaseComponent)
 
-  Pure.displayName = wrapDisplayName(BaseComponent, 'pure');
+  Pure.displayName = wrapDisplayName(BaseComponent, 'pure')
 
-  return Pure;
-};
+  return Pure
+}
 
-export default pure;
+export default pure

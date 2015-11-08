@@ -1,24 +1,24 @@
-import React from 'react';
-import Relay from 'react-relay';
-import { graphql } from 'graphql';
-import { expect } from 'chai';
-import { compose } from 'recompose';
-import createSpy from 'recompose/createSpy';
-import { createContainer } from 'recompose-relay';
+import React from 'react'
+import Relay from 'react-relay'
+import { graphql } from 'graphql'
+import { expect } from 'chai'
+import { compose } from 'recompose'
+import createSpy from 'recompose/createSpy'
+import { createContainer } from 'recompose-relay'
 
-import { renderIntoDocument } from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils'
 
-import schema from '../data/schema';
+import schema from '../data/schema'
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
+const delay = ms => new Promise(res => setTimeout(res, ms))
 
 const networkLayer = {
   sendMutation: mutationRequest => (
     graphql(schema, mutationRequest.getQueryString()).then(result => {
       if (result.errors) {
-        mutationRequest.reject(new Error());
+        mutationRequest.reject(new Error())
       } else {
-        mutationRequest.resolve({ response: result.data });
+        mutationRequest.resolve({ response: result.data })
       }
     })
   ),
@@ -27,17 +27,17 @@ const networkLayer = {
       queryRequest => graphql(schema, queryRequest.getQueryString())
         .then(result => {
           if (result.errors) {
-            queryRequest.reject(new Error());
+            queryRequest.reject(new Error())
           } else {
-            queryRequest.resolve({ response: result.data });
+            queryRequest.resolve({ response: result.data })
           }
         })
-    ));
+    ))
   },
   supports: () => false
-};
+}
 
-Relay.injectNetworkLayer(networkLayer);
+Relay.injectNetworkLayer(networkLayer)
 
 describe('createContainer()', () => {
   const relayTest = async (Tyrion, spy) => {
@@ -58,21 +58,21 @@ describe('createContainer()', () => {
           params: {}
         }}
       />
-    );
+    )
 
-    await delay(100);
+    await delay(100)
 
-    const { tyrion } = spy.getProps();
+    const { tyrion } = spy.getProps()
 
     expect(tyrion.relationships.map(r => r.character.name)).to.eql([
       'Cersei',
       'Tywin',
       'Jaime'
-    ]);
-  };
+    ])
+  }
 
   it('is a curried, component-last version of Relay.createContainer()', async () => {
-    const spy = createSpy();
+    const spy = createSpy()
     const Tyrion = compose(
       createContainer({
         fragments: {
@@ -89,18 +89,18 @@ describe('createContainer()', () => {
         }
       }),
       spy
-    )('div');
+    )('div')
 
     expect(Tyrion.displayName).to.equal(
       'Relay(spy(div))'
-    );
+    )
 
-    await relayTest(Tyrion, spy);
-  });
+    await relayTest(Tyrion, spy)
+  })
 
   it('works with function components without warnings', async () => {
-    const error = sinon.spy(console, 'error');
-    const spy = createSpy();
+    const error = sinon.spy(console, 'error')
+    const spy = createSpy()
     const Tyrion = compose(
       createContainer({
         fragments: {
@@ -118,13 +118,13 @@ describe('createContainer()', () => {
       }),
       BaseComponent => props => <BaseComponent {...props} />,
       spy
-    )('div');
+    )('div')
 
-    await relayTest(Tyrion, spy);
+    await relayTest(Tyrion, spy)
 
-    expect(error.callCount).to.equal(0);
+    expect(error.callCount).to.equal(0)
     /* eslint-disable */
-    console.error.restore();
+    console.error.restore()
     /* eslint-enable */
-  });
-});
+  })
+})

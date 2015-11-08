@@ -1,6 +1,6 @@
-import curry from 'lodash/function/curry';
-import wrapDisplayName from './wrapDisplayName';
-import createElement from './createElement';
+import curry from 'lodash/function/curry'
+import wrapDisplayName from './wrapDisplayName'
+import createElement from './createElement'
 
 const getContext = (contextTypes, BaseComponent) => {
   const GetContext = (ownerProps, context) => (
@@ -8,12 +8,12 @@ const getContext = (contextTypes, BaseComponent) => {
       ...ownerProps,
       ...context
     })
-  );
+  )
 
-  GetContext.displayName = wrapDisplayName(BaseComponent, 'getContext');
-  GetContext.contextTypes = contextTypes;
+  GetContext.displayName = wrapDisplayName(BaseComponent, 'getContext')
+  GetContext.contextTypes = contextTypes
 
-  return GetContext;
-};
+  return GetContext
+}
 
-export default curry(getContext);
+export default curry(getContext)

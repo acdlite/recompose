@@ -1,5 +1,5 @@
-import curry from 'lodash/function/curry';
+import curry from 'lodash/function/curry'
 
-const renderComponent = curry((Component, _) => Component);
+const renderComponent = curry((Component, _) => Component)
 
-export default renderComponent;
+export default renderComponent

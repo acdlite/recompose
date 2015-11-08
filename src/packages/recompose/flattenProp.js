@@ -1,7 +1,7 @@
-import curry from 'lodash/function/curry';
-import omit from 'lodash/object/omit';
-import wrapDisplayName from './wrapDisplayName';
-import createElement from './createElement';
+import curry from 'lodash/function/curry'
+import omit from 'lodash/object/omit'
+import wrapDisplayName from './wrapDisplayName'
+import createElement from './createElement'
 
 const flattenProp = (propName, BaseComponent) => {
   const FlattenProps = props => (
@@ -9,11 +9,11 @@ const flattenProp = (propName, BaseComponent) => {
       ...omit(props, propName),
       ...props[propName]
     })
-  );
+  )
 
-  FlattenProps.displayName = wrapDisplayName(BaseComponent, 'flattenProp');
+  FlattenProps.displayName = wrapDisplayName(BaseComponent, 'flattenProp')
 
-  return FlattenProps;
-};
+  return FlattenProps
+}
 
-export default curry(flattenProp);
+export default curry(flattenProp)

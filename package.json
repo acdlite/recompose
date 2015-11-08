@@ -9,7 +9,8 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",
-    "test": "karma start",
+    "test": "karma start --single-run",
+    "test:watch": "karma start",
     "release": "babel-node scripts/release.js",
     "postinstall": "babel-node scripts/installNestedPackageDeps.js"
   },

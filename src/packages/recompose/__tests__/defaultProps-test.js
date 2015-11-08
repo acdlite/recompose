@@ -1,48 +1,48 @@
-import React from 'react';
-import { expect } from 'chai';
-import { defaultProps, pure, compose } from 'recompose';
-import createSpy from 'recompose/createSpy';
+import React from 'react'
+import { expect } from 'chai'
+import { defaultProps, pure, compose } from 'recompose'
+import createSpy from 'recompose/createSpy'
 
-import { renderIntoDocument } from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils'
 
 describe('defaultProps()', () => {
-  const spy = createSpy();
+  const spy = createSpy()
   const DoReMi = compose(
     defaultProps({ so: 'do', la: 'fa' }),
     spy
-  )('div');
+  )('div')
 
   const DoSiLaSol = compose(
     pure,
     defaultProps({ so: 'do', la: 'fa' }),
     spy
-  )('div');
+  )('div')
 
   it('passes additional props to base component', () => {
     expect(DoReMi.displayName)
-      .to.equal('defaultProps(spy(div))');
+      .to.equal('defaultProps(spy(div))')
 
-    renderIntoDocument(<DoReMi />);
+    renderIntoDocument(<DoReMi />)
 
-    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' });
-  });
+    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' })
+  })
 
   it('owner props take precendence', () => {
-    renderIntoDocument(<DoReMi la="ti" />);
+    renderIntoDocument(<DoReMi la="ti" />)
 
-    expect(spy.getProps()).to.eql({ so: 'do', la: 'ti' });
-  });
+    expect(spy.getProps()).to.eql({ so: 'do', la: 'ti' })
+  })
 
   it('it overrides undefined owner props', () => {
-    renderIntoDocument(<DoReMi la={undefined} />);
+    renderIntoDocument(<DoReMi la={undefined} />)
 
-    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' });
-  });
+    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' })
+  })
 
   it('it should work in combination with other Recompose decorators', () => {
-    renderIntoDocument(<DoSiLaSol />);
+    renderIntoDocument(<DoSiLaSol />)
 
-    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' });
-  });
+    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' })
+  })
 
-});
+})

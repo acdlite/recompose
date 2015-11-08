@@ -1,25 +1,25 @@
-import React from 'react';
-import { expect } from 'chai';
-import { withProps, renameProp, compose } from 'recompose';
-import createSpy from 'recompose/createSpy';
+import React from 'react'
+import { expect } from 'chai'
+import { withProps, renameProp, compose } from 'recompose'
+import createSpy from 'recompose/createSpy'
 
-import { renderIntoDocument } from 'react-addons-test-utils';
+import { renderIntoDocument } from 'react-addons-test-utils'
 
 describe('renameProp()', () => {
   it('renames a single prop', () => {
-    const spy = createSpy();
+    const spy = createSpy()
     const StringConcat = compose(
       withProps({ so: 123, la: 456 }),
       renameProp('so', 'do'),
       spy
-    )('div');
+    )('div')
 
     expect(StringConcat.displayName).to.equal(
       'withProps(renameProp(spy(div)))'
-    );
+    )
 
-    renderIntoDocument(<StringConcat />);
+    renderIntoDocument(<StringConcat />)
 
-    expect(spy.getProps()).to.eql({ do: 123, la: 456 });
-  });
-});
+    expect(spy.getProps()).to.eql({ do: 123, la: 456 })
+  })
+})

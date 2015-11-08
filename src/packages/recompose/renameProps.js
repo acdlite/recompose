@@ -1,11 +1,11 @@
-import curry from 'lodash/function/curry';
-import omit from 'lodash/object/omit';
-import pick from 'lodash/object/pick';
-import mapKeys from 'lodash/object/mapKeys';
-import wrapDisplayName from './wrapDisplayName';
-import mapProps from './mapProps';
+import curry from 'lodash/function/curry'
+import omit from 'lodash/object/omit'
+import pick from 'lodash/object/pick'
+import mapKeys from 'lodash/object/mapKeys'
+import wrapDisplayName from './wrapDisplayName'
+import mapProps from './mapProps'
 
-const { keys } = Object;
+const { keys } = Object
 
 const renameProps = (nameMap, BaseComponent) => {
   const RenameProps = mapProps(props => ({
@@ -14,11 +14,11 @@ const renameProps = (nameMap, BaseComponent) => {
       pick(props, keys(nameMap)),
       (_, oldName) => nameMap[oldName]
     )
-  }), BaseComponent);
+  }), BaseComponent)
 
-  RenameProps.displayName = wrapDisplayName(BaseComponent, 'renameProps');
+  RenameProps.displayName = wrapDisplayName(BaseComponent, 'renameProps')
 
-  return RenameProps;
-};
+  return RenameProps
+}
 
-export default curry(renameProps);
+export default curry(renameProps)

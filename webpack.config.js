@@ -1,13 +1,13 @@
-'use strict';
+'use strict'
 
-var webpack = require('webpack');
+var webpack = require('webpack')
 
 var reactExternal = {
   root: 'React',
   commonjs2: 'react',
   commonjs: 'react',
   amd: 'react'
-};
+}
 
 module.exports = {
   externals: {
@@ -37,4 +37,4 @@ module.exports = {
       }
     })
   ]
-};
+}

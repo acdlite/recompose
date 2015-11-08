@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 
 const createSink = callback => {
   const Sink = props => {
-    callback(props);
-    return <div />;
-  };
+    callback(props)
+    return <div />
+  }
 
-  return Sink;
-};
+  return Sink
+}
 
-export default createSink;
+export default createSink

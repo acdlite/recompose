@@ -1,23 +1,23 @@
-import { Component } from 'react';
-import curry from 'lodash/function/curry';
-import createElement from 'recompose/createElement';
-import wrapDisplayName from 'recompose/wrapDisplayName';
-import { Subject } from 'rx';
+import { Component } from 'react'
+import curry from 'lodash/function/curry'
+import createElement from 'recompose/createElement'
+import wrapDisplayName from 'recompose/wrapDisplayName'
+import { Subject } from 'rx'
 
 const observeProps = (propsSequenceMapper, BaseComponent) => (
   class extends Component {
-    static displayName = wrapDisplayName(BaseComponent, 'observeProps');
+    static displayName = wrapDisplayName(BaseComponent, 'observeProps')
 
-    state = {};
+    state = {}
 
     // Subject that receives props from owner
-    ownerProps$ = new Subject();
+    ownerProps$ = new Subject()
 
     // Sequence of child props
-    childProps$ = propsSequenceMapper(this.ownerProps$.startWith(this.props));
+    childProps$ = propsSequenceMapper(this.ownerProps$.startWith(this.props))
 
     // Keep track of whether the component has mounted
-    componentHasMounted = false;
+    componentHasMounted = false
 
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render
@@ -26,31 +26,31 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
           !this.componentHasMounted
             ? this.state = { childProps }
             : this.setState({ childProps })
-      );
+      )
     }
 
     componentDidMount() {
-      this.componentHasMounted = true;
+      this.componentHasMounted = true
     }
 
     componentWillReceiveProps(nextProps) {
       // Receive new props from the owner
-      this.ownerProps$.onNext(nextProps);
+      this.ownerProps$.onNext(nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-      return nextState.childProps !== this.state.childProps;
+      return nextState.childProps !== this.state.childProps
     }
 
     componentWillUnmount() {
       // Clean-up subscription before un-mounting
-      this.subscription.dispose();
+      this.subscription.dispose()
     }
 
     render() {
-      return createElement(BaseComponent, this.state.childProps);
+      return createElement(BaseComponent, this.state.childProps)
     }
   }
-);
+)
 
-export default curry(observeProps);
+export default curry(observeProps)
