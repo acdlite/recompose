@@ -10,6 +10,7 @@
     "sinon": true
   },
   "rules": {
+    "semi": [2, "never"],
     "comma-dangle": 0,
     "no-wrap-func": 0,
     "spaced-comment": 0,

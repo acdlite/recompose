@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import expect from 'expect';
-import createElement from '../createElement';
+import React, { Component } from 'react'
+import expect from 'expect'
+import createElement from '../createElement'
 
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-addons-test-utils'
 
 /**
  * These tests use the shallow renderer to inspect the React elements that
@@ -10,11 +10,11 @@ import { createRenderer } from 'react-addons-test-utils';
  */
 describe('createElement()', () => {
   it('treats class components normally', () => {
-    const renderer = createRenderer();
+    const renderer = createRenderer()
 
     class InnerDiv extends Component {
       render() {
-        return <div bar="baz" />;
+        return <div bar="baz" />
       }
     }
 
@@ -22,30 +22,30 @@ describe('createElement()', () => {
       render() {
         return createElement('div', { foo: 'bar' },
           createElement(InnerDiv)
-        );
+        )
       }
     }
 
-    renderer.render(<OuterDiv />);
+    renderer.render(<OuterDiv />)
 
     expect(renderer.getRenderOutput()).toEqualJSX(
       <div foo="bar">
         <InnerDiv />
       </div>
-    );
-  });
+    )
+  })
 
   it('calls stateless function components instead of creating an intermediate React element', () => {
-    const renderer = createRenderer();
+    const renderer = createRenderer()
 
-    const InnerDiv = () => <div bar="baz" />;
+    const InnerDiv = () => <div bar="baz" />
     const OuterDiv = () => (
       createElement('div', { foo: 'bar' },
         createElement(InnerDiv)
       )
-    );
+    )
 
-    renderer.render(<OuterDiv />);
+    renderer.render(<OuterDiv />)
 
     /**
      * Notice the difference between this and the previous test. Functionally,
@@ -56,28 +56,28 @@ describe('createElement()', () => {
       <div foo="bar">
         <div bar="baz" />
       </div>
-    );
-  });
+    )
+  })
 
   it('passes children correctly', () => {
-    const renderer = createRenderer();
+    const renderer = createRenderer()
 
-    const Div = props => <div {...props} />;
-    const InnerDiv = () => <div bar="baz" />;
+    const Div = props => <div {...props} />
+    const InnerDiv = () => <div bar="baz" />
     const OuterDiv = () => (
       createElement(Div, { foo: 'bar' },
         createElement(InnerDiv)
       )
-    );
+    )
 
     renderer.render(
       <OuterDiv />
-    );
+    )
 
     expect(renderer.getRenderOutput()).toEqualJSX(
       <div foo="bar">
         <div bar="baz" />
       </div>
-    );
-  });
-});
+    )
+  })
+})

@@ -1,1 +1,1 @@
-export createContainer from './createContainer';
+export createContainer from './createContainer'

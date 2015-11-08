@@ -1,13 +1,13 @@
-require('babel/register');
-var path = require('path');
-var webpack = require('webpack');
-var getPackageNames = require('./scripts/getPackageNames').getPackageNames;
-var PACKAGES_SRC_DIR = require('./scripts/getPackageNames').PACKAGES_SRC_DIR;
+require('babel/register')
+var path = require('path')
+var webpack = require('webpack')
+var getPackageNames = require('./scripts/getPackageNames').getPackageNames
+var PACKAGES_SRC_DIR = require('./scripts/getPackageNames').PACKAGES_SRC_DIR
 
 var packageAliases = getPackageNames().reduce(function(result, packageName) {
-  result[packageName] = path.resolve(PACKAGES_SRC_DIR, packageName);
-  return result;
-}, {});
+  result[packageName] = path.resolve(PACKAGES_SRC_DIR, packageName)
+  return result
+}, {})
 
 module.exports = function(config) {
   if (process.env.TRAVIS) {
@@ -15,12 +15,12 @@ module.exports = function(config) {
       browsers: ['PhantomJS'],
       frameworks: ['phantomjs-shim', 'mocha', 'sinon'],
       singleRun: true
-    });
+    })
   } else {
     config.set({
       browsers: ['Chrome'],
       frameworks: ['mocha', 'sinon']
-    });
+    })
   }
 
   config.set({
@@ -79,5 +79,5 @@ module.exports = function(config) {
     webpackMiddleware: {
       noInfo: true
     }
-  });
-};
+  })
+}

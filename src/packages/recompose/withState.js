@@ -1,8 +1,8 @@
-import { Component } from 'react';
-import curry from 'lodash/function/curry';
-import isFunction from 'lodash/lang/isFunction';
-import wrapDisplayName from './wrapDisplayName';
-import createElement from './createElement';
+import { Component } from 'react'
+import curry from 'lodash/function/curry'
+import isFunction from 'lodash/lang/isFunction'
+import wrapDisplayName from './wrapDisplayName'
+import createElement from './createElement'
 
 export const withState = (
   stateName,
@@ -11,12 +11,12 @@ export const withState = (
   BaseComponent
 ) => (
   class extends Component {
-    static displayName = wrapDisplayName(BaseComponent, 'withState');
+    static displayName = wrapDisplayName(BaseComponent, 'withState')
     state = {
       stateValue: isFunction(initialState)
         ? initialState(this.props)
         : initialState
-    };
+    }
 
     updateStateValue = (updateFn, callback) => (
       this.setState(({ stateValue }) => ({
@@ -29,9 +29,9 @@ export const withState = (
         ...this.props,
         [stateName]: this.state.stateValue,
         [stateUpdaterName]: this.updateStateValue
-      });
+      })
     }
   }
-);
+)
 
-export default curry(withState);
+export default curry(withState)

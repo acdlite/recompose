@@ -1,14 +1,14 @@
-import { NODE_TYPE } from './constants';
+import { NODE_TYPE } from './constants'
 
 export function createNode(nodeType, object) {
-  if (!object) return null;
+  if (!object) return null
 
   return {
     ...object,
     [NODE_TYPE]: nodeType
-  };
+  }
 }
 
 export function getNodeType(node) {
-  return node[NODE_TYPE];
+  return node[NODE_TYPE]
 }

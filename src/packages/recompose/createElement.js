@@ -1,21 +1,21 @@
-import React from 'react';
+import React from 'react'
 import isReferentiallyTransparentFunctionComponent
-  from './isReferentiallyTransparentFunctionComponent';
+  from './isReferentiallyTransparentFunctionComponent'
 
 const createElement = (Component, props, children) => {
   if (isReferentiallyTransparentFunctionComponent(Component)) {
-    const component = Component;
+    const component = Component
     if (children) {
-      return component({ ...props, children });
+      return component({ ...props, children })
     }
-    return component(props);
+    return component(props)
   }
 
   if (children) {
-    return <Component {...props}>{children}</Component>;
+    return <Component {...props}>{children}</Component>
   }
 
-  return <Component {...props} />;
-};
+  return <Component {...props} />
+}
 
-export default createElement;
+export default createElement

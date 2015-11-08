@@ -1,8 +1,8 @@
-import curry from 'lodash/function/curry';
+import curry from 'lodash/function/curry'
 
 const setStatic = (key, value, BaseComponent) => {
-  BaseComponent[key] = value;
-  return BaseComponent;
-};
+  BaseComponent[key] = value
+  return BaseComponent
+}
 
-export default curry(setStatic);
+export default curry(setStatic)

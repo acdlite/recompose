@@ -3,37 +3,37 @@ import {
   GraphQLObjectType,
   GraphQLString,
   GraphQLList
-} from 'graphql';
+} from 'graphql'
 
 import {
   globalIdField,
   fromGlobalId,
   nodeDefinitions,
-} from 'graphql-relay';
+} from 'graphql-relay'
 
-import { get } from 'lodash-fp';
+import { get } from 'lodash-fp'
 
-import { CHARACTER, RELATIONSHIP } from './constants';
-import { getCharacter, getCharacterByName } from './characters';
-import { createNode, getNodeType } from './nodeUtils';
+import { CHARACTER, RELATIONSHIP } from './constants'
+import { getCharacter, getCharacterByName } from './characters'
+import { createNode, getNodeType } from './nodeUtils'
 
-let characterType;
-let relationshipType;
+let characterType
+let relationshipType
 
 const { nodeInterface, nodeField } = nodeDefinitions(
   globalId => {
-    const { type, id } = fromGlobalId(globalId);
+    const { type, id } = fromGlobalId(globalId)
     return type === CHARACTER
       ? createNode(CHARACTER, getCharacter(id))
-      : null;
+      : null
   },
   obj => {
-    const nodeType = getNodeType(obj);
+    const nodeType = getNodeType(obj)
     return nodeType === CHARACTER
       ? characterType
-      : null;
+      : null
   }
-);
+)
 
 characterType = new GraphQLObjectType({
   name: CHARACTER,
@@ -56,7 +56,7 @@ characterType = new GraphQLObjectType({
     }
   }),
   interfaces: [nodeInterface]
-});
+})
 
 relationshipType = new GraphQLObjectType({
   name: RELATIONSHIP,
@@ -73,7 +73,7 @@ relationshipType = new GraphQLObjectType({
       )
     }
   })
-});
+})
 
 const queryType = new GraphQLObjectType({
   name: 'Query',
@@ -85,8 +85,8 @@ const queryType = new GraphQLObjectType({
       resolve: () => createNode(CHARACTER, getCharacterByName('Tyrion'))
     }
   })
-});
+})
 
 export default new GraphQLSchema({
   query: queryType
-});
+})

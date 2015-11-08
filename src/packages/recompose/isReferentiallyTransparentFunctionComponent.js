@@ -1,4 +1,4 @@
-import isClassComponent from './isClassComponent.js';
+import isClassComponent from './isClassComponent.js'
 
 const isReferentiallyTransparentFunctionComponent = Component => Boolean(
   typeof Component === 'function' &&
@@ -6,6 +6,6 @@ const isReferentiallyTransparentFunctionComponent = Component => Boolean(
   !Component.defaultProps &&
   !Component.contextTypes &&
   !Component.propTypes
-);
+)
 
-export default isReferentiallyTransparentFunctionComponent;
+export default isReferentiallyTransparentFunctionComponent

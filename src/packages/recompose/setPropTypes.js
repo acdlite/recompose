@@ -1,5 +1,5 @@
-import setStatic from './setStatic';
+import setStatic from './setStatic'
 
-const setPropTypes = setStatic('propTypes');
+const setPropTypes = setStatic('propTypes')
 
-export default setPropTypes;
+export default setPropTypes
