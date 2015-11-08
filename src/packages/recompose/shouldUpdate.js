@@ -1,12 +1,9 @@
 import { Component } from 'react'
-import curry from 'lodash/function/curry'
-import wrapDisplayName from './wrapDisplayName'
+import createHelper from './createHelper'
 import createElement from './createElement'
 
-const shouldUpdate = (test, BaseComponent) => (
+const shouldUpdate = (test, BaseComponent) =>
   class extends Component {
-    static displayName = wrapDisplayName(BaseComponent, 'shouldUpdate')
-
     shouldComponentUpdate(nextProps) {
       return test(this.props, nextProps)
     }
@@ -15,6 +12,5 @@ const shouldUpdate = (test, BaseComponent) => (
       return createElement(BaseComponent, this.props)
     }
   }
-)
 
-export default curry(shouldUpdate)
+export default createHelper(shouldUpdate, 'shouldUpdate')

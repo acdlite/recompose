@@ -55,20 +55,20 @@ describe('onlyUpdateForPropTypes()', () => {
   })
 
   it('warns if BaseComponent does not have any propTypes', () => {
-    const warn = sinon.spy(console, 'warn')
+    const error = sinon.stub(console, 'error')
 
     const ShouldWarn = onlyUpdateForPropTypes('div')
 
     renderIntoDocument(<ShouldWarn />)
 
-    expect(warn.firstCall.args[0]).to.equal(
+    expect(error.firstCall.args[0]).to.equal(
       'A component without any `propTypes` was passed to ' +
       '`onlyUpdateForPropTypes()`. Check the implementation of the component ' +
       'with display name "div".'
     )
 
     /* eslint-disable */
-    console.warn.restore()
+    console.error.restore()
     /* eslint-enable */
   })
 })

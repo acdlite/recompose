@@ -1,18 +1,12 @@
-import curry from 'lodash/function/curry'
-import wrapDisplayName from './wrapDisplayName'
+import createHelper from './createHelper'
 import createElement from './createElement'
 
-const withProps = (props, BaseComponent) => {
-  const WithProps = ownerProps => (
+const withProps = (props, BaseComponent) =>
+  ownerProps => (
     createElement(BaseComponent, {
       ...ownerProps,
       ...props
     })
   )
 
-  WithProps.displayName = wrapDisplayName(BaseComponent, 'withProps')
-
-  return WithProps
-}
-
-export default curry(withProps)
+export default createHelper(withProps, 'withProps')

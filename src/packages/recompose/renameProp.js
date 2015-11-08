@@ -1,17 +1,11 @@
-import curry from 'lodash/function/curry'
 import omit from 'lodash/object/omit'
-import wrapDisplayName from './wrapDisplayName'
 import mapProps from './mapProps'
+import createHelper from './createHelper'
 
-const renameProp = (oldName, newName, BaseComponent) => {
-  const RenameProp = mapProps(props => ({
+const renameProp = (oldName, newName, BaseComponent) =>
+  mapProps(props => ({
     ...omit(props, oldName),
     [newName]: props[oldName]
   }), BaseComponent)
 
-  RenameProp.displayName = wrapDisplayName(BaseComponent, 'renameProp')
-
-  return RenameProp
-}
-
-export default curry(renameProp)
+export default createHelper(renameProp, 'renameProp')

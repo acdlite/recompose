@@ -1,5 +1,6 @@
 import setStatic from './setStatic'
+import createHelper from './createHelper'
 
-const setPropTypes = setStatic('displayName')
+const setDisplayName = setStatic('displayName')
 
-export default setPropTypes
+export default createHelper(setDisplayName, 'setDisplayName', 2, false)

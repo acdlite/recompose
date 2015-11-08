@@ -1,12 +1,9 @@
 import React from 'react'
 
-const createSink = callback => {
-  const Sink = props => {
+const createSink = callback =>
+  props => {
     callback(props)
     return <div />
   }
-
-  return Sink
-}
 
 export default createSink

@@ -1,19 +1,10 @@
-import curry from 'lodash/function/curry'
-import wrapDisplayName from './wrapDisplayName'
+import createHelper from './createHelper'
 import createElement from './createElement'
 
-const doOnReceiveProps = (callback, BaseComponent) => {
-  const DoOnReceiveProps = props => {
+const doOnReceiveProps = (callback, BaseComponent) =>
+  props => {
     callback(props)
     return createElement(BaseComponent, props)
   }
 
-  DoOnReceiveProps.displayName = wrapDisplayName(
-    BaseComponent,
-    'doOnReceiveProps'
-  )
-
-  return DoOnReceiveProps
-}
-
-export default curry(doOnReceiveProps)
+export default createHelper(doOnReceiveProps, 'doOnReceiveProps')

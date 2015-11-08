@@ -1,5 +1,4 @@
-import curry from 'lodash/function/curry'
-import wrapDisplayName from './wrapDisplayName'
+import createHelper from './createHelper'
 import createElement from './createElement'
 
 const getContext = (contextTypes, BaseComponent) => {
@@ -10,10 +9,9 @@ const getContext = (contextTypes, BaseComponent) => {
     })
   )
 
-  GetContext.displayName = wrapDisplayName(BaseComponent, 'getContext')
   GetContext.contextTypes = contextTypes
 
   return GetContext
 }
 
-export default curry(getContext)
+export default createHelper(getContext, 'getContext')
