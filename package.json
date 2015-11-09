@@ -21,6 +21,7 @@
     "babel-relay-plugin": "^0.2.6",
     "chai": "^3.3.0",
     "chalk": "^1.1.1",
+    "codecov.io": "^0.1.6",
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "0.0.9",
     "eslint-plugin-react": "^3.4.2",
