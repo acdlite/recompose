@@ -14,7 +14,7 @@ import {
   createRenderer
 } from 'react-addons-test-utils'
 
-const createSmartButton = BaseComponent => (
+const createSmartButton = BaseComponent =>
   observeProps(props$ => {
     const increment$ = createEventHandler()
     const count$ = increment$
@@ -27,8 +27,19 @@ const createSmartButton = BaseComponent => (
       count
     }))
   }, toClass(BaseComponent))
-)
 
+const createSmartButton2 = BaseComponent =>
+  observeProps(() => {
+    const increment$ = createEventHandler()
+    const count$ = increment$
+      .startWith(0)
+      .scan(total => total + 1)
+
+    return {
+      onClick: Observable.just(increment$),
+      count: count$
+    }
+  }, toClass(BaseComponent))
 
 const Button = toClass(props => <button {...props} />)
 
@@ -52,15 +63,28 @@ describe('observeProps()', () => {
     testSmartButton(<SmartButton pass="through" />)
   })
 
+  it('maps a stream of owner props to an object of child prop streams', () => {
+    const SmartButton = createSmartButton2(props => <Button {...props} />)
+    expect(SmartButton.displayName).to.equal('observeProps(Component)')
+    testSmartButton(<SmartButton pass="through" />)
+  })
+
   it('works on initial render', () => {
     const SmartButton = createSmartButton(props => <Button {...props} />)
+    const SmartButton2 = createSmartButton2(props => <Button {...props} />)
 
     // Test using shallow renderer, which only renders once
     const renderer = createRenderer()
+
     renderer.render(<SmartButton pass="through" />)
-    const button = renderer.getRenderOutput()
-    expect(button.props.pass).to.equal('through')
-    expect(button.props.count).to.equal(0)
+    const button1 = renderer.getRenderOutput()
+    expect(button1.props.pass).to.equal('through')
+    expect(button1.props.count).to.equal(0)
+
+    renderer.render(<SmartButton2 pass="through" />)
+    const button2 = renderer.getRenderOutput()
+    expect(button2.props.pass).to.equal('through')
+    expect(button2.props.count).to.equal(0)
   })
 
   it('receives prop updates', () => {

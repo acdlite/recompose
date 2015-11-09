@@ -1,20 +1,53 @@
 import { Component } from 'react'
+import { Observable, Subject } from 'rx'
+import isPlainObject from 'lodash/lang/isPlainObject'
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
-import { Subject } from 'rx'
+
+const { combineLatest } = Observable
+
+/**
+ * Turns an object of streams into a stream of objects
+ */
+const objectToPropSequence = object => {
+  const propKeys = Object.keys(object)
+  const propSequences = propKeys.map(key => object[key].startWith(undefined))
+  return combineLatest(
+    ...propSequences,
+    (...propValues) => propKeys.reduce((props, key, i) => {
+      props[key] = propValues[i]
+      return props
+    }, {})
+  )
+}
 
 const observeProps = (propsSequenceMapper, BaseComponent) => (
   class extends Component {
     state = {}
 
-    // Subject that receives props from owner
-    ownerProps$ = new Subject()
+    constructor(props) {
+      super(props)
 
-    // Sequence of child props
-    childProps$ = propsSequenceMapper(this.ownerProps$.startWith(this.props))
+      // Subject that receives props from owner
+      this.receiveOwnerProps$ = new Subject()
+      this.ownerProps$ = this.receiveOwnerProps$.startWith(this.props)
 
-    // Keep track of whether the component has mounted
-    componentHasMounted = false
+      // Keep track of whether the component has mounted
+      this.componentHasMounted = false
+
+      const val = propsSequenceMapper(this.ownerProps$)
+
+      // Sequence of child props
+      this.childProps$ = isPlainObject(val)
+        ? Observable.combineLatest(
+            this.ownerProps$, objectToPropSequence(val),
+            (ownerProps, mappedProps) => ({
+              ...ownerProps,
+              ...mappedProps
+            })
+          )
+        : val
+    }
 
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render
@@ -32,7 +65,7 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
 
     componentWillReceiveProps(nextProps) {
       // Receive new props from the owner
-      this.ownerProps$.onNext(nextProps)
+      this.receiveOwnerProps$.onNext(nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
