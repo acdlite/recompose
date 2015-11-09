@@ -50,7 +50,7 @@ const mapPropsStream2 = () => ({
 })
 ```
 
-The second form is often more convenient, but note that it is also more limiting: you must explicitly declare every prop that is passed to the base component. There's no way to pass through arbitrary props from the owner. For full control over the stream of props, use the first form.
+The second form is often more convenient because it avoids the need for `Observable.combineLatest()`, but note that it is also more limiting: you must explicitly declare every prop that is passed to the base component. There's no way to pass through arbitrary props from the owner. For full control over the stream of props, use the first form.
 
 ### `createEventHandler()`
 
