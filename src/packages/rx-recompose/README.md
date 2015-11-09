@@ -40,9 +40,9 @@ Maps an observable stream of owner props to a stream of child props, or to an ob
 In the second form, an object of streams is turned into an stream of objects. The result is then combined with the stream of owner props. To illustrate, the following two `mapPropsStream()` functions are equivalent:
 
 ```js
-const mapPropsStream1 = $ownerProps =>
+const mapPropsStream1 = ownerProps$ =>
   Observable.combineLatest(
-    $ownerProps, Observable.just({ a, b, c }),
+    ownerProps$, Observable.just({ a, b, c }),
     (ownerProps, { a, b, c }) => ({
       ...ownerProps,
       a,
