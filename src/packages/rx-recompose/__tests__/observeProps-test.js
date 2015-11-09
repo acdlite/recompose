@@ -43,7 +43,7 @@ const createSmartButton2 = BaseComponent =>
 
 const Button = toClass(props => <button {...props} />)
 
-describe.only('observeProps()', () => {
+describe('observeProps()', () => {
   it('maps a stream of owner props to a stream of child props', () => {
     const SmartButton = createSmartButton1(props => <Button {...props} />)
     expect(SmartButton.displayName).to.equal('observeProps(Component)')
