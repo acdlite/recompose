@@ -1,17 +1,39 @@
 import { Component } from 'react'
+import { Observable, Subject } from 'rx'
+import isPlainObject from 'lodash/lang/isPlainObject'
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
-import { Subject } from 'rx'
+
+/**
+ * Turns an object of streams into a stream of objects
+ */
+const objectToPropSequence = object => {
+  const propKeys = Object.keys(object)
+  const propSequences = propKeys.map(key => object[key].startWith(undefined))
+  return Observable.combineLatest(
+    ...propSequences,
+    (...propValues) => propKeys.reduce((props, key, i) => {
+      props[key] = propValues[i]
+      return props
+    }, {})
+  )
+}
 
 const observeProps = (propsSequenceMapper, BaseComponent) => (
   class extends Component {
     state = {}
 
     // Subject that receives props from owner
-    ownerProps$ = new Subject()
+    receiveOwnerProps$ = new Subject()
 
-    // Sequence of child props
-    childProps$ = propsSequenceMapper(this.ownerProps$.startWith(this.props))
+    // Stream of owner props
+    ownerProps$ = this.receiveOwnerProps$.startWith(this.props)
+
+    // Stream of child props
+    childProps$ = (val => isPlainObject(val)
+      ? objectToPropSequence(val)
+      : val
+    )(propsSequenceMapper(this.ownerProps$))
 
     // Keep track of whether the component has mounted
     componentHasMounted = false
@@ -32,7 +54,7 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
 
     componentWillReceiveProps(nextProps) {
       // Receive new props from the owner
-      this.ownerProps$.onNext(nextProps)
+      this.receiveOwnerProps$.onNext(nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {

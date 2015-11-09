@@ -38,7 +38,6 @@ module.exports = function(config) {
       dir: 'coverage',
       reporters: [
         { type: 'lcov', subdir: '.' },
-        { type: 'text', subdir: '.' },
         { type: 'html', subdir: '.' }
       ]
     },
@@ -51,7 +50,8 @@ module.exports = function(config) {
           exclude: [
             /__tests__/,
             /node_modules/,
-            path.resolve(__dirname, './src/packages/recompose-relay/data')
+            path.resolve(__dirname, './src/packages/recompose-relay/data'),
+            path.resolve(__dirname, './src/karma.conf.js')
           ],
           loader: 'isparta'
         }, {
