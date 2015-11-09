@@ -14,7 +14,7 @@ import {
   createRenderer
 } from 'react-addons-test-utils'
 
-const createSmartButton = BaseComponent =>
+const createSmartButton1 = BaseComponent =>
   observeProps(props$ => {
     const increment$ = createEventHandler()
     const count$ = increment$
@@ -43,53 +43,63 @@ const createSmartButton2 = BaseComponent =>
 
 const Button = toClass(props => <button {...props} />)
 
-function testSmartButton(element) {
-  const tree = renderIntoDocument(element)
-  const button = findRenderedComponentWithType(tree, Button)
-  const buttonNode = findRenderedDOMComponentWithTag(tree, 'button')
-
-  Simulate.click(buttonNode)
-  Simulate.click(buttonNode)
-  Simulate.click(buttonNode)
-
-  expect(button.props.count).to.equal(3)
-  expect(button.props.pass).to.equal('through')
-}
-
-describe('observeProps()', () => {
+describe.only('observeProps()', () => {
   it('maps a stream of owner props to a stream of child props', () => {
-    const SmartButton = createSmartButton(props => <Button {...props} />)
+    const SmartButton = createSmartButton1(props => <Button {...props} />)
     expect(SmartButton.displayName).to.equal('observeProps(Component)')
-    testSmartButton(<SmartButton pass="through" />)
+
+    const tree = renderIntoDocument(<SmartButton pass="through" />)
+    const button = findRenderedComponentWithType(tree, Button)
+    const buttonNode = findRenderedDOMComponentWithTag(tree, 'button')
+
+    Simulate.click(buttonNode)
+    Simulate.click(buttonNode)
+    Simulate.click(buttonNode)
+
+    expect(button.props.count).to.equal(3)
+    expect(button.props.pass).to.equal('through')
   })
 
   it('maps a stream of owner props to an object of child prop streams', () => {
     const SmartButton = createSmartButton2(props => <Button {...props} />)
     expect(SmartButton.displayName).to.equal('observeProps(Component)')
-    testSmartButton(<SmartButton pass="through" />)
+
+    const tree = renderIntoDocument(<SmartButton pass="through" />)
+    const button = findRenderedComponentWithType(tree, Button)
+    const buttonNode = findRenderedDOMComponentWithTag(tree, 'button')
+
+    Simulate.click(buttonNode)
+    Simulate.click(buttonNode)
+    Simulate.click(buttonNode)
+
+    expect(button.props.count).to.equal(3)
+    expect(button.props.pass).to.be.undefined
   })
 
   it('works on initial render', () => {
-    const SmartButton = createSmartButton(props => <Button {...props} />)
+    const SmartButton1 = createSmartButton1(props => <Button {...props} />)
     const SmartButton2 = createSmartButton2(props => <Button {...props} />)
 
     // Test using shallow renderer, which only renders once
-    const renderer = createRenderer()
+    const renderer1 = createRenderer()
 
-    renderer.render(<SmartButton pass="through" />)
-    const button1 = renderer.getRenderOutput()
+    renderer1.render(<SmartButton1 pass="through" />)
+    const button1 = renderer1.getRenderOutput()
     expect(button1.props.pass).to.equal('through')
     expect(button1.props.count).to.equal(0)
 
-    renderer.render(<SmartButton2 pass="through" />)
-    const button2 = renderer.getRenderOutput()
-    expect(button2.props.pass).to.equal('through')
+
+    const renderer2 = createRenderer()
+
+    renderer2.render(<SmartButton2 pass="through" />)
+    const button2 = renderer2.getRenderOutput()
+    expect(button2.props.pass).to.be.undefined
     expect(button2.props.count).to.equal(0)
   })
 
   it('receives prop updates', () => {
     const spy = createSpy()
-    const SmartButton = createSmartButton(spy('div'))
+    const SmartButton = createSmartButton1(spy('div'))
 
     const Container = withState('label', 'updateLabel', 'Count', SmartButton)
 

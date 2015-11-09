@@ -4,15 +4,13 @@ import isPlainObject from 'lodash/lang/isPlainObject'
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
 
-const { combineLatest } = Observable
-
 /**
  * Turns an object of streams into a stream of objects
  */
 const objectToPropSequence = object => {
   const propKeys = Object.keys(object)
   const propSequences = propKeys.map(key => object[key].startWith(undefined))
-  return combineLatest(
+  return Observable.combineLatest(
     ...propSequences,
     (...propValues) => propKeys.reduce((props, key, i) => {
       props[key] = propValues[i]
@@ -25,29 +23,20 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
   class extends Component {
     state = {}
 
-    constructor(props) {
-      super(props)
+    // Subject that receives props from owner
+    receiveOwnerProps$ = new Subject()
 
-      // Subject that receives props from owner
-      this.receiveOwnerProps$ = new Subject()
-      this.ownerProps$ = this.receiveOwnerProps$.startWith(this.props)
+    // Stream of owner props
+    ownerProps$ = this.receiveOwnerProps$.startWith(this.props)
 
-      // Keep track of whether the component has mounted
-      this.componentHasMounted = false
+    // Stream of child props
+    childProps$ = (val => isPlainObject(val)
+      ? objectToPropSequence(val)
+      : val
+    )(propsSequenceMapper(this.ownerProps$))
 
-      const val = propsSequenceMapper(this.ownerProps$)
-
-      // Sequence of child props
-      this.childProps$ = isPlainObject(val)
-        ? Observable.combineLatest(
-            this.ownerProps$, objectToPropSequence(val),
-            (ownerProps, mappedProps) => ({
-              ...ownerProps,
-              ...mappedProps
-            })
-          )
-        : val
-    }
+    // Keep track of whether the component has mounted
+    componentHasMounted = false
 
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render

@@ -37,19 +37,11 @@ observeProps(
 
 Maps an observable stream of owner props to a stream of child props, or to an object of observables.
 
-In the second form, an object of streams is turned into an stream of objects. The result is then combined with the stream of owner props. To illustrate, the following two `mapPropsStream()` functions are equivalent:
+In the second form, an object of streams is turned into an stream of objects. To illustrate, the following two `mapPropsStream()` functions are equivalent:
 
 ```js
-const mapPropsStream1 = ownerProps$ =>
-  Observable.combineLatest(
-    ownerProps$, Observable.just({ a, b, c }),
-    (ownerProps, { a, b, c }) => ({
-      ...ownerProps,
-      a,
-      b,
-      c
-    })
-  )
+const mapPropsStream1 = () => Observable.just({ a, b, c }),
+
 // Same as
 const mapPropsStream2 = () => ({
   a: Observable.just(a),
@@ -58,7 +50,7 @@ const mapPropsStream2 = () => ({
 })
 ```
 
-The second form is often more convenient, but note that it is also more limiting: there's no to filter out unwanted owner props, since the props returned by the mapping function are always merged with the owner props. Relatedly, a prop received from the owner will always result in a new render. For full control over the stream of props, use the first form.
+The second form is often more convenient, but note that it is also more limiting: you must explicitly declare every prop that is passed to the base component. There's no way to pass through arbitrary props from the owner. For full control over the stream of props, use the first form.
 
 ### `createEventHandler()`
 
