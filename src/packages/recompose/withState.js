@@ -16,11 +16,18 @@ export const withState = (
         : initialState
     }
 
+    hasUnmounted = false
+
     updateStateValue = (updateFn, callback) => (
-      this.setState(({ stateValue }) => ({
-        stateValue: isFunction(updateFn) ? updateFn(stateValue) : updateFn
-      }), callback)
+      !this.hasUnmounted &&
+        this.setState(({ stateValue }) => ({
+          stateValue: isFunction(updateFn) ? updateFn(stateValue) : updateFn
+        }), callback)
     )
+
+    componentWillUnmount() {
+      this.hasUnmounted = true
+    }
 
     render() {
       return createElement(BaseComponent, {
