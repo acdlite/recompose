@@ -153,32 +153,6 @@ const ClassComponent = toClass(FunctionComponent)
 
 ### ...and more
 
-## Usage
-
-All functions are available on the top-level export.
-
-```js
-import { compose, mapProps, withState /* ... */ } from 'recompose'
-```
-
-### Optimizing bundle size
-
-You can reduce your bundle size by only including the modules that you need.
-
-All top-level exports can be imported individually:
-
-```js
-import compose from 'recompose/compose';
-import mapProps from 'recompose/mapProps';
-import withState from 'recompose/withState';
-// ... and so on
-```
-
-This is a good option for library authors who don't want to bloat their bundle sizes.
-
-Recompose includes some lodash modules, like `curry` and `compose`, as dependencies. If you're already using lodash, then the net bundle increase from using Recompose will be even smaller.
-
-
 ## API docs
 
 [Read them here](docs/API.md)
