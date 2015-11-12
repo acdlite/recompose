@@ -111,7 +111,7 @@ Recompose helpers integrate really nicely with external libraries like Relay, Re
 
 ```js
 const Post = compose(
-  // This is a curried version of createRelay provided by recompose-relay
+  // This is a curried version of Relay.createContainer(), provided by recompose-relay
   createContainer({
     fragments: {
       post: () => Relay.QL`
