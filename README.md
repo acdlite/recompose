@@ -122,14 +122,13 @@ const Post = compose(
       `
     }
   }),
-  flattenProp('post'),
-  ({ title, content }) => (
-    <article>
-      <h1>{title}</h1>
-      <div>{content}</div>
-    </article>
-  )
-)
+  flattenProp('post')
+)(({ title, content }) => (
+  <article>
+    <h1>{title}</h1>
+    <div>{content}</div>
+  </article>
+))
 ```
 
 ### ...build your own libraries
