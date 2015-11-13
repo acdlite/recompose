@@ -1,21 +1,15 @@
 import curry from 'lodash/function/curry'
 
-/**
- * In production, use lodash's curry and be done
- */
-let createHelper = curry
+const createHelper = (func, helperName, _helperLength, setDisplayName = true) => {
+  const helperLength = _helperLength || func.length
 
-/**
- * In development, use custom implementation of curry that keeps track
- * of whether enough parameters have been applied. Also adds a `displayName`
- * to the base commponent.
- */
-if (process.env.NODE_ENV !== 'production') {
-  const wrapDisplayName = require('./wrapDisplayName')
-
-  createHelper = (func, helperName, _helperLength, setDisplayName = true) => {
-    const helperLength = _helperLength || func.length
-
+  if (process.env.NODE_ENV !== 'production') {
+    /**
+     * In development, use custom implementation of curry that keeps track
+     * of whether enough parameters have been applied. Also adds a `displayName`
+     * to the base commponent.
+     */
+    const wrapDisplayName = require('./wrapDisplayName')
     const apply = (previousArgs, nextArgs) => {
       const args = previousArgs.concat(nextArgs)
       const argsLength = args.length
@@ -46,6 +40,11 @@ if (process.env.NODE_ENV !== 'production') {
 
     return (...args) => apply([], args)
   }
+
+  /**
+   * In production, use lodash's curry
+   */
+  return curry(func, helperLength)
 }
 
 export default createHelper
