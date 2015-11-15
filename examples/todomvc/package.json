@@ -21,6 +21,7 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
+    "recompose": "^0.8.1",
     "redux": "^3.0.0"
   },
   "devDependencies": {
