@@ -4,9 +4,7 @@ import isPlainObject from 'lodash/lang/isPlainObject'
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
 
-/**
- * Turns an object of streams into a stream of objects
- */
+// Turns an object of streams into a stream of objects
 const objectToPropSequence = object => {
   const propKeys = Object.keys(object)
   const propSequences = propKeys.map(key => object[key].startWith(undefined))

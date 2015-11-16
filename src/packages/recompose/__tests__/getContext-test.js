@@ -1,3 +1,1 @@
-/**
- * Tests for getContext() are covered by withContext-test.js
- */
+// Tests for getContext() are covered by withContext-test.js
