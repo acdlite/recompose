@@ -1,6 +1,57 @@
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 
+
+
+// import {
+//   compose,
+//   setPropTypes,
+//   mapProps,
+//   withProps,
+//   renameProp,
+//   withState
+// } from 'recompose'
+
+// const TodoTextInput = { editing, newTodo, ...rest } =>
+//   <input className={
+//     classnames({
+//       edit: props.editing,
+//       'new-todo': props.newTodo
+//     })}
+//     type="text"
+//     autoFocus="true"
+//     {...rest} />
+
+// todoTextInputApi = {
+//   onSave: PropTypes.func.isRequired,
+//   text: PropTypes.string,
+//   placeholder: PropTypes.string,
+//   editing: PropTypes.bool,
+//   newTodo: PropTypes.bool
+// }
+
+// export default compose(
+//   setPropTypes(todoTextInputApi),
+//   withState('text', 'setText', ({ text }) => text || ''),
+//   mapProps(({ setText, text, newTodo, onSave, ...rest }) => ({
+//     value: text,
+//     onBlur: e => { if (!newTodo) onSave(e.target.value) },
+//     onChange: e => setText(e.target.value),
+//     onKeyDown: e => {
+//       if (e.which === 13) {
+//         onSave(e.target.value.trim())
+//         if (newTodo) {
+//           setText('')
+//         }
+//       }
+//     },
+//     ...rest
+//   }))
+// )(TodoTextInput)
+
+
+
+
 class TodoTextInput extends Component {
   constructor(props, context) {
     super(props, context)

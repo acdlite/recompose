@@ -1,7 +1,13 @@
 import React, { PropTypes } from 'react'
-import { withProps } from 'recompose'
 import classnames from 'classnames'
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from '../constants/TodoFilters'
+import {
+  compose,
+  setPropTypes,
+  mapProps,
+  withProps,
+  renameProp
+} from 'recompose'
 
 const FILTER_TITLES = {
   [SHOW_ALL]: 'All',
@@ -9,64 +15,50 @@ const FILTER_TITLES = {
   [SHOW_COMPLETED]: 'Completed'
 }
 
-const Footer = props => {
-  const {
-    activeCount,
-    completedCount,
-    onClearCompleted,
-    filter: selectedFilter,
-    onShow
-  } = props
+const Footer = ({ todoCount, FilterLink, clearButton }) =>
+  <footer className="footer">
+    {todoCount}
+    <ul className="filters">
+      {[ SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED ].map(filter =>
+        <li key={filter}>{FilterLink({ filter })}</li>
+      )}
+    </ul>
+    {clearButton}
+  </footer>
 
-  const CurriedFilterLink = withProps({ selectedFilter, onShow }, FilterLink)
+const itemWord = activeCount => activeCount === 1 ? 'item' : 'items'
 
-  return (
-    <footer className="footer">
-      {TodoCount({ activeCount })}
-      <ul className="filters">
-        {[ SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED ].map(filter =>
-          <li key={filter}>{CurriedFilterLink({ filter })}</li>
-        )}
-      </ul>
-      {completedCount > 0 ? ClearButton({ onClearCompleted }) : null}
-    </footer>
-  )
-}
+const TodoCount = ({ activeCount }) =>
+  <span className="todo-count">
+    <strong>{activeCount || 'No'}</strong> {itemWord(activeCount)} left
+  </span>
 
-const TodoCount = ({ activeCount }) => {
-  const itemWord = activeCount === 1 ? 'item' : 'items'
-
-  return (
-    <span className="todo-count">
-      <strong>{activeCount || 'No'}</strong> {itemWord} left
-    </span>
-  )
-}
-
-const FilterLink = ({ filter, selectedFilter, onShow }) => {
-  const title = FILTER_TITLES[filter]
-  const selected = filter === selectedFilter
-
-  return (
-    <a className={classnames({ selected })}
-      style={{ cursor: 'pointer' }}
-      onClick={() => onShow(filter)}>
-      {title}
-    </a>
-  )
-}
+const FilterLink = ({ filter, selectedFilter, onShow }) =>
+  <a className={classnames({ selected: filter === selectedFilter })}
+    style={{ cursor: 'pointer' }}
+    onClick={() => onShow(filter)}>
+    {FILTER_TITLES[filter]}
+  </a>
 
 const ClearButton = ({ onClearCompleted }) =>
   <button className="clear-completed" onClick={onClearCompleted}>
     Clear completed
   </button>
 
-Footer.propTypes = {
-  completedCount: PropTypes.number.isRequired,
+const footerApi = {
   activeCount: PropTypes.number.isRequired,
+  completedCount: PropTypes.number.isRequired,
   filter: PropTypes.string.isRequired,
   onClearCompleted: PropTypes.func.isRequired,
   onShow: PropTypes.func.isRequired
 }
 
-export default Footer
+export default compose(
+  setPropTypes(footerApi),
+  renameProp('filter', 'selectedFilter'),
+  mapProps(({ activeCount, selectedFilter, onShow, completedCount, onClearCompleted }) => ({
+    todoCount: TodoCount({ activeCount }),
+    FilterLink: withProps({ selectedFilter, onShow }, FilterLink),
+    clearButton: completedCount > 0 ? ClearButton({ onClearCompleted }) : null
+  }))
+)(Footer)
