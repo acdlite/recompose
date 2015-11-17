@@ -1,52 +1,55 @@
 import React from 'react'
 import { expect } from 'chai'
 import omit from 'lodash/object/omit'
-import { mapPropsOnChange, withState, compose } from 'recompose'
+import { mapPropsOnChange, withState, flattenProp, compose } from 'recompose'
 import createSpy from 'recompose/createSpy'
 
 import { renderIntoDocument } from 'react-addons-test-utils'
 
 describe('mapPropsOnChange()', () => {
-  it('maps owner props to child props, only when dependent props update', () => {
+  it('maps subset of owner props to child props', () => {
     const mapSpy = sinon.spy()
     const spy = createSpy()
     const StringConcat = compose(
-      withState('strings', 'updateStrings', ['do', 're', 'mi']),
-      withState('foobar', 'updateFoobar', 'foobar'),
-      mapPropsOnChange('strings', ({ strings, ...rest }) => {
-        mapSpy()
-        return {
-          ...rest,
-          string: strings.join('')
+      withState('strings', 'updateStrings', { a: 'a', b: 'b', c: 'c' }),
+      flattenProp('strings'),
+      mapPropsOnChange(
+        ['a', 'b'],
+        ({ a, b }) => {
+          mapSpy()
+          return {
+            foobar: a + b
+          }
         }
-      }),
+      ),
       spy
     )('div')
 
     expect(StringConcat.displayName).to.equal(
-      'withState(withState(mapPropsOnChange(spy(div))))'
+      'withState(flattenProp(mapPropsOnChange(spy(div))))'
     )
 
     renderIntoDocument(<StringConcat />)
 
-    expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
-      string: 'doremi',
-      foobar: 'foobar'
+    expect(omit(spy.getProps(), ['updateStrings'])).to.eql({
+      c: 'c',
+      foobar: 'ab'
     })
     expect(mapSpy.callCount).to.equal(1)
 
+    spy.getProps().updateStrings(strings => ({ ...strings, c: 'baz' }))
     // Does not re-map for non-dependent prop updates
-    spy.getProps().updateFoobar(() => 'barbaz')
     expect(mapSpy.callCount).to.equal(1)
+
     expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
-      string: 'doremi',
-      foobar: 'foobar'
+      c: 'baz',
+      foobar: 'ab'
     })
 
-    spy.getProps().updateStrings(strings => [...strings, 'fa'])
+    spy.getProps().updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar' }))
     expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
-      string: 'doremifa',
-      foobar: 'barbaz'
+      c: 'baz',
+      foobar: 'foobar'
     })
     expect(mapSpy.callCount).to.equal(2)
   })

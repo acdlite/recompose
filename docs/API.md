@@ -35,12 +35,12 @@ const omitProps = (keys, BaseComponent) => mapProps(omit(keys), BaseComponent);
 ```js
 mapPropsOnChange(
   depdendentPropKeys: Array<string>,
-  propsMapper: (ownerProps: Object) => Object,
+  propsMapper: (dependentProps: Object) => Object,
   BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
-Same as `mapProps()`, but child props are only re-computed when one of the props specified by `dependentPropKeys` has been updated. This helps ensure that computationally intense `propsMapper` functions are only executed when necessary.
+Similar to as `mapProps()`, but child props are only re-computed when one of the props specified by `dependentPropKeys` has changed. This helps ensure that computationally intense `propsMapper` functions are only executed when necessary.
 
 ### `withProps()`
 
