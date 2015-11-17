@@ -4,10 +4,8 @@ import createElement from '../createElement'
 
 import { createRenderer } from 'react-addons-test-utils'
 
-/**
- * These tests use the shallow renderer to inspect the React elements that
- * are owned by a component.
- */
+// These tests use the shallow renderer to inspect the React elements that are
+// owned by a component.
 describe('createElement()', () => {
   it('treats class components normally', () => {
     const renderer = createRenderer()
@@ -47,11 +45,9 @@ describe('createElement()', () => {
 
     renderer.render(<OuterDiv />)
 
-    /**
-     * Notice the difference between this and the previous test. Functionally,
-     * they're the same, but because we're using stateless function components
-     * here, createElement() can take advantage of referential transparency
-     */
+// Notice the difference between this and the previous test. Functionally,
+// they're the same, but because we're using stateless function components here,
+// createElement() can take advantage of referential transparency
     expect(renderer.getRenderOutput()).toEqualJSX(
       <div foo="bar">
         <div bar="baz" />

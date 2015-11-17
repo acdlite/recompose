@@ -1,10 +1,20 @@
+import { Component } from 'react'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
 const doOnReceiveProps = (callback, BaseComponent) =>
-  props => {
-    callback(props)
-    return createElement(BaseComponent, props)
+  class extends Component {
+    componentWillMount() {
+      callback(this.props)
+    }
+
+    componentWillReceiveProps(nextProps) {
+      callback(nextProps)
+    }
+
+    render() {
+      return createElement(BaseComponent)
+    }
   }
 
 export default createHelper(doOnReceiveProps, 'doOnReceiveProps')

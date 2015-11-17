@@ -1,9 +1,18 @@
-import React from 'react'
+import { Component } from 'react'
 
 const createSink = callback =>
-  props => {
-    callback(props)
-    return <div />
+  class extends Component {
+    componentWillMount() {
+      callback(this.props)
+    }
+
+    componentWillReceiveProps(nextProps) {
+      callback(nextProps)
+    }
+
+    render() {
+      return null
+    }
   }
 
 export default createSink

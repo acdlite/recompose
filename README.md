@@ -40,18 +40,19 @@ const Counter = withState(
 Or with a Redux-style reducer:
 
 ```js
-const counterReducer = (count, action) {
-  switch (action.type)
+const counterReducer = (count, action) => {
+  switch (action.type) {
   case INCREMENT:
     return count + 1
   case DECREMENT:
     return count - 1
   default:
     return count
+  }
 }
 
 const Counter = withReducer(
-  'count', 'dispatch', counterReducer, 0
+  'count', 'dispatch', counterReducer, 0,
   ({ counter, dispatch }) => (
     <div>
       Count: {counter}
@@ -67,8 +68,8 @@ const Counter = withReducer(
 Helpers like `componentFromProp()` and `withContext()` encapsulate common React patterns into a simple functional interface:
 
 ```js
-const Button = compose(
-  defaultProps({ component: 'button' })
+const Button = defaultProps(
+  { component: 'button' },
   componentFromProp('component')
 )
 

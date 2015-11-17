@@ -1,14 +1,10 @@
 import lodashCompose from 'lodash/function/compose'
 
-/**
- * In production, use lodash's compose
- */
+// In production, use lodash's compose
 let compose = lodashCompose
 
-/**
- * In development, print warnings when composing higher-order component helpers
- * that have been applied with too few parameters
- */
+// In development, print warnings when composing higher-order component helpers
+// that have been applied with too few parameters
 if (process.env.NODE_ENV !== 'production') {
   const getDisplayName = require('./getDisplayName')
 
@@ -25,12 +21,10 @@ if (process.env.NODE_ENV !== 'production') {
       }
     })
 
-    /**
-     * Warn if a helper that needs parameters is composed with another helper
-     * that doesn't need parameters. Checking for the second condition allows
-     * partially-applied helpers to be composed before they become
-     * higher-order components.
-     */
+    // Warn if a helper that needs parameters is composed with another helper
+    // that doesn't need parameters. Checking for the second condition allows
+    // partially-applied helpers to be composed before they become
+    // higher-order components.
     if (needsParameters.length && doesntNeedParameters.length) {
       return BaseComponent => {
         const displayName = getDisplayName(BaseComponent)

@@ -83,12 +83,12 @@ const Counter = observeProps(
       })
     );
   },
-  ({ count, increment, ...props }) => {
+  ({ count, decrement, increment, ...props }) => (
     <div {...props}>
-      Count: {counter}
+      Count: {count}
       <button onClick={increment}>+</button>
       <button onClick={decrement}>-</button>
     </div>
-  }
+  )
 );
 ```
