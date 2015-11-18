@@ -6,7 +6,8 @@ import {
   setPropTypes,
   mapProps,
   withProps,
-  renameProp
+  renameProp,
+  onlyUpdateForPropTypes
 } from 'recompose'
 
 const FILTER_TITLES = {
@@ -40,7 +41,7 @@ const FilterLink = ({ filter, selectedFilter, onShow }) =>
     {FILTER_TITLES[filter]}
   </a>
 
-const ClearButton = ({ onClearCompleted }) =>
+export const ClearButton = ({ onClearCompleted }) =>
   <button className="clear-completed" onClick={onClearCompleted}>
     Clear completed
   </button>
@@ -54,6 +55,7 @@ const footerApi = {
 }
 
 export default compose(
+  onlyUpdateForPropTypes,
   setPropTypes(footerApi),
   renameProp('filter', 'selectedFilter'),
   mapProps(({ activeCount, selectedFilter, onShow, completedCount, onClearCompleted }) => ({

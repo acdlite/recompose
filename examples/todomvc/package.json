@@ -36,6 +36,7 @@
     "raw-loader": "^0.5.1",
     "react-addons-test-utils": "^0.14.0",
     "react-transform-hmr": "^1.0.0",
+    "react-unit": "^1.0.12",
     "style-loader": "^0.12.3",
     "todomvc-app-css": "^2.0.1",
     "webpack": "^1.9.11",

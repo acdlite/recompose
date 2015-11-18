@@ -1,6 +1,11 @@
 import React, { PropTypes } from 'react'
-import { compose, setPropTypes, mapProps } from 'recompose'
 import TodoTextInput from './TodoTextInput'
+import {
+  compose,
+  setPropTypes,
+  mapProps,
+  onlyUpdateForPropTypes
+} from 'recompose'
 
 const Header = ({ handleSave }) =>
   <header className="header">
@@ -12,6 +17,7 @@ const Header = ({ handleSave }) =>
   </header>
 
 export default compose(
+  onlyUpdateForPropTypes,
   setPropTypes({ addTodo: PropTypes.func.isRequired }),
   mapProps(({ addTodo }) => ({
     handleSave: text => { if (text.length !== 0) addTodo(text) }

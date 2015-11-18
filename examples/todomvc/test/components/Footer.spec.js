@@ -1,8 +1,10 @@
 import expect from 'expect'
 import React from 'react'
 import TestUtils from 'react-addons-test-utils'
-import Footer from '../../components/Footer'
+import Footer, { ClearButton } from '../../components/Footer'
 import { SHOW_ALL, SHOW_ACTIVE } from '../../constants/TodoFilters'
+
+// TODO: for easier testing: https://github.com/pzavolinsky/react-unit
 
 function setup(propOverrides) {
   const props = Object.assign({
@@ -13,13 +15,19 @@ function setup(propOverrides) {
     onShow: expect.createSpy()
   }, propOverrides)
 
-  const renderer = TestUtils.createRenderer()
-  renderer.render(<Footer {...props} />)
-  const output = renderer.getRenderOutput()
+  const output = TestUtils.renderIntoDocument(<Footer {...props} />)
+  const footer = TestUtils.findRenderedDOMComponentWithTag(output, 'footer')
+  const filters = TestUtils.findRenderedDOMComponentWithClass(output, 'filters')
+  const count = TestUtils.findRenderedDOMComponentWithClass(output, 'todo-count')
+  const listItems = TestUtils.scryRenderedDOMComponentsWithTag(output, 'li')
 
   return {
-    props: props,
-    output: output
+    props,
+    output,
+    footer,
+    filters,
+    count,
+    listItems
   }
 }
 
@@ -35,33 +43,22 @@ function getTextContent(elem) {
 
 describe('components', () => {
   describe('Footer', () => {
-    it('should render container', () => {
-      const { output } = setup()
-      expect(output.type).toBe('footer')
-      expect(output.props.className).toBe('footer')
-    })
-
     it('should display active count when 0', () => {
-      const { output } = setup({ activeCount: 0 })
-      const [ count ] = output.props.children
+      const { count } = setup({ activeCount: 0 })
       expect(getTextContent(count)).toBe('No items left')
     })
 
     it('should display active count when above 0', () => {
-      const { output } = setup({ activeCount: 1 })
-      const [ count ] = output.props.children
+      const { count } = setup({ activeCount: 1 })
       expect(getTextContent(count)).toBe('1 item left')
     })
 
-    it('should render filters', () => {
-      const { output } = setup()
-      const [ , filters ] = output.props.children
-      expect(filters.type).toBe('ul')
-      expect(filters.props.className).toBe('filters')
-      expect(filters.props.children.length).toBe(3)
-      filters.props.children.forEach(function checkFilter(filter, i) {
-        expect(filter.type).toBe('li')
-        const a = filter.props.children
+    it.only('should render filters', () => {
+      const { listItems } = setup()
+      expect(listItems.length).toBe(3)
+      listItems.forEach(function checkFilter(filter, i) {
+        console.log(filter)
+        const a = TestUtils.findRenderedDOMComponentWithTag(filter, 'a')
         expect(a.props.className).toBe(i === 0 ? 'selected' : '')
         expect(a.props.children).toBe({
           0: 'All',
@@ -72,29 +69,27 @@ describe('components', () => {
     })
 
     it('should call onShow when a filter is clicked', () => {
-      const { output, props } = setup()
-      const [ , filters ] = output.props.children
-      const filterLink = filters.props.children[1].props.children
+      const { listItems, props } = setup()
+      const filterLink = listItems[1].props.children
       filterLink.props.onClick({})
       expect(props.onShow).toHaveBeenCalledWith(SHOW_ACTIVE)
     })
 
     it('shouldnt show clear button when no completed todos', () => {
       const { output } = setup({ completedCount: 0 })
-      const [ , , clear ] = output.props.children
-      expect(clear).toBe(null)
+      const clear = TestUtils.scryRenderedDOMComponentsWithClass(output, 'clear-completed')[0]
+      expect(clear).toBe(undefined)
     })
 
     it('should render clear button when completed todos', () => {
       const { output } = setup({ completedCount: 1 })
-      const [ , , clear ] = output.props.children
-      expect(clear.type).toBe('button')
+      const clear = TestUtils.findRenderedDOMComponentWithClass(output, 'clear-completed')
       expect(clear.props.children).toBe('Clear completed')
     })
 
     it('should call onClearCompleted on clear button click', () => {
       const { output, props } = setup({ completedCount: 1 })
-      const [ , , clear ] = output.props.children
+      const clear = TestUtils.findRenderedDOMComponentWithClass(output, 'clear-completed')
       clear.props.onClick({})
       expect(props.onClearCompleted).toHaveBeenCalled()
     })
