@@ -63,25 +63,21 @@ Creates a Subject that is also a function. When called, the subject emits a new 
 ```js
 const Counter = observeProps(
   props$ => {
-    const increment$ = createEventHandler();
-    const decrement$ = createEventHandler();
+    const increment$ = createEventHandler()
+    const decrement$ = createEventHandler()
 
     const count$ = Observable.merge(
         increment$.map(() => 1),
         decrement$.map(() => -1)
       )
       .startWith(0)
-      .scan((count, n) => count + n);
+      .scan((count, n) => count + n)
 
-    return Observable.combineLatest(
-      props$, count$,
-      (props, count) => ({
-        increment: increment$,
-        decrement: decrement$,
-        count,
-        ...props
-      })
-    );
+    return {
+      increment: Observable.just(increment$),
+      decrement: Observable.just(decrement$),
+      count
+    }
   },
   ({ count, decrement, increment, ...props }) => (
     <div {...props}>
@@ -90,5 +86,5 @@ const Counter = observeProps(
       <button onClick={decrement}>-</button>
     </div>
   )
-);
+)
 ```

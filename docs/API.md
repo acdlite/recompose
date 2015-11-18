@@ -512,3 +512,26 @@ const Button = defaultProps(
 <Button component="a" foo="bar" />  // renders <a foo="bar" />
 <Button component={Link} foo="bar" />  // renders <Link foo="bar" />
 ```
+
+### `nest()`
+
+```js
+nest(...Components: Array<ReactElementType>): ReactElementType
+```
+
+Composes components by nesting each one inside the previous. For example:
+
+```js
+// Given components A, B, and C
+const ABC = nest(A, B, C)
+<ABC pass="through">Child</ABC>
+
+// Effectively the same as
+<A pass="through">
+  <B pass="through">
+    <C pass="through">
+      Child
+    </C>
+  </B>
+</A>
+```
