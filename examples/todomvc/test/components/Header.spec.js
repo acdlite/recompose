@@ -1,6 +1,5 @@
 import expect from 'expect'
 import React from 'react'
-import TestUtils from 'react-addons-test-utils'
 import Header from '../../components/Header'
 import TodoTextInput from '../../components/TodoTextInput'
 import createComponent from 'react-unit'
@@ -46,7 +45,7 @@ describe('components', () => {
       expect(props.addTodo.calls.length).toBe(1)
     })
 
-    it('should map props correctly', () => {
+    it('should map props correctly (addTodo -> handleSave)', () => {
       const { output } = setup()
       const Input = output.props.children[1].originalComponentInstance
       expect(Input.props.onSave.name).toBe('handleSave')

@@ -13,11 +13,8 @@ import classnames from 'classnames'
 // } from 'recompose'
 
 // const TodoTextInput = { editing, newTodo, ...rest } =>
-//   <input className={
-//     classnames({
-//       edit: props.editing,
-//       'new-todo': props.newTodo
-//     })}
+//   <input
+//     className={classnames({ edit: editing, 'new-todo': newTodo })}
 //     type="text"
 //     autoFocus="true"
 //     {...rest} />
