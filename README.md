@@ -52,7 +52,7 @@ const counterReducer = (count, action) => {
 }
 
 const Counter = withReducer(
-  'count', 'dispatch', counterReducer, 0,
+  'counter', 'dispatch', counterReducer, 0,
   ({ counter, dispatch }) => (
     <div>
       Count: {counter}
