@@ -13,7 +13,7 @@ const doOnReceiveProps = (callback, BaseComponent) =>
     }
 
     render() {
-      return createElement(BaseComponent)
+      return createElement(BaseComponent, this.props)
     }
   }
 
