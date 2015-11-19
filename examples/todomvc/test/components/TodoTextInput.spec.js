@@ -39,11 +39,12 @@ describe('components', () => {
     })
 
     it('should update value on change', () => {
-      const { output } = setup()
-      const input = output.findByQuery('input')[0]
-      input.onChange({ target: { value: 'Use Radox' } })
-      const updated = output.renderNew()
-      expect(updated.props.value).toEqual('Use Radox')
+      const { props } = setup()
+      const output = TestUtils.renderIntoDocument(<TodoTextInput {...props} />)
+      const input = TestUtils.findRenderedDOMComponentWithTag(output, 'input')
+      expect(input.value).toEqual('Use Redux')
+      TestUtils.Simulate.change(input, { target: { value: 'Use Radox' } })
+      expect(input.value).toEqual('Use Radox')
     })
 
     it('should call onSave on return key press', () => {
@@ -52,13 +53,12 @@ describe('components', () => {
       expect(props.onSave).toHaveBeenCalledWith('Use Redux')
     })
 
-    it.only('should reset state on return key press if newTodo', () => {
-      // TODO: see react-unit docs on `renderNew`
-      const { output } = setup({ newTodo: true })
-      output.props.onKeyDown({ which: 13, target: { value: 'Use Redux' } })
-      console.log(output.renderNew().props.onKeyDown.toString())
-      const updated = output.renderNew()
-      expect(updated.props.value).toEqual('')
+    it('should reset state on return key press if newTodo', () => {
+      const { props } = setup({ newTodo: true })
+      const output = TestUtils.renderIntoDocument(<TodoTextInput {...props} />)
+      const input = TestUtils.findRenderedDOMComponentWithTag(output, 'input')
+      TestUtils.Simulate.keyDown(input, { which: 13, target: { value: 'Use Redux' } })
+      expect(input.value).toEqual('')
     })
 
     it('should call onSave on blur', () => {
