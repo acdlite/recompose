@@ -1,9 +1,10 @@
 import expect from 'expect'
 import React from 'react'
+import createComponent from 'react-unit'
 import TestUtils from 'react-addons-test-utils'
 import TodoTextInput from '../../components/TodoTextInput'
 
-function setup(propOverrides) {
+function setup(propOverrides, shallow = false) {
   const props = Object.assign({
     onSave: expect.createSpy(),
     text: 'Use Redux',
@@ -11,22 +12,11 @@ function setup(propOverrides) {
     editing: false,
     newTodo: false
   }, propOverrides)
+  const renderer = null
 
-  const renderer = TestUtils.createRenderer()
+  const output = createComponent(<TodoTextInput {...props} />)
 
-  renderer.render(
-    <TodoTextInput {...props} />
-  )
-
-  let output = renderer.getRenderOutput()
-
-  output = renderer.getRenderOutput()
-
-  return {
-    props: props,
-    output: output,
-    renderer: renderer
-  }
+  return { props, output }
 }
 
 describe('components', () => {
@@ -49,9 +39,10 @@ describe('components', () => {
     })
 
     it('should update value on change', () => {
-      const { output, renderer } = setup()
-      output.props.onChange({ target: { value: 'Use Radox' } })
-      const updated = renderer.getRenderOutput()
+      const { output } = setup()
+      const input = output.findByQuery('input')[0]
+      input.onChange({ target: { value: 'Use Radox' } })
+      const updated = output.renderNew()
       expect(updated.props.value).toEqual('Use Radox')
     })
 
@@ -61,10 +52,12 @@ describe('components', () => {
       expect(props.onSave).toHaveBeenCalledWith('Use Redux')
     })
 
-    it('should reset state on return key press if newTodo', () => {
-      const { output, renderer } = setup({ newTodo: true })
+    it.only('should reset state on return key press if newTodo', () => {
+      // TODO: see react-unit docs on `renderNew`
+      const { output } = setup({ newTodo: true })
       output.props.onKeyDown({ which: 13, target: { value: 'Use Redux' } })
-      const updated = renderer.getRenderOutput()
+      console.log(output.renderNew().props.onKeyDown.toString())
+      const updated = output.renderNew()
       expect(updated.props.value).toEqual('')
     })
 
