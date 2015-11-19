@@ -1,7 +1,11 @@
 import expect from 'expect'
 import React from 'react'
 import createComponent from 'react-unit'
-import TestUtils from 'react-addons-test-utils'
+import {
+  renderIntoDocument,
+  Simulate,
+  findRenderedDOMComponentWithTag
+} from 'react-addons-test-utils'
 import TodoTextInput from '../../components/TodoTextInput'
 
 function setup(propOverrides, shallow = false) {
@@ -12,11 +16,11 @@ function setup(propOverrides, shallow = false) {
     editing: false,
     newTodo: false
   }, propOverrides)
-  const renderer = null
 
-  const output = createComponent(<TodoTextInput {...props} />)
+  const instance = <TodoTextInput {...props} />
+  const output = createComponent(instance)
 
-  return { props, output }
+  return { props, output, instance }
 }
 
 describe('components', () => {
@@ -39,11 +43,11 @@ describe('components', () => {
     })
 
     it('should update value on change', () => {
-      const { props } = setup()
-      const output = TestUtils.renderIntoDocument(<TodoTextInput {...props} />)
-      const input = TestUtils.findRenderedDOMComponentWithTag(output, 'input')
+      const { instance } = setup()
+      const output = renderIntoDocument(instance)
+      const input = findRenderedDOMComponentWithTag(output, 'input')
       expect(input.value).toEqual('Use Redux')
-      TestUtils.Simulate.change(input, { target: { value: 'Use Radox' } })
+      Simulate.change(input, { target: { value: 'Use Radox' } })
       expect(input.value).toEqual('Use Radox')
     })
 
@@ -54,10 +58,10 @@ describe('components', () => {
     })
 
     it('should reset state on return key press if newTodo', () => {
-      const { props } = setup({ newTodo: true })
-      const output = TestUtils.renderIntoDocument(<TodoTextInput {...props} />)
-      const input = TestUtils.findRenderedDOMComponentWithTag(output, 'input')
-      TestUtils.Simulate.keyDown(input, { which: 13, target: { value: 'Use Redux' } })
+      const { instance } = setup({ newTodo: true })
+      const output = renderIntoDocument(instance)
+      const input = findRenderedDOMComponentWithTag(output, 'input')
+      Simulate.keyDown(input, { which: 13, target: { value: 'Use Redux' } })
       expect(input.value).toEqual('')
     })
 
