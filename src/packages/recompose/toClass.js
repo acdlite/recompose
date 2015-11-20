@@ -7,16 +7,18 @@ const toClass = baseComponent => {
     return baseComponent
   }
 
-  return class extends Component {
-    static displayName = getDisplayName(baseComponent)
-    static propTypes = baseComponent.propTypes
-    static contextTypes = baseComponent.contextTypes
-    static defaultProps = baseComponent.defaultProps
-
+  class ToClass extends Component {
     render() {
       return baseComponent(this.props, this.context)
     }
   }
+
+  ToClass.displayName = getDisplayName(baseComponent)
+  ToClass.propTypes = baseComponent.propTypes
+  ToClass.contextTypes = baseComponent.contextTypes
+  ToClass.defaultProps = baseComponent.defaultProps
+
+  return ToClass
 }
 
 export default toClass

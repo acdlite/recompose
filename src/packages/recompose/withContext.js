@@ -6,14 +6,18 @@ const withContext = (
   childContextTypes,
   getChildContext,
   BaseComponent
-) =>
-  class extends Component {
-    static childContextTypes = childContextTypes
+) => {
+  class WithContext extends Component {
     getChildContext = () => getChildContext(this.props)
 
     render() {
       return createElement(BaseComponent, this.props)
     }
   }
+
+  WithContext.childContextTypes = childContextTypes
+
+  return WithContext
+}
 
 export default createHelper(withContext, 'withContext')
