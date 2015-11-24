@@ -6,6 +6,7 @@ Recompose
 [![code climate](https://img.shields.io/codeclimate/github/acdlite/recompose.svg?style=flat-square)](https://codeclimate.com/github/acdlite/recompose)
 [![npm version](https://img.shields.io/npm/v/recompose.svg?style=flat-square)](https://www.npmjs.com/package/recompose)
 [![npm downloads](https://img.shields.io/npm/dm/recompose.svg?style=flat-square)](https://www.npmjs.com/package/recompose)
+[![recompose channel on discord](https://img.shields.io/badge/discord-%23recompose%20%40%20reactiflux-61dafb.svg?style=flat-square)](https://discord.gg/0ZcbPKXt5bWAj4rn)
 
 Recompose is a React utility belt for function components and higher-order components. Think of it like lodash for React.
 
