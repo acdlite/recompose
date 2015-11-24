@@ -133,7 +133,7 @@ const Post = flattenProp('post', ({ title, author, content }) => (
 ```js
 withState(
   stateName: string,
-  stateUpdaterName, string,
+  stateUpdaterName: string,
   initialState: any | (props: Object) => any,
   BaseComponent: ReactElementType
 ): ReactElementType
@@ -171,7 +171,7 @@ An initial state value is required. It can be either the state value itself, or 
 ```js
 withReducer<T, U>(
   stateName: string,
-  dispatchName, string,
+  dispatchName: string,
   reducer: (state: T, action: U) => T,
   initialState: T,
   BaseComponent: ReactElementType
