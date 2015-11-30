@@ -3,7 +3,11 @@ import isReferentiallyTransparentFunctionComponent
   from './isReferentiallyTransparentFunctionComponent'
 
 const createElement = (Component, props, children) => {
-  if (isReferentiallyTransparentFunctionComponent(Component)) {
+  /* eslint-disable */
+  const hasKey = props && props.key
+  /* eslint-enable */
+
+  if (!hasKey && isReferentiallyTransparentFunctionComponent(Component)) {
     const component = Component
     if (children) {
       return component({ ...props, children })

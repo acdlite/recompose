@@ -37,21 +37,33 @@ describe('createElement()', () => {
     const renderer = createRenderer()
 
     const InnerDiv = () => <div bar="baz" />
-    const OuterDiv = () => (
+    const OuterDiv = () =>
       createElement('div', { foo: 'bar' },
         createElement(InnerDiv)
       )
-    )
 
     renderer.render(<OuterDiv />)
 
-// Notice the difference between this and the previous test. Functionally,
-// they're the same, but because we're using stateless function components here,
-// createElement() can take advantage of referential transparency
+    // Notice the difference between this and the previous test. Functionally,
+    // they're the same, but because we're using stateless function components
+    // here, createElement() can take advantage of referential transparency
     expect(renderer.getRenderOutput()).toEqualJSX(
       <div foo="bar">
         <div bar="baz" />
       </div>
+    )
+  })
+
+  it('handles keyed elements correctly', () => {
+    const renderer = createRenderer()
+
+    const InnerDiv = () => <div bar="baz" />
+    const Div = () => createElement(InnerDiv, { foo: 'bar', key: 'key' })
+
+    renderer.render(<Div />)
+
+    expect(renderer.getRenderOutput()).toEqualJSX(
+      <InnerDiv foo="bar" key="key" />
     )
   })
 
@@ -60,11 +72,10 @@ describe('createElement()', () => {
 
     const Div = props => <div {...props} />
     const InnerDiv = () => <div bar="baz" />
-    const OuterDiv = () => (
+    const OuterDiv = () =>
       createElement(Div, { foo: 'bar' },
         createElement(InnerDiv)
       )
-    )
 
     renderer.render(
       <OuterDiv />
