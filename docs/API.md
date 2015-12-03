@@ -221,7 +221,7 @@ const spinnerWhileLoading = (hasLoaded, BaseComponent) => branch(
 // Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
 // base component
 const Post = spinnerWhileLoading(
-  props => props.title && post.author && post.content
+  props => props.title && props.author && props.content,
   ({ title, author, content }) => (
     <article>
       <h1>{title}</h1>
@@ -372,7 +372,7 @@ lifecycle(
 
 Provides access to the React component instance on initialization (setup) and unmounting (teardown). The most common use case for this is to manage subscriptions to an external source.
 
-`setup` is called within the component's constructor, so you can set the initial state using assignment as in a normal React component class. After initialization ,calls to `component.setState()` will update the state as expected.
+`setup` is called within the component's constructor, so you can set the initial state using assignment as in a normal React component class. After initialization, calls to `component.setState()` will update the state as expected.
 
 The state object is mixed into the props and passed to the base component.
 
