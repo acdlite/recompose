@@ -53,6 +53,19 @@ withProps(
 
 Passes additional props to the base component. Similar to `defaultProps()`, except the provided props take precedence over props from the owner.
 
+### `withAttachedProps()`
+
+```js
+withAttachedProps(
+  createChildProps: (getProps: () => Object) => Object,
+  BaseComponent: ReactElementType
+): ReactElementType
+```
+
+**Note: The name of this helper will likely change to avoid confusion.**
+
+The first parameter `createChildProps()` is a function which accepts a function `getProps()`, which returns the current owner props. The props returned by `createChildProps()` are immutable and do not change throughout the lifecycle of the component.
+
 ### `defaultProps()`
 
 ```js

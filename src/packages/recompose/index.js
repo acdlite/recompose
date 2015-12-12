@@ -2,6 +2,7 @@
 export mapProps from './mapProps'
 export mapPropsOnChange from './mapPropsOnChange'
 export withProps from './withProps'
+export withAttachedProps from './withAttachedProps'
 export defaultProps from './defaultProps'
 export renameProp from './renameProp'
 export renameProps from './renameProps'
