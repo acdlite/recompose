@@ -76,7 +76,7 @@ const Counter = observeProps(
     return {
       increment: Observable.just(increment$),
       decrement: Observable.just(decrement$),
-      count
+      count: count$
     }
   },
   ({ count, decrement, increment, ...props }) => (
