@@ -88,7 +88,7 @@ const provide = store => withContext(
 
 // Apply to base component
 // Descendants of App have access to context.store
-const AppWithContext = provide(App)
+const AppWithContext = provide(store)(App)
 ```
 
 ### ...optimize rendering performance
