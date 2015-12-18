@@ -27,7 +27,7 @@ const createHelper = (func, helperName, _helperLength, setDisplayName = true) =>
 
       const Component = func(...args)
 
-      if (helperName && setDisplayName) {
+      if (BaseComponent && helperName && setDisplayName) {
         Component.displayName = wrapDisplayName(BaseComponent, helperName)
       }
 

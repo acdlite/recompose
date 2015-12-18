@@ -1,31 +1,45 @@
-import React, { Component } from 'react'
-import expect from 'expect'
-import { renderComponent } from 'recompose'
-import { createRenderer } from 'react-addons-test-utils'
+import React from 'react'
+import { expect } from 'chai'
+
+import {
+  renderComponent,
+  compose,
+  withState,
+  branch,
+  withProps
+} from 'recompose'
+
+import createSpy from 'recompose/createSpy'
+
+import { renderIntoDocument } from 'react-addons-test-utils'
 
 describe('renderComponent()', () => {
   it('always renders the given component', () => {
-    class Foo extends Component {
-      render() {
-        return (
-          <Bar>
-            <Baz {...this.props} />
-          </Bar>
-        )
-      }
-    }
-    class Bar extends Component {
-      render() {
-        return <div {...this.props} />
-      }
-    }
-    const Baz = renderComponent(Bar, 'span')
-    const renderer = createRenderer()
-    renderer.render(<Foo pass="through" />)
-    expect(renderer.getRenderOutput()).toEqualJSX(
-      <Bar>
-        <Bar pass="through" />
-      </Bar>
-    )
+    const spy = createSpy()
+
+    const Foobar = compose(
+      withState('flip', 'updateFlip', false),
+      branch(
+        props => props.flip,
+        renderComponent(
+          compose(
+            withProps({ foo: 'bar' }),
+            spy
+          )('div')
+        ),
+        renderComponent(
+          compose(
+            withProps({ foo: 'baz' }),
+            spy
+          )('div')
+        ),
+      )
+    )(null)
+
+    renderIntoDocument(<Foobar />)
+
+    expect(spy.getProps().foo).to.equal('baz')
+    spy.getProps().updateFlip(true)
+    expect(spy.getProps().foo).to.equal('bar')
   })
 })
