@@ -58,5 +58,8 @@
   "devEngines": {
     "node": "5.x",
     "npm": "3.x"
+  },
+  "dependencies": {
+    "hoist-non-react-statics": "^1.0.3"
   }
 }
