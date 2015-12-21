@@ -60,6 +60,6 @@
     "npm": "3.x"
   },
   "dependencies": {
-    "hoist-non-react-statics": "^1.0.3"
+    "recompose": "^0.14.0"
   }
 }
