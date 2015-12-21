@@ -548,3 +548,11 @@ const ABC = nest(A, B, C)
   </B>
 </A>
 ```
+
+### `hoistStatics()`
+
+```js
+hoistStatics(higherOrderComponent: HigherOrderComponent): HigherOrderComponent
+```
+
+Augments a higher-order component so that when used, it copies static properties from the base component to the new component. This is helpful when using Recompose with libraries like Relay.
