@@ -1,24 +1,8 @@
 import { Component } from 'react'
 import { Subject } from 'rxjs/Subject'
 import { startWith } from 'rxjs/operator/startWith'
-import { combineLatest } from 'rxjs/operator/combineLatest'
-import isPlainObject from 'lodash/lang/isPlainObject'
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
-
-// Turns an object of streams into a stream of objects
-const objectToPropSequence = object => {
-  const propKeys = Object.keys(object)
-  const [first, ...propSequences] =
-    propKeys.map(key => object[key]::startWith(undefined))
-  return first::combineLatest(
-    ...propSequences,
-    (...propValues) => propKeys.reduce((props, key, i) => {
-      props[key] = propValues[i]
-      return props
-    }, {})
-  )
-}
 
 const observeProps = (propsSequenceMapper, BaseComponent) => (
   class extends Component {
@@ -31,10 +15,7 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
     ownerProps$ = this.receiveOwnerProps$::startWith(this.props)
 
     // Stream of child props
-    childProps$ = (val => isPlainObject(val)
-      ? objectToPropSequence(val)
-      : val
-    )(propsSequenceMapper(this.ownerProps$))
+    childProps$ = propsSequenceMapper(this.ownerProps$)
 
     // Keep track of whether the component has mounted
     componentHasMounted = false

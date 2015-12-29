@@ -21,7 +21,7 @@ import {
   createRenderer
 } from 'react-addons-test-utils'
 
-const createSmartButton1 = BaseComponent =>
+const createSmartButton = BaseComponent =>
   observeProps(props$ => {
     const increment$ = createEventHandler()
     const count$ = of(0)::concat(
@@ -35,24 +35,11 @@ const createSmartButton1 = BaseComponent =>
     }))
   }, toClass(BaseComponent))
 
-const createSmartButton2 = BaseComponent =>
-  observeProps(() => {
-    const increment$ = createEventHandler()
-    const count$ = of(0)::concat(
-      increment$::scan(total => total + 1, 0)
-    )
-
-    return {
-      onClick: of(increment$),
-      count: count$
-    }
-  }, toClass(BaseComponent))
-
 const Button = toClass(props => <button {...props} />)
 
 describe('observeProps()', () => {
   it('maps a stream of owner props to a stream of child props', () => {
-    const SmartButton = createSmartButton1(props => <Button {...props} />)
+    const SmartButton = createSmartButton(props => <Button {...props} />)
     expect(SmartButton.displayName).to.equal('observeProps(Component)')
 
     const tree = renderIntoDocument(<SmartButton pass="through" />)
@@ -67,25 +54,8 @@ describe('observeProps()', () => {
     expect(button.props.pass).to.equal('through')
   })
 
-  it('maps a stream of owner props to an object of child prop streams', () => {
-    const SmartButton = createSmartButton2(props => <Button {...props} />)
-    expect(SmartButton.displayName).to.equal('observeProps(Component)')
-
-    const tree = renderIntoDocument(<SmartButton pass="through" />)
-    const button = findRenderedComponentWithType(tree, Button)
-    const buttonNode = findRenderedDOMComponentWithTag(tree, 'button')
-
-    Simulate.click(buttonNode)
-    Simulate.click(buttonNode)
-    Simulate.click(buttonNode)
-
-    expect(button.props.count).to.equal(3)
-    expect(button.props.pass).to.be.undefined
-  })
-
   it('works on initial render', () => {
-    const SmartButton1 = createSmartButton1(props => <Button {...props} />)
-    const SmartButton2 = createSmartButton2(props => <Button {...props} />)
+    const SmartButton1 = createSmartButton(props => <Button {...props} />)
 
     // Test using shallow renderer, which only renders once
     const renderer1 = createRenderer()
@@ -94,19 +64,11 @@ describe('observeProps()', () => {
     const button1 = renderer1.getRenderOutput()
     expect(button1.props.pass).to.equal('through')
     expect(button1.props.count).to.equal(0)
-
-
-    const renderer2 = createRenderer()
-
-    renderer2.render(<SmartButton2 pass="through" />)
-    const button2 = renderer2.getRenderOutput()
-    expect(button2.props.pass).to.be.undefined
-    expect(button2.props.count).to.equal(0)
   })
 
   it('receives prop updates', () => {
     const spy = createSpy()
-    const SmartButton = createSmartButton1(spy('div'))
+    const SmartButton = createSmartButton(spy('div'))
 
     const Container = withState('label', 'updateLabel', 'Count', SmartButton)
 
