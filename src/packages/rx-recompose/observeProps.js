@@ -1,5 +1,7 @@
 import { Component } from 'react'
-import { Observable, Subject } from 'rx'
+import { Subject } from 'rxjs/Subject'
+import { startWith } from 'rxjs/operator/startWith'
+import { combineLatest } from 'rxjs/operator/combineLatest'
 import isPlainObject from 'lodash/lang/isPlainObject'
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
@@ -7,8 +9,9 @@ import createHelper from 'recompose/createHelper'
 // Turns an object of streams into a stream of objects
 const objectToPropSequence = object => {
   const propKeys = Object.keys(object)
-  const propSequences = propKeys.map(key => object[key].startWith(undefined))
-  return Observable.combineLatest(
+  const [first, ...propSequences] =
+    propKeys.map(key => object[key]::startWith(undefined))
+  return first::combineLatest(
     ...propSequences,
     (...propValues) => propKeys.reduce((props, key, i) => {
       props[key] = propValues[i]
@@ -25,7 +28,7 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
     receiveOwnerProps$ = new Subject()
 
     // Stream of owner props
-    ownerProps$ = this.receiveOwnerProps$.startWith(this.props)
+    ownerProps$ = this.receiveOwnerProps$::startWith(this.props)
 
     // Stream of child props
     childProps$ = (val => isPlainObject(val)
@@ -38,12 +41,12 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
 
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render
-      this.subscription = this.childProps$.subscribe(
-        childProps =>
+      this.subscription = this.childProps$.subscribe({
+        next: childProps =>
           !this.componentHasMounted
             ? this.state = { childProps }
             : this.setState({ childProps })
-      )
+      })
     }
 
     componentDidMount() {
@@ -52,7 +55,7 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
 
     componentWillReceiveProps(nextProps) {
       // Receive new props from the owner
-      this.receiveOwnerProps$.onNext(nextProps)
+      this.receiveOwnerProps$.next(nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -61,7 +64,7 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
 
     componentWillUnmount() {
       // Clean-up subscription before un-mounting
-      this.subscription.dispose()
+      this.subscription.unsubscribe()
     }
 
     render() {

@@ -1,10 +1,17 @@
 import { expect } from 'chai'
 import React from 'react'
-import { Observable } from 'rx'
+import { ArrayObservable } from 'rxjs/observable/fromArray'
+import { combineLatest } from 'rxjs/operator/combineLatest'
+import { concat } from 'rxjs/operator/concat'
+import { scan } from 'rxjs/operator/scan'
+import { _do } from 'rxjs/operator/do'
+import { map } from 'rxjs/operator/map'
 import { toClass, withState, compose, branch } from 'recompose'
 import identity from 'lodash/utility/identity'
 import createSpy from 'recompose/createSpy'
 import { observeProps, createEventHandler } from 'rx-recompose'
+
+const { of } = ArrayObservable
 
 import {
   Simulate,
@@ -17,11 +24,11 @@ import {
 const createSmartButton1 = BaseComponent =>
   observeProps(props$ => {
     const increment$ = createEventHandler()
-    const count$ = increment$
-      .startWith(0)
-      .scan(total => total + 1)
+    const count$ = of(0)::concat(
+      increment$::scan(total => total + 1, 0)
+    )
 
-    return Observable.combineLatest(props$, count$, (props, count) => ({
+    return props$::combineLatest(count$, (props, count) => ({
       ...props,
       onClick: increment$,
       count
@@ -31,12 +38,12 @@ const createSmartButton1 = BaseComponent =>
 const createSmartButton2 = BaseComponent =>
   observeProps(() => {
     const increment$ = createEventHandler()
-    const count$ = increment$
-      .startWith(0)
-      .scan(total => total + 1)
+    const count$ = of(0)::concat(
+      increment$::scan(total => total + 1, 0)
+    )
 
     return {
-      onClick: Observable.just(increment$),
+      onClick: of(increment$),
       count: count$
     }
   }, toClass(BaseComponent))
@@ -120,7 +127,7 @@ describe('observeProps()', () => {
       spy,
       branch(
         props => props.observe,
-        observeProps(() => increment$.do(() => count += 1).map(() => ({}))),
+        observeProps(() => increment$::_do(() => count += 1)::map(() => ({}))),
         identity
       )
     )('div')

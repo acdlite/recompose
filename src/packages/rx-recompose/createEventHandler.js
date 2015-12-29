@@ -1,10 +1,10 @@
-import { Subject } from 'rx'
+import { Subject } from 'rxjs/Subject'
 
 // Idea and implementation borrowed from
 // https://github.com/fdecampredon/rx-react
 const createEventHandler = () => {
   function subject(value) {
-    subject.onNext(value)
+    subject.next(value)
   }
 
   /* eslint-disable */
