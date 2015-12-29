@@ -1,6 +1,4 @@
 import { Component } from 'react'
-import { Subject } from 'rxjs/Subject'
-import { startWith } from 'rxjs/operator/startWith'
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
 
@@ -8,11 +6,12 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
   class extends Component {
     state = {}
 
-    // Subject that receives props from owner
-    receiveOwnerProps$ = new Subject()
-
     // Stream of owner props
-    ownerProps$ = this.receiveOwnerProps$::startWith(this.props)
+    ownerProps$ = new Observable(observer => {
+      this.ownerPropsObserver = observer
+      this.ownerPropsObserver.next(this.props)
+      return () => {}
+    })
 
     // Stream of child props
     childProps$ = propsSequenceMapper(this.ownerProps$)
@@ -36,7 +35,7 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
 
     componentWillReceiveProps(nextProps) {
       // Receive new props from the owner
-      this.receiveOwnerProps$.next(nextProps)
+      this.ownerPropsObserver.next(nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {

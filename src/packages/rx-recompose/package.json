@@ -19,9 +19,7 @@
   },
   "peerDependencies": {
     "recompose": "^0.9.1",
-    "react": "^0.14.0",
-    "rx": "^4.0.0",
-    "rxjs": "^5.0.0-beta.0"
+    "react": "^0.14.0"
   },
   "devDependencies": {
     "rxjs": "^5.0.0-beta.0"

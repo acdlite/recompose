@@ -1,5 +1,6 @@
 import { expect } from 'chai'
 import React from 'react'
+import { Observable } from 'rxjs/Observable'
 import { ArrayObservable } from 'rxjs/observable/fromArray'
 import { combineLatest } from 'rxjs/operator/combineLatest'
 import { concat } from 'rxjs/operator/concat'
@@ -11,6 +12,7 @@ import identity from 'lodash/utility/identity'
 import createSpy from 'recompose/createSpy'
 import { observeProps, createEventHandler } from 'rx-recompose'
 
+global.Observable = Observable
 const { of } = ArrayObservable
 
 import {
