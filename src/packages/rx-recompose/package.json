@@ -1,5 +1,5 @@
 {
-  "description": "RxJS utilities for React and Recompose.",
+  "description": "Observable utilities for React and Recompose.",
   "keywords": [
     "recompose",
     "rxjs",
