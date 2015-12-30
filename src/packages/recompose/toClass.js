@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import getDisplayName from './getDisplayName'
 import isClassComponent from './isClassComponent'
 
@@ -9,6 +9,9 @@ const toClass = baseComponent => {
 
   class ToClass extends Component {
     render() {
+      if (typeof baseComponent === 'string') {
+        return <baseComponent {...this.props} />
+      }
       return baseComponent(this.props, this.context)
     }
   }
