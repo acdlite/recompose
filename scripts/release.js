@@ -114,14 +114,18 @@ writeFile(
   JSON.stringify(packageConfig, null, 2)
 )
 
-log(`About to publish ${packageName}@${nextVersion} to npm.`)
+const npmTag = readline.question('Publish with npm tag: ', {
+  defaultInput: 'latest'
+})
+
+log(`About to publish ${packageName}@${nextVersion} with tag ${npmTag} to npm.`)
 if (!readline.keyInYN('Sound good? ')) {
   log('OK. Stopping release.')
   exit(0)
 }
 
 log('Publishing...')
-if (exec(`cd ${outDir} && npm publish`).code !== 0) {
+if (exec(`cd ${outDir} && npm publish --tag ${npmTag}`).code !== 0) {
   logError('Publish failed. Aborting release.')
   exit(1)
 }
