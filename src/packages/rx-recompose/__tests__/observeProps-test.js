@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable'
 import { ArrayObservable } from 'rxjs/observable/fromArray'
 import { combineLatest } from 'rxjs/operator/combineLatest'
 import { concat } from 'rxjs/operator/concat'
+import { startWith } from 'rxjs/operator/startWith'
 import { scan } from 'rxjs/operator/scan'
 import { _do } from 'rxjs/operator/do'
 import { map } from 'rxjs/operator/map'
@@ -91,7 +92,12 @@ describe('observeProps()', () => {
       spy,
       branch(
         props => props.observe,
-        observeProps(() => increment$::_do(() => count += 1)::map(() => ({}))),
+        observeProps(() =>
+          increment$
+            ::_do(() => count += 1)
+            ::map(() => ({}))
+            ::startWith(null)
+        ),
         identity
       )
     )('div')

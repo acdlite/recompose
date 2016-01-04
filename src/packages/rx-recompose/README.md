@@ -28,16 +28,42 @@ Other benefits include:
 
 ## API
 
+### `createComponent()`
+
+```js
+createComponent(
+  propsToReactNode: (props$: Observable<object>) => Observable<ReactNode>
+): ReactComponent
+```
+
+Creates a React component by mapping an observable stream of props to a stream of React nodes (vdom).
+
+You can think of `propsToReactNode` as a function `f` such that
+
+```js
+const vdom$ = f(props$)
+```
+
+where `props$` is a stream of props and `vdom$` is a stream of React nodes. This formulation similar to the popular notion of React views as a function, often communicated as
+
+```
+v = f(d)
+```
+
+See below for a full example.
+
 ### `observeProps()`
 
 ```js
 observeProps(
-  mapPropsStream: (props$: Observable) => Observable,
+  ownerPropsToChildProps: (props$: Observable<object>) => Observable<object>,
   BaseComponent: ReactElementType
-): ReactElementType
+): ReactComponent
 ```
 
-Maps an observable stream of owner props to a stream of child props.
+A higher-order component version of `createComponent()` — accepts a function that maps an observable stream of owner props to a stream of child props, rather than directly to a stream of React nodes. The child props are then passed to a base component.
+
+You may want to use this version to interoperate with other Recompose higher-order component helpers.
 
 ### `createEventHandler()`
 
@@ -45,46 +71,37 @@ Maps an observable stream of owner props to a stream of child props.
 createEventHandler(): Function & Observable
 ```
 
-Creates an Observable that can be called like a function; when called, the observable emits a new value. This type of function is ideal for passing event handlers from `observeProps()`.
+Creates an Observable that can be called like a function; when called, the observable emits a new value. This type of function is ideal for passing event handlers.
 
 ## Example
 
 ```js
-import { observeProps, createEventHandler } from 'rx-recompose'
+import { createComponent, createEventHandler } from 'rx-recompose'
 import { map } from 'rxjs/operator/map'
 import { merge } from 'rxjs/operator/merge-static'
 import { scan } from 'rxjs/operator/scan'
 import { startWith } from 'rxjs/operator/startWith'
 import { combineLatest } from 'rxjs/operator/combineLatest'
 
-const Counter = observeProps(
-  props$ => {
-    const increment$ = createEventHandler()
-    const decrement$ = createEventHandler()
+const Counter = createComponent(props$ => {
+  const increment$ = createEventHandler()
+  const decrement$ = createEventHandler()
 
-    const count$ = merge(
-        increment$::map(() => 1),
-        decrement$::map(() => -1)
-      )
-      ::scan((count, n) => count + n, 0)
-      ::startWith(0)
+  const count$ = merge(
+      increment$::map(() => 1),
+      decrement$::map(() => -1)
+    )
+    ::scan((count, n) => count + n, 0)
+    ::startWith(0)
 
-    return props$::combineLatest(
-      count$,
-      (props, count) => ({
-        ...props,
-        count,
-        increment: increment$,
-        decrement: decrement$,
-      })
-    }
-  },
-  ({ count, decrement, increment, ...props }) => (
-    <div {...props}>
-      Count: {count}
-      <button onClick={increment}>+</button>
-      <button onClick={decrement}>-</button>
-    </div>
+  return props$::combineLatest(
+    count$,
+    (props, count) =>
+      <div {...props}>
+        Count: {count}
+        <button onClick={increment$}>+</button>
+        <button onClick={decrement$}>-</button>
+      </div>
   )
-)
+})
 ```
