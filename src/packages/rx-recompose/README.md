@@ -32,27 +32,12 @@ Other benefits include:
 
 ```js
 observeProps(
-  mapPropsStream: (props$: Observable) => Observable | { [propKey: string]: Observable },
+  mapPropsStream: (props$: Observable) => Observable,
   BaseComponent: ReactElementType
 ): ReactElementType
 ```
 
-Maps an observable stream of owner props to a stream of child props, or to an object of observables.
-
-In the second form, an object of streams is turned into an stream of objects. To illustrate, the following two `mapPropsStream()` functions are equivalent:
-
-```js
-const mapPropsStream1 = () => Observable.just({ a, b, c }),
-
-// Same as
-const mapPropsStream2 = () => ({
-  a: Observable.just(a),
-  b: Observable.just(b),
-  c: Observable.just(c)
-})
-```
-
-The second form is often more convenient because it avoids the need for `Observable.combineLatest()`, but note that it is also more limiting: you must explicitly declare every prop that is passed to the base component. There's no way to pass through arbitrary props from the owner. For full control over the stream of props, use the first form.
+Maps an observable stream of owner props to a stream of child props.
 
 ### `createEventHandler()`
 
