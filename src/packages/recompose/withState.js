@@ -3,7 +3,7 @@ import isFunction from 'lodash/lang/isFunction'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-export const withState = (
+const withState = (
   stateName,
   stateUpdaterName,
   initialState,
