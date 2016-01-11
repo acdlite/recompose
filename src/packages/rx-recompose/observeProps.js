@@ -4,13 +4,14 @@ import createComponent from './createComponent'
 
 const observeProps = (ownerPropsToChildProps, BaseComponent) =>
   createComponent(ownerProps$ =>
-    new Observable(observer =>
-      ownerPropsToChildProps(ownerProps$).subscribe({
+    new Observable(observer => {
+      const subscription = ownerPropsToChildProps(ownerProps$).subscribe({
         next: childProps => observer.next(
           createElement(BaseComponent, childProps)
         )
       })
-    )
+      return () => subscription.unsubscribe()
+    })
   )
 
 export default createHelper(observeProps, 'observeProps')
