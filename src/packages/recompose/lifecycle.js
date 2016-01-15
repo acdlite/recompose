@@ -6,11 +6,15 @@ const lifecycle = (setup, teardown, BaseComponent) => (
   class Lifecycle extends React.Component {
     constructor(props, context) {
       super(props, context)
-      setup(this)
+      if (setup) {
+        setup(this)
+      }
     }
 
     componentWillUnmount() {
-      teardown(this)
+      if (teardown) {
+        teardown(this)
+      }
     }
 
     render() {
