@@ -9,7 +9,8 @@ const createHelper = (func, helperName, _helperLength, setDisplayName = true) =>
     // to the base commponent.
     const wrapDisplayName = require('./wrapDisplayName')
     const apply = (previousArgs, nextArgs) => {
-      const args = previousArgs.concat(nextArgs)
+      const filteredArgs = nextArgs.filter(ident => ident !== undefined)
+      const args = previousArgs.concat(filteredArgs)
       const argsLength = args.length
 
       if (argsLength < helperLength) {

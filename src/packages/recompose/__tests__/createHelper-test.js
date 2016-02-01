@@ -27,6 +27,7 @@ describe('createHelper()', () => {
     testEqualOutput(helper => helper()(a, b, c))
     testEqualOutput(helper => helper(null)(b, c))
     testEqualOutput(helper => helper(undefined)(b, c))
+    testEqualOutput(helper => helper(b, undefined, c))
   })
 
   it('properly sets display name', () => {
