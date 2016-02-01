@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import isFunction from 'lodash/lang/isFunction'
+import isFunction from 'lodash/isFunction'
 import createHelper from './createHelper'
 import createElement from './createElement'
 

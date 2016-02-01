@@ -1,4 +1,4 @@
-import omit from 'lodash/object/omit'
+import omit from 'lodash/omit'
 import createHelper from './createHelper'
 import createElement from './createElement'
 

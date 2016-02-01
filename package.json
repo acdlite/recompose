@@ -42,7 +42,7 @@
     "karma-sinon": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.5",
     "karma-webpack": "^1.7.0",
-    "lodash": "^3.10.1",
+    "lodash": "^4.0.0",
     "mocha": "^2.3.3",
     "phantomjs": "^1.9.18",
     "pretty-bytes": "^2.0.1",

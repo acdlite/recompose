@@ -1,4 +1,4 @@
-import omit from 'lodash/object/omit'
+import omit from 'lodash/omit'
 import mapProps from './mapProps'
 import createHelper from './createHelper'
 

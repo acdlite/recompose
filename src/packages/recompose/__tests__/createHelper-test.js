@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import createHelper from '../createHelper'
-import lodashCurry from 'lodash/function/curry'
+import lodashCurry from 'lodash/curry'
 
 describe('createHelper()', () => {
   const func = (a, b, c) => ({ a, b, c })

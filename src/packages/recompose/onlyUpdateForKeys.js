@@ -1,4 +1,4 @@
-import pick from 'lodash/object/pick'
+import pick from 'lodash/pick'
 import shouldUpdate from './shouldUpdate'
 import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'

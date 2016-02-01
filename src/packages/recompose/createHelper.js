@@ -1,4 +1,4 @@
-import curry from 'lodash/function/curry'
+import curry from 'lodash/curry'
 
 const createHelper = (func, helperName, _helperLength, setDisplayName = true) => {
   const helperLength = _helperLength || func.length
