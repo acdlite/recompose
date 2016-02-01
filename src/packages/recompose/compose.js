@@ -42,11 +42,11 @@ if (process.env.NODE_ENV !== 'production') {
           )
         })
 
-        return lodashCompose(...funcs)(BaseComponent)
+        return flowRight(...funcs)(BaseComponent)
       }
     }
 
-    return lodashCompose(...funcs)
+    return flowRight(...funcs)
   }
 }
 
