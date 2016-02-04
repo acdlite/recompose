@@ -1,4 +1,4 @@
-import curry from 'lodash/function/curry'
+import curry from 'lodash/curry'
 
 const createHelper = (func, helperName, _helperLength, setDisplayName = true) => {
   const helperLength = _helperLength || func.length
@@ -9,7 +9,10 @@ const createHelper = (func, helperName, _helperLength, setDisplayName = true) =>
     // to the base commponent.
     const wrapDisplayName = require('./wrapDisplayName')
     const apply = (previousArgs, nextArgs) => {
-      const args = previousArgs.concat(nextArgs)
+      const filteredArgs = nextArgs.filter(
+        ident => typeof ident !== 'undefined'
+      )
+      const args = previousArgs.concat(filteredArgs)
       const argsLength = args.length
 
       if (argsLength < helperLength) {

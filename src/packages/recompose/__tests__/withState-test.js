@@ -1,6 +1,6 @@
 import React from 'react'
 import { expect } from 'chai'
-import omit from 'lodash/object/omit'
+import omit from 'lodash/omit'
 import { withState, compose } from 'recompose'
 import createSpy from 'recompose/createSpy'
 

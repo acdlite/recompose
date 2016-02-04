@@ -1,7 +1,7 @@
 import React from 'react'
 import { expect } from 'chai'
 import { compose, mapProps, setDisplayName } from 'recompose'
-import identity from 'lodash/utility/identity'
+import identity from 'lodash/identity'
 
 describe('compose()', () => {
   const BaseComponent = setDisplayName('BaseComponent', () => <div />)

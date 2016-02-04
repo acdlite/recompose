@@ -1,6 +1,6 @@
-import omit from 'lodash/object/omit'
-import pick from 'lodash/object/pick'
-import mapKeys from 'lodash/object/mapKeys'
+import omit from 'lodash/omit'
+import pick from 'lodash/pick'
+import mapKeys from 'lodash/mapKeys'
 import mapProps from './mapProps'
 import createHelper from './createHelper'
 

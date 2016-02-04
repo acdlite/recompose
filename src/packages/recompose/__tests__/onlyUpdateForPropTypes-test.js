@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { expect } from 'chai'
-import omit from 'lodash/object/omit'
+import omit from 'lodash/omit'
 
 import {
   onlyUpdateForPropTypes,

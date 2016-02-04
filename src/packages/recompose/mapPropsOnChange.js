@@ -1,6 +1,6 @@
 import { Component } from 'react'
-import pick from 'lodash/object/pick'
-import omit from 'lodash/object/omit'
+import pick from 'lodash/pick'
+import omit from 'lodash/omit'
 import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
 import createElement from './createElement'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { expect } from 'chai'
-import identity from 'lodash/utility/identity'
+import identity from 'lodash/identity'
 import { lifecycle, compose, withState, branch } from 'recompose'
 import createSpy from 'recompose/createSpy'
 

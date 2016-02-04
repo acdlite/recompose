@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import createHelper from '../createHelper'
-import lodashCurry from 'lodash/function/curry'
+import lodashCurry from 'lodash/curry'
 
 describe('createHelper()', () => {
   const func = (a, b, c) => ({ a, b, c })
@@ -27,6 +27,7 @@ describe('createHelper()', () => {
     testEqualOutput(helper => helper()(a, b, c))
     testEqualOutput(helper => helper(null)(b, c))
     testEqualOutput(helper => helper(undefined)(b, c))
+    testEqualOutput(helper => helper(b, undefined, c))
   })
 
   it('properly sets display name', () => {

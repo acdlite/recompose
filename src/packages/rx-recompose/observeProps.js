@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { Observable, Subject } from 'rx'
-import isPlainObject from 'lodash/lang/isPlainObject'
+import isPlainObject from 'lodash/isPlainObject'
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
 
