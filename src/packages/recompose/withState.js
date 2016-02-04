@@ -14,13 +14,13 @@ const withState = (
       stateValue: isFunction(initialState)
         ? initialState(this.props)
         : initialState
-    }
+    };
 
     updateStateValue = (updateFn, callback) => (
       this.setState(({ stateValue }) => ({
         stateValue: isFunction(updateFn) ? updateFn(stateValue) : updateFn
       }), callback)
-    )
+    );
 
     render() {
       return createElement(BaseComponent, {

@@ -18,7 +18,7 @@ describe('withContext() / getContext()', () => {
     class Provider extends Component {
       static propTypes = {
         children: PropTypes.node
-      }
+      };
 
       render() {
         return this.props.children

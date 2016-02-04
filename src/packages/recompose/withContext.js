@@ -8,7 +8,7 @@ const withContext = (
   BaseComponent
 ) => {
   class WithContext extends Component {
-    getChildContext = () => getChildContext(this.props)
+    getChildContext = () => getChildContext(this.props);
 
     render() {
       return createElement(BaseComponent, this.props)

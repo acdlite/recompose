@@ -19,22 +19,22 @@ const objectToPropSequence = object => {
 
 const observeProps = (propsSequenceMapper, BaseComponent) => (
   class extends Component {
-    state = {}
+    state = {};
 
     // Subject that receives props from owner
-    receiveOwnerProps$ = new Subject()
+    receiveOwnerProps$ = new Subject();
 
     // Stream of owner props
-    ownerProps$ = this.receiveOwnerProps$.startWith(this.props)
+    ownerProps$ = this.receiveOwnerProps$.startWith(this.props);
 
     // Stream of child props
     childProps$ = (val => isPlainObject(val)
       ? objectToPropSequence(val)
       : val
-    )(propsSequenceMapper(this.ownerProps$))
+    )(propsSequenceMapper(this.ownerProps$));
 
     // Keep track of whether the component has mounted
-    componentHasMounted = false
+    componentHasMounted = false;
 
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render

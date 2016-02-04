@@ -5,7 +5,7 @@ import { graphql }  from 'graphql'
 import { introspectionQuery, printSchema } from 'graphql/utilities'
 
 // Save JSON of full schema introspection for Babel Relay Plugin to use
-async () => {
+(async () => {
   const result = await graphql(Schema, introspectionQuery)
   if (result.errors) {
     /* eslint-disable */
@@ -20,7 +20,7 @@ async () => {
       JSON.stringify(result, null, 2)
     )
   }
-}()
+})()
 
 // Save user readable type system shorthand of schema
 fs.writeFileSync(

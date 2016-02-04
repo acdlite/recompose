@@ -4,7 +4,7 @@ import createHelper from './createHelper'
 
 const withAttachedProps = (createProps, BaseComponent) =>
   class extends Component {
-    attachedProps = createProps(() => this.props)
+    attachedProps = createProps(() => this.props);
     render() {
       return createElement(BaseComponent, {
         ...this.props,

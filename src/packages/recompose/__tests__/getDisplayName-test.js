@@ -11,7 +11,7 @@ describe('getDisplayName()', () => {
     }
 
     class SomeOtherComponent extends React.Component {
-      static displayName = 'CustomDisplayName'
+      static displayName = 'CustomDisplayName';
       render() {
         return <div />
       }

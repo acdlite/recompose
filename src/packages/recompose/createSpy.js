@@ -47,7 +47,7 @@ const createSpy = () => {
       removeSpyInstance(this)
     }
 
-    refCallback = ref => updateComponent(this, ref)
+    refCallback = ref => updateComponent(this, ref);
 
     render() {
       return <BaseComponent {...this.props} ref={this.refCallback} />

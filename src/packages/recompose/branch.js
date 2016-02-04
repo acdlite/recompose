@@ -4,8 +4,8 @@ import createElement from './createElement'
 
 const branch = (test, left, right, BaseComponent) =>
   class extends React.Component {
-    LeftComponent = null
-    RightComponent = null
+    LeftComponent = null;
+    RightComponent = null;
 
     constructor(props, context) {
       super(props, context)

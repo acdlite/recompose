@@ -98,9 +98,9 @@ describe('createSpy', () => {
         const Spy = spy(class extends React.Component {
           static propTypes = {
             n: PropTypes.number
-          }
+          };
 
-          n = this.props.n
+          n = this.props.n;
 
           render() {
             return <div />

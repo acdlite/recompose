@@ -15,11 +15,11 @@ const withReducer = (
       stateValue: isFunction(initialState)
         ? initialState(this.props)
         : initialState
-    }
+    };
 
     dispatch = action => this.setState(({ stateValue }) => ({
       stateValue: reducer(stateValue, action)
-    }))
+    }));
 
     render() {
       return createElement(BaseComponent, {

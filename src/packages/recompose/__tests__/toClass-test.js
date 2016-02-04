@@ -47,7 +47,7 @@ describe('toClass()', () => {
     class Provider extends React.Component {
       static propTypes = {
         children: PropTypes.node
-      }
+      };
 
       render() {
         return this.props.children
