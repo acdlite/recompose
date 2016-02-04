@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import { Observable } from 'rxjs/Observable';
 
 const createComponent = propsToVdom =>
   class RxComponent extends Component {

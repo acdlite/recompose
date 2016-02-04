@@ -1,2 +1,3 @@
-export observeProps from './observeProps'
+export createComponent from './createComponent'
 export createEventHandler from './createEventHandler'
+export observeProps from './observeProps'

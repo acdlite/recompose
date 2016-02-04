@@ -1,6 +1,7 @@
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
 import createComponent from './createComponent'
+import { Observable } from 'rxjs/Observable';
 
 const observeProps = (ownerPropsToChildProps, BaseComponent) =>
   createComponent(ownerProps$ =>

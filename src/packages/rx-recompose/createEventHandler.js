@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Observable';
+
 // Idea and implementation borrowed from
 // https://github.com/fdecampredon/rx-react
 const createEventHandler = () => {
