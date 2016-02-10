@@ -5,7 +5,7 @@ const onlyUpdateForPropTypes = BaseComponent => {
   const propTypes = BaseComponent.propTypes
 
   if (process.env.NODE_ENV !== 'production') {
-    const getDisplayName = require('./getDisplayName')
+    const getDisplayName = require('./getDisplayName').default
     if (!propTypes) {
       /* eslint-disable */
       console.error(

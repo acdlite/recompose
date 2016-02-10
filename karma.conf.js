@@ -1,4 +1,4 @@
-require('babel/register')
+require('babel-core/register')
 var path = require('path')
 var webpack = require('webpack')
 var getPackageNames = require('./scripts/getPackageNames').getPackageNames
