@@ -8,7 +8,7 @@ const nest = (...Components) => {
     )
 
   if (process.env.NODE_ENV !== 'production') {
-    const getDisplayName = require('./getDisplayName')
+    const getDisplayName = require('./getDisplayName').default
     const displayNames = Components.map(getDisplayName)
     Nest.displayName = `nest(${displayNames.join(', ')})`
   }

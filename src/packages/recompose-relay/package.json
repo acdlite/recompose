@@ -1,7 +1,7 @@
 {
   "description": "Recompose helpers for Relay.",
   "scripts": {
-    "update-schema": "node -r babel/register updateSchema.js"
+    "update-schema": "node -r babel-core/register updateSchema.js"
   },
   "keywords": [
     "recompose",
@@ -20,10 +20,10 @@
   "peerDependencies": {
     "recompose": "^0.9.1",
     "react": "^0.14.0",
-    "react-relay": "^0.3.2"
+    "react-relay": "^0.6.0"
   },
   "devDependencies": {
     "lodash-fp": "^0.10.2",
-    "react-relay": "^0.4.0"
+    "react-relay": "^0.6.0"
   }
 }
