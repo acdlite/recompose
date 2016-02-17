@@ -106,7 +106,7 @@ Renames multiple props, using a map of old prop names to new prop names.
 ### `flattenProp()`
 
 ```js
-renameProps(
+flattenProp(
   propName: string,
   BaseComponent: ReactElementType
 ): ReactElementType
