@@ -2,9 +2,12 @@ import { Subject } from 'rx'
 
 // Idea and implementation borrowed from
 // https://github.com/fdecampredon/rx-react
-const createEventHandler = () => {
+const createEventHandler = (fn) => {
   function subject(value) {
     subject.onNext(value)
+    // Call the function with the value (maybe event)
+    // to allow canceling it, and `return false`-ing
+    return fn && fn(value)
   }
 
   /* eslint-disable */

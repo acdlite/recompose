@@ -55,7 +55,9 @@ The second form is often more convenient because it avoids the need for `Observa
 ### `createEventHandler()`
 
 ```js
-createEventHandler(): Function & Subject
+createEventHandler(
+  callback: ?(value: any) => any
+): Function & Subject
 ```
 
 Creates a Subject that is also a function. When called, the subject emits a new value. This type of function is ideal for passing event handlers from `observeProps()`:
@@ -87,4 +89,15 @@ const Counter = observeProps(
     </div>
   )
 )
+```
+
+Allows one optional function argument, that will be called every time the eventHandler is called,
+with the same argument, and will yield the return value of that same callback. This way, you can
+totally cancel a form submission using the eventHandler:
+
+```
+const onSubmit = createEventHandler(e => {
+  e.preventDefault()
+  return false
+})
 ```
