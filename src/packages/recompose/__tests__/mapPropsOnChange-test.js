@@ -18,7 +18,8 @@ describe('mapPropsOnChange()', () => {
         ({ a, b }) => {
           mapSpy()
           return {
-            foobar: a + b
+            foobar: a + b,
+            d: 'new',
           }
         }
       ),
@@ -33,7 +34,8 @@ describe('mapPropsOnChange()', () => {
 
     expect(omit(spy.getProps(), ['updateStrings'])).to.eql({
       c: 'c',
-      foobar: 'ab'
+      foobar: 'ab',
+      d: 'new'
     })
     expect(mapSpy.callCount).to.equal(1)
 
@@ -46,10 +48,11 @@ describe('mapPropsOnChange()', () => {
       foobar: 'ab'
     })
 
-    spy.getProps().updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar' }))
+    spy.getProps().updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar', d: 'old' }))
     expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
       c: 'baz',
-      foobar: 'foobar'
+      foobar: 'foobar',
+      d: 'new'
     })
     expect(mapSpy.callCount).to.equal(2)
   })
