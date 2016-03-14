@@ -191,7 +191,7 @@ Most of the time when we talk about composition in React, we're talking about co
 
 However, that's only the beginning. Recompose focuses on another unit of composition: **higher-order components** (HoCs). HoCs are functions that accept a base component and return a new component with additional functionality. They can be used to abstract common tasks into reusable pieces.
 
-Recompose provides a toolkit of helper functions for creating higher-order components. Most of these helpers are themselves are higher-order components. You can compose the helpers together to make new HoCs, or apply them to a base component.
+Recompose provides a toolkit of helper functions for creating higher-order components. Most of these helpers are themselves higher-order components. You can compose the helpers together to make new HoCs, or apply them to a base component.
 
 ## [Should I use this? Performance and other concerns](docs/performance.md)
 
