@@ -176,7 +176,7 @@ Function components have several key advantages:
 
 - They prevent abuse of the `setState()` API, favoring props instead.
 - They're simpler, and less error-prone.
-- They encourage the "smart" vs. "dumb" component pattern.
+- They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 - They encourage code that is more reusable and modular.
 - They discourage giant, complicated components that do too many things.
 - In the future, they will allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
