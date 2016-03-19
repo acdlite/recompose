@@ -38,12 +38,14 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
 
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render
-      this.subscription = this.childProps$.subscribe(
-        childProps =>
-          !this.componentHasMounted
-            ? this.state = { childProps }
-            : this.setState({ childProps })
-      )
+      this.subscription = this.childProps$.subscribe(childProps => {
+        this.didEmitProps = true
+        if (!this.componentHasMounted) {
+          this.state = { childProps }
+        } else {
+          this.setState({ childProps })
+        }
+      })
     }
 
     componentDidMount() {
@@ -65,6 +67,9 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
     }
 
     render() {
+      if (!this.didEmitProps) {
+        return null
+      }
       return createElement(BaseComponent, this.state.childProps)
     }
   }
