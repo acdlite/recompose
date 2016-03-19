@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import React from 'react'
-import { Observable } from 'rx'
+import { Observable, Subject } from 'rx'
 import { toClass, withState, compose, branch } from 'recompose'
 import identity from 'lodash/identity'
 import createSpy from 'recompose/createSpy'
@@ -137,5 +137,20 @@ describe('observeProps()', () => {
     updateObserve(false) // Unmount component
     increment$()
     expect(count).to.equal(2)
+  })
+
+  it('renders null until stream of props emits value', () => {
+    const props$ = new Subject()
+    const spy = createSpy()
+    const Container = compose(
+      observeProps(() => props$),
+      spy
+    )('div')
+
+    renderIntoDocument(<Container />)
+
+    expect(spy.getInfo().length).to.equal(0)
+    props$.onNext({})
+    expect(spy.getRenderCount()).to.equal(1)
   })
 })

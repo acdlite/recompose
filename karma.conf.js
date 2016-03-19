@@ -62,7 +62,7 @@ module.exports = function(config) {
           ],
           loader: 'babel',
           query: {
-            plugins: ['./src/packages/recompose-relay/babelRelayPlugin']
+            plugins: [path.resolve(__dirname, './src/packages/recompose-relay/babelRelayPlugin')]
           }
         }]
       },

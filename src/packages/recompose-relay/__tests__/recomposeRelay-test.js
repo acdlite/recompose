@@ -39,7 +39,7 @@ const networkLayer = {
 
 Relay.injectNetworkLayer(networkLayer)
 
-describe('createContainer()', () => {
+describe.skip('createContainer()', () => {
   const relayTest = async (Tyrion, spy) => {
     renderIntoDocument(
       <Relay.RootContainer
