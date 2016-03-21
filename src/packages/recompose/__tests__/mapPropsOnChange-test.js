@@ -45,7 +45,8 @@ describe('mapPropsOnChange()', () => {
 
     expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
       c: 'baz',
-      foobar: 'ab'
+      foobar: 'ab',
+      d: 'new'
     })
 
     spy.getProps().updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar', d: 'old' }))
