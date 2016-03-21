@@ -4,7 +4,7 @@ import isReferentiallyTransparentFunctionComponent
 
 const createElement = (Component, props, children) => {
   /* eslint-disable */
-  const hasKey = props && props.key
+  const hasKey = props && props.hasOwnProperty('key')
   /* eslint-enable */
 
   if (!hasKey && isReferentiallyTransparentFunctionComponent(Component)) {

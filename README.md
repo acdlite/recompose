@@ -176,7 +176,7 @@ Function components have several key advantages:
 
 - They prevent abuse of the `setState()` API, favoring props instead.
 - They're simpler, and less error-prone.
-- They encourage the "smart" vs. "dumb" component pattern.
+- They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 - They encourage code that is more reusable and modular.
 - They discourage giant, complicated components that do too many things.
 - In the future, they will allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
@@ -191,7 +191,7 @@ Most of the time when we talk about composition in React, we're talking about co
 
 However, that's only the beginning. Recompose focuses on another unit of composition: **higher-order components** (HoCs). HoCs are functions that accept a base component and return a new component with additional functionality. They can be used to abstract common tasks into reusable pieces.
 
-Recompose provides a toolkit of helper functions for creating higher-order components. Most of these helpers are themselves are higher-order components. You can compose the helpers together to make new HoCs, or apply them to a base component.
+Recompose provides a toolkit of helper functions for creating higher-order components. Most of these helpers are themselves higher-order components. You can compose the helpers together to make new HoCs, or apply them to a base component.
 
 ## [Should I use this? Performance and other concerns](docs/performance.md)
 
