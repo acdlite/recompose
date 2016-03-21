@@ -22,8 +22,8 @@ const mapPropsOnChange = (depdendentPropKeys, propsMapper, BaseComponent) => {
 
     render() {
       return createElement(BaseComponent, {
-        ...this.computedProps,
-        ...omit(this.props, depdendentPropKeys)
+        ...omit(this.props, depdendentPropKeys),
+        ...this.computedProps
       })
     }
   }
