@@ -1,6 +1,7 @@
 import setStatic from './setStatic'
 import createHelper from './createHelper'
 
-const setDisplayName = setStatic('displayName')
+const setDisplayName = displayName =>
+  setStatic('displayName', displayName)
 
-export default createHelper(setDisplayName, 'setDisplayName', 2, false)
+export default createHelper(setDisplayName, 'setDisplayName', false)

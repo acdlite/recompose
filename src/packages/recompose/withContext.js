@@ -2,11 +2,7 @@ import { Component } from 'react'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-const withContext = (
-  childContextTypes,
-  getChildContext,
-  BaseComponent
-) => {
+const withContext = (childContextTypes, getChildContext) => BaseComponent => {
   class WithContext extends Component {
     getChildContext = () => getChildContext(this.props);
 

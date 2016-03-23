@@ -5,7 +5,7 @@ import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-const mapPropsOnChange = (depdendentPropKeys, propsMapper, BaseComponent) => {
+const mapPropsOnChange = (depdendentPropKeys, propsMapper) => BaseComponent => {
   const pickDependentProps = props => pick(props, depdendentPropKeys)
 
   return class extends Component {

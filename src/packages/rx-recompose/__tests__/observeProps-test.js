@@ -26,7 +26,8 @@ const createSmartButton1 = BaseComponent =>
       onClick: increment$,
       count
     }))
-  }, toClass(BaseComponent))
+  }
+)(toClass(BaseComponent))
 
 const createSmartButton2 = BaseComponent =>
   observeProps(() => {
@@ -39,7 +40,8 @@ const createSmartButton2 = BaseComponent =>
       onClick: Observable.just(increment$),
       count: count$
     }
-  }, toClass(BaseComponent))
+  }
+)(toClass(BaseComponent))
 
 const Button = toClass(props => <button {...props} />)
 
@@ -101,7 +103,7 @@ describe('observeProps()', () => {
     const spy = createSpy()
     const SmartButton = createSmartButton1(spy('div'))
 
-    const Container = withState('label', 'updateLabel', 'Count', SmartButton)
+    const Container = withState('label', 'updateLabel', 'Count')(SmartButton)
 
     renderIntoDocument(<Container />)
 

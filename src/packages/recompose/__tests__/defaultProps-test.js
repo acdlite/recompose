@@ -1,6 +1,6 @@
 import React from 'react'
 import { expect } from 'chai'
-import { defaultProps, pure, compose } from 'recompose'
+import { defaultProps, compose } from 'recompose'
 import createSpy from 'recompose/createSpy'
 
 import { renderIntoDocument } from 'react-addons-test-utils'
@@ -8,12 +8,6 @@ import { renderIntoDocument } from 'react-addons-test-utils'
 describe('defaultProps()', () => {
   const spy = createSpy()
   const DoReMi = compose(
-    defaultProps({ so: 'do', la: 'fa' }),
-    spy
-  )('div')
-
-  const DoSiLaSol = compose(
-    pure,
     defaultProps({ so: 'do', la: 'fa' }),
     spy
   )('div')
@@ -38,11 +32,4 @@ describe('defaultProps()', () => {
 
     expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' })
   })
-
-  it('it should work in combination with other Recompose decorators', () => {
-    renderIntoDocument(<DoSiLaSol />)
-
-    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' })
-  })
-
 })

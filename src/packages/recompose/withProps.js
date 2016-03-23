@@ -2,7 +2,7 @@ import isFunction from 'lodash/isFunction'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-const withProps = (input, BaseComponent) => {
+const withProps = input => BaseComponent => {
   let getProps
   const props = isFunction(input)
     ? input(getProps)

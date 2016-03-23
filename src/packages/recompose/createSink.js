@@ -1,7 +1,7 @@
 import { Component } from 'react'
 
 const createSink = callback =>
-  class extends Component {
+  class Sink extends Component {
     componentWillMount() {
       callback(this.props)
     }

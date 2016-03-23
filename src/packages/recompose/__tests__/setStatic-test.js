@@ -7,9 +7,8 @@ describe('setStatic()', () => {
     const BaseComponent = () => <div />
     const NewComponent = setStatic(
       'propTypes',
-      { foo: PropTypes.object },
-      BaseComponent
-    )
+      { foo: PropTypes.object }
+    )(BaseComponent)
 
     expect(NewComponent.propTypes).to.eql({
       foo: PropTypes.object

@@ -1,6 +1,7 @@
 import setStatic from './setStatic'
 import createHelper from './createHelper'
 
-const setPropTypes = setStatic('propTypes')
+const setPropTypes = propTypes =>
+  setStatic('propTypes', propTypes)
 
-export default createHelper(setPropTypes, 'setPropTypes', 2, false)
+export default createHelper(setPropTypes, 'setPropTypes', false)

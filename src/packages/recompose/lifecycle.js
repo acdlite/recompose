@@ -2,7 +2,7 @@ import React from 'react'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-const lifecycle = (setup, teardown, BaseComponent) => (
+const lifecycle = (setup, teardown) => BaseComponent => (
   class Lifecycle extends React.Component {
     constructor(props, context) {
       super(props, context)

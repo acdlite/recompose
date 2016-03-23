@@ -1,7 +1,7 @@
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-const getContext = (contextTypes, BaseComponent) => {
+const getContext = contextTypes => BaseComponent => {
   const GetContext = (ownerProps, context) => (
     createElement(BaseComponent, {
       ...ownerProps,

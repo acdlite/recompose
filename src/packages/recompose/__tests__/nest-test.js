@@ -8,9 +8,9 @@ describe('nest()', () => {
   it('nests components from outer to inner', () => {
     const renderer = createRenderer()
 
-    const A = setDisplayName('A', toClass('div'))
-    const B = setDisplayName('B', toClass('div'))
-    const C = setDisplayName('C', toClass('div'))
+    const A = setDisplayName('A')(toClass('div'))
+    const B = setDisplayName('B')(toClass('div'))
+    const C = setDisplayName('C')(toClass('div'))
 
     const Nest = nest(A, B, C)
 

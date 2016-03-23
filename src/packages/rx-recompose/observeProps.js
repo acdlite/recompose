@@ -17,7 +17,7 @@ const objectToPropSequence = object => {
   )
 }
 
-const observeProps = (propsSequenceMapper, BaseComponent) => (
+const observeProps = propsSequenceMapper => BaseComponent =>
   class extends Component {
     state = {};
 
@@ -73,6 +73,5 @@ const observeProps = (propsSequenceMapper, BaseComponent) => (
       return createElement(BaseComponent, this.state.childProps)
     }
   }
-)
 
 export default createHelper(observeProps, 'observeProps')
