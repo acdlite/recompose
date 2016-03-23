@@ -1,8 +1,11 @@
 import omit from 'lodash/omit'
-import createHelper from './createHelper'
 import createElement from './createElement'
 
-const componentFromProp = propName =>
-  props => createElement(props[propName], omit(props, propName))
+const componentFromProp = propName => {
+  const Component = props =>
+    createElement(props[propName], omit(props, propName))
+  Component.displayName = `componentFromProp(${propName})`
+  return Component
+}
 
-export default createHelper(componentFromProp, 'componentFromProp')
+export default componentFromProp

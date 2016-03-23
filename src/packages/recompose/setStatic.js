@@ -1,8 +1,8 @@
 import createHelper from './createHelper'
 
-const setStatic = (key, value, BaseComponent) => {
+const setStatic = (key, value) => BaseComponent => {
   BaseComponent[key] = value
   return BaseComponent
 }
 
-export default createHelper(setStatic, 'setStatic', 3, false)
+export default createHelper(setStatic, 'setStatic', false)

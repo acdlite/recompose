@@ -6,9 +6,8 @@ describe('setPropTypes()', () => {
   it('sets a static property on the base component', () => {
     const BaseComponent = () => <div />
     const NewComponent = setPropTypes(
-      { foo: PropTypes.object },
-      BaseComponent
-    )
+      { foo: PropTypes.object }
+    )(BaseComponent)
 
     expect(NewComponent.propTypes).to.eql({
       foo: PropTypes.object

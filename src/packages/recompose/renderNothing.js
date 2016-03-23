@@ -6,4 +6,4 @@ const renderNothing = _ => {
   return Nothing
 }
 
-export default createHelper(renderNothing, 'renderNothing', 1, false)
+export default createHelper(renderNothing, 'renderNothing', false, true)

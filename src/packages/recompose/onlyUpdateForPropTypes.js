@@ -18,9 +18,14 @@ const onlyUpdateForPropTypes = BaseComponent => {
   }
 
   const propKeys = Object.keys(propTypes || {})
-  const OnlyUpdateForPropTypes = onlyUpdateForKeys(propKeys, BaseComponent)
+  const OnlyUpdateForPropTypes = onlyUpdateForKeys(propKeys)(BaseComponent)
 
   return OnlyUpdateForPropTypes
 }
 
-export default createHelper(onlyUpdateForPropTypes, 'onlyUpdateForPropTypes')
+export default createHelper(
+  onlyUpdateForPropTypes,
+  'onlyUpdateForPropTypes',
+  true,
+  true
+)

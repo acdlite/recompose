@@ -1,5 +1,5 @@
 import React from 'react'
-import createHelper from './createHelper'
+import wrapDisplayName from './wrapDisplayName'
 
 const createSpy = () => {
   let spyInfo = []
@@ -32,27 +32,33 @@ const createSpy = () => {
     info.component = component
   }
 
-  const spy = createHelper(BaseComponent => class extends React.Component {
-    constructor(props, context) {
-      super(props, context)
-      addSpyInstance(this)
-      receiveProps(this, props)
+  const spy = BaseComponent => {
+    class Spy extends React.Component {
+      constructor(props, context) {
+        super(props, context)
+        addSpyInstance(this)
+        receiveProps(this, props)
+      }
+
+      componentWillReceiveProps(nextProps) {
+        receiveProps(this, nextProps)
+      }
+
+      componentWillUnmount() {
+        removeSpyInstance(this)
+      }
+
+      refCallback = ref => updateComponent(this, ref);
+
+      render() {
+        return <BaseComponent {...this.props} ref={this.refCallback} />
+      }
     }
 
-    componentWillReceiveProps(nextProps) {
-      receiveProps(this, nextProps)
-    }
+    Spy.displayName = wrapDisplayName(BaseComponent, 'spy')
 
-    componentWillUnmount() {
-      removeSpyInstance(this)
-    }
-
-    refCallback = ref => updateComponent(this, ref);
-
-    render() {
-      return <BaseComponent {...this.props} ref={this.refCallback} />
-    }
-  }, 'spy')
+    return Spy
+  }
 
   spy.getInfo = () => spyInfo
   spy.getProps = (componentIndex = 0, renderIndex = 0) => (

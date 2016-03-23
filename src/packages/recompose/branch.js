@@ -2,7 +2,7 @@ import React from 'react'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-const branch = (test, left, right, BaseComponent) =>
+const branch = (test, left, right) => BaseComponent =>
   class extends React.Component {
     LeftComponent = null;
     RightComponent = null;

@@ -61,6 +61,6 @@ describe('lifecycle()', () => {
   })
 
   it('sets proper display name', () => {
-    expect(lifecycle(noop, noop, 'div').displayName).to.equal('lifecycle(div)')
+    expect(lifecycle(noop, noop)('div').displayName).to.equal('lifecycle(div)')
   })
 })
