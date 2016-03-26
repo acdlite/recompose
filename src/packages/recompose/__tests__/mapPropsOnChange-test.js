@@ -33,6 +33,8 @@ describe('mapPropsOnChange()', () => {
     renderIntoDocument(<StringConcat />)
 
     expect(omit(spy.getProps(), ['updateStrings'])).to.eql({
+      a: 'a',
+      b: 'b',
       c: 'c',
       foobar: 'ab',
       d: 'new'
@@ -44,6 +46,8 @@ describe('mapPropsOnChange()', () => {
     expect(mapSpy.callCount).to.equal(1)
 
     expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
+      a: 'a',
+      b: 'b',
       c: 'baz',
       foobar: 'ab',
       d: 'new'
@@ -51,6 +55,8 @@ describe('mapPropsOnChange()', () => {
 
     spy.getProps().updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar', d: 'old' }))
     expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
+      a: 'foo',
+      b: 'bar',
       c: 'baz',
       foobar: 'foobar',
       d: 'new'
