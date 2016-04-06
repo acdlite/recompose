@@ -15,14 +15,25 @@ const createHelper = (
       }
     }
 
-    return (...args) => BaseComponent => {
-      const Component = noArgs
-        ? func(BaseComponent)
-        : func(...args)(BaseComponent)
+    return (...args) => {
+      if (process.env.NODE_ENV !== 'production' && args.length > func.length) {
+        /* eslint-disable */
+        console.error(
+        /* eslint-enable */
+          `Too many arguments passed to ${helperName}(). It should called ` +
+          `like so: ${helperName}(...args)(BaseComponent).`
+        )
+      }
 
-      Component.displayName = wrapDisplayName(BaseComponent, helperName)
+      return BaseComponent => {
+        const Component = noArgs
+          ? func(BaseComponent)
+          : func(...args)(BaseComponent)
 
-      return Component
+        Component.displayName = wrapDisplayName(BaseComponent, helperName)
+
+        return Component
+      }
     }
   }
 
