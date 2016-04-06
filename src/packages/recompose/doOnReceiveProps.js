@@ -5,11 +5,11 @@ import createElement from './createElement'
 const doOnReceiveProps = callback => BaseComponent =>
   class extends Component {
     componentWillMount() {
-      callback(this.props)
+      callback(this.props, null)
     }
 
     componentWillReceiveProps(nextProps) {
-      callback(nextProps)
+      callback(nextProps, this.props)
     }
 
     render() {
