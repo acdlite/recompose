@@ -45,9 +45,7 @@ describe('withHandlers()', () => {
     const wrapper = mount(<Button foo="bar" />)
     const button = wrapper.find('button')
 
-    expect(() => button.simulate('click')).to.throw(
-      `Cannot read property 'apply' of undefined`
-    )
+    expect(() => button.simulate('click')).to.throw(/undefined/)
 
     expect(error.firstCall.args[0]).to.equal(
       'withHandlers(): Expected a map of higher-order functions. Refer to ' +

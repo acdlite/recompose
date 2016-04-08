@@ -27,8 +27,8 @@ Helpers like `withState()` and `withReducer()` provide a nicer way to express st
 
 ```js
 const Counter = withState(
-  'counter', 'setCounter', 0,
-  ({ counter, setCounter }) => (
+  'counter', 'setCounter', 0
+)(({ counter, setCounter }) => (
     <div>
       Count: {counter}
       <button onClick={() => setCounter(n => n + 1)}>Increment</button>
@@ -53,8 +53,8 @@ const counterReducer = (count, action) => {
 }
 
 const Counter = withReducer(
-  'counter', 'dispatch', counterReducer, 0,
-  ({ counter, dispatch }) => (
+  'counter', 'dispatch', counterReducer, 0
+)(({ counter, dispatch }) => (
     <div>
       Count: {counter}
       <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
@@ -69,10 +69,7 @@ const Counter = withReducer(
 Helpers like `componentFromProp()` and `withContext()` encapsulate common React patterns into a simple functional interface:
 
 ```js
-const Button = defaultProps(
-  { component: 'button' },
-  componentFromProp('component')
-)
+const Button = defaultProps({ component: 'button' })(componentFromProp('component'))
 
 <Button /> // renders <button>
 <Button component={Link} /> // renders <Link />
@@ -82,8 +79,6 @@ const Button = defaultProps(
 const provide = store => withContext(
   { store: PropTypes.object },
   () => { store }
-  // We've left out final `BaseComponent` param
-  // Because of currying, `provide` is a higher-order component
 )
 
 // Apply to base component
@@ -104,7 +99,7 @@ const ExpensiveComponent = ({ propA, propB }) => {...}
 const OptimizedComponent = pure(ExpensiveComponent)
 
 // Even more optimized: only updates if specific prop keys have changed
-const HyperOptimizedComponent = onlyUpdateForKeys(['propA', 'propB'], ExpensiveComponent)
+const HyperOptimizedComponent = onlyUpdateForKeys(['propA', 'propB'])(ExpensiveComponent)
 ```
 
 ### ...interoperate with other libraries
@@ -175,13 +170,10 @@ const Greeting = props => (
 Function components have several key advantages:
 
 - They prevent abuse of the `setState()` API, favoring props instead.
-- They're simpler, and less error-prone.
 - They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 - They encourage code that is more reusable and modular.
 - They discourage giant, complicated components that do too many things.
 - In the future, they will allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
-
-The practice of writing small, pure, reusable components is sometimes called **microcomponentization**.
 
 (Note that although Recompose encourages the use of function components whenever possible, it works with normal React components as well.)
 
@@ -189,9 +181,9 @@ The practice of writing small, pure, reusable components is sometimes called **m
 
 Most of the time when we talk about composition in React, we're talking about composition of components. For example, a `<Blog>` component may be composed of many `<Post>` components, which are composed of many `<Comment>` components.
 
-However, that's only the beginning. Recompose focuses on another unit of composition: **higher-order components** (HoCs). HoCs are functions that accept a base component and return a new component with additional functionality. They can be used to abstract common tasks into reusable pieces.
+Recompose focuses on another unit of composition: **higher-order components** (HoCs). HoCs are functions that accept a base component and return a new component with additional functionality. They can be used to abstract common tasks into reusable pieces.
 
-Recompose provides a toolkit of helper functions for creating higher-order components. Most of these helpers are themselves higher-order components. You can compose the helpers together to make new HoCs, or apply them to a base component.
+Recompose provides a toolkit of helper functions for creating higher-order components.
 
 ## [Should I use this? Performance and other concerns](docs/performance.md)
 
@@ -201,6 +193,36 @@ All functions are available on the top-level export.
 
 ```js
 import { compose, mapProps, withState /* ... */ } from 'recompose';
+```
+
+### Composition
+
+Recompose helpers are designed to be composable:
+
+```js
+const BaseComponent = props => {...};
+
+// This will work, but it's tedious
+let ContainerComponent = pure(BaseComponent);
+ContainerComponent = mapProps(/*...args*/)(ContainerComponent);
+ContainerComponent = withState(/*...args*/)(ContainerComponent);
+
+// Do this instead
+// Note that the order has reversed — props flow from top to bottom
+const ContainerComponent = compose(
+  withState(/*...args*/),
+  mapProps(/*...args*/),
+  pure
+)(BaseComponent);
+```
+
+Technically, this also means you can use them as decorators (if that's your thing):
+
+```js
+@withState(/*...args*/)
+@mapProps(/*...args*/)
+@pure
+class Component extends React.Component {...}
 ```
 
 ### Optimizing bundle size
@@ -219,51 +241,6 @@ import withState from 'recompose/withState';
 This is a good option for library authors who don't want to bloat their bundle sizes.
 
 Recompose depends on certain lodash modules, like `curry` and `compose`. If you're already using lodash, then the net bundle increase from using Recompose will be even smaller.
-
-## Features
-
-### Automatic currying
-
-Recompose functions are component-last and curried by default. This makes them easy to compose:
-
-```js
-const BaseComponent = props => {...};
-
-// This will work, but it's tedious
-let ContainerComponent = onWillReceiveProps(..., BaseComponent);
-ContainerComponent = mapProps(..., ContainerComponent);
-ContainerComponent = withState(..., ContainerComponent);
-
-// Do this instead
-// Note that the order has reversed — props flow from top to bottom
-const ContainerComponent = compose(
-  withState(...),
-  mapProps(...),
-  onWillReceiveProps(...)
-)(BaseComponent);
-```
-
-Technically, this also means you can use them as decorators (if that's your thing):
-
-```js
-@withState(...)
-@mapProps(...)
-@onWillReceiveProps(...)
-class Component extends React.Component {...}
-```
-
-### Helpful warnings in development
-
-If you use the `compose()` method provided by Recompose, it will print a warning if a higher-order component helper has insufficient parameters. For example, if you forget to pass an initial state to `withReducer()`:
-
-```js
-compose(
-  withReducer('state', 'dispatch', reducer), // Forgot initialState
-  ...otherHelpers
-)(BaseComponent)
-```
-
-> Attempted to compose `withReducer()` with other higher-order component helpers, but it has been applied with 1 too few parameters. Check the implementation of \<BaseComponent\>.
 
 ## Feedback wanted
 
