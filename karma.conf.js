@@ -73,7 +73,12 @@ module.exports = function(config) {
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify('test')
         })
-      ]
+      ],
+      externals: {
+        'cheerio': 'window',
+        'react/lib/ExecutionEnvironment': true,
+        'react/lib/ReactContext': true
+      }
     },
 
     webpackMiddleware: {
