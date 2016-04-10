@@ -5,18 +5,22 @@ import { withHandlers, withState, compose } from 'recompose'
 
 describe('withHandlers()', () => {
   it('passes immutable handlers to base component', () => {
+    let submittedFormValue
     const enhanceForm = compose(
       withState('value', 'updateValue', ''),
       withHandlers({
         onChange: props => event => {
           props.updateValue(event.target.value)
+        },
+        onSubmit: props => () => {
+          submittedFormValue = props.value
         }
       })
     )
 
     const Form = enhanceForm(
-      ({ value, onChange }) =>
-        <form>
+      ({ value, onChange, onSubmit }) =>
+        <form onSubmit={onSubmit}>
           <label>Value
             <input type="text" value={value} onChange={onChange} />
           </label>
@@ -27,12 +31,16 @@ describe('withHandlers()', () => {
     const wrapper = mount(<Form />)
     const input = wrapper.find('input')
     const output = wrapper.find('p')
+    const form = wrapper.find('form')
 
     input.simulate('change', { target: { value: 'Yay' } })
     expect(output.text()).to.equal('Yay')
 
     input.simulate('change', { target: { value: 'Yay!!' } })
     expect(output.text()).to.equal('Yay!!')
+
+    form.simulate('submit')
+    expect(submittedFormValue).to.equal('Yay!!')
   })
 
   it('warns if handler is not a higher-order function', () => {
