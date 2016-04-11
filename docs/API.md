@@ -1,25 +1,44 @@
 # API
 
-Docs are annotated using Flow type notation, given the following types:
+In these API docs, a **higher-order component** (HOC) refers to a function that accepts a single React component and returns a new React component.
 
 ```js
-type StatelessFunctionComponent = (props: Object, ?context: Object) => ReactElement;
-type ReactElementType = Class<ReactComponent> | StatelessFunctionComponent | string;
-type HigherOrderComponent = (BaseComponent: ReactElementType) => ReactElementType;
+const EnhancedComponent = hoc(BaseComponent)
 ```
-For the purposes of typing, a higher-order component is a function that accepts a base React component and returns a new React component. However, sometimes we use the term higher-order component to refer to a function that takes one or more parameters in addition to a base component. For example, `mapProps()` takes both a props mapping function and a base component. Higher-order components helpers in Recompose are component-last and curried, so when we call a helper with all its parameters except the final one, it returns a "true" higher-order component. The distinction isn't all that important in most cases except for type signatures; just be aware that it exists.
 
-## Higher-order component helpers
+This form makes HOCs (sometimes called **enhancers**) composable:
 
-Higher-order component helpers are automatically curried, and the final parameter is a React component class.
+```js
+const composedHoc = compose(hoc1, hoc2, hoc3)
+
+// Same as
+const composedHoc = BaseComponent => hoc1(hoc2(hoc3(BaseComponent)))
+```
+
+Most Recompose helpers are **functions that return higher-order components**:
+
+```js
+const hoc = mapProps(ownerProps => childProps)
+const EnhancedComponent = hoc(BaseComponent)
+
+// Same as
+const EnhancedComponent = mapProps(ownerProps => childProps)(BaseComponent)
+```
+
+Some, like `pure`, are higher-order components themselves:
+
+```js
+const PureComponent = pure(BaseComponent)
+```
+
+## Higher-order components
 
 ### `mapProps()`
 
 ```js
 mapProps(
   propsMapper: (ownerProps: Object) => Object,
-  BaseComponent: ReactElementType
-): ReactElementType
+): HigherOrderComponent
 ```
 
 Accepts a function that maps owner props to a new collection of props that are passed to the base component.
@@ -27,7 +46,10 @@ Accepts a function that maps owner props to a new collection of props that are p
 `mapProps()` pairs well with functional utility libraries like [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp). For example, Recompose does not come with a `omitProps()` function, but you can build one easily using lodash-fp's `omit()`:
 
 ```js
-const omitProps = (keys, BaseComponent) => mapProps(omit(keys), BaseComponent);
+const omitProps = keys => mapProps(props => omit(keys, props))
+
+// Because of currying in lodash-fp, this is the same as
+const omitProps = compose(mapProps, omit)
 ```
 
 ### `mapPropsOnChange()`
@@ -35,49 +57,75 @@ const omitProps = (keys, BaseComponent) => mapProps(omit(keys), BaseComponent);
 ```js
 mapPropsOnChange(
   depdendentPropKeys: Array<string>,
-  propsMapper: (dependentProps: Object) => Object,
-  BaseComponent: ReactElementType
-): ReactElementType
+  propsMapper: (dependentProps: Object) => Object
+): HigherOrderComponent
 ```
 
-Similar to as `mapProps()`, but child props are only re-computed when one of the props specified by `dependentPropKeys` has changed. This helps ensure that computationally intense `propsMapper` functions are only executed when necessary.
+Similar to `mapProps()`, but child props are only re-computed when one of the props specified by `dependentPropKeys` has changed. This helps ensure that computationally intense `propsMapper` functions are only executed when necessary.
 
 ### `withProps()`
 
 ```js
 withProps(
-  props: Object,
-  BaseComponent: ReactElementType
-): ReactElementType
+  props: Object
+): HigherOrderComponent
 ```
 
 Passes additional props to the base component. Similar to `defaultProps()`, except the provided props take precedence over props from the owner.
 
-### `withAttachedProps()`
+### `withHandlers()`
 
 ```js
-withAttachedProps(
-  createChildProps: (getProps: () => Object) => Object,
-  BaseComponent: ReactElementType
-): ReactElementType
+withHandlers(
+  handlerCreators: {
+    [handlerName: string]: (props: Object) => Function
+  }
+): HigherOrderComponent
 ```
 
-**Note: The name of this helper will likely change to avoid confusion.**
+Takes an object map of handler creators. These are higher-order functions that accept a set of props and return a function handler:
 
-The first parameter `createChildProps()` is a function which accepts a function `getProps()`, which returns the current owner props. The props returned by `createChildProps()` are immutable and do not change throughout the lifecycle of the component.
+This allows the handler to access the current props via closure, without needing to change its signature.
+
+Handlers are passed to the base component as immutable props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality.
+
+Usage example:
+
+```js
+const enhanceForm = compose(
+  withState('value', 'updateValue', ''),
+  withHandlers({
+    onChange: props => event => {
+      props.updateValue(event.target.value)
+    },
+    onSubmit: props => event => {
+      event.preventDefault()
+      submitForm(props.value)
+    }
+  })
+)
+
+const Form = enhanceForm(
+  ({ value, onChange, onSubmit }) =>
+    <form onSubmit={onSubmit}>
+      <label>Value
+        <input type="text" value={value} onChange={onChange} />
+      </label>
+    </form>
+)
+```
 
 ### `defaultProps()`
 
 ```js
 defaultProps(
-  props: Object,
-  BaseComponent: ReactElementType
-): ReactElementType
+  props: Object
+): HigherOrderComponent
 ```
 
 Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided to the HoC.
 
-Although it has the same effect, using the `defaultProps()` HoC is *not* the same as setting the static `defaultProps` property directly on the component.
+Although it has a similar effect, using the `defaultProps()` HoC is *not* the same as setting the static `defaultProps` property directly on the component.
 
 
 ### `renameProp()`
@@ -85,9 +133,8 @@ Although it has the same effect, using the `defaultProps()` HoC is *not* the sam
 ```js
 renameProp(
   oldName: string,
-  newName: string,
-  BaseComponent: ReactElementType
-): ReactElementType
+  newName: string
+): HigherOrderComponent
 ```
 
 Renames a single prop.
@@ -96,9 +143,8 @@ Renames a single prop.
 
 ```js
 renameProps(
-  nameMap: { [key: string]: string },
-  BaseComponent: ReactElementType
-): ReactElementType
+  nameMap: { [key: string]: string }
+): HigherOrderComponent
 ```
 
 Renames multiple props, using a map of old prop names to new prop names.
@@ -107,9 +153,8 @@ Renames multiple props, using a map of old prop names to new prop names.
 
 ```js
 flattenProp(
-  propName: string,
-  BaseComponent: ReactElementType
-): ReactElementType
+  propName: string
+): HigherOrderComponent
 ```
 
 Flattens an prop so that its fields are spread out into the props object.
@@ -130,7 +175,7 @@ An example use for `flattenProps()` is when receiving fragment data from Relay. 
 
 ```js
 // The `post` prop is an object with title, author, and content fields
-const Post = flattenProp('post', ({ title, author, content }) => (
+const Post = flattenProp('post')(
   ({ title, content, author }) => (
     <article>
       <h1>{title}</h1>
@@ -147,9 +192,8 @@ const Post = flattenProp('post', ({ title, author, content }) => (
 withState(
   stateName: string,
   stateUpdaterName: string,
-  initialState: any | (props: Object) => any,
-  BaseComponent: ReactElementType
-): ReactElementType
+  initialState: any | (props: Object) => any
+): HigherOrderComponent
 ```
 
 Passes two additional props to the base component: a state value, and a function to update that state value. The state updater has the following signature:
@@ -182,18 +226,26 @@ An initial state value is required. It can be either the state value itself, or 
 ### `withReducer()`
 
 ```js
-withReducer<T, U>(
+withReducer<S, A>(
   stateName: string,
   dispatchName: string,
-  reducer: (state: T, action: U) => T,
-  initialState: T,
-  BaseComponent: ReactElementType
-): ReactElementType
+  reducer: (state: S, action: A) => S,
+  initialState: S
+): HigherOrderComponent
 ```
 
 Similar to `withState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
 
 Passes two additional props to the base component: a state value, and a dispatch method. The dispatch method sends an action to the reducer, and the new state is applied.
+
+### `withHandlers()`
+
+```js
+withHandlers(
+  handlers: { [handlerName: string]: (props: Object) => (...args: any) => void }
+)
+```
+
 
 
 ### `branch()`
@@ -202,9 +254,8 @@ Passes two additional props to the base component: a state value, and a dispatch
 branch(
   test: (props: Object) => boolean,
   left: HigherOrderComponent,
-  right: HigherOrderComponent,
-  BaseComponent: ReactElementType
-): ReactElementType
+  right: HigherOrderComponent
+): HigherOrderComponent
 ```
 
 Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the `right` higher-order component is applied.
@@ -213,28 +264,29 @@ Accepts a test function and two higher-order components. The test function is pa
 
 ```js
 renderComponent(
-  Component: ReactElementType,
-  BaseComponent: any
-): ReactElementType
+  Component: ReactClass | ReactStatelessFunction | string
+): HigherOrderComponent
 ```
 
-Takes a component and returns a higher-order component version of that component. The last parameter, BaseComponent, can be anything or nothing: it is ignored completely.
+Takes a component and returns a higher-order component version of that component.
 
 This is useful in combination with another helper that expects a higher-order component, like `branch()`:
 
 ```js
 // `hasLoaded()` is a function that returns whether or not the the component
 // has all the props it needs
-const spinnerWhileLoading = (hasLoaded, BaseComponent) => branch(
-  hasLoaded,
-  renderComponent(BaseComponent),
-  renderComponent(Spinner) // <Spinner> is a React component
-);
+const spinnerWhileLoading = (hasLoaded, BaseComponent) =>
+  branch(
+    hasLoaded,
+    renderComponent(BaseComponent),
+    renderComponent(Spinner) // <Spinner> is a React component
+  );
 
 // Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
 // base component
 const Post = spinnerWhileLoading(
-  props => props.title && props.author && props.content,
+  props => props.title && props.author && props.content
+)(
   ({ title, author, content }) => (
     <article>
       <h1>{title}</h1>
@@ -248,20 +300,17 @@ const Post = spinnerWhileLoading(
 ### `renderNothing()`
 
 ```js
-renderNothing(
-  BaseComponent: any
-): ReactElementType
+renderNothing: HigherOrderComponent
 ```
 
-Like `renderComponent()`, but renders `null`.
+A higher-order component that always renders `null`.
 
 ### `shouldUpdate()`
 
 ```js
 shouldUpdate(
-  test: (props: Object, nextProps: Object) => boolean,
-  BaseComponent: ReactElementType
-): ReactElementType
+  test: (props: Object, nextProps: Object) => boolean
+): HigherOrderComponent
 ```
 
 Higher-order component version of [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/component-specs.html#updating-shouldcomponentupdate). The test function accepts both the current props and the next props.
@@ -270,7 +319,7 @@ Higher-order component version of [`shouldComponentUpdate()`](https://facebook.g
 ### `pure()`
 
 ```js
-pure(BaseComponent: ReactElementType): ReactElementType
+pure: HigherOrderComponent
 ```
 
 Prevents the component from updating unless a prop has changed. Uses `shallowEqual()` to test for changes.
@@ -279,9 +328,8 @@ Prevents the component from updating unless a prop has changed. Uses `shallowEqu
 
 ```js
 onlyUpdateForKeys(
-  propKeys: Array<string>,
-  BaseComponent: ReactElementType
-): ReactElementType
+  propKeys: Array<string>
+): HigherOrderComponent
 ```
 
 Prevents the component from updating unless a prop corresponding to one of the given keys has updated. Uses `shallowEqual()` to test for changes.
@@ -298,8 +346,7 @@ Example:
  * Goes well with destructuring because it's clear which props the component
  * actually cares about.
  */
-const Post = onlyUpdateForKeys(
-  ['title', 'content', 'author'],
+const Post = onlyUpdateForKeys(['title', 'content', 'author'])(
   ({ title, content, author }) => (
     <article>
       <h1>{title}</h1>
@@ -313,9 +360,7 @@ const Post = onlyUpdateForKeys(
 ### `onlyUpdateForPropTypes()`
 
 ```js
-onlyUpdateForProps(
-  BaseComponent: ReactElementType
-): ReactElementType
+onlyUpdateForProps: HigherOrderComponent
 ```
 
 Works like `onlyUpdateForKeys()`, but prop keys are inferred from the `propTypes` of the base component. Useful in conjunction with `setPropTypes()`.
@@ -344,9 +389,8 @@ const Post = compose(
 ```js
 withContext(
   childContextTypes: Object,
-  getChildContext: (props: Object) => Object,
-  BaseComponent: ReactElementType
-): ReactElementType
+  getChildContext: (props: Object) => Object
+): HigherOrderComponent
 ```
 
 Provides context to the component's children. `childContextTypes` is an object of React prop types. `getChildContext()` is a function that returns the child context. Use along with `getContext()`.
@@ -355,9 +399,8 @@ Provides context to the component's children. `childContextTypes` is an object o
 
 ```js
 getContext(
-  contextTypes: Object,
-  BaseComponent: ReactElementType
-): ReactElementType
+  contextTypes: Object
+): HigherOrderComponent
 ```
 
 Gets values from context and passes them along as props. Use along with `withContext()`.
@@ -366,9 +409,8 @@ Gets values from context and passes them along as props. Use along with `withCon
 
 ```js
 doOnReceiveProps(
-  callback: (props: Object) => void,
-  BaseComponent: ReactElementType
-): ReactElementType
+  callback: (props: Object) => void
+): HigherOrderComponent
 ```
 
 Executes a callback when the component is receiving new props. Also called at initialization.
@@ -378,9 +420,8 @@ Executes a callback when the component is receiving new props. Also called at in
 ```js
 lifecycle(
   setup: (component: ReactComponent) => void
-  teardown: (component: ReactComponent) => void,
-  BaseComponent: ReactElementType
-): ReactElementType
+  teardown: (component: ReactComponent) => void
+): HigherOrderComponent
 ```
 
 Provides access to the React component instance on initialization (setup) and unmounting (teardown). The most common use case for this is to manage subscriptions to an external source.
@@ -392,9 +433,7 @@ The state object is mixed into the props and passed to the base component.
 ### `toClass()`
 
 ```js
-toClass(
-  BaseComponent: ReactElementType
-): ReactElementType
+toClass: HigherOrderComponent
 ```
 
 Takes a function component and wraps it in a class. This can be used as a fallback for libraries that need to add a ref to a component, like Relay.
@@ -410,9 +449,8 @@ These functions look like higher-order component helpers — they are curried an
 ```js
 setStatic(
   key: string,
-  value: any,
-  BaseComponent: ReactElementType
-): ReactElementType
+  value: any
+): HigherOrderComponent
 ```
 
 Assigns a value to a static property on the base component.
@@ -421,9 +459,8 @@ Assigns a value to a static property on the base component.
 
 ```js
 setPropTypes(
-  propTypes: Object,
-  BaseComponent: ReactElementType
-): ReactElementType
+  propTypes: Object
+): HigherOrderComponent
 ```
 
 Assigns to the `propTypes` property on the base component.
@@ -432,9 +469,8 @@ Assigns to the `propTypes` property on the base component.
 
 ```js
 setDisplayName(
-  displayName: string,
-  BaseComponent: ReactElementType
-): ReactElementType
+  displayName: string
+): HigherOrderComponent
 ```
 
 Assigns to the `displayName` property on the base component.
@@ -468,7 +504,9 @@ These warnings are only printed in development. In production, this just is an a
 ### `getDisplayName()`
 
 ```js
-getDisplayName(component: ReactElementType): string
+getDisplayName(
+  component: ReactClass | ReactStatelessFunction
+): string
 ```
 
 Returns the display name of a React component. Falls back to `'Component'`.
@@ -476,7 +514,10 @@ Returns the display name of a React component. Falls back to `'Component'`.
 ### `wrapDisplayName()`
 
 ```js
-wrapDisplayName(component: ReactElementType, wrapperName: string): string
+wrapDisplayName(
+  component: ReactClass | ReactStatelessFunction,
+  wrapperName: string
+): string
 ```
 
 Returns a wrapped version of a React component's display name. For instance, if the display name of `component` is `'Post'`, and `wrapperName` is `'mapProps'`, the return value is `'mapProps(Post)'`. Most Recompose higher-order components use `wrapDisplayName()`.
@@ -500,7 +541,7 @@ Returns true if the given value is a React component class.
 ### `createSink()`
 
 ```js
-createSink(callback: (props: Object) => void): ReactElementType
+createSink(callback: (props: Object) => void): ReactClass
 ```
 
 Creates a component that renders nothing (null) but calls a callback when receiving new props.
@@ -508,7 +549,7 @@ Creates a component that renders nothing (null) but calls a callback when receiv
 ### `componentFromProp()`
 
 ```js
-componentFromProp(propName: string): ReactElementType
+componentFromProp(propName: string): ReactStatelessFunction
 ```
 
 Creates a component that accepts a component as a prop and renders it with the remaining props.
@@ -516,8 +557,7 @@ Creates a component that accepts a component as a prop and renders it with the r
 Example:
 
 ```js
-const Button = defaultProps(
-  { component: 'button' },
+const Button = defaultProps({ component: 'button' })(
   componentFromProp('component')
 );
 
@@ -529,7 +569,9 @@ const Button = defaultProps(
 ### `nest()`
 
 ```js
-nest(...Components: Array<ReactElementType>): ReactElementType
+nest(
+  ...Components: Array<ReactClass | ReactStatelessFunction | string>
+): ReactClass
 ```
 
 Composes components by nesting each one inside the previous. For example:
@@ -552,7 +594,7 @@ const ABC = nest(A, B, C)
 ### `hoistStatics()`
 
 ```js
-hoistStatics(higherOrderComponent: HigherOrderComponent): HigherOrderComponent
+hoistStatics(hoc: HigherOrderComponent): HigherOrderComponent
 ```
 
 Augments a higher-order component so that when used, it copies static properties from the base component to the new component. This is helpful when using Recompose with libraries like Relay.
