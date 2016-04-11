@@ -10,6 +10,8 @@ Recompose
 
 Recompose is a React utility belt for function components and higher-order components. Think of it like lodash for React.
 
+[Full API documentation](docs/API.md)
+
 ```
 npm install recompose --save
 ```
@@ -203,13 +205,13 @@ Recompose helpers are designed to be composable:
 const BaseComponent = props => {...};
 
 // This will work, but it's tedious
-let ContainerComponent = pure(BaseComponent);
-ContainerComponent = mapProps(/*...args*/)(ContainerComponent);
-ContainerComponent = withState(/*...args*/)(ContainerComponent);
+let EnhancedComponent = pure(BaseComponent);
+EnhancedComponent = mapProps(/*...args*/)(EnhancedComponent);
+EnhancedComponent = withState(/*...args*/)(EnhancedComponent);
 
 // Do this instead
 // Note that the order has reversed — props flow from top to bottom
-const ContainerComponent = compose(
+const EnhancedComponent = compose(
   withState(/*...args*/),
   mapProps(/*...args*/),
   pure
@@ -240,7 +242,7 @@ import withState from 'recompose/withState';
 
 This is a good option for library authors who don't want to bloat their bundle sizes.
 
-Recompose depends on certain lodash modules, like `curry` and `compose`. If you're already using lodash, then the net bundle increase from using Recompose will be even smaller.
+Recompose depends on certain lodash modules, like `compose`. If you're already using lodash, then the net bundle increase from using Recompose will be even smaller.
 
 ## Feedback wanted
 
