@@ -61,7 +61,7 @@ mapPropsOnChange(
 ): HigherOrderComponent
 ```
 
-Similar to as `mapProps()`, but child props are only re-computed when one of the props specified by `dependentPropKeys` has changed. This helps ensure that computationally intense `propsMapper` functions are only executed when necessary.
+Similar to `mapProps()`, but child props are only re-computed when one of the props specified by `dependentPropKeys` has changed. This helps ensure that computationally intense `propsMapper` functions are only executed when necessary.
 
 ### `withProps()`
 
@@ -87,7 +87,7 @@ Takes an object map of handler creators. These are higher-order functions that a
 
 This allows the handler to access the current props via closure, without needing to change its signature.
 
-Handlers are passed to the base component as immutable props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `componentShouldUpdate()` optimizations that rely on prop equality.
+Handlers are passed to the base component as immutable props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality.
 
 Usage example:
 
