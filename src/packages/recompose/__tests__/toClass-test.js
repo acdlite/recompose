@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react'
 import { expect } from 'chai'
 import { toClass, withContext, compose } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { mount } from 'enzyme'
 
 describe('toClass()', () => {
   it('returns the base component if it is already a class', () => {
@@ -17,19 +15,17 @@ describe('toClass()', () => {
     expect(TestComponent).to.equal(BaseComponent)
   })
 
-  const spy = createSpy()
-  const Spy = spy('div')
-  const StatelessComponent = (props, context) => (
-    <Spy props={props} context={context}/>
-  )
-  StatelessComponent.displayName = 'Stateless'
-  StatelessComponent.propTypes = { foo: PropTypes.string }
-  StatelessComponent.contextTypes = { bar: PropTypes.object }
-  StatelessComponent.defaultProps = { foo: 'bar', fizz: 'buzz' }
-
-  const TestComponent = toClass(StatelessComponent)
-
   it('copies propTypes, displayName, contextTypes and defaultProps from base component', () => {
+    const StatelessComponent = props =>
+      <div {...props} />
+
+    StatelessComponent.displayName = 'Stateless'
+    StatelessComponent.propTypes = { foo: PropTypes.string }
+    StatelessComponent.contextTypes = { bar: PropTypes.object }
+    StatelessComponent.defaultProps = { foo: 'bar', fizz: 'buzz' }
+
+    const TestComponent = toClass(StatelessComponent)
+
     expect(TestComponent.displayName).to.equal('Stateless')
     expect(TestComponent.propTypes).to.eql({ foo: PropTypes.string })
     expect(TestComponent.contextTypes).to.eql({ bar: PropTypes.object })
@@ -37,8 +33,18 @@ describe('toClass()', () => {
   })
 
   it('passes defaultProps correctly', () => {
-    renderIntoDocument(<TestComponent />)
-    expect(spy.getProps().props).to.eql({ foo: 'bar', fizz: 'buzz' })
+    const StatelessComponent = props =>
+      <div {...props} />
+
+    StatelessComponent.displayName = 'Stateless'
+    StatelessComponent.propTypes = { foo: PropTypes.string }
+    StatelessComponent.contextTypes = { bar: PropTypes.object }
+    StatelessComponent.defaultProps = { foo: 'bar', fizz: 'buzz' }
+
+    const TestComponent = toClass(StatelessComponent)
+
+    const div = mount(<TestComponent />).find('div')
+    expect(div.props()).to.eql({ foo: 'bar', fizz: 'buzz' })
   })
 
   it('passes context and props correctly', () => {
@@ -56,25 +62,32 @@ describe('toClass()', () => {
 
     Provider = compose(
       withContext(
-        { bar: PropTypes.object },
-        props => ({ bar: props.store })
+        { store: PropTypes.object },
+        props => ({ store: props.store })
       )
     )(Provider)
 
 
-    renderIntoDocument(
+    const StatelessComponent = (props, context) =>
+      <div props={props} context={context} />
+
+    StatelessComponent.contextTypes = { store: PropTypes.object }
+
+    const TestComponent = toClass(StatelessComponent)
+
+    const div = mount(
       <Provider store={store}>
         <TestComponent fizz="fizzbuzz" />
       </Provider>
-    )
+    ).find('div')
 
-    expect(spy.getProps().context.bar).to.equal(store)
-    expect(spy.getProps().props.fizz).to.equal('fizzbuzz')
-
+    expect(div.prop('props').fizz).to.equal('fizzbuzz')
+    expect(div.prop('context').store).to.equal(store)
   })
 
   it('works with strings (DOM components)', () => {
     const Div = toClass('div')
-    renderIntoDocument(<Div>Hello</Div>)
+    const div = mount(<Div>Hello</Div>).find('div')
+    expect(div.text()).to.equal('Hello')
   })
 })

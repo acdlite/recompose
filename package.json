@@ -31,8 +31,6 @@
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "0.0.9",
     "eslint-plugin-react": "^3.4.2",
-    "expect": "^1.12.2",
-    "expect-jsx": "^2.0.0",
     "glob": "^7.0.0",
     "graphql": "^0.4.12",
     "graphql-relay": "^0.3.5",

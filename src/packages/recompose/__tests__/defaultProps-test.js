@@ -1,35 +1,33 @@
 import React from 'react'
 import { expect } from 'chai'
-import { defaultProps, compose } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { defaultProps } from 'recompose'
+import { shallow } from 'enzyme'
 
 describe('defaultProps()', () => {
-  const spy = createSpy()
-  const DoReMi = compose(
-    defaultProps({ so: 'do', la: 'fa' }),
-    spy
-  )('div')
-
   it('passes additional props to base component', () => {
+    const DoReMi = defaultProps({ so: 'do', la: 'fa' })('div')
     expect(DoReMi.displayName)
-      .to.equal('defaultProps(spy(div))')
+      .to.equal('defaultProps(div)')
 
-    renderIntoDocument(<DoReMi />)
-
-    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' })
+    const div = shallow(<DoReMi />).find('div')
+    expect(div.equals(<div so="do" la="fa" />)).to.be.true
   })
 
   it('owner props take precendence', () => {
-    renderIntoDocument(<DoReMi la="ti" />)
+    const DoReMi = defaultProps({ so: 'do', la: 'fa' })('div')
+    expect(DoReMi.displayName)
+      .to.equal('defaultProps(div)')
 
-    expect(spy.getProps()).to.eql({ so: 'do', la: 'ti' })
+    const div = shallow(<DoReMi la="ti" />).find('div')
+    expect(div.equals(<div so="do" la="ti" />)).to.be.true
   })
 
-  it('it overrides undefined owner props', () => {
-    renderIntoDocument(<DoReMi la={undefined} />)
+  it('overrides undefined owner props', () => {
+    const DoReMi = defaultProps({ so: 'do', la: 'fa' })('div')
+    expect(DoReMi.displayName)
+      .to.equal('defaultProps(div)')
 
-    expect(spy.getProps()).to.eql({ so: 'do', la: 'fa' })
+    const div = shallow(<DoReMi la={undefined} />).find('div')
+    expect(div.equals(<div so="do" la="fa" />)).to.be.true
   })
 })

@@ -2,9 +2,7 @@ import React from 'react'
 import { expect } from 'chai'
 import identity from 'lodash/identity'
 import { lifecycle, compose, withState, branch } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { mount } from 'enzyme'
 
 const noop = () => {}
 
@@ -23,8 +21,6 @@ describe('lifecycle()', () => {
       listeners.forEach(l => l())
     }
 
-    const spy = createSpy()
-
     const Lifecycle = compose(
       withState('isVisible', 'updateIsVisible', false),
       branch(
@@ -41,22 +37,22 @@ describe('lifecycle()', () => {
           }
         ),
         identity
-      ),
-      spy
+      )
     )('div')
 
-    renderIntoDocument(<Lifecycle pass="through" />)
-
-    spy.getProps().updateIsVisible(true)
+    const wrapper = mount(<Lifecycle pass="through" />)
+    const { updateIsVisible } = wrapper.find('div').props()
+    const getCounter = () => wrapper.find('div').prop('counter')
+    updateIsVisible(true)
     expect(listeners.length).to.equal(1)
 
-    expect(spy.getProps().counter).to.equal(0)
+    expect(getCounter()).to.equal(0)
     emit()
-    expect(spy.getProps().counter).to.equal(1)
+    expect(getCounter()).to.equal(1)
     emit()
-    expect(spy.getProps().counter).to.equal(2)
+    expect(getCounter()).to.equal(2)
 
-    spy.getProps().updateIsVisible(false)
+    updateIsVisible(false)
     expect(listeners.length).to.equal(0)
   })
 

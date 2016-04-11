@@ -1,48 +1,36 @@
 import React from 'react'
 import { expect } from 'chai'
-import omit from 'lodash/omit'
 import { shouldUpdate, compose, withState } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { countRenders } from './utils'
+import { mount } from 'enzyme'
 
 describe('shouldUpdate()', () => {
   it('implements shouldComponentUpdate()', () => {
-    const spy = createSpy()
-    const Counter = compose(
-      withState('counter', 'updateCounter', 0),
-      withState('foobar', 'updateFoobar', 'foobar'),
-      shouldUpdate((props, nextProps) => props.counter !== nextProps.counter),
-      spy
+    const initialTodos = ['eat', 'drink', 'sleep']
+    const Todos = compose(
+      withState('todos', 'updateTodos', initialTodos),
+      shouldUpdate((props, nextProps) => props.todos !== nextProps.todos),
+      countRenders
     )('div')
 
-    expect(Counter.displayName).to.equal(
-      'withState(withState(shouldUpdate(spy(div))))'
+    expect(Todos.displayName).to.equal(
+      'withState(shouldUpdate(countRenders(div)))'
     )
 
-    renderIntoDocument(<Counter pass="through" />)
+    const div = mount(<Todos />).find('div')
+    const { updateTodos } = div.props()
 
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 0,
-      foobar: 'foobar',
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(1)
+    expect(div.prop('todos')).to.equal(initialTodos)
+    expect(div.prop('renderCount')).to.equal(1)
 
-    spy.getProps().updateFoobar(() => 'barbaz')
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 0,
-      foobar: 'foobar',
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(1)
+    // Does not re-render
+    updateTodos(initialTodos)
+    expect(div.prop('todos')).to.equal(initialTodos)
+    expect(div.prop('renderCount')).to.equal(1)
 
-    spy.getProps().updateCounter(n => n + 1)
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 1,
-      pass: 'through',
-      foobar: 'barbaz'
-    })
-    expect(spy.getRenderCount()).to.equal(2)
+    updateTodos(todos => todos.slice(0, -1))
+    expect(div.prop('todos')).to.eql(['eat', 'drink'])
+    expect(div.prop('renderCount')).to.equal(2)
+
   })
 })

@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { expect } from 'chai'
 import { withContext, getContext, compose, mapProps } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { mount } from 'enzyme'
 
 describe('withContext() / getContext()', () => {
   it('adds to and grabs from context', () => {
@@ -41,22 +39,18 @@ describe('withContext() / getContext()', () => {
       mapProps(props => selector(props.store.getState()))
     )
 
-    const spy = createSpy()
-    const TodoList = compose(
-      connect(({ todos }) => ({ todos })),
-      spy
-    )('div')
+    const TodoList = connect(({ todos }) => ({ todos }))('div')
 
     expect(TodoList.displayName).to.equal(
-      'getContext(mapProps(spy(div)))'
+      'getContext(mapProps(div))'
     )
 
-    renderIntoDocument(
+    const div = mount(
       <Provider store={store}>
         <TodoList />
       </Provider>
-    )
+    ).find('div')
 
-    expect(spy.getProps().todos).to.eql([ 'eat', 'drink', 'sleep' ])
+    expect(div.prop('todos')).to.eql([ 'eat', 'drink', 'sleep' ])
   })
 })

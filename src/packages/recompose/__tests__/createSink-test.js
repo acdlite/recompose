@@ -1,8 +1,7 @@
 import React from 'react'
 import { expect } from 'chai'
 import { createSink, compose, withState, mapProps } from 'recompose'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { mount } from 'enzyme'
 
 describe('createSink()', () => {
   it('creates a React component that fires a callback when receiving new props', () => {
@@ -16,13 +15,14 @@ describe('createSink()', () => {
       }))
     )(Sink)
 
-    renderIntoDocument(<div><Counter /></div>)
+    mount(<div><Counter /></div>)
 
     const { increment } = spy.lastCall.args[0]
-    expect(spy.lastCall.args[0].counter).to.equal(0)
+    const getCounter = () => spy.lastCall.args[0].counter
+    expect(getCounter()).to.equal(0)
     increment()
-    expect(spy.lastCall.args[0].counter).to.equal(1)
+    expect(getCounter()).to.equal(1)
     increment()
-    expect(spy.lastCall.args[0].counter).to.equal(2)
+    expect(getCounter()).to.equal(2)
   })
 })

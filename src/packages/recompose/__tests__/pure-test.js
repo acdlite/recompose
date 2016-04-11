@@ -1,45 +1,35 @@
 import React from 'react'
 import { expect } from 'chai'
-import omit from 'lodash/omit'
 import { pure, compose, withState } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { countRenders } from './utils'
+import { mount } from 'enzyme'
 
 describe('pure()', () => {
   it('implements shouldComponentUpdate() using shallowEqual()', () => {
-    const spy = createSpy()
     const initialTodos = ['eat', 'drink', 'sleep']
-    const Counter = compose(
+    const Todos = compose(
       withState('todos', 'updateTodos', initialTodos),
       pure,
-      spy
+      countRenders
     )('div')
 
-    expect(Counter.displayName).to.equal(
-      'withState(pure(spy(div)))'
+    expect(Todos.displayName).to.equal(
+      'withState(pure(countRenders(div)))'
     )
 
-    renderIntoDocument(<Counter pass="through" />)
+    const div = mount(<Todos />).find('div')
+    const { updateTodos } = div.props()
 
-    expect(omit(spy.getProps(), 'updateTodos')).to.eql({
-      todos: initialTodos,
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(1)
+    expect(div.prop('todos')).to.equal(initialTodos)
+    expect(div.prop('renderCount')).to.equal(1)
 
-    spy.getProps().updateTodos(initialTodos)
-    expect(omit(spy.getProps(), 'updateTodos')).to.eql({
-      todos: initialTodos,
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(1)
+    // Does not re-render
+    updateTodos(initialTodos)
+    expect(div.prop('todos')).to.equal(initialTodos)
+    expect(div.prop('renderCount')).to.equal(1)
 
-    spy.getProps().updateTodos(todos => todos.slice(0, -1))
-    expect(omit(spy.getProps(), 'updateTodos')).to.eql({
-      todos: ['eat', 'drink'],
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(2)
+    updateTodos(todos => todos.slice(0, -1))
+    expect(div.prop('todos')).to.eql(['eat', 'drink'])
+    expect(div.prop('renderCount')).to.equal(2)
   })
 })

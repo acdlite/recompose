@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react'
 import { expect } from 'chai'
-import omit from 'lodash/omit'
 
 import {
   onlyUpdateForPropTypes,
@@ -9,57 +8,42 @@ import {
   setPropTypes
 } from 'recompose'
 
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { mount, shallow } from 'enzyme'
 
 describe('onlyUpdateForPropTypes()', () => {
   it('only updates for props specified in propTypes', () => {
-    const spy = createSpy()
     const Counter = compose(
       withState('counter', 'updateCounter', 0),
       withState('foobar', 'updateFoobar', 'foobar'),
       onlyUpdateForPropTypes,
-      setPropTypes({ counter: PropTypes.number }),
-      spy
-    )('div')
+      setPropTypes({ counter: PropTypes.number })
+    )(props => <div {...props} />)
 
     expect(Counter.displayName).to.equal(
-      'withState(withState(onlyUpdateForPropTypes(spy(div))))'
+      'withState(withState(onlyUpdateForPropTypes(Component)))'
     )
 
-    renderIntoDocument(<Counter pass="through" />)
+    const div = mount(<Counter />).find('div')
+    const { updateCounter, updateFoobar } = div.props()
 
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 0,
-      foobar: 'foobar',
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(1)
+    expect(div.prop('counter')).to.equal(0)
+    expect(div.prop('foobar')).to.equal('foobar')
 
-    spy.getProps().updateFoobar(() => 'barbaz')
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 0,
-      foobar: 'foobar',
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(1)
+    // Does not update
+    updateFoobar('barbaz')
+    expect(div.prop('counter')).to.equal(0)
+    expect(div.prop('foobar')).to.equal('foobar')
 
-    spy.getProps().updateCounter(n => n + 1)
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 1,
-      pass: 'through',
-      foobar: 'barbaz'
-    })
-    expect(spy.getRenderCount()).to.equal(2)
+    updateCounter(42)
+    expect(div.prop('counter')).to.equal(42)
+    expect(div.prop('foobar')).to.equal('barbaz')
   })
 
   it('warns if BaseComponent does not have any propTypes', () => {
     const error = sinon.stub(console, 'error')
-
     const ShouldWarn = onlyUpdateForPropTypes('div')
 
-    renderIntoDocument(<ShouldWarn />)
+    shallow(<ShouldWarn />)
 
     expect(error.firstCall.args[0]).to.equal(
       'A component without any `propTypes` was passed to ' +

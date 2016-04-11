@@ -1,15 +1,11 @@
 import React from 'react'
 import { expect } from 'chai'
-import omit from 'lodash/omit'
 import { mapPropsOnChange, withState, flattenProp, compose } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { mount } from 'enzyme'
 
 describe('mapPropsOnChange()', () => {
   it('maps subset of owner props to child props', () => {
     const mapSpy = sinon.spy()
-    const spy = createSpy()
     const StringConcat = compose(
       withState('strings', 'updateStrings', { a: 'a', b: 'b', c: 'c' }),
       flattenProp('strings'),
@@ -18,43 +14,29 @@ describe('mapPropsOnChange()', () => {
         ({ a, b }) => {
           mapSpy()
           return {
-            foobar: a + b,
-            d: 'new',
+            foobar: a + b
           }
         }
-      ),
-      spy
+      )
     )('div')
 
     expect(StringConcat.displayName).to.equal(
-      'withState(flattenProp(mapPropsOnChange(spy(div))))'
+      'withState(flattenProp(mapPropsOnChange(div)))'
     )
 
-    renderIntoDocument(<StringConcat />)
+    const div = mount(<StringConcat />).find('div')
+    const { updateStrings } = div.props()
 
-    expect(omit(spy.getProps(), ['updateStrings'])).to.eql({
-      c: 'c',
-      foobar: 'ab',
-      d: 'new'
-    })
+    expect(div.prop('foobar')).to.equal('ab')
     expect(mapSpy.callCount).to.equal(1)
 
-    spy.getProps().updateStrings(strings => ({ ...strings, c: 'baz' }))
     // Does not re-map for non-dependent prop updates
+    updateStrings(strings => ({ ...strings, c: 'baz' }))
+    expect(div.prop('foobar')).to.equal('ab')
     expect(mapSpy.callCount).to.equal(1)
 
-    expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
-      c: 'baz',
-      foobar: 'ab',
-      d: 'new'
-    })
-
-    spy.getProps().updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar', d: 'old' }))
-    expect(omit(spy.getProps(), ['updateStrings', 'updateFoobar'])).to.eql({
-      c: 'baz',
-      foobar: 'foobar',
-      d: 'new'
-    })
+    updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar' }))
+    expect(div.prop('foobar')).to.equal('foobar')
     expect(mapSpy.callCount).to.equal(2)
   })
 })

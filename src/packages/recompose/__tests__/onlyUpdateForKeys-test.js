@@ -1,48 +1,33 @@
 import React from 'react'
 import { expect } from 'chai'
-import omit from 'lodash/omit'
 import { onlyUpdateForKeys, compose, withState } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { mount } from 'enzyme'
 
 describe('onlyUpdateForKeys()', () => {
   it('implements shouldComponentUpdate()', () => {
-    const spy = createSpy()
     const Counter = compose(
       withState('counter', 'updateCounter', 0),
       withState('foobar', 'updateFoobar', 'foobar'),
-      onlyUpdateForKeys(['counter']),
-      spy
+      onlyUpdateForKeys(['counter'])
     )('div')
 
     expect(Counter.displayName).to.equal(
-      'withState(withState(onlyUpdateForKeys(spy(div))))'
+      'withState(withState(onlyUpdateForKeys(div)))'
     )
 
-    renderIntoDocument(<Counter pass="through" />)
+    const div = mount(<Counter />).find('div')
+    const { updateCounter, updateFoobar } = div.props()
 
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 0,
-      foobar: 'foobar',
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(1)
+    expect(div.prop('counter')).to.equal(0)
+    expect(div.prop('foobar')).to.equal('foobar')
 
-    spy.getProps().updateFoobar(() => 'barbaz')
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 0,
-      foobar: 'foobar',
-      pass: 'through'
-    })
-    expect(spy.getRenderCount()).to.equal(1)
+    // Does not update
+    updateFoobar('barbaz')
+    expect(div.prop('counter')).to.equal(0)
+    expect(div.prop('foobar')).to.equal('foobar')
 
-    spy.getProps().updateCounter(n => n + 1)
-    expect(omit(spy.getProps(), ['updateCounter', 'updateFoobar'])).to.eql({
-      counter: 1,
-      pass: 'through',
-      foobar: 'barbaz'
-    })
-    expect(spy.getRenderCount()).to.equal(2)
+    updateCounter(42)
+    expect(div.prop('counter')).to.equal(42)
+    expect(div.prop('foobar')).to.equal('barbaz')
   })
 })

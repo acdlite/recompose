@@ -1,29 +1,20 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { expect } from 'chai'
-import { hoistStatics, compose, mapProps } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { hoistStatics, mapProps } from 'recompose'
+import { shallow } from 'enzyme'
 
 describe('hoistStatics()', () => {
   it('copies non-React static properties from base component to new component', () => {
-    class BaseComponent extends Component {
-      render() {
-        return <div {...this.props} />
-      }
-    }
+    const BaseComponent = props => <div {...props} />
+    BaseComponent.foo = () => {}
 
-    BaseComponent.update = () => {}
-
-    const spy = createSpy()
-    const NewComponent = compose(
-      hoistStatics(mapProps(props => ({ n: props.n * 5 }))),
-      hoistStatics(spy)
+    const EnhancedComponent = hoistStatics(
+      mapProps(props => ({ n: props.n * 5 }))
     )(BaseComponent)
 
-    renderIntoDocument(<NewComponent n={3} />)
+    expect(EnhancedComponent.foo).to.equal(BaseComponent.foo)
 
-    expect(spy.getProps().n).to.equal(15)
-    expect(NewComponent.update).to.equal(BaseComponent.update)
+    const wrapper = shallow(<EnhancedComponent n={3} />)
+    expect(wrapper.prop('n')).to.equal(15)
   })
 })

@@ -1,42 +1,40 @@
 import React from 'react'
 import { expect } from 'chai'
-import omit from 'lodash/omit'
 import { branch, compose, withState, withProps } from 'recompose'
-import createSpy from 'recompose/createSpy'
-
-import { renderIntoDocument } from 'react-addons-test-utils'
+import { mount } from 'enzyme'
 
 describe('branch()', () => {
   it('tests props and applies one of two HoCs, for true and false', () => {
-    const spy = createSpy()
-
     const SayMyName = compose(
       withState('isBad', 'updateIsBad', false),
       branch(
         props => props.isBad,
         withProps({ name: 'Heisenberg' }),
         withProps({ name: 'Walter' })
-      ),
-      spy
-    )('div')
-
-    expect(SayMyName.displayName).to.equal(
-      'withState(branch(spy(div)))'
+      )
+    )(({ isBad, name, updateIsBad }) =>
+      <div>
+        <div className="isBad">{isBad ? 'true' : 'false'}</div>
+        <div className="name">{name}</div>
+        <button onClick={() => updateIsBad(b => !b)}>Toggle</button>
+      </div>
     )
 
-    renderIntoDocument(<SayMyName pass="through" />)
+    expect(SayMyName.displayName).to.equal(
+      'withState(branch(Component))'
+    )
 
-    expect(omit(spy.getProps(), 'updateIsBad')).to.eql({
-      isBad: false,
-      name: 'Walter',
-      pass: 'through'
-    })
+    const wrapper = mount(<SayMyName />)
+    const isBad = wrapper.find('.isBad')
+    const name = wrapper.find('.name')
+    const toggle = wrapper.find('button')
 
-    spy.getProps().updateIsBad(() => true)
-    expect(omit(spy.getProps(), 'updateIsBad')).to.eql({
-      isBad: true,
-      name: 'Heisenberg',
-      pass: 'through'
-    })
+    expect(isBad.text()).to.equal('false')
+    expect(name.text()).to.equal('Walter')
+
+    toggle.simulate('click')
+
+    expect(isBad.text()).to.equal('true')
+    expect(name.text()).to.equal('Heisenberg')
   })
 })
