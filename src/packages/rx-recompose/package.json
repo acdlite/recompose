@@ -18,7 +18,7 @@
     "lodash": "^4.0.0"
   },
   "peerDependencies": {
-    "recompose": "^0.16.0",
+    "recompose": "^0.17.0",
     "react": "^0.14.0 || ^15.0.0",
     "rx": "^4.0.0"
   },
