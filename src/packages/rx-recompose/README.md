@@ -78,13 +78,12 @@ const Counter = observeProps(
       decrement: Observable.just(decrement$),
       count: count$
     }
-  },
-  ({ count, decrement, increment, ...props }) => (
+  })
+  (({ count, decrement, increment, ...props }) => (
     <div {...props}>
       Count: {count}
       <button onClick={increment}>+</button>
       <button onClick={decrement}>-</button>
     </div>
-  )
-)
+  ))
 ```
