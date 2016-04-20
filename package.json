@@ -9,8 +9,9 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",
-    "test": "NODE_ENV=test ava",
+    "test": "ava",
     "test:watch": "npm run test -- --watch",
+    "test:cov": "nyc npm test",
     "release": "babel-node scripts/release.js",
     "postinstall": "babel-node scripts/installNestedPackageDeps.js"
   },
@@ -35,6 +36,7 @@
     "gzip-size-cli": "^1.0.0",
     "jsdom": "^8.3.1",
     "lodash": "^4.0.0",
+    "nyc": "^6.4.0",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
