@@ -30,7 +30,7 @@
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "0.0.9",
     "eslint-plugin-react": "^3.4.2",
-    "glob": "^7.0.3",
+    "globby": "^4.0.0",
     "gzip-size-cli": "^1.0.0",
     "jsdom": "^8.4.0",
     "lodash": "^4.0.0",

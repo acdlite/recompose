@@ -47,14 +47,10 @@ const spawnAva = (file) => (
 
 const pattern = pkg.ava.files
 
-if (process.env.TRAVIS && /v4/.test(process.version)) {
-  globby(pattern)
-  .then((tests) => {
-    throttlePromise(tests, spawnAva, 2)
-  })
-  .catch((err) => {
-    throw err
-  })
-} else {
-  spawnAva(pattern)
-}
+globby(pattern)
+.then((tests) => {
+  throttlePromise(tests, spawnAva, 2)
+})
+.catch((err) => {
+  throw err
+})
