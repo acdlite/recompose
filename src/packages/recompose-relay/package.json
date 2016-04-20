@@ -21,9 +21,5 @@
     "recompose": "^0.17.0",
     "react": "^0.14.0 || ^15.0.0",
     "react-relay": "^0.6.0"
-  },
-  "devDependencies": {
-    "lodash-fp": "^0.10.2",
-    "react-relay": "^0.6.0"
   }
 }

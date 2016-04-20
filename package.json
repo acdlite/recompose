@@ -9,21 +9,20 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",
-    "test": "karma start --single-run",
-    "test:watch": "karma start",
+    "test": "ava",
+    "test:watch": "npm run test -- --watch",
     "release": "babel-node scripts/release.js",
     "postinstall": "babel-node scripts/installNestedPackageDeps.js"
   },
   "devDependencies": {
+    "ava": "^0.14.0",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
     "babel-eslint": "^5.0.0-beta9",
-    "babel-loader": "^6.2.2",
     "babel-polyfill": "^6.5.0",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
-    "babel-relay-plugin": "^0.7.0",
     "chai": "^3.3.0",
     "chalk": "^1.1.1",
     "codecov.io": "^0.1.6",
@@ -31,41 +30,38 @@
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "0.0.9",
     "eslint-plugin-react": "^3.4.2",
-    "expect": "^1.12.2",
-    "expect-jsx": "^2.0.0",
-    "glob": "^7.0.0",
-    "graphql": "^0.4.12",
-    "graphql-relay": "^0.3.5",
+    "globby": "^4.0.0",
     "gzip-size-cli": "^1.0.0",
-    "isparta-loader": "^2.0.0",
-    "karma": "^0.13.10",
-    "karma-chrome-launcher": "^0.2.0",
-    "karma-coverage": "^0.5.3",
-    "karma-mocha": "^0.2.0",
-    "karma-mocha-reporter": "^1.1.1",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-phantomjs-shim": "^1.1.1",
-    "karma-sinon": "^1.0.4",
-    "karma-sourcemap-loader": "^0.3.5",
-    "karma-webpack": "^1.7.0",
+    "jsdom": "^8.4.0",
     "lodash": "^4.0.0",
-    "mocha": "^2.3.3",
-    "phantomjs-prebuilt": "^2.1.3",
-    "pretty-bytes": "^3.0.1",
+    "nyc": "^6.4.0",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
     "readline-sync": "^1.2.21",
     "rimraf": "^2.4.3",
     "shelljs": "^0.6.0",
-    "sinon": "^1.17.1",
-    "webpack": "^1.12.2"
+    "sinon": "^1.17.1"
   },
   "devEngines": {
     "node": "5.x",
     "npm": "3.x"
   },
   "dependencies": {
-    "recompose": "^0.15.0"
+    "recompose": "^0.17.0"
+  },
+  "ava": {
+    "files": [
+      "src/**/__ava__/*-test.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "failFast": true,
+    "require": [
+      "babel-register",
+      "./testSetup"
+    ],
+    "babel": "inherit"
   }
 }

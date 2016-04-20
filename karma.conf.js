@@ -50,20 +50,15 @@ module.exports = function(config) {
           exclude: [
             /__tests__/,
             /node_modules/,
-            path.resolve(__dirname, './src/packages/recompose-relay/data'),
             path.resolve(__dirname, './src/karma.conf.js')
           ],
           loader: 'isparta'
         }, {
           test: /\.js$/,
           include: [
-            /__tests__/,
-            path.resolve(__dirname, './src/packages/recompose-relay/data')
+            /__tests__/
           ],
-          loader: 'babel',
-          query: {
-            plugins: [path.resolve(__dirname, './src/packages/recompose-relay/babelRelayPlugin')]
-          }
+          loader: 'babel'
         }]
       },
       resolve: {

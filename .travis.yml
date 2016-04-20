@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-  - "5.0.0"
+  - "5.10.1"
 before_script: "npm install -g codeclimate-test-reporter"
 script:
   - npm run lint
-  - npm test
+  - $(npm bin)/nyc $(npm bin)/babel-node scripts/batchTests.js
 after_script:
   - "CODECLIMATE_REPO_TOKEN=27125df6192d300baf67cd5f5eab6597c998256f4883b744a1055d0f0c18e608 codeclimate-test-reporter < coverage/lcov.info"
   - "cat ./coverage/lcov.info | ./node_modules/.bin/codecov"
