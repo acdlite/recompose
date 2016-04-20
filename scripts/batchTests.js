@@ -1,5 +1,10 @@
 // Stolen from https://raw.githubusercontent.com/MoOx/phenomic/3eaf91f6d58fb76eab8236eebbd5b69625182076/scripts/ava-serial.js, which was stolen from
 // Stolen from https://git.io/vajFu @ben-eb
+
+// Ava creates a separate process for every file. Travis will kill processes
+// after a certain limit. This is a temporary workaround until Ava provdes a
+// better solution.
+
 import { spawn } from 'child_process'
 import pkg from '../package.json'
 import globby from 'globby'
@@ -52,5 +57,5 @@ globby(pattern)
   throttlePromise(tests, spawnAva, 2)
 })
 .catch((err) => {
-  throw err
+  setImmediate(() => { throw err })
 })
