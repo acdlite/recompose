@@ -33,7 +33,7 @@
     "eslint-plugin-react": "^3.4.2",
     "glob": "^7.0.0",
     "gzip-size-cli": "^1.0.0",
-    "jsdom": "^8.3.1",
+    "jsdom": "^8.4.0",
     "lodash": "^4.0.0",
     "nyc": "^6.4.0",
     "react": "^15.0.0",
