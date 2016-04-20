@@ -11,7 +11,6 @@
     "lint": "eslint src",
     "test": "ava",
     "test:watch": "npm run test -- --watch",
-    "test:cov": "nyc npm test",
     "release": "babel-node scripts/release.js",
     "postinstall": "babel-node scripts/installNestedPackageDeps.js"
   },
@@ -31,7 +30,7 @@
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "0.0.9",
     "eslint-plugin-react": "^3.4.2",
-    "glob": "^7.0.0",
+    "glob": "^7.0.3",
     "gzip-size-cli": "^1.0.0",
     "jsdom": "^8.4.0",
     "lodash": "^4.0.0",
