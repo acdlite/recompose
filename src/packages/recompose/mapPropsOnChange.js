@@ -4,26 +4,25 @@ import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-const mapPropsOnChange = (depdendentPropKeys, propsMapper) => BaseComponent => {
-  const pickDependentProps = props => pick(props, depdendentPropKeys)
+const mapPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
+  const shouldMap = typeof shouldMapOrKeys === 'function'
+    ? shouldMapOrKeys
+    : (props, nextProps) => !shallowEqual(
+        pick(props, shouldMapOrKeys),
+        pick(nextProps, shouldMapOrKeys),
+      )
 
   return class extends Component {
     computedProps = propsMapper(this.props);
 
     componentWillReceiveProps(nextProps) {
-      if (!shallowEqual(
-        pickDependentProps(this.props),
-        pickDependentProps(nextProps)
-      )) {
+      if (shouldMap(this.props, nextProps)) {
         this.computedProps = propsMapper(nextProps)
       }
     }
 
     render() {
-      return createElement(BaseComponent, {
-        ...this.props,
-        ...this.computedProps
-      })
+      return createElement(BaseComponent, this.computedProps)
     }
   }
 }

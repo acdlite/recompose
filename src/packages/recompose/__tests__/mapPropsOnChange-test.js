@@ -11,9 +11,10 @@ test('mapPropsOnChange maps subset of owner props to child props', t => {
     flattenProp('strings'),
     mapPropsOnChange(
       ['a', 'b'],
-      ({ a, b }) => {
+      ({ a, b, ...props }) => {
         mapSpy()
         return {
+          ...props,
           foobar: a + b
         }
       }
