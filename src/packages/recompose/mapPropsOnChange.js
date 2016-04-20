@@ -1,6 +1,5 @@
 import { Component } from 'react'
 import pick from 'lodash/pick'
-import omit from 'lodash/omit'
 import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
 import createElement from './createElement'
@@ -22,7 +21,7 @@ const mapPropsOnChange = (depdendentPropKeys, propsMapper) => BaseComponent => {
 
     render() {
       return createElement(BaseComponent, {
-        ...omit(this.props, depdendentPropKeys),
+        ...this.props,
         ...this.computedProps
       })
     }
