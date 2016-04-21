@@ -25,7 +25,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.3.0",
     "chalk": "^1.1.1",
-    "codecov.io": "^0.1.6",
+    "codecov": "^1.0.1",
     "enzyme": "^2.2.0",
     "eslint": "^1.5.1",
     "eslint-config-airbnb": "0.0.9",
