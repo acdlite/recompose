@@ -32,10 +32,11 @@ test('withPropsOnChange maps subset of owner props to child props', t => {
   // Does not re-map for non-dependent prop updates
   updateStrings(strings => ({ ...strings, c: 'baz' }))
   t.is(div.prop('foobar'), 'ab')
-  t.is(div.prop('c'), 'baz')
+  t.is(div.prop('c'), 'c')
   t.is(mapSpy.callCount, 1)
 
   updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar' }))
   t.is(div.prop('foobar'), 'foobar')
+  t.is(div.prop('c'), 'baz')
   t.is(mapSpy.callCount, 2)
 })
