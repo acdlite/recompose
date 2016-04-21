@@ -52,26 +52,31 @@ const omitProps = keys => mapProps(props => omit(keys, props))
 const omitProps = compose(mapProps, omit)
 ```
 
-### `mapPropsOnChange()`
-
-```js
-mapPropsOnChange(
-  depdendentPropKeys: Array<string>,
-  propsMapper: (dependentProps: Object) => Object
-): HigherOrderComponent
-```
-
-Similar to `mapProps()`, but child props are only re-computed when one of the props specified by `dependentPropKeys` has changed. This helps ensure that computationally intense `propsMapper` functions are only executed when necessary.
-
 ### `withProps()`
 
 ```js
 withProps(
-  props: Object
+  createProps: (ownerProps: Object) => Object | Object
 ): HigherOrderComponent
 ```
 
-Passes additional props to the base component. Similar to `defaultProps()`, except the provided props take precedence over props from the owner.
+Like `mapProps()`, except the newly created props are merged with the owner props.
+
+Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the owner.
+
+
+### `withPropsOnChange()`
+
+```js
+withPropsOnChange(
+  depdendentPropKeys: Array<string> | (props: Object, nextProps: Object) => boolean,
+  createProps: (ownerProps: Object) => Object
+): HigherOrderComponent
+```
+
+Like `withProps()`, except the new props are only created when one of the owner props specified by `dependentPropKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
+
+Instead of an array of prop keys, the first parameter can also be a function that returns a boolean, given the current props and the next props. This allows you to customize when `createProps()` should be called.
 
 ### `withHandlers()`
 

@@ -1,15 +1,15 @@
 import test from 'ava'
 import React from 'react'
-import { mapPropsOnChange, withState, flattenProp, compose } from '../'
+import { withPropsOnChange, withState, flattenProp, compose } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
-test('mapPropsOnChange maps subset of owner props to child props', t => {
+test('withPropsOnChange maps subset of owner props to child props', t => {
   const mapSpy = sinon.spy()
   const StringConcat = compose(
     withState('strings', 'updateStrings', { a: 'a', b: 'b', c: 'c' }),
     flattenProp('strings'),
-    mapPropsOnChange(
+    withPropsOnChange(
       ['a', 'b'],
       ({ a, b, ...props }) => {
         mapSpy()
@@ -21,7 +21,7 @@ test('mapPropsOnChange maps subset of owner props to child props', t => {
     )
   )('div')
 
-  t.is(StringConcat.displayName, 'withState(flattenProp(mapPropsOnChange(div)))')
+  t.is(StringConcat.displayName, 'withState(flattenProp(withPropsOnChange(div)))')
 
   const div = mount(<StringConcat />).find('div')
   const { updateStrings } = div.props()
