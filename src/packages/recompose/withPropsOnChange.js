@@ -4,7 +4,7 @@ import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
 import createElement from './createElement'
 
-const mapPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
+const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
   const shouldMap = typeof shouldMapOrKeys === 'function'
     ? shouldMapOrKeys
     : (props, nextProps) => !shallowEqual(
@@ -22,9 +22,12 @@ const mapPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
     }
 
     render() {
-      return createElement(BaseComponent, this.computedProps)
+      return createElement(BaseComponent, {
+        ...this.props,
+        ...this.computedProps
+      })
     }
   }
 }
 
-export default createHelper(mapPropsOnChange, 'mapPropsOnChange')
+export default createHelper(withPropsOnChange, 'withPropsOnChange')
