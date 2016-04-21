@@ -22,7 +22,10 @@ const mapPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
     }
 
     render() {
-      return createElement(BaseComponent, this.computedProps)
+      return createElement(BaseComponent, {
+        ...this.props,
+        ...this.computedProps
+      })
     }
   }
 }
