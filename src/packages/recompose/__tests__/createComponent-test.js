@@ -45,3 +45,11 @@ test('createComponent will set the display name if a string is in the first argu
   t.is(createComponent('Component', constant(Bar), Foo).displayName, 'Component')
   t.throws(() => createComponent(constant(Bar), 'Component', Foo))
 })
+
+test('createComponent will add a property to retrieve the baseComponent', t => {
+  const Foo = props => <div {...props} />
+  const Bar = props => <div {...props} />
+
+  t.is(createComponent(constant(Bar), Foo), Bar)
+  t.is(createComponent(constant(Bar), Foo).baseComponent, Foo)
+})

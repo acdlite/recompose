@@ -12,7 +12,11 @@ const createComponent = (...args) => {
     component = setDisplayName(displayName)(component)
   }
 
-  return compose(...decorators)(component)
+  component = compose(...decorators)(component)
+
+  component.baseComponent = baseComponent
+
+  return component
 }
 
 export default createComponent
