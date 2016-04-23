@@ -19,3 +19,12 @@ test('withProps takes precedent over owner props', t => {
   t.is(div.prop('so'), 'do')
   t.is(div.prop('la'), 'fa')
 })
+
+test('withProps should accept function', t => {
+  const DoReMi = withProps(({ la }) => ({
+    so: la,
+  }))('div')
+
+  const div = shallow(<DoReMi la="la" />).find('div')
+  t.is(div.prop('so'), 'la')
+})
