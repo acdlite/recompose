@@ -30,7 +30,6 @@ export setDisplayName from './setDisplayName'
 // Composition function
 export compose from './compose'
 export createComponent from './createComponent'
-export createPureComponent from './createPureComponent'
 
 // Other utils
 export getDisplayName from './getDisplayName'
