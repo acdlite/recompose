@@ -34,3 +34,14 @@ test('createComponent will apply decorators in order', t => {
 
   t.is(createComponent(constant(Foo), constant(Bar), Buz), Foo)
 })
+
+test('createComponent will set the display name if a string is in the first argument position', t => {
+  const Foo = props => <div {...props} />
+  const Bar = props => <div {...props} />
+
+  t.is(createComponent('Component', Foo), Foo)
+  t.is(createComponent('Component', Foo).displayName, 'Component')
+  t.is(createComponent('Component', constant(Bar), Foo), Bar)
+  t.is(createComponent('Component', constant(Bar), Foo).displayName, 'Component')
+  t.throws(() => createComponent(constant(Bar), 'Component', Foo))
+})
