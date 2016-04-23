@@ -37,13 +37,22 @@ test('createComponent will apply decorators in order', t => {
 
 test('createComponent will set the display name if a string is in the first argument position', t => {
   const Foo = props => <div {...props} />
-  const Bar = props => <div {...props} />
+  const decorator = Component => assign(Component, { a: 1 })
 
   t.is(createComponent('Component', Foo), Foo)
   t.is(createComponent('Component', Foo).displayName, 'Component')
+  t.is(createComponent('Component', decorator, Foo), Foo)
+  t.is(createComponent('Component', decorator, Foo).displayName, 'Component')
+  t.is(createComponent('Component', decorator, Foo).a, 1)
+  t.throws(() => createComponent(decorator, 'Component', Foo))
+})
+
+test('createComponent setDisplayName is applied last', t => {
+  const Foo = props => <div {...props} />
+  const Bar = props => <div {...props} />
+
   t.is(createComponent('Component', constant(Bar), Foo), Bar)
-  t.is(createComponent('Component', constant(Bar), Foo).displayName, 'Component')
-  t.throws(() => createComponent(constant(Bar), 'Component', Foo))
+  t.falsy(createComponent('Component', constant(Bar), Foo).displayName)
 })
 
 test('createComponent will add a property to retrieve the baseComponent', t => {
