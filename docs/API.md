@@ -280,10 +280,10 @@ This is useful in combination with another helper that expects a higher-order co
 ```js
 // `hasLoaded()` is a function that returns whether or not the the component
 // has all the props it needs
-const spinnerWhileLoading = (hasLoaded, BaseComponent) =>
+const spinnerWhileLoading = hasLoaded =>
   branch(
     hasLoaded,
-    renderComponent(BaseComponent),
+    identity, // Component => Component
     renderComponent(Spinner) // <Spinner> is a React component
   );
 
