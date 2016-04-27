@@ -192,7 +192,7 @@ Recompose provides a toolkit of helper functions for creating higher-order compo
 All functions are available on the top-level export.
 
 ```js
-import { compose, mapProps, withState /* ... */ } from 'recompose';
+import { compose, mapProps, withState /* ... */ } from 'recompose'
 ```
 
 ### Composition
@@ -200,12 +200,12 @@ import { compose, mapProps, withState /* ... */ } from 'recompose';
 Recompose helpers are designed to be composable:
 
 ```js
-const BaseComponent = props => {...};
+const BaseComponent = props => {...}
 
 // This will work, but it's tedious
-let EnhancedComponent = pure(BaseComponent);
-EnhancedComponent = mapProps(/*...args*/)(EnhancedComponent);
-EnhancedComponent = withState(/*...args*/)(EnhancedComponent);
+let EnhancedComponent = pure(BaseComponent)
+EnhancedComponent = mapProps(/*...args*/)(EnhancedComponent)
+EnhancedComponent = withState(/*...args*/)(EnhancedComponent)
 
 // Do this instead
 // Note that the order has reversed — props flow from top to bottom
@@ -214,7 +214,7 @@ const enhance = compose(
   mapProps(/*...args*/),
   pure
 )
-const EnhancedComponent = enhance(BaseComponent);
+const EnhancedComponent = enhance(BaseComponent)
 ```
 
 Technically, this also means you can use them as decorators (if that's your thing):
@@ -233,9 +233,9 @@ You can reduce your bundle size by only including the modules that you need.
 All top-level exports can be imported individually:
 
 ```js
-import compose from 'recompose/compose';
-import mapProps from 'recompose/mapProps';
-import withState from 'recompose/withState';
+import compose from 'recompose/compose'
+import mapProps from 'recompose/mapProps'
+import withState from 'recompose/withState'
 // ... and so on
 ```
 

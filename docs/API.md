@@ -218,7 +218,7 @@ const addCounting = compose(
     reset: () => setCounter(0),
     ...rest
   }))
-);
+)
 ```
 
 The second form accepts a single value, which is used as the new state.
