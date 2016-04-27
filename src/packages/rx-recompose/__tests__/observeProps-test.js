@@ -8,14 +8,14 @@ import { mount, shallow } from 'enzyme'
 
 test('maps a stream of owner props to a stream of child props', t => {
   const SmartButton = observeProps(props$ => {
-    const increment$ = createEventHandler()
+    const { handler: onClick, stream: increment$ } = createEventHandler()
     const count$ = increment$
       .startWith(0)
       .scan(total => total + 1)
 
     return Observable.combineLatest(props$, count$, (props, count) => ({
       ...props,
-      onClick: increment$,
+      onClick,
       count
     }))
   })('button')
@@ -34,14 +34,14 @@ test('maps a stream of owner props to a stream of child props', t => {
 
 test('works on initial render', t => {
   const SmartButton = observeProps(props$ => {
-    const increment$ = createEventHandler()
+    const { handler: onClick, stream: increment$ } = createEventHandler()
     const count$ = increment$
       .startWith(0)
       .scan(total => total + 1)
 
     return Observable.combineLatest(props$, count$, (props, count) => ({
       ...props,
-      onClick: increment$,
+      onClick,
       count
     }))
   })('button')
@@ -54,14 +54,14 @@ test('works on initial render', t => {
 
 test('receives prop updates', t => {
   const SmartButton = observeProps(props$ => {
-    const increment$ = createEventHandler()
+    const { handler: onClick, stream: increment$ } = createEventHandler()
     const count$ = increment$
       .startWith(0)
       .scan(total => total + 1)
 
     return Observable.combineLatest(props$, count$, (props, count) => ({
       ...props,
-      onClick: increment$,
+      onClick,
       count
     }))
   })('button')
@@ -77,7 +77,7 @@ test('receives prop updates', t => {
 })
 
 test('unsubscribes before unmounting', t => {
-  const increment$ = createEventHandler()
+  const { handler: onClick, stream: increment$ } = createEventHandler()
   let count = 0
 
   const Container = compose(
@@ -98,12 +98,12 @@ test('unsubscribes before unmounting', t => {
 
   t.is(count, 0)
   updateObserve(true) // Mount component
-  increment$()
+  onClick()
   t.is(count, 1)
-  increment$()
+  onClick()
   t.is(count, 2)
   updateObserve(false) // Unmount component
-  increment$()
+  onClick()
   t.is(count, 2)
 })
 
