@@ -3,7 +3,7 @@ rx-recompose
 
 [![npm version](https://img.shields.io/npm/v/recompose-relay.svg?style=flat-square)](https://www.npmjs.com/package/rx-recompose)
 
-[RxJS](https://github.com/ReactiveX/RxJS) utilities for [Recompose](https://github.com/acdlite/recompose).
+RxJS utilities for [Recompose](https://github.com/acdlite/recompose).
 
 ```
 npm install --save rx-recompose
@@ -12,7 +12,7 @@ npm install --save rx-recompose
 It turns out that much of the React Component API can be expressed in terms of observables:
 
 - Instead of `setState()`, combine multiple streams together.
-- Instead of `getInitialState()`, use `startWith()`.
+- Instead of `getInitialState()`, use `startWith()` or `concat()`.
 - Instead of `shouldComponentUpdate()`, use `distinctUntilChanged()`, `debounce()`, etc.
 
 Other benefits include:
@@ -22,68 +22,94 @@ Other benefits include:
 - Sideways data loading is trivial – just combine the props stream with an external stream.
 - Access to the full ecosystem of RxJS libraries.
 
-Examples to come.
-
 ## API
 
-### `observeProps()`
+### `createComponent()`
 
 ```js
-observeProps(
-  mapPropsStream: (props$: Observable) => Observable | { [propKey: string]: Observable },
+createComponent(
+  propsToReactNode: (props$: Observable<object>) => Observable<ReactNode>
+): ReactComponent
+```
+
+Creates a React component by mapping an observable stream of props to a stream of React nodes (vdom).
+
+You can think of `propsToReactNode` as a function `f` such that
+
+```js
+const vdom$ = f(props$)
+```
+
+where `props$` is a stream of props and `vdom$` is a stream of React nodes. This formulation similar to the popular notion of React views as a function, often communicated as
+
+```
+v = f(d)
+```
+
+See below for a full example.
+
+### `mapPropsStream()`
+
+```js
+mapPropsStream(
+  ownerPropsToChildProps: (props$: Observable<object>) => Observable<object>,
   BaseComponent: ReactElementType
-): ReactElementType
+): ReactComponent
 ```
 
-Maps an observable stream of owner props to a stream of child props, or to an object of observables.
+A higher-order component version of `createComponent()` — accepts a function that maps an observable stream of owner props to a stream of child props, rather than directly to a stream of React nodes. The child props are then passed to a base component.
 
-In the second form, an object of streams is turned into an stream of objects. To illustrate, the following two `mapPropsStream()` functions are equivalent:
+You may want to use this version to interoperate with other Recompose higher-order component helpers.
 
 ```js
-const mapPropsStream1 = () => Observable.just({ a, b, c }),
-
-// Same as
-const mapPropsStream2 = () => ({
-  a: Observable.just(a),
-  b: Observable.just(b),
-  c: Observable.just(c)
+const enhance = mapPropsStream(props$ => {
+  const timeElapsed$ = Observable.interval(1000).pluck('value')
+  props$.combineLatest(timeElapsed$, (props, timeElapsed) => ({
+    ...props,
+    timeElapsed
+  }))
 })
-```
 
-The second form is often more convenient because it avoids the need for `Observable.combineLatest()`, but note that it is also more limiting: you must explicitly declare every prop that is passed to the base component. There's no way to pass through arbitrary props from the owner. For full control over the stream of props, use the first form.
+const Timer = enhance(({ timeElapsed }) =>
+  <div>Time elapsed: {timeElapsed}</div>
+)
+```
 
 ### `createEventHandler()`
 
 ```js
-createEventHandler(): Function & Subject
+createEventHandler<T>(): {
+  handler: (value: T) => void
+  stream: Observable<T>,
+}
 ```
 
-Creates a Subject that is also a function. When called, the subject emits a new value. This type of function is ideal for passing event handlers from `observeProps()`:
+Returns an object with properties `handler` and `stream`. `stream` is an observable sequence, and `handler` is a function that pushes new values onto the sequence. (This is akin to mailboxes in Elm.) Useful for creating event handlers like `onClick`.
+
+## Example
 
 ```js
-const Counter = observeProps(
-  props$ => {
-    const increment$ = createEventHandler()
-    const decrement$ = createEventHandler()
+import { createComponent, createEventHandler } from 'rx-recompose'
+import { Observable } from 'rx'
 
-    const count$ = Observable.merge(
-        increment$.map(() => 1),
-        decrement$.map(() => -1)
-      )
-      .startWith(0)
-      .scan((count, n) => count + n)
+const Counter = createComponent(props$ => {
+  const { mapPropsStream: increment, stream: increment$ } = createEventHandler()
+  const { handler: decrement, stream: decrement$ } = createEventHandler()
+  const count$ = Observable.merge(
+      increment$.map(() => 1),
+      decrement$.map(() => -1)
+    )
+    .startWith(0)
+    .scan((count, n) => count + n, 0)
 
-    return {
-      increment: Observable.just(increment$),
-      decrement: Observable.just(decrement$),
-      count: count$
-    }
-  })
-  (({ count, decrement, increment, ...props }) => (
-    <div {...props}>
-      Count: {count}
-      <button onClick={increment}>+</button>
-      <button onClick={decrement}>-</button>
-    </div>
-  ))
+  return props$.combineLatest(
+    count$,
+    (props, count) =>
+      <div {...props}>
+        Count: {count}
+        <button onClick={increment}>+</button>
+        <button onClick={decrement}>-</button>
+      </div>
+  )
+})
 ```

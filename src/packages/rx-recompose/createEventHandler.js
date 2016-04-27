@@ -1,21 +1,18 @@
-import { Subject } from 'rx'
+import { Observable } from 'rx'
 
-// Idea and implementation borrowed from
-// https://github.com/fdecampredon/rx-react
 const createEventHandler = () => {
-  function subject(value) {
-    subject.onNext(value)
+  const observers = []
+  const stream = Observable.create(observer => {
+    observers.push(observer)
+    return () => {
+      const i = observers.indexOf(observer)
+      observers.splice(i, 1)
+    }
+  })
+  return {
+    handler: value => observers.forEach(observer => observer.onNext(value)),
+    stream
   }
-
-  /* eslint-disable */
-  for (let key in Subject.prototype) {
-  /* eslint-enable */
-    subject[key] = Subject.prototype[key]
-  }
-
-  Subject.call(subject)
-
-  return subject
 }
 
 export default createEventHandler
