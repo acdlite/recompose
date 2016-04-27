@@ -48,10 +48,10 @@ v = f(d)
 
 See below for a full example.
 
-### `observeProps()`
+### `mapPropsStream()`
 
 ```js
-observeProps(
+mapPropsStream(
   ownerPropsToChildProps: (props$: Observable<object>) => Observable<object>,
   BaseComponent: ReactElementType
 ): ReactComponent
@@ -60,6 +60,20 @@ observeProps(
 A higher-order component version of `createComponent()` — accepts a function that maps an observable stream of owner props to a stream of child props, rather than directly to a stream of React nodes. The child props are then passed to a base component.
 
 You may want to use this version to interoperate with other Recompose higher-order component helpers.
+
+```js
+const enhance = mapPropsStream(props$ => {
+  const timeElapsed$ = Observable.interval(1000).pluck('value')
+  props$.combineLatest(timeElapsed$, (props, timeElapsed) => ({
+    ...props,
+    timeElapsed
+  }))
+})
+
+const Timer = enhance(({ timeElapsed }) =>
+  <div>Time elapsed: {timeElapsed}</div>
+)
+```
 
 ### `createEventHandler()`
 
@@ -79,7 +93,7 @@ import { createComponent, createEventHandler } from 'rx-recompose'
 import { Observable } from 'rx'
 
 const Counter = createComponent(props$ => {
-  const { handler: increment, stream: increment$ } = createEventHandler()
+  const { mapPropsStream: increment, stream: increment$ } = createEventHandler()
   const { handler: decrement, stream: decrement$ } = createEventHandler()
   const count$ = Observable.merge(
       increment$.map(() => 1),

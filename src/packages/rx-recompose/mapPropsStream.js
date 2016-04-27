@@ -3,7 +3,7 @@ import createHelper from 'recompose/createHelper'
 import createComponent from './createComponent'
 import { Observable } from 'rx'
 
-const observeProps = ownerPropsToChildProps => BaseComponent =>
+const mapPropsStream = ownerPropsToChildProps => BaseComponent =>
   createComponent(ownerProps$ =>
     Observable.create(observer => {
       const subscription = ownerPropsToChildProps(ownerProps$).subscribe(
@@ -17,4 +17,4 @@ const observeProps = ownerPropsToChildProps => BaseComponent =>
     })
   )
 
-export default createHelper(observeProps, 'observeProps')
+export default createHelper(mapPropsStream, 'mapPropsStream')
