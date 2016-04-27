@@ -410,31 +410,6 @@ getContext(
 
 Gets values from context and passes them along as props. Use along with `withContext()`.
 
-### `doOnReceiveProps()`
-
-```js
-doOnReceiveProps(
-  callback: (props: Object) => void
-): HigherOrderComponent
-```
-
-Executes a callback when the component is receiving new props. Also called at initialization.
-
-### `lifecycle()`
-
-```js
-lifecycle(
-  setup: (component: ReactComponent) => void
-  teardown: (component: ReactComponent) => void
-): HigherOrderComponent
-```
-
-Provides access to the React component instance on initialization (setup) and unmounting (teardown). The most common use case for this is to manage subscriptions to an external source.
-
-`setup` is called within the component's constructor, so you can set the initial state using assignment as in a normal React component class. After initialization, calls to `component.setState()` will update the state as expected.
-
-The state object is mixed into the props and passed to the base component.
-
 ### `toClass()`
 
 ```js
