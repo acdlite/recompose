@@ -97,7 +97,7 @@ Handlers are passed to the base component as immutable props, whose identities a
 Usage example:
 
 ```js
-const enhanceForm = compose(
+const enhance = compose(
   withState('value', 'updateValue', ''),
   withHandlers({
     onChange: props => event => {
@@ -110,13 +110,12 @@ const enhanceForm = compose(
   })
 )
 
-const Form = enhanceForm(
-  ({ value, onChange, onSubmit }) =>
-    <form onSubmit={onSubmit}>
-      <label>Value
-        <input type="text" value={value} onChange={onChange} />
-      </label>
-    </form>
+const Form = enhance(({ value, onChange, onSubmit }) =>
+  <form onSubmit={onSubmit}>
+    <label>Value
+      <input type="text" value={value} onChange={onChange} />
+    </label>
+  </form>
 )
 ```
 
@@ -165,13 +164,14 @@ flattenProp(
 Flattens an prop so that its fields are spread out into the props object.
 
 ```js
-const Abc = compose(
+const enhance = compose(
   withProps({
     object: { a: 'a', b: 'b' },
     c: 'c'
   }),
   flattenProp('object')
-)(BaseComponent);
+)
+const Abc = enhance(BaseComponent)
 
 // Base component receives props: { a: 'a', b: 'b', c: 'c' }
 ```
@@ -180,14 +180,13 @@ An example use for `flattenProps()` is when receiving fragment data from Relay. 
 
 ```js
 // The `post` prop is an object with title, author, and content fields
-const Post = flattenProp('post')(
-  ({ title, content, author }) => (
-    <article>
-      <h1>{title}</h1>
-      <h2>By {author.name}</h2>
-      <div>{content}</div>
-    </article>
-  )
+const enhance = flattenProp('post')
+const Post = enhance(({ title, content, author }) =>
+  <article>
+    <h1>{title}</h1>
+    <h2>By {author.name}</h2>
+    <div>{content}</div>
+  </article>
 )
 ```
 
@@ -251,8 +250,6 @@ withHandlers(
 )
 ```
 
-
-
 ### `branch()`
 
 ```js
@@ -285,21 +282,20 @@ const spinnerWhileLoading = hasLoaded =>
     hasLoaded,
     identity, // Component => Component
     renderComponent(Spinner) // <Spinner> is a React component
-  );
+  )
 
 // Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
 // base component
-const Post = spinnerWhileLoading(
+const enhance = spinnerWhileLoading(
   props => props.title && props.author && props.content
-)(
-  ({ title, author, content }) => (
-    <article>
-      <h1>{title}</h1>
-      <h2>By {author.name}</h2>
-      <div>{content}</div>
-    </article>
-  )
-);
+)
+const Post = enhance(({ title, author, content }) =>
+  <article>
+    <h1>{title}</h1>
+    <h2>By {author.name}</h2>
+    <div>{content}</div>
+  </article>
+)
 ```
 
 ### `renderNothing()`
@@ -351,15 +347,14 @@ Example:
  * Goes well with destructuring because it's clear which props the component
  * actually cares about.
  */
-const Post = onlyUpdateForKeys(['title', 'content', 'author'])(
-  ({ title, content, author }) => (
-    <article>
-      <h1>{title}</h1>
-      <h2>By {author.name}</h2>
-      <div>{content}</div>
-    </article>
-  )
-);
+const enhance = onlyUpdateForKeys(['title', 'content', 'author'])
+const Post = enhance(({ title, content, author }) =>
+  <article>
+    <h1>{title}</h1>
+    <h2>By {author.name}</h2>
+    <div>{content}</div>
+  </article>
+)
 ```
 
 ### `onlyUpdateForPropTypes()`
@@ -373,20 +368,22 @@ Works like `onlyUpdateForKeys()`, but prop keys are inferred from the `propTypes
 If the base component does not have any `propTypes`, the component will never receive any updates. This probably isn't the expected behavior, so a warning is printed to the console.
 
 ```js
-const Post = compose(
+const enhance = compose(
   onlyUpdateForPropTypes,
   setPropTypes({
     title: React.PropTypes.string.isRequired,
     content: React.PropTypes.string.isRequired,
     author: React.PropTypes.object.isRequired
   })
-)(({ title, content, author }) => (
+)
+
+const Post = enhance(({ title, content, author }) =>
   <article>
     <h1>{title}</h1>
     <h2>By {author.name}</h2>
     <div>{content}</div>
   </article>
-));
+)
 ```
 
 ### `withContext()`
@@ -537,9 +534,8 @@ Creates a component that accepts a component as a prop and renders it with the r
 Example:
 
 ```js
-const Button = defaultProps({ component: 'button' })(
-  componentFromProp('component')
-);
+const enhance = defaultProps({ component: 'button' })
+const Button = enhance(componentFromProp('component'))
 
 <Button foo="bar" /> // renders <button foo="bar" />
 <Button component="a" foo="bar" />  // renders <a foo="bar" />

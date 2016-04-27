@@ -28,15 +28,13 @@ npm install recompose --save
 Helpers like `withState()` and `withReducer()` provide a nicer way to express state updates:
 
 ```js
-const Counter = withState(
-  'counter', 'setCounter', 0
-)(({ counter, setCounter }) => (
-    <div>
-      Count: {counter}
-      <button onClick={() => setCounter(n => n + 1)}>Increment</button>
-      <button onClick={() => setCounter(n => n - 1)}>Decrement</button>
-    </div>
-  )
+const enhance = withState('counter', 'setCounter', 0)
+const Counter = enhance(({ counter, setCounter }) =>
+  <div>
+    Count: {counter}
+    <button onClick={() => setCounter(n => n + 1)}>Increment</button>
+    <button onClick={() => setCounter(n => n - 1)}>Decrement</button>
+  </div>
 )
 ```
 
@@ -54,15 +52,13 @@ const counterReducer = (count, action) => {
   }
 }
 
-const Counter = withReducer(
-  'counter', 'dispatch', counterReducer, 0
-)(({ counter, dispatch }) => (
-    <div>
-      Count: {counter}
-      <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
-      <button onClick={() => dispatch({ type: DECREMENT })}>Decrement</button>
-    </div>
-  )
+const enhance = withReducer('counter', 'dispatch', counterReducer, 0)
+const Counter = enhance(({ counter, dispatch }) =>
+  <div>
+    Count: {counter}
+    <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
+    <button onClick={() => dispatch({ type: DECREMENT })}>Decrement</button>
+  </div>
 )
 ```
 
@@ -71,7 +67,8 @@ const Counter = withReducer(
 Helpers like `componentFromProp()` and `withContext()` encapsulate common React patterns into a simple functional interface:
 
 ```js
-const Button = defaultProps({ component: 'button' })(componentFromProp('component'))
+const enhance = defaultProps({ component: 'button' })
+const Button = enhance(componentFromProp('component'))
 
 <Button /> // renders <button>
 <Button component={Link} /> // renders <Link />
@@ -109,8 +106,8 @@ const HyperOptimizedComponent = onlyUpdateForKeys(['propA', 'propB'])(ExpensiveC
 Recompose helpers integrate really nicely with external libraries like Relay, Redux, and RxJS
 
 ```js
-const Post = compose(
-  // This is a curried version of Relay.createContainer(), provided by recompose-relay
+const enhance = compose(
+  // This is a Recompose-friendly version of Relay.createContainer(), provided by recompose-relay
   createContainer({
     fragments: {
       post: () => Relay.QL`
@@ -122,12 +119,14 @@ const Post = compose(
     }
   }),
   flattenProp('post')
-)(({ title, content }) => (
+)
+
+const Post = enhance(({ title, content }) =>
   <article>
     <h1>{title}</h1>
     <div>{content}</div>
   </article>
-))
+)
 ```
 
 ### ...build your own libraries
@@ -162,16 +161,15 @@ Forget ES6 classes vs. `createClass()`.
 An idiomatic React application consists mostly of function components.
 
 ```js
-const Greeting = props => (
+const Greeting = props =>
   <p>
     Hello, {props.name}!
   </p>
-);
 ```
 
 Function components have several key advantages:
 
-- They prevent abuse of the `setState()` API, favoring props instead.
+- They help prevent abuse of the `setState()` API, favoring props instead.
 - They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 - They encourage code that is more reusable and modular.
 - They discourage giant, complicated components that do too many things.
@@ -211,11 +209,12 @@ EnhancedComponent = withState(/*...args*/)(EnhancedComponent);
 
 // Do this instead
 // Note that the order has reversed — props flow from top to bottom
-const EnhancedComponent = compose(
+const enhance = compose(
   withState(/*...args*/),
   mapProps(/*...args*/),
   pure
-)(BaseComponent);
+)
+const EnhancedComponent = enhance(BaseComponent);
 ```
 
 Technically, this also means you can use them as decorators (if that's your thing):
