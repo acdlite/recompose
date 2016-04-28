@@ -1,7 +1,7 @@
 rx-recompose
 ============
 
-[![npm version](https://img.shields.io/npm/v/recompose-relay.svg?style=flat-square)](https://www.npmjs.com/package/rx-recompose)
+[![npm version](https://img.shields.io/npm/v/rx-recompose.svg?style=flat-square)](https://www.npmjs.com/package/rx-recompose)
 
 RxJS utilities for [Recompose](https://github.com/acdlite/recompose).
 
