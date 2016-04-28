@@ -1,10 +1,11 @@
 import { Component } from 'react'
 import mapValues from 'lodash/mapValues'
-import createElement from 'recompose/createElement'
-import createHelper from 'recompose/createHelper'
+import { curriedCreateElement } from './createElement'
+import createHelper from './createHelper'
 
-const withHandlers = handlers => BaseComponent =>
-  class extends Component {
+const withHandlers = handlers => BaseComponent => {
+  const createElement = curriedCreateElement(BaseComponent)
+  return class extends Component {
     handlers = mapValues(
       handlers,
       createHandler => (...args) => {
@@ -25,11 +26,12 @@ const withHandlers = handlers => BaseComponent =>
     );
 
     render() {
-      return createElement(BaseComponent, {
+      return createElement({
         ...this.props,
         ...this.handlers
       })
     }
   }
+}
 
 export default createHelper(withHandlers, 'withHandlers')

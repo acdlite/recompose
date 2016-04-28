@@ -1,8 +1,9 @@
 import createHelper from './createHelper'
-import createElement from './createElement'
+import { curriedCreateElement } from './createElement'
 
 const defaultProps = props => BaseComponent => {
-  const DefaultProps = ownerProps => createElement(BaseComponent, ownerProps)
+  const createElement = curriedCreateElement(BaseComponent)
+  const DefaultProps = ownerProps => createElement(ownerProps)
   DefaultProps.defaultProps = props
   return DefaultProps
 }

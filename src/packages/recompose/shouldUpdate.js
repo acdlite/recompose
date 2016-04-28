@@ -1,16 +1,18 @@
 import { Component } from 'react'
 import createHelper from './createHelper'
-import createElement from './createElement'
+import { curriedCreateElement } from './createElement'
 
-const shouldUpdate = test => BaseComponent =>
-  class extends Component {
+const shouldUpdate = test => BaseComponent => {
+  const createElement = curriedCreateElement(BaseComponent)
+  return class extends Component {
     shouldComponentUpdate(nextProps) {
       return test(this.props, nextProps)
     }
 
     render() {
-      return createElement(BaseComponent, this.props)
+      return createElement(this.props)
     }
   }
+}
 
 export default createHelper(shouldUpdate, 'shouldUpdate')
