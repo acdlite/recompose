@@ -10,6 +10,7 @@
     "composition"
   ],
   "dependencies": {
+    "fbjs": "^0.8.1",
     "hoist-non-react-statics": "^1.0.0",
     "lodash": "^4.3.0"
   },
