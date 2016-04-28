@@ -1,13 +1,15 @@
 import omit from 'lodash/omit'
 import createHelper from './createHelper'
-import createElement from './createElement'
+import { internalCreateElement } from './createElement'
 
-const flattenProp = propName => BaseComponent =>
-  props => (
-    createElement(BaseComponent, {
+const flattenProp = propName => BaseComponent => {
+  const createElement = internalCreateElement(BaseComponent)
+  return props => (
+    createElement({
       ...omit(props, propName),
       ...props[propName]
     })
   )
+}
 
 export default createHelper(flattenProp, 'flattenProp')
