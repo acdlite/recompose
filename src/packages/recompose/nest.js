@@ -1,7 +1,7 @@
-import { curriedCreateElement } from './createElement'
+import { internalCreateElement } from './createElement'
 
 const nest = (...Components) => {
-  const createElements = Components.map(curriedCreateElement)
+  const createElements = Components.map(internalCreateElement)
   const Nest = ({ ...props, children }) =>
     createElements.reduceRight(
       (child, createElement) => createElement(props, child),

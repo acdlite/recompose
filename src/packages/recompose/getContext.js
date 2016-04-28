@@ -1,8 +1,8 @@
 import createHelper from './createHelper'
-import { curriedCreateElement } from './createElement'
+import { internalCreateElement } from './createElement'
 
 const getContext = contextTypes => BaseComponent => {
-  const createElement = curriedCreateElement(BaseComponent)
+  const createElement = internalCreateElement(BaseComponent)
   const GetContext = (ownerProps, context) => (
     createElement({
       ...ownerProps,

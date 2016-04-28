@@ -1,11 +1,11 @@
 import { Component } from 'react'
 import isFunction from 'lodash/isFunction'
 import createHelper from './createHelper'
-import { curriedCreateElement } from './createElement'
+import { internalCreateElement } from './createElement'
 
 const withReducer = (stateName, dispatchName, reducer, initialState) =>
   BaseComponent => {
-    const createElement = curriedCreateElement(BaseComponent)
+    const createElement = internalCreateElement(BaseComponent)
     return class extends Component {
       state = {
         stateValue: isFunction(initialState)

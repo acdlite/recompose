@@ -1,9 +1,9 @@
 import { Component } from 'react'
 import createHelper from './createHelper'
-import { curriedCreateElement } from './createElement'
+import { internalCreateElement } from './createElement'
 
 const withContext = (childContextTypes, getChildContext) => BaseComponent => {
-  const createElement = curriedCreateElement(BaseComponent)
+  const createElement = internalCreateElement(BaseComponent)
   class WithContext extends Component {
     getChildContext = () => getChildContext(this.props);
 

@@ -1,8 +1,8 @@
 import createHelper from './createHelper'
-import { curriedCreateElement } from './createElement'
+import { internalCreateElement } from './createElement'
 
 const mapProps = propsMapper => BaseComponent => {
-  const createElement = curriedCreateElement(BaseComponent)
+  const createElement = internalCreateElement(BaseComponent)
   return props => createElement(propsMapper(props))
 }
 

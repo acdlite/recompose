@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import mapValues from 'lodash/mapValues'
-import { curriedCreateElement } from './createElement'
+import { internalCreateElement } from './createElement'
 import createHelper from './createHelper'
 
 const withHandlers = handlers => BaseComponent => {
-  const createElement = curriedCreateElement(BaseComponent)
+  const createElement = internalCreateElement(BaseComponent)
   return class extends Component {
     handlers = mapValues(
       handlers,

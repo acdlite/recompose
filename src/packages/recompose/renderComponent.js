@@ -1,8 +1,8 @@
 import createHelper from './createHelper'
-import { curriedCreateElement } from './createElement'
+import { internalCreateElement } from './createElement'
 
 const renderComponent = Component => _ => {
-  const createElement = curriedCreateElement(Component)
+  const createElement = internalCreateElement(Component)
   const RenderComponent = props => createElement(props)
   if (process.env.NODE_ENV !== 'production') {
     const wrapDisplayName = require('./wrapDisplayName').default
