@@ -93,7 +93,7 @@ import { createComponent, createEventHandler } from 'rx-recompose'
 import { Observable } from 'rx'
 
 const Counter = createComponent(props$ => {
-  const { mapPropsStream: increment, stream: increment$ } = createEventHandler()
+  const { handler: increment, stream: increment$ } = createEventHandler()
   const { handler: decrement, stream: decrement$ } = createEventHandler()
   const count$ = Observable.merge(
       increment$.map(() => 1),
