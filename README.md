@@ -77,7 +77,7 @@ const Button = enhance(componentFromProp('component'))
 ```js
 const provide = store => withContext(
   { store: PropTypes.object },
-  () => { store }
+  () => ({ store })
 )
 
 // Apply to base component
