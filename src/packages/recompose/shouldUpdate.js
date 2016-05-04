@@ -5,8 +5,8 @@ import { internalCreateElement } from './createElement'
 const shouldUpdate = test => BaseComponent => {
   const createElement = internalCreateElement(BaseComponent)
   return class extends Component {
-    shouldComponentUpdate(nextProps) {
-      return test(this.props, nextProps)
+    shouldComponentUpdate(nextProps, nextState) {
+      return test(this.props, nextProps, this.state, nextState)
     }
 
     render() {
