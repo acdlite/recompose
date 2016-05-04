@@ -1,0 +1,7 @@
+import shouldUpdate from './shouldUpdate'
+import shallowEqual from './shallowEqual'
+import createHelper from './createHelper'
+
+const pureWithState = shouldUpdate((props, nextProps, state, nextState) => !shallowEqual(props, nextProps) || !shallowEqual(state, nextState))
+
+export default createHelper(pureWithState, 'pureWithState', true, true)
