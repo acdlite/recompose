@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import pick from 'lodash/pick'
+import pick from './utils/pick'
 import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
 import createElement from './createElement'

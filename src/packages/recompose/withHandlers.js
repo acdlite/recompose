@@ -1,7 +1,12 @@
 import { Component } from 'react'
-import mapValues from 'lodash/mapValues'
 import { internalCreateElement } from './createElement'
 import createHelper from './createHelper'
+
+const mapValues = (obj, func) =>
+  Object.keys(obj).reduce((result, key, i) => {
+    result[key] = func(obj[key], key, i)
+    return result
+  }, {})
 
 const withHandlers = handlers => BaseComponent => {
   const createElement = internalCreateElement(BaseComponent)
