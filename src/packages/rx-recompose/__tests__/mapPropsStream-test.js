@@ -2,9 +2,10 @@ import test from 'ava'
 import React from 'react'
 import { Observable, Subject } from 'rx'
 import { withState, compose, branch } from 'recompose'
-import identity from 'lodash/identity'
 import { mapPropsStream, createEventHandler } from '../'
 import { mount, shallow } from 'enzyme'
+
+const identity = t => t
 
 test('mapPropsStream maps a stream of owner props to a stream of child props', t => {
   const SmartButton = mapPropsStream(props$ => {

@@ -1,6 +1,7 @@
 'use strict'
 
 var webpack = require('webpack')
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 var reactExternal = {
   root: 'React',
@@ -19,22 +20,18 @@ module.exports = {
     ]
   },
   output: {
-    library: 'Recompose',
+    // Set library in release script
+    // library: 'Recompose',
     libraryTarget: 'umd'
   },
   resolve: {
     extensions: ['', '.js']
   },
   plugins: [
+    new LodashModuleReplacementPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        screw_ie8: true,
-        warnings: false
-      }
     })
   ]
 }

@@ -1,10 +1,16 @@
-import omit from 'lodash/omit'
-import pick from 'lodash/pick'
-import mapKeys from 'lodash/mapKeys'
+import omit from './utils/omit'
+import pick from './utils/pick'
 import mapProps from './mapProps'
 import createHelper from './createHelper'
 
 const { keys } = Object
+
+const mapKeys = (obj, func) =>
+  keys(obj).reduce((result, key) => {
+    const val = obj[key]
+    result[func(val, key)] = val
+    return result
+  }, {})
 
 const renameProps = nameMap =>
   mapProps(props => ({
