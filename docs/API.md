@@ -574,3 +574,19 @@ hoistStatics(hoc: HigherOrderComponent): HigherOrderComponent
 ```
 
 Augments a higher-order component so that when used, it copies static properties from the base component to the new component. This is helpful when using Recompose with libraries like Relay.
+
+### `createElement()`
+
+```js
+createElement(component: ReactElementType, props: Object, children: ReactChildrenType): ReactElementType
+```
+
+Creates a component similar to [`React.createElement`](https://facebook.github.io/react/docs/top-level-api.html#react.createelement), but safely handles assigning a key to a pure functional component by wrapping it in a class.
+
+### `createHelper()`
+
+```js
+createHelper(func: HigherOrderComponent, helperName: string): HigherOrderComponent
+```
+
+Augments a higher-order component so that when used, the resulting component's `displayName` reflects the usage. Also adds support for currying and improved error reporting when used incorrectly with `compose`.
