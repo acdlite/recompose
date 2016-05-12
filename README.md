@@ -240,9 +240,7 @@ import withState from 'recompose/withState'
 // ... and so on
 ```
 
-This is a good option for library authors who don't want to bloat their bundle sizes.
-
-Recompose depends on certain lodash modules, like `compose`. If you're already using lodash, then the net bundle increase from using Recompose will be even smaller.
+This is the recommended import pattern for library authors.
 
 ## Feedback wanted
 
