@@ -35,8 +35,6 @@
     "globby": "^4.0.0",
     "gzip-size-cli": "^1.0.0",
     "jsdom": "^8.4.0",
-    "lodash": "^4.0.0",
-    "lodash-webpack-plugin": "^0.2.1",
     "nyc": "^6.4.0",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
