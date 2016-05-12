@@ -8,7 +8,12 @@ export default function compose(...funcs) {
   }
 
   const last = funcs[funcs.length - 1]
-  const rest = funcs.slice(0, -1)
-
-  return (...args) => rest.reduceRight((composed, f) => f(composed), last(...args))
+  return (...args) => {
+    let result = last(...args)
+    for (let i = funcs.length - 2; i >= 0; i--) {
+      const f = funcs[i]
+      result = f(result)
+    }
+    return result
+  }
 }
