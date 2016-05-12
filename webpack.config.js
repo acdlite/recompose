@@ -1,7 +1,6 @@
 'use strict'
 
 var webpack = require('webpack')
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 var reactExternal = {
   root: 'React',
@@ -28,7 +27,6 @@ module.exports = {
     extensions: ['', '.js']
   },
   plugins: [
-    new LodashModuleReplacementPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
