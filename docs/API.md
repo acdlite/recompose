@@ -462,21 +462,7 @@ Recompose also includes some additional helpers that aren't higher-order compone
 compose(...functions: Array<Function>): Function
 ```
 
-Use to compose multiple higher-order components into a single higher-order component.
-
-It will print a warning if a higher-order component helper has insufficient parameters. For example, if you forget to pass an initial state to `withReducer()`:
-
-```js
-compose(
-  withReducer('state', 'dispatch', reducer), // Forgot initialState
-  ...otherHelpers
-)(BaseComponent)
-```
-
-> Attempted to compose `withReducer()` with other higher-order component helpers, but it has been applied with 1 too few parameters. Check the implementation of \<BaseComponent\>.
-
-
-These warnings are only printed in development. In production, this just is an alias for lodash's [`compose()` / `flowRight()`](https://lodash.com/docs#flowRight).
+Use to compose multiple higher-order components into a single higher-order component. This works exactly like the function of the same name in Redux, or lodash's `flowRight()`.
 
 ### `getDisplayName()`
 
