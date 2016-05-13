@@ -16,7 +16,7 @@ const createHelper = (
     }
 
     return (...args) => {
-      if (process.env.NODE_ENV !== 'production' && args.length > func.length) {
+      if (args.length > func.length) {
         /* eslint-disable */
         console.error(
         /* eslint-enable */
@@ -26,12 +26,8 @@ const createHelper = (
       }
 
       return BaseComponent => {
-        const Component = noArgs
-          ? func(BaseComponent)
-          : func(...args)(BaseComponent)
-
+        const Component = func(...args)(BaseComponent)
         Component.displayName = wrapDisplayName(BaseComponent, helperName)
-
         return Component
       }
     }
