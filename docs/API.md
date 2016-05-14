@@ -274,12 +274,12 @@ export default doOnReceiveProps((prevProps, { list, fetchList }) => {
     // Do some actions, needed only on mounting for example check size of wrapper to prepare list layout.
   }
 
-  if (!props.list) {
-    props.fetchList();
+  if (!list) {
+    fetchList();
     // show "data is loading" something
   }
 
-  if (props.list) {
+  if (list) {
     // hide "data is loading" something
   }
 })(<List />)
