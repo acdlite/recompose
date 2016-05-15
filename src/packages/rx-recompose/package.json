@@ -15,6 +15,7 @@
     "composition"
   ],
   "dependencies": {
+    "change-emitter": "^0.1.2",
     "lodash": "^4.0.0"
   },
   "peerDependencies": {

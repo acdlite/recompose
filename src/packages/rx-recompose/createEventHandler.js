@@ -1,16 +1,13 @@
 import { Observable } from 'rx'
+import { createChangeEmitter } from 'change-emitter'
 
 const createEventHandler = () => {
-  const observers = []
-  const stream = Observable.create(observer => {
-    observers.push(observer)
-    return () => {
-      const i = observers.indexOf(observer)
-      observers.splice(i, 1)
-    }
-  })
+  const emitter = createChangeEmitter()
+  const stream = Observable.create(observer =>
+    emitter.listen(value => observer.onNext(value))
+  )
   return {
-    handler: value => observers.forEach(observer => observer.onNext(value)),
+    handler: emitter.emit,
     stream
   }
 }
