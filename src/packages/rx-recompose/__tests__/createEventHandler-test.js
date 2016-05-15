@@ -31,3 +31,16 @@ test('handles multiple subscribers', t => {
   t.deepEqual(result1, [1, 2, 3])
   t.deepEqual(result2, [1, 2, 3])
 })
+
+test('custom stream initializer', t => {
+  const result = []
+  const { stream, handler } = createEventHandler($ => $.map(x => x * 2))
+  const subscription = stream.subscribe(v => result.push(v))
+
+  handler(1)
+  handler(2)
+  handler(3)
+
+  subscription.dispose()
+  t.deepEqual(result, [2, 4, 6])
+})
