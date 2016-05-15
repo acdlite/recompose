@@ -250,6 +250,42 @@ withHandlers(
 )
 ```
 
+### `doOnReceiveProps()`
+
+```js
+doOnReceiveProps(
+  callback: (prevProps: Object, props: Object) => void
+): HigherOrderComponent
+```
+
+Executes a callback when the component is receiving new props. Also called at initialization.
+
+Useful when there is need in some asynchronous logic on initialization:
+
+```js
+const List = ({ list }) => (
+  <div className="list">
+    { list && list.map((item, key) => <div key={ key } />) }
+  </div>
+)
+
+export default doOnReceiveProps((prevProps, { list, fetchList }) => {
+  if (!prevProps) {
+    // Do some actions, needed only on mounting for example check size of wrapper to prepare list layout.
+  }
+
+  if (!list) {
+    fetchList();
+    // show "data is loading" something
+  }
+
+  if (list) {
+    // hide "data is loading" something
+  }
+})(<List />)
+
+```
+
 ### `branch()`
 
 ```js
