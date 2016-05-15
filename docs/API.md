@@ -242,14 +242,6 @@ Similar to `withState()`, but state updates are applied using a reducer function
 
 Passes two additional props to the base component: a state value, and a dispatch method. The dispatch method sends an action to the reducer, and the new state is applied.
 
-### `withHandlers()`
-
-```js
-withHandlers(
-  handlers: { [handlerName: string]: (props: Object) => (...args: any) => void }
-)
-```
-
 ### `branch()`
 
 ```js
