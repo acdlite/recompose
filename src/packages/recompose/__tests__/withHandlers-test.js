@@ -43,6 +43,49 @@ test('withHandlers passes immutable handlers to base component', t => {
   t.is(submittedFormValue, 'Yay!!')
 })
 
+test('withHandlers caches handlers properly', t => {
+  const handlerCreationSpy = sinon.spy()
+  const handlerCallSpy = sinon.spy()
+
+  const enhance = withHandlers({
+    handler: props => {
+      handlerCreationSpy(props)
+      return val => {
+        handlerCallSpy(val)
+      }
+    }
+  })
+  const Div = enhance('div')
+
+  const wrapper = mount(<Div foo="bar" />)
+  const div = wrapper.find('div')
+  const handler = div.prop('handler')
+
+  // Don't create handler until it is called
+  t.is(handlerCreationSpy.callCount, 0)
+  t.is(handlerCallSpy.callCount, 0)
+
+  handler(1)
+  t.is(handlerCreationSpy.callCount, 1)
+  t.deepEqual(handlerCreationSpy.args[0], [{ foo: 'bar' }])
+  t.is(handlerCallSpy.callCount, 1)
+  t.deepEqual(handlerCallSpy.args[0], [1])
+
+  // Props haven't changed; should use cached handler
+  handler(2)
+  t.is(handlerCreationSpy.callCount, 1)
+  t.is(handlerCallSpy.callCount, 2)
+  t.deepEqual(handlerCallSpy.args[1], [2])
+
+  wrapper.setProps({ foo: 'baz' })
+  handler(3)
+  // Props did change; handler should be recreated
+  t.is(handlerCreationSpy.callCount, 2)
+  t.deepEqual(handlerCreationSpy.args[1], [{ foo: 'baz' }])
+  t.is(handlerCallSpy.callCount, 3)
+  t.deepEqual(handlerCallSpy.args[2], [3])
+})
+
 test.serial('withHandlers warns if handler is not a higher-order function', t => {
   const error = sinon.stub(console, 'error')
 
