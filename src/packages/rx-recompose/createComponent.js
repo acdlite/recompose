@@ -1,15 +1,17 @@
 import { Component } from 'react'
 import { Observable } from 'rx'
+import { createChangeEmitter } from 'change-emitter'
 
 const createComponent = propsToVdom =>
   class RxComponent extends Component {
     state = {};
 
+    propsEmitter = createChangeEmitter();
+
     // Stream of props
-    props$ = Observable.create(observer => {
-      this.propsObserver = observer
-      this.propsObserver.onNext(this.props)
-    });
+    props$ = Observable.create(observer =>
+      this.propsEmitter.listen(props => observer.onNext(props))
+    );
 
     // Stream of vdom
     vdom$ = propsToVdom(this.props$);
@@ -29,6 +31,8 @@ const createComponent = propsToVdom =>
             : this.setState({ vdom })
         }
       )
+
+      this.propsEmitter.emit(this.props)
     }
 
     componentDidMount() {
@@ -37,7 +41,7 @@ const createComponent = propsToVdom =>
 
     componentWillReceiveProps(nextProps) {
       // Receive new props from the owner
-      this.propsObserver.onNext(nextProps)
+      this.propsEmitter.emit(nextProps)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
