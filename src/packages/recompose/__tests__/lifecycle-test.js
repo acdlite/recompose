@@ -10,6 +10,7 @@ test('lifecycle is a higher-order component version of React.createClass', t => 
     }
   })
   const Div = enhance('div')
+  t.is(Div.displayName, 'lifecycle(div)')
 
   const div = mount(<Div foo="bar" />).find('div')
   t.is(div.prop('foo'), 'bar')
