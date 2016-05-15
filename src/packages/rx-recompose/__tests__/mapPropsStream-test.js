@@ -117,3 +117,22 @@ test('mapPropsStream renders null until stream of props emits value', t => {
   props$.onNext({ foo: 'bar' })
   t.is(wrapper.find('div').prop('foo'), 'bar')
 })
+
+
+test('handler multiple observers of props stream', t => {
+  const Container = mapPropsStream(props$ =>
+    // Adds three observers to props stream
+    props$.combineLatest(
+      props$, props$,
+      props1 => props1
+    )
+  )('div')
+
+  const wrapper = mount(<Container value={1} />)
+  const div = wrapper.find('div')
+
+  t.is(div.prop('value'), 1)
+  // Push onto props stream
+  wrapper.setProps({ value: 2 })
+  t.is(div.prop('value'), 2)
+})
