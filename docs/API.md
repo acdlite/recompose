@@ -407,6 +407,16 @@ getContext(
 
 Gets values from context and passes them along as props. Use along with `withContext()`.
 
+### `lifecycle()`
+
+```js
+lifecycle(
+  spec: Object,
+): HigherOrderComponent
+```
+
+A higher-order component version of [`React.createClass()`](https://facebook.github.io/react/docs/top-level-api.html#react.createclass). It supports the entire `createClass()` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
+
 ### `toClass()`
 
 ```js
