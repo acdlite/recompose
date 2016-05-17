@@ -31,6 +31,45 @@ Some, like `pure`, are higher-order components themselves:
 const PureComponent = pure(BaseComponent)
 ```
 
+## TOC
+
+* [Higher-order components](#higher-order-components)
+  + [`mapProps()`](#mapprops)
+  + [`withProps()`](#withprops)
+  + [`withPropsOnChange()`](#withpropsonchange)
+  + [`withHandlers()`](#withhandlers)
+  + [`defaultProps()`](#defaultprops)
+  + [`renameProp()`](#renameprop)
+  + [`renameProps()`](#renameprops)
+  + [`flattenProp()`](#flattenprop)
+  + [`withState()`](#withstate)
+  + [`withReducer()`](#withreducer)
+  + [`branch()`](#branch)
+  + [`renderComponent()`](#rendercomponent)
+  + [`renderNothing()`](#rendernothing)
+  + [`shouldUpdate()`](#shouldupdate)
+  + [`pure()`](#pure)
+  + [`onlyUpdateForKeys()`](#onlyupdateforkeys)
+  + [`onlyUpdateForPropTypes()`](#onlyupdateforproptypes)
+  + [`withContext()`](#withcontext)
+  + [`getContext()`](#getcontext)
+  + [`lifecycle()`](#lifecycle)
+  + [`toClass()`](#toclass)
+* [Static property helpers](#static-property-helpers)
+  + [`setStatic()`](#setstatic)
+  + [`setPropTypes()`](#setproptypes)
+  + [`setDisplayName()`](#setdisplayname)
+* [Utilities](#utilities)
+  + [`compose()`](#compose)
+  + [`getDisplayName()`](#getdisplayname)
+  + [`wrapDisplayName()`](#wrapdisplayname)
+  + [`shallowEqual()`](#shallowequal)
+  + [`isClassComponent()`](#isclasscomponent)
+  + [`createSink()`](#createsink)
+  + [`componentFromProp()`](#componentfromprop)
+  + [`nest()`](#nest)
+  + [`hoistStatics()`](#hoiststatics)
+
 ## Higher-order components
 
 ### `mapProps()`
