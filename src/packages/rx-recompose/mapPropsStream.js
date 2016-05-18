@@ -1,7 +1,7 @@
 import createElement from 'recompose/createElement'
 import createHelper from 'recompose/createHelper'
 import createComponent from './createComponent'
-import { Observable } from 'rx'
+import { Observable } from 'rxjs'
 
 const mapPropsStream = ownerPropsToChildProps => BaseComponent =>
   createComponent(ownerProps$ =>

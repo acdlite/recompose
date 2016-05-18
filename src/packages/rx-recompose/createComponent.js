@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Observable } from 'rx'
+import { Observable } from 'rxjs'
 import { createChangeEmitter } from 'change-emitter'
 
 const createComponent = propsToVdom =>
@@ -10,7 +10,7 @@ const createComponent = propsToVdom =>
 
     // Stream of props
     props$ = Observable.create(observer =>
-      this.propsEmitter.listen(props => observer.onNext(props))
+      this.propsEmitter.listen(props => observer.next(props))
     );
 
     // Stream of vdom
