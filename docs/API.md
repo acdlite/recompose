@@ -58,6 +58,7 @@ const PureComponent = pure(BaseComponent)
 * [Static property helpers](#static-property-helpers)
   + [`setStatic()`](#setstatic)
   + [`setPropTypes()`](#setproptypes)
+  + [`addPropTypes()`](#addproptypes)
   + [`setDisplayName()`](#setdisplayname)
 * [Utilities](#utilities)
   + [`compose()`](#compose)
@@ -482,6 +483,17 @@ setPropTypes(
 ```
 
 Assigns to the `propTypes` property on the base component.
+
+### `addPropTypes()`
+
+```js
+addPropTypes(
+  propTypes: Object
+): HigherOrderComponent
+```
+
+Extends the existing `propTypes` property on the base component, adding (and potentially overwriting) to
+the existing `propTypes`.
 
 ### `setDisplayName()`
 
