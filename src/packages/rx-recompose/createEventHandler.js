@@ -1,10 +1,10 @@
-import { Observable } from 'rx'
+import { Observable } from 'rxjs'
 import { createChangeEmitter } from 'change-emitter'
 
 const createEventHandler = () => {
   const emitter = createChangeEmitter()
   const stream = Observable.create(observer =>
-    emitter.listen(value => observer.onNext(value))
+    emitter.listen(value => observer.next(value))
   )
   return {
     handler: emitter.emit,
