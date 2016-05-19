@@ -15,15 +15,14 @@
     "composition"
   ],
   "dependencies": {
-    "change-emitter": "^0.1.2",
-    "lodash": "^4.0.0"
+    "change-emitter": "^0.1.2"
   },
   "peerDependencies": {
-    "recompose": "^0.17.0",
+    "recompose": "^0.19.0",
     "react": "^0.14.0 || ^15.0.0",
-    "rx": "^4.0.0"
+    "rxjs": "^5.0.0-beta"
   },
   "devDependencies": {
-    "rx": "^4.0.0"
+    "rxjs": "^5.0.0-beta.7"
   }
 }
