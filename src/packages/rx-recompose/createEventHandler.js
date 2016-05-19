@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs'
 import { createChangeEmitter } from 'change-emitter'
 
 const createEventHandler = () => {

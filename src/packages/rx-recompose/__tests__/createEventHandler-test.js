@@ -1,6 +1,9 @@
 import test from 'ava'
 import { createEventHandler } from '../'
 
+import { Observable } from 'rxjs/Observable'
+global.Observable = Observable
+
 test('createEventHandler creates a subject that broadcasts new values when called as a function', t => {
   const result = []
   const { stream, handler } = createEventHandler()
@@ -10,7 +13,7 @@ test('createEventHandler creates a subject that broadcasts new values when calle
   handler(2)
   handler(3)
 
-  subscription.dispose()
+  subscription.unsubscribe()
   t.deepEqual(result, [1, 2, 3])
 })
 
@@ -25,8 +28,8 @@ test('handles multiple subscribers', t => {
   handler(2)
   handler(3)
 
-  subscription1.dispose()
-  subscription2.dispose()
+  subscription1.unsubscribe()
+  subscription2.unsubscribe()
 
   t.deepEqual(result1, [1, 2, 3])
   t.deepEqual(result2, [1, 2, 3])

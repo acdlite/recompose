@@ -71,9 +71,6 @@
     "node": "5.x",
     "npm": "3.x"
   },
-  "dependencies": {
-    "recompose": "^0.17.0"
-  },
   "ava": {
     "files": [
       "src/**/__tests__/*-test.js"

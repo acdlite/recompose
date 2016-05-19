@@ -1,9 +1,16 @@
 import test from 'ava'
 import React from 'react'
-import { Observable, Subject } from 'rx'
+import { combineLatest } from 'rxjs/operator/combineLatest'
+import { startWith } from 'rxjs/operator/startWith'
+import { scan } from 'rxjs/operator/scan'
+import { _do } from 'rxjs/operator/do'
+import { map } from 'rxjs/operator/map'
 import { withState, compose, branch } from 'recompose'
 import { mapPropsStream, createEventHandler } from '../'
 import { mount, shallow } from 'enzyme'
+
+import { Observable } from 'rxjs/Observable'
+global.Observable = Observable
 
 const identity = t => t
 
@@ -11,10 +18,10 @@ test('mapPropsStream maps a stream of owner props to a stream of child props', t
   const SmartButton = mapPropsStream(props$ => {
     const { handler: onClick, stream: increment$ } = createEventHandler()
     const count$ = increment$
-      .startWith(0)
-      .scan(total => total + 1)
+      ::startWith(0)
+      ::scan(total => total + 1)
 
-    return Observable.combineLatest(props$, count$, (props, count) => ({
+    return props$::combineLatest(count$, (props, count) => ({
       ...props,
       onClick,
       count
@@ -37,10 +44,10 @@ test('mapPropsStream works on initial render', t => {
   const SmartButton = mapPropsStream(props$ => {
     const { handler: onClick, stream: increment$ } = createEventHandler()
     const count$ = increment$
-      .startWith(0)
-      .scan(total => total + 1)
+      ::startWith(0)
+      ::scan(total => total + 1)
 
-    return Observable.combineLatest(props$, count$, (props, count) => ({
+    return props$::combineLatest(count$, (props, count) => ({
       ...props,
       onClick,
       count
@@ -57,10 +64,10 @@ test('mapPropsStream receives prop updates', t => {
   const SmartButton = mapPropsStream(props$ => {
     const { handler: onClick, stream: increment$ } = createEventHandler()
     const count$ = increment$
-      .startWith(0)
-      .scan(total => total + 1)
+      ::startWith(0)
+      ::scan(total => total + 1)
 
-    return Observable.combineLatest(props$, count$, (props, count) => ({
+    return props$::combineLatest(count$, (props, count) => ({
       ...props,
       onClick,
       count
@@ -87,8 +94,8 @@ test('mapPropsStream unsubscribes before unmounting', t => {
       props => props.observe,
       mapPropsStream(() =>
         increment$
-          .do(() => count += 1)
-          .map(() => ({}))
+          ::_do(() => count += 1)
+          ::map(() => ({}))
       ),
       identity
     )
@@ -109,12 +116,12 @@ test('mapPropsStream unsubscribes before unmounting', t => {
 })
 
 test('mapPropsStream renders null until stream of props emits value', t => {
-  const props$ = new Subject()
+  const { stream: props$, handler: setProps } = createEventHandler()
   const Container = mapPropsStream(() => props$)('div')
   const wrapper = mount(<Container />)
 
   t.false(wrapper.some('div'))
-  props$.onNext({ foo: 'bar' })
+  setProps({ foo: 'bar' })
   t.is(wrapper.find('div').prop('foo'), 'bar')
 })
 
@@ -122,7 +129,7 @@ test('mapPropsStream renders null until stream of props emits value', t => {
 test('handler multiple observers of props stream', t => {
   const Container = mapPropsStream(props$ =>
     // Adds three observers to props stream
-    props$.combineLatest(
+    props$::combineLatest(
       props$, props$,
       props1 => props1
     )

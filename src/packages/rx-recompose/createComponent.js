@@ -1,5 +1,4 @@
 import { Component } from 'react'
-import { Observable } from 'rxjs'
 import { createChangeEmitter } from 'change-emitter'
 
 const createComponent = propsToVdom =>
@@ -50,7 +49,7 @@ const createComponent = propsToVdom =>
 
     componentWillUnmount() {
       // Clean-up subscription before un-mounting
-      this.subscription.dispose()
+      this.subscription.unsubscribe()
     }
 
     render() {
