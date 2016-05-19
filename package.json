@@ -9,13 +9,13 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",
-    "test": "ava",
+    "test": "ava --concurrency=5",
     "test:watch": "npm run test -- --watch",
     "release": "babel-node scripts/release.js",
     "postinstall": "babel-node scripts/installNestedPackageDeps.js"
   },
   "devDependencies": {
-    "ava": "^0.14.0",
+    "ava": "git://github.com/avajs/ava.git#54e11064841c0169a88324f3daeda396d3e8889f",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
     "babel-eslint": "^5.0.0-beta9",
