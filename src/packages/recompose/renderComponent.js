@@ -5,7 +5,9 @@ const renderComponent = Component => _ => {
   const createElement = internalCreateElement(Component)
   const RenderComponent = props => createElement(props)
   if (process.env.NODE_ENV !== 'production') {
+    /* eslint-disable global-require */
     const wrapDisplayName = require('./wrapDisplayName').default
+    /* eslint-enable global-require */
     RenderComponent.displayName =
       wrapDisplayName(Component, 'renderComponent')
   }

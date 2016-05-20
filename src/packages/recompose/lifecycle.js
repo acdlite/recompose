@@ -15,6 +15,7 @@ const lifecycle = spec => BaseComponent => {
     )
   }
 
+  /* eslint-disable react/prefer-es6-class */
   return createClass({
     ...spec,
     render() {
@@ -24,6 +25,7 @@ const lifecycle = spec => BaseComponent => {
       })
     }
   })
+  /* eslint-enable react/prefer-es6-class */
 }
 
 export default createHelper(lifecycle, 'lifecycle')

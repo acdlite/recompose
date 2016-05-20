@@ -24,6 +24,7 @@
     "rx": "^4.0.0"
   },
   "devDependencies": {
+    "recompose": "0.19.0",
     "rx": "^4.0.0"
   }
 }

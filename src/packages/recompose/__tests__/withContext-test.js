@@ -7,12 +7,12 @@ test('withContext + getContext adds to and grabs from context', t => {
   // Mini React Redux clone
   const store = {
     getState: () => ({
-      todos: [ 'eat', 'drink', 'sleep' ],
+      todos: ['eat', 'drink', 'sleep'],
       counter: 12
     })
   }
 
-  class Provider extends Component {
+  class BaseProvider extends Component {
     static propTypes = {
       children: PropTypes.node
     };
@@ -22,12 +22,12 @@ test('withContext + getContext adds to and grabs from context', t => {
     }
   }
 
-  Provider = compose(
+  const Provider = compose(
     withContext(
       { store: PropTypes.object },
       props => ({ store: props.store })
     )
-  )(Provider)
+  )(BaseProvider)
 
   t.is(Provider.displayName, 'withContext(Provider)')
 
@@ -46,5 +46,5 @@ test('withContext + getContext adds to and grabs from context', t => {
     </Provider>
   ).find('div')
 
-  t.deepEqual(div.prop('todos'), [ 'eat', 'drink', 'sleep' ])
+  t.deepEqual(div.prop('todos'), ['eat', 'drink', 'sleep'])
 })

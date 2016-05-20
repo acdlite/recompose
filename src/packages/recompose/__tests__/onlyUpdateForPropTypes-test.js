@@ -19,7 +19,10 @@ test('onlyUpdateForPropTypes only updates for props specified in propTypes', t =
     setPropTypes({ counter: PropTypes.number })
   )(props => <div {...props} />)
 
-  t.is(Counter.displayName, 'withState(withState(onlyUpdateForPropTypes(Component)))')
+  t.is(
+    Counter.displayName,
+    'withState(withState(onlyUpdateForPropTypes(Component)))'
+  )
 
   const div = mount(<Counter />).find('div')
   const { updateCounter, updateFoobar } = div.props()

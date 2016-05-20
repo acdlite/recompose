@@ -14,11 +14,13 @@ test('isReferentiallyTransparentFunctionComponent returns false for class compon
     }
   }
 
+  /* eslint-disable react/prefer-es6-class */
   const Bar = React.createClass({
     render() {
       return <div />
     }
   })
+  /* eslint-enable react/prefer-es6-class */
 
   t.false(isReferentiallyTransparentFunctionComponent(Foo))
   t.false(isReferentiallyTransparentFunctionComponent(Bar))
