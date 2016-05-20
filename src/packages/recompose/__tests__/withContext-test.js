@@ -29,7 +29,7 @@ test('withContext + getContext adds to and grabs from context', t => {
     )
   )(BaseProvider)
 
-  t.is(Provider.displayName, 'withContext(Provider)')
+  t.is(Provider.displayName, 'withContext(BaseProvider)')
 
   const connect = selector => compose(
     getContext({ store: PropTypes.object }),
