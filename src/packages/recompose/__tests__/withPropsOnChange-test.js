@@ -21,7 +21,10 @@ test('withPropsOnChange maps subset of owner props to child props', t => {
     )
   )('div')
 
-  t.is(StringConcat.displayName, 'withState(flattenProp(withPropsOnChange(div)))')
+  t.is(
+    StringConcat.displayName,
+    'withState(flattenProp(withPropsOnChange(div)))'
+  )
 
   const div = mount(<StringConcat />).find('div')
   const { updateStrings } = div.props()
@@ -35,7 +38,7 @@ test('withPropsOnChange maps subset of owner props to child props', t => {
   t.is(div.prop('c'), 'c')
   t.is(mapSpy.callCount, 1)
 
-  updateStrings(strings => ({ ...strings, a: 'foo', 'b': 'bar' }))
+  updateStrings(strings => ({ ...strings, a: 'foo', b: 'bar' }))
   t.is(div.prop('foobar'), 'foobar')
   t.is(div.prop('c'), 'baz')
   t.is(mapSpy.callCount, 2)

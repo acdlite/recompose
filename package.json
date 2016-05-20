@@ -18,7 +18,7 @@
     "ava": "git://github.com/avajs/ava.git#54e11064841c0169a88324f3daeda396d3e8889f",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
-    "babel-eslint": "^5.0.0-beta9",
+    "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
     "babel-plugin-syntax-jsx": "^6.8.0",
     "babel-plugin-syntax-trailing-function-commas": "^6.8.0",
@@ -51,9 +51,11 @@
     "change-case": "^2.3.1",
     "codecov": "^1.0.1",
     "enzyme": "^2.2.0",
-    "eslint": "^1.5.1",
-    "eslint-config-airbnb": "0.0.9",
-    "eslint-plugin-react": "^3.4.2",
+    "eslint": "^2.10.2",
+    "eslint-config-airbnb": "9.0.1",
+    "eslint-plugin-import": "^1.8.0",
+    "eslint-plugin-jsx-a11y": "^1.2.2",
+    "eslint-plugin-react": "^5.1.1",
     "globby": "^4.0.0",
     "gzip-size-cli": "^1.0.0",
     "jsdom": "^8.4.0",
@@ -70,9 +72,6 @@
   "devEngines": {
     "node": "5.x",
     "npm": "3.x"
-  },
-  "dependencies": {
-    "recompose": "^0.17.0"
   },
   "ava": {
     "files": [

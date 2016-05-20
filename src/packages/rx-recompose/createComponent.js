@@ -26,9 +26,11 @@ const createComponent = propsToVdom =>
       this.subscription = this.vdom$.subscribe(
         vdom => {
           this.didReceiveVdom = true
-          return !this.componentHasMounted
-            ? this.state = { vdom }
-            : this.setState({ vdom })
+          if (!this.componentHasMounted) {
+            this.state = { vdom }
+            return
+          }
+          this.setState({ vdom })
         }
       )
 

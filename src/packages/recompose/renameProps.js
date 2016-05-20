@@ -8,7 +8,9 @@ const { keys } = Object
 const mapKeys = (obj, func) =>
   keys(obj).reduce((result, key) => {
     const val = obj[key]
+    /* eslint-disable no-param-reassign */
     result[func(val, key)] = val
+    /* eslint-enable no-param-reassign */
     return result
   }, {})
 

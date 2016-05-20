@@ -87,7 +87,7 @@ test('mapPropsStream unsubscribes before unmounting', t => {
       props => props.observe,
       mapPropsStream(() =>
         increment$
-          .do(() => count += 1)
+          .do(() => { count += 1 })
           .map(() => ({}))
       ),
       identity

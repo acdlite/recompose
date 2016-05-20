@@ -1,6 +1,6 @@
 import test from 'ava'
 import React from 'react'
-import { withState } from 'recompose'
+import { withState } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 

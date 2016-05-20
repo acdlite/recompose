@@ -22,7 +22,7 @@ test('withProps takes precedent over owner props', t => {
 
 test('withProps should accept function', t => {
   const DoReMi = withProps(({ la }) => ({
-    so: la,
+    so: la
   }))('div')
 
   const div = shallow(<DoReMi la="la" />).find('div')

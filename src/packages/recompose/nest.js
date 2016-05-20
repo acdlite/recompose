@@ -9,7 +9,9 @@ const nest = (...Components) => {
     )
 
   if (process.env.NODE_ENV !== 'production') {
+    /* eslint-disable global-require */
     const getDisplayName = require('./getDisplayName').default
+    /* eslint-enable global-require */
     const displayNames = Components.map(getDisplayName)
     Nest.displayName = `nest(${displayNames.join(', ')})`
   }

@@ -1,6 +1,6 @@
 import test from 'ava'
 import React from 'react'
-import { wrapDisplayName } from 'recompose'
+import { wrapDisplayName } from '../'
 
 test('wrapDisplayName wraps the display name of a React component with the name of an HoC, Relay-style', t => {
   class SomeComponent extends React.Component {
