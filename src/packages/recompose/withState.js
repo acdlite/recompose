@@ -1,33 +1,36 @@
-import { Component } from 'react'
 import createHelper from './createHelper'
-import createEagerFactory from './createEagerFactory'
+import applyUpdateMiddleware from './applyUpdateMiddleware'
 
 const withState = (stateName, stateUpdaterName, initialState) =>
-  BaseComponent => {
-    const factory = createEagerFactory(BaseComponent)
-    return class extends Component {
-      state = {
-        stateValue: typeof initialState === 'function'
-          ? initialState(this.props)
-          : initialState
-      };
+  applyUpdateMiddleware(({ getProps }) => next => {
+    let didUpdate = false
+    let state
 
-      updateStateValue = (updateFn, callback) => (
-        this.setState(({ stateValue }) => ({
-          stateValue: typeof updateFn === 'function'
-            ? updateFn(stateValue)
-            : updateFn
-        }), callback)
-      );
+    /* eslint-disable no-use-before-define */
+    const update = (props, cb) => next.update({
+      ...props,
+      [stateName]: state,
+      [stateUpdaterName]: updateStateValue
+    }, cb)
 
-      render() {
-        return factory({
-          ...this.props,
-          [stateName]: this.state.stateValue,
-          [stateUpdaterName]: this.updateStateValue
-        })
+    const updateStateValue = (updateFn, cb) => {
+      state = typeof updateFn === 'function'
+        ? updateFn(state)
+        : updateFn
+      update(getProps(), cb)
+    }
+
+    return {
+      update: (props, cb) => {
+        if (!didUpdate) {
+          didUpdate = true
+          state = typeof initialState === 'function'
+            ? initialState(props)
+            : initialState
+        }
+        update(props, cb)
       }
     }
-  }
+  })
 
 export default createHelper(withState, 'withState')
