@@ -1,9 +1,9 @@
 import { createClass } from 'react'
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const lifecycle = spec => BaseComponent => {
-  const createElement = internalCreateElement(BaseComponent)
+  const factory = createEagerFactory(BaseComponent)
 
   if (
     process.env.NODE_ENV !== 'production' &&
@@ -19,7 +19,7 @@ const lifecycle = spec => BaseComponent => {
   return createClass({
     ...spec,
     render() {
-      return createElement({
+      return factory({
         ...this.props,
         ...this.state
       })

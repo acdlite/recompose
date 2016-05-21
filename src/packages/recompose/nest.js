@@ -1,10 +1,10 @@
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const nest = (...Components) => {
-  const createElements = Components.map(internalCreateElement)
+  const factories = Components.map(createEagerFactory)
   const Nest = ({ ...props, children }) =>
-    createElements.reduceRight(
-      (child, createElement) => createElement(props, child),
+    factories.reduceRight(
+      (child, factory) => factory(props, child),
       children
     )
 

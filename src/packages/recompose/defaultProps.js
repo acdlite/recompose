@@ -1,9 +1,9 @@
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const defaultProps = props => BaseComponent => {
-  const createElement = internalCreateElement(BaseComponent)
-  const DefaultProps = ownerProps => createElement(ownerProps)
+  const factory = createEagerFactory(BaseComponent)
+  const DefaultProps = ownerProps => factory(ownerProps)
   DefaultProps.defaultProps = props
   return DefaultProps
 }

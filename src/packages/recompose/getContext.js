@@ -1,10 +1,10 @@
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const getContext = contextTypes => BaseComponent => {
-  const createElement = internalCreateElement(BaseComponent)
+  const factory = createEagerFactory(BaseComponent)
   const GetContext = (ownerProps, context) => (
-    createElement({
+    factory({
       ...ownerProps,
       ...context
     })

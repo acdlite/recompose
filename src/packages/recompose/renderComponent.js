@@ -1,9 +1,11 @@
+// import React from 'react'
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const renderComponent = Component => _ => {
-  const createElement = internalCreateElement(Component)
-  const RenderComponent = props => createElement(props)
+  const factory = createEagerFactory(Component)
+  const RenderComponent = props => factory(props)
+  // const RenderComponent = props => <Component {...props} />
   if (process.env.NODE_ENV !== 'production') {
     /* eslint-disable global-require */
     const wrapDisplayName = require('./wrapDisplayName').default

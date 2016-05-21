@@ -1,10 +1,10 @@
 import { Component } from 'react'
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const withState = (stateName, stateUpdaterName, initialState) =>
   BaseComponent => {
-    const createElement = internalCreateElement(BaseComponent)
+    const factory = createEagerFactory(BaseComponent)
     return class extends Component {
       state = {
         stateValue: typeof initialState === 'function'
@@ -21,7 +21,7 @@ const withState = (stateName, stateUpdaterName, initialState) =>
       );
 
       render() {
-        return createElement({
+        return factory({
           ...this.props,
           [stateName]: this.state.stateValue,
           [stateUpdaterName]: this.updateStateValue

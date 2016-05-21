@@ -1,16 +1,16 @@
 import { Component } from 'react'
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const shouldUpdate = test => BaseComponent => {
-  const createElement = internalCreateElement(BaseComponent)
+  const factory = createEagerFactory(BaseComponent)
   return class extends Component {
     shouldComponentUpdate(nextProps) {
       return test(this.props, nextProps)
     }
 
     render() {
-      return createElement(this.props)
+      return factory(this.props)
     }
   }
 }
