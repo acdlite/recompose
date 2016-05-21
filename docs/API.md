@@ -65,6 +65,8 @@ const PureComponent = pure(BaseComponent)
   + [`wrapDisplayName()`](#wrapdisplayname)
   + [`shallowEqual()`](#shallowequal)
   + [`isClassComponent()`](#isclasscomponent)
+  + [`createEagerElement()`](#createeagerelement)
+  + [`createEagerFactory()`](#createeagerfactory)
   + [`createSink()`](#createsink)
   + [`componentFromProp()`](#componentfromprop)
   + [`nest()`](#nest)
@@ -297,7 +299,7 @@ Accepts a test function and two higher-order components. The test function is pa
 
 ```js
 renderComponent(
-  Component: ReactClass | ReactStatelessFunction | string
+  Component: ReactClass | ReactFunctionalComponent | string
 ): HigherOrderComponent
 ```
 
@@ -509,7 +511,7 @@ Use to compose multiple higher-order components into a single higher-order compo
 
 ```js
 getDisplayName(
-  component: ReactClass | ReactStatelessFunction
+  component: ReactClass | ReactFunctionalComponent
 ): string
 ```
 
@@ -519,7 +521,7 @@ Returns the display name of a React component. Falls back to `'Component'`.
 
 ```js
 wrapDisplayName(
-  component: ReactClass | ReactStatelessFunction,
+  component: ReactClass | ReactFunctionalComponent,
   wrapperName: string
 ): string
 ```
@@ -542,6 +544,29 @@ isClassComponent(value: any): boolean
 
 Returns true if the given value is a React component class.
 
+### `createEagerElement()`
+
+```js
+createEagerElement(
+  type: ReactClass | ReactFunctionalComponent | string,
+  props: ?Object,
+  children: ReactNode
+): ReactElement
+```
+
+React elements are lazily evaluated. But when a higher-order component renders a functional component, the laziness doesn't have any real benefit. `createEagerElement()` is a replacement for `React.createElement()` that checks if the given component is referentially transparent. If so, rather than returning a React element, it calls the functional component with the given props and returns its output.
+
+```js
+createEagerFactory(
+  type: ReactClass | ReactFunctionalComponent | string,
+): (
+  props: ?Object,
+  children: ReactNode
+) => ReactElement
+```
+
+The factory form of `createEagerElement()`. Given a component, it returns a [factory](https://facebook.github.io/react/docs/glossary.html#factories).
+
 ### `createSink()`
 
 ```js
@@ -553,7 +578,7 @@ Creates a component that renders nothing (null) but calls a callback when receiv
 ### `componentFromProp()`
 
 ```js
-componentFromProp(propName: string): ReactStatelessFunction
+componentFromProp(propName: string): ReactFunctionalComponent
 ```
 
 Creates a component that accepts a component as a prop and renders it with the remaining props.
@@ -573,7 +598,7 @@ const Button = enhance(componentFromProp('component'))
 
 ```js
 nest(
-  ...Components: Array<ReactClass | ReactStatelessFunction | string>
+  ...Components: Array<ReactClass | ReactFunctionalComponent | string>
 ): ReactClass
 ```
 
