@@ -1,9 +1,9 @@
 import omit from './utils/omit'
-import createElement from './createElement'
+import createEagerElement from './createEagerElement'
 
 const componentFromProp = propName => {
   const Component = props =>
-    createElement(props[propName], omit(props, [propName]))
+    createEagerElement(props[propName], omit(props, [propName]))
   Component.displayName = `componentFromProp(${propName})`
   return Component
 }

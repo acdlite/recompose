@@ -1,14 +1,14 @@
 import { Component } from 'react'
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const withContext = (childContextTypes, getChildContext) => BaseComponent => {
-  const createElement = internalCreateElement(BaseComponent)
+  const factory = createEagerFactory(BaseComponent)
   class WithContext extends Component {
     getChildContext = () => getChildContext(this.props);
 
     render() {
-      return createElement(this.props)
+      return factory(this.props)
     }
   }
 

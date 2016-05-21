@@ -1,9 +1,9 @@
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const mapProps = propsMapper => BaseComponent => {
-  const createElement = internalCreateElement(BaseComponent)
-  return props => createElement(propsMapper(props))
+  const factory = createEagerFactory(BaseComponent)
+  return props => factory(propsMapper(props))
 }
 
 export default createHelper(mapProps, 'mapProps')

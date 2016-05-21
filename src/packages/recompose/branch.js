@@ -1,6 +1,6 @@
 import React from 'react'
 import createHelper from './createHelper'
-import createElement from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const branch = (test, left, right) => BaseComponent =>
   class extends React.Component {
@@ -14,11 +14,13 @@ const branch = (test, left, right) => BaseComponent =>
 
     computeChildComponent(props) {
       if (test(props)) {
-        this.LeftComponent = this.LeftComponent || left(BaseComponent)
-        this.Component = this.LeftComponent
+        this.leftFactory =
+          this.leftFactory || createEagerFactory(left(BaseComponent))
+        this.factory = this.leftFactory
       } else {
-        this.RightComponent = this.RightComponent || right(BaseComponent)
-        this.Component = this.RightComponent
+        this.rightFactory =
+          this.rightFactory || createEagerFactory(right(BaseComponent))
+        this.factory = this.rightFactory
       }
     }
 
@@ -27,8 +29,7 @@ const branch = (test, left, right) => BaseComponent =>
     }
 
     render() {
-      const { Component } = this
-      return createElement(Component, this.props)
+      return this.factory(this.props)
     }
   }
 

@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 import createHelper from './createHelper'
 
 const mapValues = (obj, func) => {
@@ -17,7 +17,7 @@ const mapValues = (obj, func) => {
 }
 
 const withHandlers = handlers => BaseComponent => {
-  const createElement = internalCreateElement(BaseComponent)
+  const factory = createEagerFactory(BaseComponent)
   return class extends Component {
     cachedHandlers = {};
 
@@ -51,7 +51,7 @@ const withHandlers = handlers => BaseComponent => {
     }
 
     render() {
-      return createElement({
+      return factory({
         ...this.props,
         ...this.handlers
       })

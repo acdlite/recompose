@@ -1,9 +1,9 @@
 import test from 'ava'
 import React, { Component } from 'react'
-import createElement from '../createElement'
+import createEagerElement from '../createEagerElement'
 import { shallow } from 'enzyme'
 
-test('createElement treats class components normally', t => {
+test('createEagerElement treats class components normally', t => {
   class InnerDiv extends Component {
     render() {
       return <div bar="baz" />
@@ -12,8 +12,8 @@ test('createElement treats class components normally', t => {
 
   class OuterDiv extends Component {
     render() {
-      return createElement('div', { foo: 'bar' },
-        createElement(InnerDiv)
+      return createEagerElement('div', { foo: 'bar' },
+        createEagerElement(InnerDiv)
       )
     }
   }
@@ -27,18 +27,18 @@ test('createElement treats class components normally', t => {
   ))
 })
 
-test('createElement calls stateless function components instead of creating an intermediate React element', t => {
+test('createEagerElement calls stateless function components instead of creating an intermediate React element', t => {
   const InnerDiv = () => <div bar="baz" />
   const OuterDiv = () =>
-    createElement('div', { foo: 'bar' },
-      createElement(InnerDiv)
+    createEagerElement('div', { foo: 'bar' },
+      createEagerElement(InnerDiv)
     )
 
   const wrapper = shallow(<OuterDiv />)
 
   // Notice the difference between this and the previous test. Functionally,
   // they're the same, but because we're using stateless function components
-  // here, createElement() can take advantage of referential transparency
+  // here, createEagerElement() can take advantage of referential transparency
   t.true(wrapper.equals(
     <div foo="bar">
       <div bar="baz" />
@@ -46,9 +46,9 @@ test('createElement calls stateless function components instead of creating an i
   ))
 })
 
-test('createElement handles keyed elements correctly', t => {
+test('createEagerElement handles keyed elements correctly', t => {
   const InnerDiv = () => <div bar="baz" />
-  const Div = () => createElement(InnerDiv, { foo: 'bar', key: 'key' })
+  const Div = () => createEagerElement(InnerDiv, { foo: 'bar', key: 'key' })
 
   const wrapper = shallow(<Div />)
 
@@ -57,12 +57,12 @@ test('createElement handles keyed elements correctly', t => {
   ))
 })
 
-test('createElement passes children correctly', t => {
+test('createEagerElement passes children correctly', t => {
   const Div = props => <div {...props} />
   const InnerDiv = () => <div bar="baz" />
   const OuterDiv = () =>
-    createElement(Div, { foo: 'bar' },
-      createElement(InnerDiv)
+    createEagerElement(Div, { foo: 'bar' },
+      createEagerElement(InnerDiv)
     )
 
   const wrapper = shallow(<OuterDiv />)

@@ -1,11 +1,11 @@
 import omit from './utils/omit'
 import createHelper from './createHelper'
-import { internalCreateElement } from './createElement'
+import createEagerFactory from './createEagerFactory'
 
 const flattenProp = propName => BaseComponent => {
-  const createElement = internalCreateElement(BaseComponent)
+  const factory = createEagerFactory(BaseComponent)
   return props => (
-    createElement({
+    factory({
       ...omit(props, [propName]),
       ...props[propName]
     })
