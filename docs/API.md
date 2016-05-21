@@ -151,11 +151,10 @@ const enhance = compose(
   })
 )
 
-const Form = enhance(({ value, onChange, onSubmit }) =>
+const Form = enhance(({ onChange, onSubmit, value }) =>
   <form onSubmit={onSubmit}>
-    <label>Value
-      <input type="text" value={value} onChange={onChange} />
-    </label>
+    <input type="text" onChange={onChange} />
+    <p>Value: {value}</p>
   </form>
 )
 ```
