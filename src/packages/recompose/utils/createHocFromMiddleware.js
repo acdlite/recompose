@@ -1,7 +1,7 @@
 import { Component } from 'react'
-import createEagerFactory from './createEagerFactory'
+import createEagerFactory from '../createEagerFactory'
 
-const applyUpdateMiddleware = (...middlewares) => {
+const createHocFromMiddleware = (...middlewares) => {
   const higherOrderComponent = BaseComponent => {
     const factory = createEagerFactory(BaseComponent)
     return class extends Component {
@@ -80,4 +80,4 @@ const applyUpdateMiddleware = (...middlewares) => {
   return higherOrderComponent
 }
 
-export default applyUpdateMiddleware
+export default createHocFromMiddleware

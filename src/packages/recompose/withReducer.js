@@ -1,29 +1,35 @@
-import { Component } from 'react'
 import createHelper from './createHelper'
-import createEagerFactory from './createEagerFactory'
+import createHocFromMiddleware from './utils/createHocFromMiddleware'
 
 const withReducer = (stateName, dispatchName, reducer, initialState) =>
-  BaseComponent => {
-    const factory = createEagerFactory(BaseComponent)
-    return class extends Component {
-      state = {
-        stateValue: typeof initialState === 'function'
-          ? initialState(this.props)
-          : initialState
-      };
+  createHocFromMiddleware(({ getProps }) => next => {
+    let didUpdate = false
+    let state
 
-      dispatch = action => this.setState(({ stateValue }) => ({
-        stateValue: reducer(stateValue, action)
-      }));
+    /* eslint-disable no-use-before-define */
+    const update = (props, cb) => next.update({
+      ...props,
+      [stateName]: state,
+      [dispatchName]: dispatch
+    }, cb)
 
-      render() {
-        return factory({
-          ...this.props,
-          [stateName]: this.state.stateValue,
-          [dispatchName]: this.dispatch
-        })
+    const dispatch = action => {
+      state = reducer(state, action)
+      update(getProps())
+    }
+    /* eslint-enable no-use-before-define */
+
+    return {
+      update: (nextProps, cb) => {
+        if (!didUpdate) {
+          didUpdate = true
+          state = typeof initialState === 'function'
+            ? initialState(nextProps)
+            : initialState
+        }
+        update(nextProps, cb)
       }
     }
-  }
+  })
 
 export default createHelper(withReducer, 'withReducer')

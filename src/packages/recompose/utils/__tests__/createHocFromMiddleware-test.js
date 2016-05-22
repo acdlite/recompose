@@ -1,9 +1,9 @@
 import React from 'react'
 import test from 'ava'
-import applyUpdateMiddleware from '../applyUpdateMiddleware'
+import createHocFromMiddleware from '../createHocFromMiddleware'
 import { mount } from 'enzyme'
 
-test('applyUpdateMiddleware gives access to current props', t => {
+test('createHocFromMiddleware gives access to current props', t => {
   const m1 = ({ getProps }) => next => ({
     update: ({ foo, ...rest }) => {
       const currentProps = getProps()
@@ -26,7 +26,7 @@ test('applyUpdateMiddleware gives access to current props', t => {
     }
   })
 
-  const Div = applyUpdateMiddleware(m1, m2)('div')
+  const Div = createHocFromMiddleware(m1, m2)('div')
   const wrapper = mount(<Div foo={1} bar={2} />)
   const div = wrapper.find('div')
 

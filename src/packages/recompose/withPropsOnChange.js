@@ -1,7 +1,7 @@
 import pick from './utils/pick'
 import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
-import applyUpdateMiddleware from './applyUpdateMiddleware'
+import createHocFromMiddleware from './utils/createHocFromMiddleware'
 
 const withPropsOnChange = (shouldMapOrKeys, propsMapper) => {
   const shouldMap = typeof shouldMapOrKeys === 'function'
@@ -11,7 +11,7 @@ const withPropsOnChange = (shouldMapOrKeys, propsMapper) => {
         pick(nextProps, shouldMapOrKeys),
       )
 
-  return applyUpdateMiddleware(({ getProps }) => next => {
+  return createHocFromMiddleware(({ getProps }) => next => {
     let didUpdate = false
     let computedProps = null
 

@@ -1,4 +1,4 @@
-import applyUpdateMiddleware from './applyUpdateMiddleware'
+import createHocFromMiddleware from './utils/createHocFromMiddleware'
 import createHelper from './createHelper'
 
 const mapValues = (obj, func) => {
@@ -16,7 +16,7 @@ const mapValues = (obj, func) => {
 }
 
 const withHandlers = handlers =>
-  applyUpdateMiddleware(({ getProps }) => next => {
+  createHocFromMiddleware(({ getProps }) => next => {
     let cachedHandlers = {}
 
     const handlerProps = mapValues(

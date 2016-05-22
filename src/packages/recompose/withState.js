@@ -1,8 +1,8 @@
 import createHelper from './createHelper'
-import applyUpdateMiddleware from './applyUpdateMiddleware'
+import createHocFromMiddleware from './utils/createHocFromMiddleware'
 
 const withState = (stateName, stateUpdaterName, initialState) =>
-  applyUpdateMiddleware(({ getProps }) => next => {
+  createHocFromMiddleware(({ getProps }) => next => {
     let didUpdate = false
     let state
 
