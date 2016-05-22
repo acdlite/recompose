@@ -19,16 +19,17 @@ const withState = (stateName, stateUpdaterName, initialState) =>
         : updateFn
       update(getProps(), cb)
     }
+    /* eslint-enable no-use-before-define */
 
     return {
-      update: (props, cb) => {
+      update: (nextProps, cb) => {
         if (!didUpdate) {
           didUpdate = true
           state = typeof initialState === 'function'
-            ? initialState(props)
+            ? initialState(nextProps)
             : initialState
         }
-        update(props, cb)
+        update(nextProps, cb)
       }
     }
   })

@@ -1,11 +1,9 @@
-import { Component } from 'react'
 import pick from './utils/pick'
 import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
-import createEagerFactory from './createEagerFactory'
+import applyUpdateMiddleware from './applyUpdateMiddleware'
 
-const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+const withPropsOnChange = (shouldMapOrKeys, propsMapper) => {
   const shouldMap = typeof shouldMapOrKeys === 'function'
     ? shouldMapOrKeys
     : (props, nextProps) => !shallowEqual(
@@ -13,22 +11,27 @@ const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
         pick(nextProps, shouldMapOrKeys),
       )
 
-  return class extends Component {
-    computedProps = propsMapper(this.props);
+  return applyUpdateMiddleware(({ getProps }) => next => {
+    let didUpdate = false
+    let computedProps = null
 
-    componentWillReceiveProps(nextProps) {
-      if (shouldMap(this.props, nextProps)) {
-        this.computedProps = propsMapper(nextProps)
+    const update = (props, cb) => {
+      next.update({
+        ...props,
+        ...computedProps
+      }, cb)
+    }
+
+    return {
+      update: (nextProps, cb) => {
+        if (!didUpdate || shouldMap(getProps(), nextProps)) {
+          didUpdate = true
+          computedProps = propsMapper(nextProps)
+        }
+        update(nextProps, cb)
       }
     }
-
-    render() {
-      return factory({
-        ...this.props,
-        ...this.computedProps
-      })
-    }
-  }
+  })
 }
 
 export default createHelper(withPropsOnChange, 'withPropsOnChange')
