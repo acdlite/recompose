@@ -27,7 +27,7 @@ const createHocFromMiddleware = (...middlewares) => {
             }
           })
           return xforms
-        }, {})
+        }, [])
       }
 
       state = { childProps: null }
