@@ -7,7 +7,6 @@ const createHocFromMiddleware = (...middlewares) => {
     return class extends Component {
       constructor(initialProps) {
         super(initialProps)
-        this.xforms = []
         this.pendingXformProps = [initialProps]
         this.xformProps = []
 
