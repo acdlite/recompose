@@ -15,20 +15,16 @@ const withPropsOnChange = (shouldMapOrKeys, propsMapper) => {
     let didUpdate = false
     let computedProps = null
 
-    const update = (props, cb) => {
-      next.update({
-        ...props,
-        ...computedProps
-      }, cb)
-    }
-
     return {
       update: (nextProps, cb) => {
         if (!didUpdate || shouldMap(getProps(), nextProps)) {
           didUpdate = true
           computedProps = propsMapper(nextProps)
         }
-        update(nextProps, cb)
+        next.update({
+          ...nextProps,
+          ...computedProps
+        }, cb)
       }
     }
   })

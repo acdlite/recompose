@@ -45,10 +45,10 @@ const withHandlers = handlers =>
     )
 
     return {
-      update: (props, cb) => {
+      update: (nextProps, cb) => {
         cachedHandlers = {}
         next.update({
-          ...props,
+          ...nextProps,
           ...handlerProps
         }, cb)
       }
