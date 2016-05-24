@@ -27,13 +27,11 @@ const createHelper = (
         )
       }
       const hoc = func(...args)
-      const newHoc = BaseComponent => {
+      return BaseComponent => {
         const Component = hoc(BaseComponent)
         Component.displayName = wrapDisplayName(BaseComponent, helperName)
         return Component
       }
-      newHoc.middlewares = hoc.middlewares
-      return newHoc
     }
   }
 
