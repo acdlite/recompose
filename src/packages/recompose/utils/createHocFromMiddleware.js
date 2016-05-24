@@ -80,7 +80,6 @@ const createComponentFromMiddleware = (middlewares, BaseComponent) => {
     middlewares,
     BaseComponent
   }
-  CreateComponentFromMiddleware.middlewares = middlewares
   return CreateComponentFromMiddleware
 }
 
