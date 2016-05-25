@@ -4,7 +4,7 @@ import { mount } from 'enzyme'
 import { withHandlers, withState, compose } from '../'
 import sinon from 'sinon'
 
-test('withHandlers passes immutable handlers to base component', t => {
+test('withHandlers passes handlers to base component', t => {
   let submittedFormValue
   const enhanceForm = compose(
     withState('value', 'updateValue', ''),
@@ -41,6 +41,20 @@ test('withHandlers passes immutable handlers to base component', t => {
 
   form.simulate('submit')
   t.is(submittedFormValue, 'Yay!!')
+})
+
+test('withHandlers passes immutable handlers', t => {
+  const enhance = withHandlers({
+    handler: () => () => null
+  })
+  const Div = enhance('div')
+
+  const wrapper = mount(<Div />)
+  const div = wrapper.find('div')
+  const handler = div.prop('handler')
+
+  wrapper.setProps({ foo: 'bar' })
+  t.is(div.prop('handler'), handler)
 })
 
 test('withHandlers caches handlers properly', t => {
