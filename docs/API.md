@@ -718,7 +718,7 @@ You may want to use this version to interoperate with other Recompose higher-ord
 
 ```js
 const enhance = mapPropsStream(props$ => {
-  const timeElapsed$ = Observable.interval(1000).pluck('value')
+  const timeElapsed$ = Observable.interval(1000)
   return props$.combineLatest(timeElapsed$, (props, timeElapsed) => ({
     ...props,
     timeElapsed
