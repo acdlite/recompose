@@ -2,7 +2,6 @@ import test from 'ava'
 import React from 'react'
 import { throttleProp } from '../'
 import { mount } from 'enzyme'
-import sinon from 'sinon'
 
 test.cb('throttleProp updates the throttled prop once per wait milliseconds', t => {
   t.plan(15)
@@ -15,7 +14,7 @@ test.cb('throttleProp updates the throttled prop once per wait milliseconds', t 
 
   t.is(div.prop('throttled'), 0)
   t.is(div.prop('normal'), 0)
-  
+
   wrapper.setProps({ throttled: 1, normal: 1 })
 
   t.is(div.prop('throttled'), 0)
@@ -39,7 +38,7 @@ test.cb('throttleProp updates the throttled prop once per wait milliseconds', t 
 
     t.is(div.prop('throttled'), 3)
     t.is(div.prop('normal'), 4)
-  
+
     setTimeout(() => {
       t.is(div.prop('throttled'), 4)
       t.is(div.prop('normal'), 4)
