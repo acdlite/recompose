@@ -1,5 +1,4 @@
-import { Component } from 'react'
-import createEagerFactory from './createEagerFactory'
+import createHocFromMiddleware from './utils/createHocFromMiddleware'
 import createHelper from './createHelper'
 
 const mapValues = (obj, func) => {
@@ -16,21 +15,20 @@ const mapValues = (obj, func) => {
   return result
 }
 
-const withHandlers = handlers => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
-  return class extends Component {
-    cachedHandlers = {};
+const withHandlers = handlers =>
+  createHocFromMiddleware(({ getProps }) => next => {
+    let cachedHandlers = {}
 
-    handlers = mapValues(
+    const handlerProps = mapValues(
       handlers,
       (createHandler, handlerName) => (...args) => {
-        const cachedHandler = this.cachedHandlers[handlerName]
+        const cachedHandler = cachedHandlers[handlerName]
         if (cachedHandler) {
           return cachedHandler(...args)
         }
 
-        const handler = createHandler(this.props)
-        this.cachedHandlers[handlerName] = handler
+        const handler = createHandler(getProps())
+        cachedHandlers[handlerName] = handler
 
         if (
           process.env.NODE_ENV !== 'production' &&
@@ -44,19 +42,17 @@ const withHandlers = handlers => BaseComponent => {
 
         return handler(...args)
       }
-    );
+    )
 
-    componentWillReceiveProps() {
-      this.cachedHandlers = {}
+    return {
+      update: (nextProps, cb) => {
+        cachedHandlers = {}
+        next.update({
+          ...nextProps,
+          ...handlerProps
+        }, cb)
+      }
     }
-
-    render() {
-      return factory({
-        ...this.props,
-        ...this.handlers
-      })
-    }
-  }
-}
+  })
 
 export default createHelper(withHandlers, 'withHandlers')

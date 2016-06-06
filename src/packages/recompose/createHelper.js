@@ -26,9 +26,9 @@ const createHelper = (
           `like so: ${helperName}(...args)(BaseComponent).`
         )
       }
-
+      const hoc = func(...args)
       return BaseComponent => {
-        const Component = func(...args)(BaseComponent)
+        const Component = hoc(BaseComponent)
         Component.displayName = wrapDisplayName(BaseComponent, helperName)
         return Component
       }

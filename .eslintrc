@@ -12,6 +12,7 @@
     "semi": [2, "never"],
     "comma-dangle": ["error", "never"],
     "no-use-before-define": ["error", { "functions": false }],
+    "no-param-reassign": ["error", { "props": false }],
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-underscore-dangle": [0],
     "no-confusing-arrow": [0],

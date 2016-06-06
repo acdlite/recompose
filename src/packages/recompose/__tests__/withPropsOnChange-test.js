@@ -7,15 +7,14 @@ import sinon from 'sinon'
 test('withPropsOnChange maps subset of owner props to child props', t => {
   const mapSpy = sinon.spy()
   const StringConcat = compose(
-    withState('strings', 'updateStrings', { a: 'a', b: 'b', c: 'c' }),
+    withState('strings', 'updateStrings', { a: 'a', b: 'b', c: 'c', d: 'd' }),
     flattenProp('strings'),
     withPropsOnChange(
-      ['a', 'b'],
-      ({ a, b, ...props }) => {
+      ['c', 'd'],
+      ({ c, d }) => {
         mapSpy()
         return {
-          ...props,
-          foobar: a + b
+          derived: c + d
         }
       }
     )
@@ -29,17 +28,16 @@ test('withPropsOnChange maps subset of owner props to child props', t => {
   const div = mount(<StringConcat />).find('div')
   const { updateStrings } = div.props()
 
-  t.is(div.prop('foobar'), 'ab')
+  t.is(div.prop('derived'), 'cd')
   t.is(mapSpy.callCount, 1)
 
   // Does not re-map for non-dependent prop updates
-  updateStrings(strings => ({ ...strings, c: 'baz' }))
-  t.is(div.prop('foobar'), 'ab')
-  t.is(div.prop('c'), 'c')
+  updateStrings(strings => ({ ...strings, a: 'a2' }))
+  t.is(div.prop('a'), 'a2')
+  t.is(div.prop('derived'), 'cd')
   t.is(mapSpy.callCount, 1)
 
-  updateStrings(strings => ({ ...strings, a: 'foo', b: 'bar' }))
-  t.is(div.prop('foobar'), 'foobar')
-  t.is(div.prop('c'), 'baz')
+  updateStrings(strings => ({ ...strings, c: 'c2', d: 'd2' }))
+  t.is(div.prop('derived'), 'c2d2')
   t.is(mapSpy.callCount, 2)
 })
