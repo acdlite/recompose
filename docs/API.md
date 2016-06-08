@@ -31,6 +31,23 @@ Some, like `pure`, are higher-order components themselves:
 const PureComponent = pure(BaseComponent)
 ```
 
+Note that [you cannot attach refs to stateless
+components](https://facebook.github.io/react/docs/more-about-refs.html). The
+return types for each of the higher-order components are provided below. If you
+need to assign a ref to the output component that returns a stateless component,
+wrap it with `toClass()`:
+
+```js
+const A = withProps({ text: 'Stateless' })(props => <span>{props.text}</span>)
+const B = toClass(A)
+
+class ComponentWithRefs extends React.Component {
+  render() {
+    return <B ref='b'/>
+  }
+}
+```
+
 ## TOC
 
 * [Higher-order components](#higher-order-components)
@@ -93,6 +110,8 @@ const omitProps = keys => mapProps(props => omit(keys, props))
 const omitProps = compose(mapProps, omit)
 ```
 
+**Return type**: A stateless component.
+
 ### `withProps()`
 
 ```js
@@ -105,6 +124,7 @@ Like `mapProps()`, except the newly created props are merged with the owner prop
 
 Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the owner.
 
+**Return type**: A stateless component.
 
 ### `withPropsOnChange()`
 
@@ -118,6 +138,8 @@ withPropsOnChange(
 Like `withProps()`, except the new props are only created when one of the owner props specified by `dependentPropKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
 
 Instead of an array of prop keys, the first parameter can also be a function that returns a boolean, given the current props and the next props. This allows you to customize when `createProps()` should be called.
+
+**Return type**: A class component.
 
 ### `withHandlers()`
 
@@ -160,6 +182,8 @@ const Form = enhance(({ value, onChange, onSubmit }) =>
 )
 ```
 
+**Return type**: A class component.
+
 ### `defaultProps()`
 
 ```js
@@ -172,6 +196,7 @@ Specifies props to be passed by default to the base component. Similar to `withP
 
 Although it has a similar effect, using the `defaultProps()` HoC is *not* the same as setting the static `defaultProps` property directly on the component.
 
+**Return type**: A stateless component.
 
 ### `renameProp()`
 
@@ -184,6 +209,8 @@ renameProp(
 
 Renames a single prop.
 
+**Return type**: A stateless component.
+
 ### `renameProps()`
 
 ```js
@@ -193,6 +220,8 @@ renameProps(
 ```
 
 Renames multiple props, using a map of old prop names to new prop names.
+
+**Return type**: A stateless component.
 
 ### `flattenProp()`
 
@@ -231,6 +260,8 @@ const Post = enhance(({ title, content, author }) =>
 )
 ```
 
+**Return type**: A stateless component.
+
 ### `withState()`
 
 ```js
@@ -268,6 +299,8 @@ Both forms accept an optional second parameter, a callback function that will be
 
 An initial state value is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
 
+**Return type**: A class component.
+
 ### `withReducer()`
 
 ```js
@@ -283,6 +316,8 @@ Similar to `withState()`, but state updates are applied using a reducer function
 
 Passes two additional props to the base component: a state value, and a dispatch method. The dispatch method sends an action to the reducer, and the new state is applied.
 
+**Return type**: A class component.
+
 ### `branch()`
 
 ```js
@@ -294,6 +329,8 @@ branch(
 ```
 
 Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the `right` higher-order component is applied.
+
+**Return type**: A class component.
 
 ### `renderComponent()`
 
@@ -331,6 +368,8 @@ const Post = enhance(({ title, author, content }) =>
 )
 ```
 
+**Return type**: A stateless component.
+
 ### `renderNothing()`
 
 ```js
@@ -338,6 +377,8 @@ renderNothing: HigherOrderComponent
 ```
 
 A higher-order component that always renders `null`.
+
+**Return type**: A stateless component.
 
 ### `shouldUpdate()`
 
@@ -349,6 +390,7 @@ shouldUpdate(
 
 Higher-order component version of [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/component-specs.html#updating-shouldcomponentupdate). The test function accepts both the current props and the next props.
 
+**Return type**: A class component.
 
 ### `pure()`
 
@@ -357,6 +399,8 @@ pure: HigherOrderComponent
 ```
 
 Prevents the component from updating unless a prop has changed. Uses `shallowEqual()` to test for changes.
+
+**Return type**: A class component.
 
 ### `onlyUpdateForKeys()`
 
@@ -390,6 +434,8 @@ const Post = enhance(({ title, content, author }) =>
 )
 ```
 
+**Return type**: A class component.
+
 ### `onlyUpdateForPropTypes()`
 
 ```js
@@ -419,6 +465,8 @@ const Post = enhance(({ title, content, author }) =>
 )
 ```
 
+**Return type**: A class component.
+
 ### `withContext()`
 
 ```js
@@ -430,6 +478,8 @@ withContext(
 
 Provides context to the component's children. `childContextTypes` is an object of React prop types. `getChildContext()` is a function that returns the child context. Use along with `getContext()`.
 
+**Return type**: A class component.
+
 ### `getContext()`
 
 ```js
@@ -439,6 +489,8 @@ getContext(
 ```
 
 Gets values from context and passes them along as props. Use along with `withContext()`.
+
+**Return type**: A stateless component.
 
 ### `lifecycle()`
 
@@ -450,6 +502,8 @@ lifecycle(
 
 A higher-order component version of [`React.createClass()`](https://facebook.github.io/react/docs/top-level-api.html#react.createclass). It supports the entire `createClass()` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
 
+**Return type**: A class component.
+
 ### `toClass()`
 
 ```js
@@ -459,6 +513,8 @@ toClass: HigherOrderComponent
 Takes a function component and wraps it in a class. This can be used as a fallback for libraries that need to add a ref to a component, like Relay.
 
 If the base component is already a class, it returns the given component.
+
+**Return type**: A class component, of course.
 
 ## Static property helpers
 
@@ -475,6 +531,8 @@ setStatic(
 
 Assigns a value to a static property on the base component.
 
+**Return type**: Same as given component.
+
 ### `setPropTypes()`
 
 ```js
@@ -485,6 +543,8 @@ setPropTypes(
 
 Assigns to the `propTypes` property on the base component.
 
+**Return type**: Same as given component.
+
 ### `setDisplayName()`
 
 ```js
@@ -494,6 +554,8 @@ setDisplayName(
 ```
 
 Assigns to the `displayName` property on the base component.
+
+**Return type**: Same as given component.
 
 ## Utilities
 
@@ -626,3 +688,5 @@ hoistStatics(hoc: HigherOrderComponent): HigherOrderComponent
 ```
 
 Augments a higher-order component so that when used, it copies static properties from the base component to the new component. This is helpful when using Recompose with libraries like Relay.
+
+**Return type**: Same as given HOC.
