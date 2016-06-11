@@ -12,6 +12,14 @@ test('flattenProps flattens an object prop and spreads it into the top-level pro
   )
 
   t.true(wrapper.equals(
-    <div pass="through" counter={1} />
+    <div pass="through" state={{ counter: 1 }} counter={1} />
+  ))
+
+  wrapper.setProps({
+    pass: 'through',
+    state: { state: 1 }
+  })
+  t.true(wrapper.equals(
+    <div pass="through" state={1} />
   ))
 })
