@@ -7,7 +7,7 @@ test('flattenProps flattens an object prop and spreads it into the top-level pro
   const Counter = flattenProp('state')('div')
   t.is(Counter.displayName, 'flattenProp(div)')
 
-  let wrapper = shallow(
+  const wrapper = shallow(
     <Counter pass="through" state={{ counter: 1 }} />
   )
 
@@ -15,9 +15,10 @@ test('flattenProps flattens an object prop and spreads it into the top-level pro
     <div pass="through" state={{ counter: 1 }} counter={1} />
   ))
 
-  wrapper = shallow(
-    <Counter pass="through" state={{ state: 1 }} />
-  )
+  wrapper.setProps({
+    pass: 'through',
+    state: { state: 1 }
+  })
   t.true(wrapper.equals(
     <div pass="through" state={1} />
   ))
