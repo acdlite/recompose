@@ -648,10 +648,10 @@ Other benefits include:
 - Sideways data loading is trivial – just combine the props stream with an external stream.
 - Access to an ecosystem of observable libraries, such as RxJS.
 
-### `createComponent()`
+### `componentFromStream()`
 
 ```js
-createComponent(
+componentFromStream(
   propsToReactNode: (props$: Observable<object>) => Observable<ReactNode>
 ): ReactComponent
 ```
@@ -671,7 +671,7 @@ v = f(d)
 ```
 
 ```js
-const Counter = createComponent(props$ => {
+const Counter = componentFromStream(props$ => {
   const { handler: increment, stream: increment$ } = createEventHandler()
   const { handler: decrement, stream: decrement$ } = createEventHandler()
   const count$ = Observable.merge(
@@ -702,7 +702,7 @@ mapPropsStream(
 ): ReactComponent
 ```
 
-A higher-order component version of `createComponent()` — accepts a function that maps an observable stream of owner props to a stream of child props, rather than directly to a stream of React nodes. The child props are then passed to a base component.
+A higher-order component version of `componentFromStream()` — accepts a function that maps an observable stream of owner props to a stream of child props, rather than directly to a stream of React nodes. The child props are then passed to a base component.
 
 You may want to use this version to interoperate with other Recompose higher-order component helpers.
 
