@@ -1,16 +1,15 @@
 import { Component } from 'react'
-import { Observable } from 'rx'
 import { createChangeEmitter } from 'change-emitter'
 
-const createComponent = propsToVdom =>
-  class RxComponent extends Component {
+const componentFromStream = propsToVdom =>
+  class ComponentFromStream extends Component {
     state = {};
 
     propsEmitter = createChangeEmitter();
 
     // Stream of props
     props$ = Observable.create(observer =>
-      this.propsEmitter.listen(props => observer.onNext(props))
+      this.propsEmitter.listen(props => observer.next(props))
     );
 
     // Stream of vdom
@@ -28,9 +27,9 @@ const createComponent = propsToVdom =>
           this.didReceiveVdom = true
           if (!this.componentHasMounted) {
             this.state = { vdom }
-            return
+          } else {
+            this.setState({ vdom })
           }
-          this.setState({ vdom })
         }
       )
 
@@ -52,7 +51,7 @@ const createComponent = propsToVdom =>
 
     componentWillUnmount() {
       // Clean-up subscription before un-mounting
-      this.subscription.dispose()
+      this.subscription.unsubscribe()
     }
 
     render() {
@@ -61,4 +60,4 @@ const createComponent = propsToVdom =>
     }
   }
 
-export default createComponent
+export default componentFromStream

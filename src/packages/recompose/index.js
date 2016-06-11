@@ -40,3 +40,8 @@ export createSink from './createSink'
 export componentFromProp from './componentFromProp'
 export nest from './nest'
 export hoistStatics from './hoistStatics'
+
+// Observable helpers
+export componentFromStream from './componentFromStream'
+export mapPropsStream from './mapPropsStream'
+export createEventHandler from './createEventHandler'

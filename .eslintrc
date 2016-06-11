@@ -6,7 +6,8 @@
     "node": true
   },
   "globals": {
-    "sinon": true
+    "sinon": true,
+    "Observable": true
   },
   "rules": {
     "semi": [2, "never"],
