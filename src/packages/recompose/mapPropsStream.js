@@ -5,7 +5,7 @@ import componentFromStream from './componentFromStream'
 const mapPropsStream = transform => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
   return componentFromStream(ownerProps$ =>
-    Observable.create(observer => {
+    new Observable(observer => {
       const subscription = transform(ownerProps$).subscribe({
         next: childProps => observer.next(factory(childProps))
       })

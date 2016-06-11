@@ -8,7 +8,7 @@ const componentFromStream = propsToVdom =>
     propsEmitter = createChangeEmitter();
 
     // Stream of props
-    props$ = Observable.create(observer =>
+    props$ = new Observable(observer =>
       this.propsEmitter.listen(props => observer.next(props))
     );
 

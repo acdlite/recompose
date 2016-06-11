@@ -2,7 +2,7 @@ import { createChangeEmitter } from 'change-emitter'
 
 const createEventHandler = () => {
   const emitter = createChangeEmitter()
-  const stream = Observable.create(observer =>
+  const stream = new Observable(observer =>
     emitter.listen(value => observer.next(value))
   )
   return {
