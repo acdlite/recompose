@@ -87,6 +87,5 @@
       "./testSetup"
     ],
     "babel": "inherit"
-  },
-  "dependencies": {}
+  }
 }
