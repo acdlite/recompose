@@ -5,19 +5,28 @@ import { startWith } from 'rxjs/operator/startWith'
 import { scan } from 'rxjs/operator/scan'
 import { _do } from 'rxjs/operator/do'
 import { map } from 'rxjs/operator/map'
+import { Observable } from 'rxjs'
 import {
   withState,
   compose,
   branch,
-  mapPropsStream,
-  createEventHandler
+  mapPropsStream as _mapPropsStream,
+  createEventHandler as _createEventHandler
 } from '../'
 import { mount, shallow } from 'enzyme'
 
-import { Observable } from 'rxjs/Observable'
-global.Observable = Observable
-
 const identity = t => t
+
+const mapPropsStream = transform =>
+  _mapPropsStream(props$ => transform(Observable.from(props$)))
+
+const createEventHandler = () => {
+  const { stream, handler } = _createEventHandler()
+  return {
+    handler,
+    stream: Observable.from(stream)
+  }
+}
 
 test('mapPropsStream maps a stream of owner props to a stream of child props', t => {
   const SmartButton = mapPropsStream(props$ => {

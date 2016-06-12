@@ -12,7 +12,8 @@
   "dependencies": {
     "change-emitter": "^0.1.2",
     "fbjs": "^0.8.1",
-    "hoist-non-react-statics": "^1.0.0"
+    "hoist-non-react-statics": "^1.0.0",
+    "symbol-observable": "^0.2.4"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0"

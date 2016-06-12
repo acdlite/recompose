@@ -633,8 +633,6 @@ Augments a higher-order component so that when used, it copies static properties
 
 ## Observable utilities
 
-**The functions in this section require an Observable polyfill, such as RxJS 5. `Observable` must be available globally.**
-
 It turns out that much of the React Component API can be expressed in terms of observables:
 
 - Instead of `setState()`, combine multiple streams together.
