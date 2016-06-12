@@ -10,23 +10,16 @@ import {
   withState,
   compose,
   branch,
-  mapPropsStream as _mapPropsStream,
-  createEventHandler as _createEventHandler
+  mapPropsStream,
+  createEventHandler
 } from '../'
+import configureObservable from '../configureObservable'
 import { mount, shallow } from 'enzyme'
 
+// Convert plain observables to RxJS observables
+configureObservable(observable => Observable.from(observable))
+
 const identity = t => t
-
-const mapPropsStream = transform =>
-  _mapPropsStream(props$ => transform(Observable.from(props$)))
-
-const createEventHandler = () => {
-  const { stream, handler } = _createEventHandler()
-  return {
-    handler,
-    stream: Observable.from(stream)
-  }
-}
 
 test('mapPropsStream maps a stream of owner props to a stream of child props', t => {
   const SmartButton = mapPropsStream(props$ => {

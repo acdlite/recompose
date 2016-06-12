@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import { createChangeEmitter } from 'change-emitter'
 import $$observable from 'symbol-observable'
+import { getTransform } from './configureObservable'
 
 const componentFromStream = propsToVdom =>
   class ComponentFromStream extends Component {
@@ -9,7 +10,7 @@ const componentFromStream = propsToVdom =>
     propsEmitter = createChangeEmitter();
 
     // Stream of props
-    props$ = {
+    props$ = getTransform()({
       subscribe: observer => {
         const unsubscribe = this.propsEmitter.listen(
           props => observer.next(props)
@@ -19,7 +20,7 @@ const componentFromStream = propsToVdom =>
       [$$observable]() {
         return this
       }
-    };
+    });
 
     // Stream of vdom
     vdom$ = propsToVdom(this.props$);
