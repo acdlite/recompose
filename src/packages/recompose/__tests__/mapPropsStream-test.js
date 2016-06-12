@@ -5,7 +5,8 @@ import { startWith } from 'rxjs/operator/startWith'
 import { scan } from 'rxjs/operator/scan'
 import { _do } from 'rxjs/operator/do'
 import { map } from 'rxjs/operator/map'
-import { Observable } from 'rxjs'
+import { from } from 'rxjs/observable/from'
+import { Observable } from 'rxjs/Observable'
 import {
   withState,
   compose,
@@ -17,7 +18,7 @@ import configureObservable from '../configureObservable'
 import { mount, shallow } from 'enzyme'
 
 // Convert plain observables to RxJS observables
-configureObservable(observable => Observable.from(observable))
+configureObservable(observable => Observable::from(observable))
 
 const identity = t => t
 
