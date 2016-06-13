@@ -1,10 +1,14 @@
-// Default transform is identity function
-let transform = t => t
+const identity = t => t
+let config = {
+  fromObservable: identity,
+  toObservable: identity
+}
 
-export const getTransform = () => transform
+export const fromObservable = observable => config.fromObservable(observable)
+export const toObservable = stream => config.toObservable(stream)
 
-const configureObservable = newTransform => {
-  transform = newTransform
+const configureObservable = c => {
+  config = c
 }
 
 export default configureObservable

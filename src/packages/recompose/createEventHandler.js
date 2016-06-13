@@ -1,11 +1,10 @@
 import $$observable from 'symbol-observable'
 import { createChangeEmitter } from 'change-emitter'
-import { getTransform } from './configureObservable'
+import { fromObservable } from './configureObservable'
 
 const createEventHandler = () => {
   const emitter = createChangeEmitter()
-  const transform = getTransform()
-  const stream = transform({
+  const stream = fromObservable({
     subscribe(observer) {
       const unsubscribe = emitter.listen(value => observer.next(value))
       return { unsubscribe }

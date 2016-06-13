@@ -17,10 +17,13 @@ import {
 import configureObservable from '../configureObservable'
 import { mount, shallow } from 'enzyme'
 
-// Convert plain observables to RxJS observables
-configureObservable(observable => Observable::from(observable))
-
 const identity = t => t
+
+// Use RxJS observables
+configureObservable({
+  fromObservable: observable => Observable::from(observable),
+  toObservable: identity
+})
 
 test('mapPropsStream maps a stream of owner props to a stream of child props', t => {
   const SmartButton = mapPropsStream(props$ => {
