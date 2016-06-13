@@ -308,6 +308,8 @@ Takes a component and returns a higher-order component version of that component
 This is useful in combination with another helper that expects a higher-order component, like `branch()`:
 
 ```js
+const identity = t => t
+
 // `hasLoaded()` is a function that returns whether or not the the component
 // has all the props it needs
 const spinnerWhileLoading = hasLoaded =>
