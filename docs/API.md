@@ -646,6 +646,8 @@ Other benefits include:
 - Sideways data loading is trivial – just combine the props stream with an external stream.
 - Access to an ecosystem of observable libraries, such as RxJS.
 
+
+
 ### `componentFromStream()`
 
 ```js
@@ -728,3 +730,68 @@ createEventHandler<T>(): {
 ```
 
 Returns an object with properties `handler` and `stream`. `stream` is an observable sequence, and `handler` is a function that pushes new values onto the sequence. (This is akin to mailboxes in Elm.) Useful for creating event handlers like `onClick`.
+
+### `configureObservable()`
+
+```js
+configureObservable<Stream>({
+  fromObservable<T>: ?(observable: Observable<T>) => Stream<T>,
+  toObservable<T>: ?(stream: Stream<T>) => Observable<T>
+})
+```
+
+Observables in Recompose are plain objects that conform to the [ES Observable proposal](https://github.com/zenparsing/es-observable). If you're using a library like RxJS or most, you'll need to convert them:
+
+```js
+mapPropsStream($props => {
+  const $rxjsProps = Rx.Observable.from(props$)
+  const $mostProps = most.from(props$)
+})
+```
+
+As a convenience, you can configure a global transformation that is applied to every observable. `configureObservable()` allows you to use Recompose's observable utilities with any stream-like value.
+
+Both `toObservable()` and `fromObservable()` default to the identity function.
+
+Some examples:
+
+```js
+import RxJS5 from 'rxjs'
+import RxJS4 from 'rx'
+import most from 'most'
+import configureObservable from 'recompose/configureObservable'
+
+// RxJS 5
+configureObservable({
+  fromObservable: RxJS5.Observable.from
+})
+
+// RxJS 4 and below
+configureObservable({
+  // Convert from ES observable to RxJS 4 observable
+  fromObservable: observable => Observable.create(observer => {
+    const { unsubscribe } = observable.subscribe({
+      next: val => observer.onNext(val),
+      error: error => observer.onError(error),
+      complete: () => observer.onCompleted()
+    })
+    return unsubscribe
+  }),
+  // Convert from RxJS 4 observable to ES observable
+  toObservable: rxObservable => ({
+    subscribe: observer => {
+      const { dispose } = rxObservable.subscribe({
+        onNext: val => observer.next(val),
+        onError: error => observer.error(error),
+        onCompleted: () => observer.complete()
+      })
+      return { unsubscribe: dispose }
+    }
+  })
+})
+
+// most
+configureObservable({
+  fromObservable: most.from
+})
+```
