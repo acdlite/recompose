@@ -5,7 +5,7 @@ let config = {
 
 export const fromObservable = observable =>
   typeof config.fromObservable === 'function'
-    ? config.fromObservable(Observable)
+    ? config.fromObservable(observable)
     : observable
 
 export const toObservable = stream =>
