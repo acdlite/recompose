@@ -27,16 +27,10 @@ const componentFromStream = propsToVdom =>
 
     didReceiveVdom = false;
 
-    // Keep track of whether the component is still mounted
-    componentDidUnmount = false;
-
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render
       this.subscription = this.vdom$.subscribe({
         next: vdom => {
-          if (this.componentDidUnmount) {
-            return
-          }
           this.didReceiveVdom = true
           this.setState({ vdom })
         }
@@ -54,7 +48,6 @@ const componentFromStream = propsToVdom =>
     }
 
     componentWillUnmount() {
-      this.componentDidUnmount = true
       // Clean-up subscription before un-mounting
       this.subscription.unsubscribe()
     }
