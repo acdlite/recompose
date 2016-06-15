@@ -5,7 +5,7 @@ import { fromObservable, toObservable } from './configureObservable'
 
 const componentFromStream = propsToVdom =>
   class ComponentFromStream extends Component {
-    state = {};
+    state = { vdom: null };
 
     propsEmitter = createChangeEmitter();
 
@@ -25,13 +25,10 @@ const componentFromStream = propsToVdom =>
     // Stream of vdom
     vdom$ = toObservable(propsToVdom(this.props$));
 
-    didReceiveVdom = false;
-
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render
       this.subscription = this.vdom$.subscribe({
         next: vdom => {
-          this.didReceiveVdom = true
           this.setState({ vdom })
         }
       })
@@ -53,7 +50,6 @@ const componentFromStream = propsToVdom =>
     }
 
     render() {
-      if (!this.didReceiveVdom) return null
       return this.state.vdom
     }
   }
