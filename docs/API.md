@@ -71,6 +71,11 @@ const PureComponent = pure(BaseComponent)
   + [`componentFromProp()`](#componentfromprop)
   + [`nest()`](#nest)
   + [`hoistStatics()`](#hoiststatics)
+* [Observable utilities](#observable-utilities)
+  + [`componentFromStream()`](#componentfromstream)
+  + [`mapPropsStream()`](#mappropsstream)
+  + [`createEventHandler()`](#createEventHandler)
+  + [`setObservableConfig()`](#setobservableconfig)
 
 ## Higher-order components
 
@@ -630,3 +635,185 @@ hoistStatics(hoc: HigherOrderComponent): HigherOrderComponent
 ```
 
 Augments a higher-order component so that when used, it copies static properties from the base component to the new component. This is helpful when using Recompose with libraries like Relay.
+
+## Observable utilities
+
+It turns out that much of the React Component API can be expressed in terms of observables:
+
+- Instead of `setState()`, combine multiple streams together.
+- Instead of `getInitialState()`, use `startWith()` or `concat()`.
+- Instead of `shouldComponentUpdate()`, use `distinctUntilChanged()`, `debounce()`, etc.
+
+Other benefits include:
+
+- No distinction between state and props – everything is an stream.
+- No need to worry about unsubscribing from event listeners. Subscriptions are handled for you.
+- Sideways data loading is trivial – just combine the props stream with an external stream.
+- Access to an ecosystem of observable libraries, such as RxJS.
+
+
+**Recompose's observable utilities can be configured to work with any observable or stream-like library. See [`setObservableConfig()`](#setobservableconfig) below for details.**
+
+### `componentFromStream()`
+
+```js
+componentFromStream(
+  propsToReactNode: (props$: Observable<object>) => Observable<ReactNode>
+): ReactComponent
+```
+
+Creates a React component by mapping an observable stream of props to a stream of React nodes (vdom).
+
+You can think of `propsToReactNode` as a function `f` such that
+
+```js
+const vdom$ = f(props$)
+```
+
+where `props$` is a stream of props and `vdom$` is a stream of React nodes. This formulation similar to the popular notion of React views as a function, often communicated as
+
+```
+v = f(d)
+```
+
+Example:
+
+```js
+const Counter = componentFromStream(props$ => {
+  const { handler: increment, stream: increment$ } = createEventHandler()
+  const { handler: decrement, stream: decrement$ } = createEventHandler()
+  const count$ = Observable.merge(
+      increment$.mapTo(1),
+      decrement$.mapTo(-1)
+    )
+    .startWith(0)
+    .scan((count, n) => count + n, 0)
+
+  return props$.combineLatest(
+    count$,
+    (props, count) =>
+      <div {...props}>
+        Count: {count}
+        <button onClick={increment}>+</button>
+        <button onClick={decrement}>-</button>
+      </div>
+  )
+})
+```
+
+### `mapPropsStream()`
+
+```js
+mapPropsStream(
+  ownerPropsToChildProps: (props$: Observable<object>) => Observable<object>,
+  BaseComponent: ReactElementType
+): ReactComponent
+```
+
+A higher-order component version of `componentFromStream()` — accepts a function that maps an observable stream of owner props to a stream of child props, rather than directly to a stream of React nodes. The child props are then passed to a base component.
+
+You may want to use this version to interoperate with other Recompose higher-order component helpers.
+
+```js
+const enhance = mapPropsStream(props$ => {
+  const timeElapsed$ = Observable.interval(1000).pluck('value')
+  props$.combineLatest(timeElapsed$, (props, timeElapsed) => ({
+    ...props,
+    timeElapsed
+  }))
+})
+
+const Timer = enhance(({ timeElapsed }) =>
+  <div>Time elapsed: {timeElapsed}</div>
+)
+```
+
+### `createEventHandler()`
+
+```js
+createEventHandler<T>(): {
+  handler: (value: T) => void
+  stream: Observable<T>,
+}
+```
+
+Returns an object with properties `handler` and `stream`. `stream` is an observable sequence, and `handler` is a function that pushes new values onto the sequence. Useful for creating event handlers like `onClick`.
+
+### `setObservableConfig()`
+
+```js
+setObservableConfig<Stream>({
+  fromESObservable<T>: ?(observable: Observable<T>) => Stream<T>,
+  toESObservable<T>: ?(stream: Stream<T>) => Observable<T>
+})
+```
+
+Observables in Recompose are plain objects that conform to the [ES Observable proposal](https://github.com/zenparsing/es-observable). Usually, you'll want to use them alongside an observable library like RxJS so that you have access to its suite of operators. By default, this requires you to convert the observables provided by Recompose before applying any transforms:
+
+```js
+mapPropsStream($props => {
+  const $rxjsProps = Rx.Observable.from(props$)
+  // ...now you can use map, filter, scan, etc.
+  return $transformedProps
+})
+```
+
+This quickly becomes tedious. Rather than performing this transform for each stream individually, `setObservableConfig()` sets a global observable transform that is applied automatically.
+
+```js
+import Rx from 'rxjs'
+import { setObservableConfig } from 'recompose'
+
+setObservableConfig({
+  // Converts a plain ES observable to an RxJS 5 observable
+  fromESObservable: Rx.Observable.from
+})
+```
+
+In addition to `fromESObservable`, the config object also accepts `toESObservable`, which converts a stream back into an ES observable. Because RxJS 5 observables already conform to the ES observable spec, `toESObservable` is not necessary in the above example. However, it is required for libraries like RxJS 4 or xstream, whose streams do not conform to the ES observable spec.
+
+Fortunately, you likely don't need to worry about how to configure Recompose for your favorite stream library, because Recompose provides drop-in configuration for you.
+
+**Note: The following configuration modules are not included in the main export. You must import them individually, as shown in the examples.**
+
+#### RxJS
+
+```js
+import rxjsconfig from 'recompose/rxjsObservableConfig'
+setObservableConfig(rxjsconfig)
+```
+
+#### RxJS 4 (legacy)
+
+```js
+import rxjs4config from 'recompose/rxjs4ObservableConfig'
+setObservableConfig(rxjs4config)
+```
+
+#### most
+
+```js
+import mostConfig from 'recompose/mostObservableConfig'
+setObservableConfig(mostConfig)
+```
+
+#### xstream
+
+```js
+import xstreamConfig from 'recompose/xstreamObservableConfig'
+setObservableConfig(xstreamConfig)
+```
+
+#### Bacon
+
+```js
+import baconConfig from 'recompose/baconObservableConfig'
+setObservableConfig(baconConfig)
+```
+
+#### Kefir
+
+```js
+import kefirConfig from 'recompose/kefirObservableConfig'
+setObservableConfig(kefirConfig)
+```
