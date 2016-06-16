@@ -2,7 +2,7 @@ import $$observable from 'symbol-observable'
 import createEagerFactory from './createEagerFactory'
 import createHelper from './createHelper'
 import componentFromStream from './componentFromStream'
-import { toObservable } from './configureObservable'
+import { toObservable } from './setObservableConfig'
 
 const mapPropsStream = transform => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)

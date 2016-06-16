@@ -1,6 +1,6 @@
 import $$observable from 'symbol-observable'
 import { createChangeEmitter } from 'change-emitter'
-import { fromObservable } from './configureObservable'
+import { fromObservable } from './setObservableConfig'
 
 const createEventHandler = () => {
   const emitter = createChangeEmitter()

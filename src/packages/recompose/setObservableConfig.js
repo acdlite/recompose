@@ -10,11 +10,11 @@ export const fromObservable = observable =>
 
 export const toObservable = stream =>
   typeof config.toObservable === 'function'
-    ? config.fromObservable(stream)
+    ? config.toObservable(stream)
     : stream
 
 const configureObservable = c => {
-  config = { ...config, ...c }
+  config = c
 }
 
 export default configureObservable

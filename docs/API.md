@@ -75,6 +75,7 @@ const PureComponent = pure(BaseComponent)
   + [`componentFromStream()`](#componentfromstream)
   + [`mapPropsStream()`](#mappropsstream)
   + [`createEventHandler()`](#createEventHandler)
+  + [`setObservableConfig()`](#setobservableconfig)
 
 ## Higher-order components
 
@@ -647,6 +648,7 @@ Other benefits include:
 - Access to an ecosystem of observable libraries, such as RxJS.
 
 
+**Recompose's observable utilities can be configured to work with any observable or stream-like library. See [`setObservableConfig()`](#setobservableconfig) below for details.**
 
 ### `componentFromStream()`
 
@@ -670,13 +672,15 @@ where `props$` is a stream of props and `vdom$` is a stream of React nodes. This
 v = f(d)
 ```
 
+Example:
+
 ```js
 const Counter = componentFromStream(props$ => {
   const { handler: increment, stream: increment$ } = createEventHandler()
   const { handler: decrement, stream: decrement$ } = createEventHandler()
   const count$ = Observable.merge(
-      increment$.map(() => 1),
-      decrement$.map(() => -1)
+      increment$.mapTo(1),
+      decrement$.mapTo(-1)
     )
     .startWith(0)
     .scan((count, n) => count + n, 0)
@@ -729,69 +733,76 @@ createEventHandler<T>(): {
 }
 ```
 
-Returns an object with properties `handler` and `stream`. `stream` is an observable sequence, and `handler` is a function that pushes new values onto the sequence. (This is akin to mailboxes in Elm.) Useful for creating event handlers like `onClick`.
+Returns an object with properties `handler` and `stream`. `stream` is an observable sequence, and `handler` is a function that pushes new values onto the sequence. Useful for creating event handlers like `onClick`.
 
-### `configureObservable()`
+### `setObservableConfig()`
 
 ```js
-configureObservable<Stream>({
+setObservableConfig<Stream>({
   fromObservable<T>: ?(observable: Observable<T>) => Stream<T>,
   toObservable<T>: ?(stream: Stream<T>) => Observable<T>
 })
 ```
 
-Observables in Recompose are plain objects that conform to the [ES Observable proposal](https://github.com/zenparsing/es-observable). If you're using a library like RxJS or most, you'll need to convert them:
+Observables in Recompose are plain objects that conform to the [ES Observable proposal](https://github.com/zenparsing/es-observable). Usually, you'll want to use them alongside an observable library like RxJS so that you have access to its suite of operators. By default, this requires you to convert the observables provided by Recompose before applying any transforms:
 
 ```js
 mapPropsStream($props => {
   const $rxjsProps = Rx.Observable.from(props$)
-  const $mostProps = most.from(props$)
+  // ...now you can use map, filter, scan, etc.
+  return $transformedProps
 })
 ```
 
-As a convenience, you can configure a global transformation that is applied to every observable. `configureObservable()` allows you to use Recompose's observable utilities with any stream-like value.
-
-Both `toObservable()` and `fromObservable()` default to the identity function.
-
-Some examples:
+This quickly becomes tedious. Rather than performing this transform for each stream individually, `setObservableConfig()` sets a global observable transform that is applied automatically.
 
 ```js
-import RxJS5 from 'rxjs'
-import RxJS4 from 'rx'
-import most from 'most'
-import configureObservable from 'recompose/configureObservable'
+import Rx from 'rxjs'
+import { setObservableConfig } from 'recompose'
 
-// RxJS 5
-configureObservable({
-  fromObservable: RxJS5.Observable.from
+setObservableConfig({
+  // Converts a plain ES observable to an RxJS 5 observable
+  fromObservable: Rx.Observable.from
 })
+```
 
-// RxJS 4 and below
-configureObservable({
-  // Convert from ES observable to RxJS 4 observable
-  fromObservable: observable => Observable.create(observer => {
-    const { unsubscribe } = observable.subscribe({
-      next: val => observer.onNext(val),
-      error: error => observer.onError(error),
-      complete: () => observer.onCompleted()
-    })
-    return unsubscribe
-  }),
-  // Convert from RxJS 4 observable to ES observable
-  toObservable: rxObservable => ({
-    subscribe: observer => {
-      const { dispose } = rxObservable.subscribe({
-        onNext: val => observer.next(val),
-        onError: error => observer.error(error),
-        onCompleted: () => observer.complete()
-      })
-      return { unsubscribe: dispose }
-    }
-  })
-})
+In addition to `fromObservable`, the config object also accepts `toObservable`, which converts a stream back into an ES observable. Because RxJS 5 observables already conform to the ES observable spec, `toObservable` is not necessary in the above example. However, it is required for libraries like RxJS 4 or xstream, whose streams do not conform to the ES observable spec.
 
-// most
-configureObservable({
-  fromObservable: most.from
-})
+Fortunately, you likely don't need to worry about how to configure Recompose for your favorite stream library, because Recompose provides drop-in configuration for you.
+
+**Note: The following configuration modules are not included in the main export. You must import them individually, as shown in the examples.**
+
+#### RxJS
+
+```js
+import rxjsconfig from 'recompose/rxjsObservableConfig'
+setObservableConfig(rxjsconfig)
+```
+
+#### RxJS 4 (legacy)
+
+```js
+import rxjs4config from 'recompose/rxjs4ObservableConfig'
+setObservableConfig(rxjs4config)
+```
+
+#### most
+
+```js
+import mostConfig from 'recompose/mostObservableConfig'
+setObservableConfig(mostConfig)
+```
+
+#### xstream
+
+```js
+import xstreamConfig from 'recompose/xstreamObservableConfig'
+setObservableConfig(xstreamConfig)
+```
+
+#### Bacon
+
+```js
+import baconConfig from 'recompose/baconObservableConfig'
+setObservableConfig(baconConfig)
 ```

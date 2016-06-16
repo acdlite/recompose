@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { createChangeEmitter } from 'change-emitter'
 import $$observable from 'symbol-observable'
-import { fromObservable, toObservable } from './configureObservable'
+import { fromObservable, toObservable } from './setObservableConfig'
 
 const componentFromStream = propsToVdom =>
   class ComponentFromStream extends Component {
