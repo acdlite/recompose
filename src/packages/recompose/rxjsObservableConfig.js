@@ -1,7 +1,7 @@
 import Rx from 'rxjs'
 
 const config = {
-  fromObservable: Rx.Observable.from
+  fromESObservable: Rx.Observable.from
 }
 
 export default config

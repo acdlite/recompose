@@ -1,7 +1,7 @@
 import Rx from 'rx'
 
 const config = {
-  fromObservable: observable => Rx.Observable.create(observer => {
+  fromESObservable: observable => Rx.Observable.create(observer => {
     const { unsubscribe } = observable.subscribe({
       next: val => observer.onNext(val),
       error: error => observer.onError(error),
@@ -9,7 +9,7 @@ const config = {
     })
     return unsubscribe
   }),
-  toObservable: rxObservable => ({
+  toESObservable: rxObservable => ({
     subscribe: observer => {
       const { dispose } = rxObservable.subscribe(
         val => observer.next(val),

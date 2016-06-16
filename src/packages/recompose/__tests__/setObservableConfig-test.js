@@ -6,6 +6,7 @@ import rxjs4Config from '../rxjs4ObservableConfig'
 import mostConfig from '../mostObservableConfig'
 import xstreamConfig from '../xstreamObservableConfig'
 import baconConfig from '../baconObservableConfig'
+import kefirConfig from '../kefirObservableConfig'
 import setObservableConfig from '../setObservableConfig'
 import componentFromStream from '../componentFromStream'
 
@@ -48,6 +49,13 @@ test('works with xstream', t => {
 
 test('works with bacon', t => {
   setObservableConfig(baconConfig)
+  testTransform(t, props$ =>
+    props$.map(({ n }) => <div>{n * 2}</div>)
+  )
+})
+
+test('works with kefir', t => {
+  setObservableConfig(kefirConfig)
   testTransform(t, props$ =>
     props$.map(({ n }) => <div>{n * 2}</div>)
   )

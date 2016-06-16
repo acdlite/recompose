@@ -1,7 +1,7 @@
 import Bacon from 'baconjs'
 
 const config = {
-  fromObservable: observable => Bacon.fromBinder(sink => {
+  fromESObservable: observable => Bacon.fromBinder(sink => {
     const { unsubscribe } = observable.subscribe({
       next: val => sink(new Bacon.Next(val)),
       error: err => sink(new Bacon.Error(err)),
@@ -9,7 +9,7 @@ const config = {
     })
     return unsubscribe
   }),
-  toObservable: stream => ({
+  toESObservable: stream => ({
     subscribe: observer => {
       const unsubscribe = stream.subscribe(event => {
         if (event.hasValue()) {

@@ -739,8 +739,8 @@ Returns an object with properties `handler` and `stream`. `stream` is an observa
 
 ```js
 setObservableConfig<Stream>({
-  fromObservable<T>: ?(observable: Observable<T>) => Stream<T>,
-  toObservable<T>: ?(stream: Stream<T>) => Observable<T>
+  fromESObservable<T>: ?(observable: Observable<T>) => Stream<T>,
+  toESObservable<T>: ?(stream: Stream<T>) => Observable<T>
 })
 ```
 
@@ -762,11 +762,11 @@ import { setObservableConfig } from 'recompose'
 
 setObservableConfig({
   // Converts a plain ES observable to an RxJS 5 observable
-  fromObservable: Rx.Observable.from
+  fromESObservable: Rx.Observable.from
 })
 ```
 
-In addition to `fromObservable`, the config object also accepts `toObservable`, which converts a stream back into an ES observable. Because RxJS 5 observables already conform to the ES observable spec, `toObservable` is not necessary in the above example. However, it is required for libraries like RxJS 4 or xstream, whose streams do not conform to the ES observable spec.
+In addition to `fromESObservable`, the config object also accepts `toESObservable`, which converts a stream back into an ES observable. Because RxJS 5 observables already conform to the ES observable spec, `toESObservable` is not necessary in the above example. However, it is required for libraries like RxJS 4 or xstream, whose streams do not conform to the ES observable spec.
 
 Fortunately, you likely don't need to worry about how to configure Recompose for your favorite stream library, because Recompose provides drop-in configuration for you.
 
@@ -805,4 +805,11 @@ setObservableConfig(xstreamConfig)
 ```js
 import baconConfig from 'recompose/baconObservableConfig'
 setObservableConfig(baconConfig)
+```
+
+#### Kefir
+
+```js
+import kefirConfig from 'recompose/kefirObservableConfig'
+setObservableConfig(kefirConfig)
 ```
