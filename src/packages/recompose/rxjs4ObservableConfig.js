@@ -1,3 +1,4 @@
+import $$observable from 'symbol-observable'
 import Rx from 'rx'
 
 const config = {
@@ -17,6 +18,9 @@ const config = {
         () => observer.complete()
       )
       return { unsubscribe: dispose }
+    },
+    [$$observable]() {
+      return this
     }
   })
 }

@@ -1,3 +1,4 @@
+import $$observable from 'symbol-observable'
 import Bacon from 'baconjs'
 
 const config = {
@@ -21,6 +22,9 @@ const config = {
         }
       })
       return { unsubscribe }
+    },
+    [$$observable]() {
+      return this
     }
   })
 }

@@ -1,3 +1,4 @@
+import $$observable from 'symbol-observable'
 import xstream from 'xstream'
 
 const noop = () => {}
@@ -23,6 +24,9 @@ const config = {
       return {
         unsubscribe: () => stream.removeListener(listener)
       }
+    },
+    [$$observable]() {
+      return this
     }
   })
 }
