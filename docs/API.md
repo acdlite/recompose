@@ -207,7 +207,7 @@ flattenProp(
 ): HigherOrderComponent
 ```
 
-Flattens an prop so that its fields are spread out into the props object.
+Flattens a prop so that its fields are spread out into the props object.
 
 ```js
 const enhance = compose(
