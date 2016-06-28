@@ -74,7 +74,7 @@ const PureComponent = pure(BaseComponent)
 * [Observable utilities](#observable-utilities)
   + [`componentFromStream()`](#componentfromstream)
   + [`mapPropsStream()`](#mappropsstream)
-  + [`createEventHandler()`](#createEventHandler)
+  + [`createEventHandler()`](#createeventhandler)
   + [`setObservableConfig()`](#setobservableconfig)
 
 ## Higher-order components
