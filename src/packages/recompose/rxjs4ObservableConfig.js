@@ -12,12 +12,12 @@ const config = {
   }),
   toESObservable: rxObservable => ({
     subscribe: observer => {
-      const { dispose } = rxObservable.subscribe(
+      const subscription = rxObservable.subscribe(
         val => observer.next(val),
         error => observer.error(error),
         () => observer.complete()
       )
-      return { unsubscribe: dispose }
+      return { unsubscribe: () => subscription.dispose() }
     },
     [$$observable]() {
       return this
