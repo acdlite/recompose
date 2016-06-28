@@ -1,16 +1,16 @@
 import { Component } from 'react'
 import { createChangeEmitter } from 'change-emitter'
 import $$observable from 'symbol-observable'
-import { fromESObservable, toESObservable } from './setObservableConfig'
+import { config as globalConfig } from './setObservableConfig'
 
-const componentFromStream = propsToVdom =>
+export const componentFromStreamWithConfig = config => propsToVdom =>
   class ComponentFromStream extends Component {
     state = { vdom: null };
 
     propsEmitter = createChangeEmitter();
 
     // Stream of props
-    props$ = fromESObservable({
+    props$ = config.fromESObservable({
       subscribe: observer => {
         const unsubscribe = this.propsEmitter.listen(
           props => observer.next(props)
@@ -23,7 +23,7 @@ const componentFromStream = propsToVdom =>
     });
 
     // Stream of vdom
-    vdom$ = toESObservable(propsToVdom(this.props$));
+    vdom$ = config.toESObservable(propsToVdom(this.props$));
 
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render
@@ -53,5 +53,7 @@ const componentFromStream = propsToVdom =>
       return this.state.vdom
     }
   }
+
+const componentFromStream = componentFromStreamWithConfig(globalConfig)
 
 export default componentFromStream

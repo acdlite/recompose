@@ -1,11 +1,11 @@
 import test from 'ava'
 import React from 'react'
 import setObservableConfig from '../setObservableConfig'
-import rxjsConfig from '../rxjsObservableConfig'
+import rxjs4Config from '../rxjs4ObservableConfig'
 import { mount } from 'enzyme'
 import { mapPropsStream } from '../'
 
-setObservableConfig(rxjsConfig)
+setObservableConfig(rxjs4Config)
 
 // Most of mapPropsStream's functionality is covered by componentFromStream
 test('mapPropsStream creates a higher-order component from a stream', t => {
