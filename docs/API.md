@@ -89,7 +89,7 @@ mapProps(
 
 Accepts a function that maps owner props to a new collection of props that are passed to the base component.
 
-`mapProps()` pairs well with functional utility libraries like [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp). For example, Recompose does not come with a `omitProps()` function, but you can build one easily using lodash-fp's `omit()`:
+`mapProps()` pairs well with functional utility libraries like [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp). For example, Recompose does not come with a `omitProps()` function, but you can easily build one using lodash-fp's `omit()`:
 
 ```js
 const omitProps = keys => mapProps(props => omit(keys, props))
@@ -222,7 +222,7 @@ const Abc = enhance(BaseComponent)
 // Base component receives props: { a: 'a', b: 'b', c: 'c' }
 ```
 
-An example use for `flattenProps()` is when receiving fragment data from Relay. Relay fragments are passes as an object of props, which you often want flattened out into its constituent fields:
+An example use case for `flattenProps()` is when receiving fragment data from Relay. Relay fragments are passed as an object of props, which you often want flattened out into its constituent fields:
 
 ```js
 // The `post` prop is an object with title, author, and content fields
