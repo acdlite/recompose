@@ -46,6 +46,7 @@
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-plugin-transform-regenerator": "^6.8.0",
     "babel-polyfill": "^6.5.0",
+    "babel-register": "^6.9.0",
     "baconjs": "^0.7.84",
     "chai": "^3.3.0",
     "chalk": "^1.1.1",
