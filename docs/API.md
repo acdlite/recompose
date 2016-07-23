@@ -646,7 +646,7 @@ It turns out that much of the React Component API can be expressed in terms of o
 
 Other benefits include:
 
-- No distinction between state and props – everything is an stream.
+- No distinction between state and props – everything is a stream.
 - No need to worry about unsubscribing from event listeners. Subscriptions are handled for you.
 - Sideways data loading is trivial – just combine the props stream with an external stream.
 - Access to an ecosystem of observable libraries, such as RxJS.
