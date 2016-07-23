@@ -115,7 +115,7 @@ Instead of a function, you can also pass a props object directly. In this form, 
 
 ```js
 withPropsOnChange(
-  depdendentPropKeys: Array<string> | (props: Object, nextProps: Object) => boolean,
+  shouldMapOrKeys: Array<string> | (props: Object, nextProps: Object) => boolean,
   createProps: (ownerProps: Object) => Object
 ): HigherOrderComponent
 ```
