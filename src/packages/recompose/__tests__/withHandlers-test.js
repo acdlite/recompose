@@ -107,7 +107,7 @@ test.serial('withHandlers warns if handler is not a higher-order function', t =>
     onClick: () => {}
   })('button')
 
-  const wrapper = mount(<Button foo="bar" />)
+  const wrapper = mount(<Button />)
   const button = wrapper.find('button')
 
   t.throws(() => button.simulate('click'), /undefined/)
