@@ -55,6 +55,7 @@ const PureComponent = pure(BaseComponent)
   + [`getContext()`](#getcontext)
   + [`lifecycle()`](#lifecycle)
   + [`toClass()`](#toclass)
+  + [`partial()`](#partial)
 * [Static property helpers](#static-property-helpers)
   + [`setStatic()`](#setstatic)
   + [`setPropTypes()`](#setproptypes)
@@ -470,6 +471,17 @@ If the base component is already a class, it returns the given component.
 ## Static property helpers
 
 These functions look like higher-order component helpers — they are curried and component-last. However, rather than returning a new component, they mutate the base component by setting or overriding a static property.
+
+### `partial()`
+
+```js
+partial(
+  functionName: string,
+  funcArgs: Array
+)
+```
+
+Replaces original `props[functionName]` function to function with prepended arguments.
 
 ### `setStatic()`
 
