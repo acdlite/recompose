@@ -2,7 +2,9 @@ import React from 'react'
 import createHelper from './createHelper'
 import createEagerFactory from './createEagerFactory'
 
-const branch = (test, left, right) => BaseComponent =>
+const identity = component => component
+
+const branch = (test, left, right = identity) => BaseComponent =>
   class extends React.Component {
     LeftComponent = null;
     RightComponent = null;

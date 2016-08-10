@@ -34,3 +34,18 @@ test('branch tests props and applies one of two HoCs, for true and false', t => 
   t.is(getIsBad(), 'true')
   t.is(getName(), 'Heisenberg')
 })
+
+test('branch defaults third argument to identity function', t => {
+  const Left = () => <div className="left">Left</div>
+  const Right = () => <div className="right">Right</div>
+
+  const BranchedComponent = branch(
+    () => false,
+    () => props => <Left {...props} />
+  )(Right)
+
+  const wrapper = mount(<BranchedComponent />)
+  const right = wrapper.find('.right').text()
+
+  t.is(right, 'Right')
+})
