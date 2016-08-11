@@ -21,6 +21,7 @@ export getContext from './getContext'
 export lifecycle from './lifecycle'
 export toClass from './toClass'
 export partial from './partial'
+export partialWithProps from './partialWithProps'
 
 // Static property helpers
 export setStatic from './setStatic'

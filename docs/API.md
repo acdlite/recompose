@@ -56,6 +56,7 @@ const PureComponent = pure(BaseComponent)
   + [`lifecycle()`](#lifecycle)
   + [`toClass()`](#toclass)
   + [`partial()`](#partial)
+  + [`partialWithProps()`](#partialWithProps)
 * [Static property helpers](#static-property-helpers)
   + [`setStatic()`](#setstatic)
   + [`setPropTypes()`](#setproptypes)
@@ -482,6 +483,17 @@ partial(
 ```
 
 Replaces original `props[functionName]` function to function with prepended arguments.
+
+### `partialWithProps()`
+
+```js
+partialWithProps(
+  functionName: string,
+  propArgNames: Array<string>
+)
+```
+
+Replaces original `props[functionName]` function to function with prepended arguments from props.
 
 ### `setStatic()`
 
