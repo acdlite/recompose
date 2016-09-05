@@ -27,7 +27,6 @@ test('withVisibilityProp implements shouldComponentUpdate() (for standard proper
 
   // Updated doesn't work for not visible components
   updateFoo(-1)
-  t.is(div.prop('visible'), false)
   t.is(div.prop('foo'), 1)
 })
 
@@ -55,7 +54,6 @@ test('withVisibilityProp implements shouldComponentUpdate() (for custom property
 
   // Updated doesn't work for hidden components
   updateFoo(-1)
-  t.is(div.prop('isVisible'), false)
   t.is(div.prop('foo'), 1)
 })
 
@@ -83,6 +81,5 @@ test('withVisibilityProp implements shouldComponentUpdate() (for custom property
 
   // Updated doesn't work for hidden components
   updateFoo(-1)
-  t.is(div.prop('hidden'), true)
   t.is(div.prop('foo'), 1)
 })
