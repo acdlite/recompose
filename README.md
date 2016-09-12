@@ -10,8 +10,9 @@ Recompose
 
 Recompose is a React utility belt for function components and higher-order components. Think of it like lodash for React.
 
-- **[Full API documentation](docs/API.md)** - Learn about each helper
-- **[Recompose Base Fiddle](https://jsfiddle.net/acdlite/69z2wepo/41596/)** - Easy way to dive in
+[**Full API documentation**](docs/API.md) - Learn about each helper
+
+[**Recompose Base Fiddle**](https://jsfiddle.net/acdlite/69z2wepo/41596/) - Easy way to dive in
 
 ```
 npm install recompose --save
@@ -21,7 +22,7 @@ npm install recompose --save
 
 ### Related modules
 
-- [**recompose-relay**](https://github.com/acdlite/recompose/tree/master/src/packages/recompose-relay) — Recompose helpers for Relay
+[**recompose-relay**](src/packages/recompose-relay) — Recompose helpers for Relay
 
 ## You can use Recompose to...
 
