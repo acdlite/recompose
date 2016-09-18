@@ -10,7 +10,7 @@ declare module 'recompose' {
 
   declare type HOC<A, B> = Fn1<Component<A>, Component<B>>;
 
-  declare type SCU<A> = (props: B, nextProps: B) => boolean;
+  declare type SCU<A> = (props: A, nextProps: A) => boolean;
 
   declare function id<A>(a: A): A;
   declare function compose<A, B, C, D, E>(de: Fn1<D, E>, cd: Fn1<C, D>, bc: Fn1<B, C>, ab: Fn1<A, B>, ...rest: Array<void>): Fn1<A, E>;
