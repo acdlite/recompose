@@ -9,6 +9,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",
+    "jest-test": "jest",
     "test": "ava --concurrency=5",
     "test:watch": "npm run test -- --watch",
     "release": "babel-node scripts/release.js",
@@ -19,6 +20,7 @@
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
     "babel-eslint": "^6.0.4",
+    "babel-jest": "^15.0.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-syntax-jsx": "^6.8.0",
     "babel-plugin-syntax-trailing-function-commas": "^6.8.0",
@@ -60,6 +62,7 @@
     "eslint-plugin-react": "^5.1.1",
     "globby": "^4.0.0",
     "gzip-size-cli": "^1.0.0",
+    "jest": "^15.1.1",
     "jsdom": "^8.4.0",
     "kefir": "^3.2.3",
     "most": "^0.19.7",
@@ -67,6 +70,7 @@
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.0",
+    "react-test-renderer": "^15.3.2",
     "readline-sync": "^1.2.21",
     "rimraf": "^2.4.3",
     "rx": "^4.1.0",
@@ -93,5 +97,9 @@
       "./testSetup"
     ],
     "babel": "inherit"
+  },
+  "jest": {
+    "verbose": true,
+    "testRegex": "(/__jest_tests__/.*js$)"
   }
 }
