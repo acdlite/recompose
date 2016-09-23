@@ -1,3 +1,4 @@
+import sinon from 'sinon'
 import test from 'ava'
 import React from 'react'
 import { branch, compose, withState, withProps } from '../'
@@ -48,4 +49,23 @@ test('branch defaults third argument to identity function', t => {
   const right = wrapper.find('.right').text()
 
   t.is(right, 'Right')
+})
+
+test('branch third argument should not cause console error', t => {
+  const error = sinon.stub(console, 'error')
+  const Component = () => <div className="right">Component</div>
+
+  const BranchedComponent = branch(
+    () => false,
+    v => v,
+    v => v
+  )(Component)
+
+  mount(<BranchedComponent />)
+
+  t.is(error.called, false)
+
+  /* eslint-disable */
+  error.restore()
+  /* eslint-enable */
 })

@@ -15,7 +15,7 @@
     "postinstall": "babel-node scripts/installNestedPackageDeps.js"
   },
   "devDependencies": {
-    "ava": "^0.15.2",
+    "ava": "^0.16.0",
     "babel-cli": "^6.5.1",
     "babel-core": "^6.5.2",
     "babel-eslint": "^6.0.4",
