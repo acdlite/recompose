@@ -17,22 +17,12 @@ const createHelper = (
       }
     }
 
-    return (...args) => {
-      if (args.length > func.length) {
-        /* eslint-disable */
-        console.error(
-        /* eslint-enable */
-          `Too many arguments passed to ${helperName}(). It should called ` +
-          `like so: ${helperName}(...args)(BaseComponent).`
-        )
-      }
-
-      return BaseComponent => {
+    return (...args) =>
+      BaseComponent => {
         const Component = func(...args)(BaseComponent)
         Component.displayName = wrapDisplayName(BaseComponent, helperName)
         return Component
       }
-    }
   }
 
   return func
