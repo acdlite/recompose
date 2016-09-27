@@ -7,10 +7,17 @@ const withReducer = (stateName, dispatchName, reducer, initialState) =>
     const factory = createEagerFactory(BaseComponent)
     return class extends Component {
       state = {
-        stateValue: typeof initialState === 'function'
-          ? initialState(this.props)
-          : initialState
+        stateValue: this.initalizeStateValue()
       };
+
+      initalizeStateValue() {
+        if (initialState !== undefined) {
+          return typeof initialState === 'function' ?
+            initialState(this.props) :
+            initialState
+        }
+        return reducer(undefined, { type: '@@recompose/INIT' })
+      }
 
       dispatch = action => this.setState(({ stateValue }) => ({
         stateValue: reducer(stateValue, action)
