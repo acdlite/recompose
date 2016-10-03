@@ -7,11 +7,11 @@ const willMount = (onMount) =>
     const factory = createEagerFactory(BaseComponent)
     return class extends Component {
       componentWillMount() {
-        return onMount(this.props);
+        return onMount(this.props)
       }
       render() {
         return factory({
-          ...this.props,
+          ...this.props
         })
       }
     }
