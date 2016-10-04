@@ -80,7 +80,7 @@ declare module 'recompose' {
     test: SCU<A>
   ): HOC<A, A>;
 
-  declare function pure<A>(): HOC<A, A>;
+  declare function pure<A>(C: Component<A>): FunctionComponent<A>;
 
   declare function onlyUpdateForKeys<A>(propKeys: Array<$Keys<A>>): HOC<A, A>;
 
