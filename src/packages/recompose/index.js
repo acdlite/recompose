@@ -20,6 +20,7 @@ export withContext from './withContext'
 export getContext from './getContext'
 export lifecycle from './lifecycle'
 export toClass from './toClass'
+export when from './when'
 
 // Static property helpers
 export setStatic from './setStatic'
