@@ -253,16 +253,15 @@ stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
 stateUpdate(newValue: any, ?callback: Function): void
 ```
 
-The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `mapProps()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
+The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` or `withProps()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
 
 ```js
 const addCounting = compose(
   withState('counter', 'setCounter', 0),
-  mapProps(({ setCounter, ...rest }) => ({
+  withProps(({ setCounter }) => ({
     increment: () => setCounter(n => n + 1),
     decrement: () => setCounter(n => n - 1),
-    reset: () => setCounter(0),
-    ...rest
+    reset: () => setCounter(0)
   }))
 )
 ```
