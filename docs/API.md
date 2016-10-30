@@ -353,7 +353,7 @@ shouldUpdate(
 ): HigherOrderComponent
 ```
 
-Higher-order component version of [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/component-specs.html#updating-shouldcomponentupdate). The test function accepts both the current props and the next props.
+Higher-order component version of [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate). The test function accepts both the current props and the next props.
 
 
 ### `pure()`
@@ -454,7 +454,7 @@ lifecycle(
 ): HigherOrderComponent
 ```
 
-A higher-order component version of [`React.createClass()`](https://facebook.github.io/react/docs/top-level-api.html#react.createclass). It supports the entire `createClass()` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
+A higher-order component version of [`React.createClass()`](https://facebook.github.io/react/docs/react-api.html#createclass). It supports the entire `createClass()` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
 
 ### `toClass()`
 
@@ -573,7 +573,7 @@ createEagerFactory(
 ) => ReactElement
 ```
 
-The factory form of `createEagerElement()`. Given a component, it returns a [factory](https://facebook.github.io/react/docs/glossary.html#factories).
+The factory form of `createEagerElement()`. Given a component, it returns a [factory](https://facebook.github.io/react/docs/react-api.html#createfactory).
 
 ### `createSink()`
 
