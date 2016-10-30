@@ -312,15 +312,12 @@ Takes a component and returns a higher-order component version of that component
 This is useful in combination with another helper that expects a higher-order component, like `branch()`:
 
 ```js
-const identity = t => t
-
-// `hasLoaded()` is a function that returns whether or not the the component
+// `hasLoaded()` is a function that returns whether or not the component
 // has all the props it needs
 const spinnerWhileLoading = hasLoaded =>
   branch(
-    hasLoaded,
-    identity, // Component => Component
-    renderComponent(Spinner) // <Spinner> is a React component
+    props => !hasLoaded(props),
+    renderComponent(Spinner) // `Spinner` is a React component
   )
 
 // Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
