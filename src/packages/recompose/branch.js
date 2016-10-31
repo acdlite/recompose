@@ -6,9 +6,6 @@ const identity = component => component
 
 const branch = (test, left, right = identity) => BaseComponent =>
   class extends React.Component {
-    LeftComponent = null;
-    RightComponent = null;
-
     constructor(props, context) {
       super(props, context)
       this.computeChildComponent(this.props)
