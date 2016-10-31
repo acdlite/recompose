@@ -1,35 +1,19 @@
-import React from 'react'
 import createHelper from './createHelper'
 import createEagerFactory from './createEagerFactory'
 
-const identity = component => component
+const identity = Component => Component
 
-const branch = (test, left, right = identity) => BaseComponent =>
-  class extends React.Component {
-    constructor(props, context) {
-      super(props, context)
-      this.computeChildComponent(this.props)
+const branch = (test, left, right = identity) => BaseComponent => {
+  let leftFactory
+  let rightFactory
+  return props => {
+    if (test(props)) {
+      leftFactory = leftFactory || createEagerFactory(left(BaseComponent))
+      return leftFactory(props)
     }
-
-    computeChildComponent(props) {
-      if (test(props)) {
-        this.leftFactory =
-          this.leftFactory || createEagerFactory(left(BaseComponent))
-        this.factory = this.leftFactory
-      } else {
-        this.rightFactory =
-          this.rightFactory || createEagerFactory(right(BaseComponent))
-        this.factory = this.rightFactory
-      }
-    }
-
-    componentWillReceiveProps(nextProps) {
-      this.computeChildComponent(nextProps)
-    }
-
-    render() {
-      return this.factory(this.props)
-    }
+    rightFactory = rightFactory || createEagerFactory(right(BaseComponent))
+    return rightFactory(props)
   }
+}
 
 export default createHelper(branch, 'branch')
