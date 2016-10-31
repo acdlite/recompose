@@ -253,16 +253,15 @@ stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
 stateUpdate(newValue: any, ?callback: Function): void
 ```
 
-The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `mapProps()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
+The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` or `withProps()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
 
 ```js
 const addCounting = compose(
   withState('counter', 'setCounter', 0),
-  mapProps(({ setCounter, ...rest }) => ({
+  withProps(({ setCounter }) => ({
     increment: () => setCounter(n => n + 1),
     decrement: () => setCounter(n => n - 1),
-    reset: () => setCounter(0),
-    ...rest
+    reset: () => setCounter(0)
   }))
 )
 ```
@@ -313,15 +312,12 @@ Takes a component and returns a higher-order component version of that component
 This is useful in combination with another helper that expects a higher-order component, like `branch()`:
 
 ```js
-const identity = t => t
-
-// `hasLoaded()` is a function that returns whether or not the the component
+// `hasLoaded()` is a function that returns whether or not the component
 // has all the props it needs
 const spinnerWhileLoading = hasLoaded =>
   branch(
-    hasLoaded,
-    identity, // Component => Component
-    renderComponent(Spinner) // <Spinner> is a React component
+    props => !hasLoaded(props),
+    renderComponent(Spinner) // `Spinner` is a React component
   )
 
 // Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
@@ -354,7 +350,7 @@ shouldUpdate(
 ): HigherOrderComponent
 ```
 
-Higher-order component version of [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/component-specs.html#updating-shouldcomponentupdate). The test function accepts both the current props and the next props.
+Higher-order component version of [`shouldComponentUpdate()`](https://facebook.github.io/react/docs/react-component.html#shouldcomponentupdate). The test function accepts both the current props and the next props.
 
 
 ### `pure()`
@@ -455,7 +451,7 @@ lifecycle(
 ): HigherOrderComponent
 ```
 
-A higher-order component version of [`React.createClass()`](https://facebook.github.io/react/docs/top-level-api.html#react.createclass). It supports the entire `createClass()` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
+A higher-order component version of [`React.createClass()`](https://facebook.github.io/react/docs/react-api.html#createclass). It supports the entire `createClass()` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
 
 ### `toClass()`
 
@@ -574,7 +570,7 @@ createEagerFactory(
 ) => ReactElement
 ```
 
-The factory form of `createEagerElement()`. Given a component, it returns a [factory](https://facebook.github.io/react/docs/glossary.html#factories).
+The factory form of `createEagerElement()`. Given a component, it returns a [factory](https://facebook.github.io/react/docs/react-api.html#createfactory).
 
 ### `createSink()`
 
@@ -718,7 +714,7 @@ You may want to use this version to interoperate with other Recompose higher-ord
 
 ```js
 const enhance = mapPropsStream(props$ => {
-  const timeElapsed$ = Observable.interval(1000).pluck('value')
+  const timeElapsed$ = Observable.interval(1000)
   return props$.combineLatest(timeElapsed$, (props, timeElapsed) => ({
     ...props,
     timeElapsed
