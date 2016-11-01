@@ -24,8 +24,11 @@ declare module 'recompose' {
   ): HOC<A, B>;
 
   declare function withProps<A, B>(
-    createProps: A | (ownerProps: B) => A
-  ): HOC<A, B>;
+    createProps: (ownerProps: B) => A
+  ): HOC<A & B, B>;
+  declare function withProps<A, B>(
+    createProps: A
+  ): HOC<A & B, B>;
 
   declare function withPropsOnChange<A, B>(
     shouldMapOrKeys: Array<$Keys<B>> | SCU<B>,
