@@ -1,0 +1,40 @@
+exports[`test branch defaults third argument to identity function 1`] = `
+<div
+  className="right">
+  Right
+</div>
+`;
+
+exports[`test branch tests props and applies one of two HoCs, for true and false 1`] = `
+<div>
+  <div
+    className="isBad">
+    false
+  </div>
+  <div
+    className="name">
+    Walter
+  </div>
+  <button
+    onClick={[Function onClick]}>
+    Toggle
+  </button>
+</div>
+`;
+
+exports[`test branch tests props and applies one of two HoCs, for true and false 2`] = `
+<div>
+  <div
+    className="isBad">
+    true
+  </div>
+  <div
+    className="name">
+    Heisenberg
+  </div>
+  <button
+    onClick={[Function onClick]}>
+    Toggle
+  </button>
+</div>
+`;

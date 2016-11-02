@@ -4,7 +4,7 @@ import createEagerFactory from './createEagerFactory'
 
 const identity = component => component
 
-const branch = (test, left, right = identity) => BaseComponent =>
+const branch = (test, left, right) => BaseComponent =>
   class extends React.Component {
     constructor(props, context) {
       super(props, context)
@@ -18,7 +18,8 @@ const branch = (test, left, right = identity) => BaseComponent =>
         this.factory = this.leftFactory
       } else {
         this.rightFactory =
-          this.rightFactory || createEagerFactory(right(BaseComponent))
+          this.rightFactory ||
+          createEagerFactory((right || identity)(BaseComponent))
         this.factory = this.rightFactory
       }
     }
