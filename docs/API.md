@@ -396,7 +396,7 @@ const Post = enhance(({ title, content, author }) =>
 ### `onlyUpdateForPropTypes()`
 
 ```js
-onlyUpdateForProps: HigherOrderComponent
+onlyUpdateForPropTypes: HigherOrderComponent
 ```
 
 Works like `onlyUpdateForKeys()`, but prop keys are inferred from the `propTypes` of the base component. Useful in conjunction with `setPropTypes()`.
