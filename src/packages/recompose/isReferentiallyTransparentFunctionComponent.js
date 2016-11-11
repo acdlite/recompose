@@ -5,7 +5,7 @@ const isReferentiallyTransparentFunctionComponent = Component => Boolean(
   !isClassComponent(Component) &&
   !Component.defaultProps &&
   !Component.contextTypes &&
-  !Component.propTypes
+  (process.env.NODE_ENV === 'production' || !Component.propTypes)
 )
 
 export default isReferentiallyTransparentFunctionComponent
