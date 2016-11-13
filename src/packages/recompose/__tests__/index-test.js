@@ -1,5 +1,4 @@
 import test from 'ava'
-import React from 'react'
 import Rc, { mapProps } from '../'
 
 test('export the root object and individual functions', t => {
