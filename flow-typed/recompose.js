@@ -37,7 +37,7 @@ declare module 'recompose' {
 
   declare function withHandlers<B, A: { [key: string]: (props: B) => Function }>(
     handlerCreators: A
-  ): HOC<A, B>
+  ): HOC<A & B, B>
 
   declare function defaultProps<A, D: $Shape<A>, B: $Diff<A, D>>(
     props: D
