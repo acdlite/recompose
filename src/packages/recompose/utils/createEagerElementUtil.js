@@ -14,7 +14,7 @@ const createEagerElementUtil = (
     return type(props)
   }
 
-  React.createElement(
+  return React.createElement(
     type,
     props,
     children
