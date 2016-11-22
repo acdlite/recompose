@@ -2,7 +2,7 @@ import { Component } from 'react'
 import createHelper from './createHelper'
 import createEagerFactory from './createEagerFactory'
 
-const withState = (stateName, stateUpdaterName, initialState) =>
+const withState = (stateName, stateUpdaterName, initialState, bind) =>
   BaseComponent => {
     const factory = createEagerFactory(BaseComponent)
     return class extends Component {
@@ -12,6 +12,15 @@ const withState = (stateName, stateUpdaterName, initialState) =>
           : initialState
       };
 
+      componentWillReceiveProps(nextProps) {
+        if (bind && typeof initialState === 'function') {
+          const newValue = initialState(nextProps);
+          if (this.state.stateValue !== newValue) {
+            this.setState({ stateValue: newValue });
+          }
+        }
+      }
+      
       updateStateValue = (updateFn, callback) => (
         this.setState(({ stateValue }) => ({
           stateValue: typeof updateFn === 'function'
