@@ -250,7 +250,7 @@ Passes two additional props to the base component: a state value, and a function
 
 ```js
 stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
-stateUpdate(newValue: any, ?callback: Function): void
+stateUpdater(newValue: any, ?callback: Function): void
 ```
 
 The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` or `withProps()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
