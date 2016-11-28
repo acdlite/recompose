@@ -750,7 +750,7 @@ Observables in Recompose are plain objects that conform to the [ES Observable pr
 
 ```js
 mapPropsStream(props$ => {
-  const $rxjsProps = Rx.Observable.from(props$)
+  const rxjsProps$ = Rx.Observable.from(props$)
   // ...now you can use map, filter, scan, etc.
   return $transformedProps
 })
