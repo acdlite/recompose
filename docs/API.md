@@ -749,10 +749,10 @@ setObservableConfig<Stream>({
 Observables in Recompose are plain objects that conform to the [ES Observable proposal](https://github.com/zenparsing/es-observable). Usually, you'll want to use them alongside an observable library like RxJS so that you have access to its suite of operators. By default, this requires you to convert the observables provided by Recompose before applying any transforms:
 
 ```js
-mapPropsStream($props => {
-  const $rxjsProps = Rx.Observable.from(props$)
+mapPropsStream(props$ => {
+  const rxjsProps$ = Rx.Observable.from(props$)
   // ...now you can use map, filter, scan, etc.
-  return $transformedProps
+  return transformedProps$
 })
 ```
 
