@@ -451,7 +451,7 @@ lifecycle(
 ): HigherOrderComponent
 ```
 
-A higher-order component version of [`React.createClass()`](https://facebook.github.io/react/docs/react-api.html#createclass). It supports the entire `createClass()` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
+A higher-order component version of [`React.createClass()`](https://facebook.github.io/react/docs/react-api.html#createclass). It supports the entire [`createClass()` API](https://github.com/facebook/react/blob/15-stable/src/isomorphic/classic/class/ReactClass.js#L79), except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
 
 ### `toClass()`
 
