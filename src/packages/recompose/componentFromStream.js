@@ -15,6 +15,8 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
         const unsubscribe = this.propsEmitter.listen(
           props => observer.next(props)
         )
+        // Emit props on subscribe
+        this.propsEmitter.emit(this.props)
         return { unsubscribe }
       },
       [$$observable]() {
