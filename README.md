@@ -244,6 +244,27 @@ import withState from 'recompose/withState'
 
 This is the recommended import pattern for library authors.
 
+#### Using babel-lodash-plugin
+
+[babel-lodash-plugin](https://github.com/lodash/babel-plugin-lodash) is not only limited to [lodash](https://github.com/lodash/lodash). It can be used with `recompose` as well.
+
+This can be done by updating `lodash` config in `.babelrc`.
+
+```diff
+ {
+-  "plugins": ["lodash"]
++  "plugins": [
++    ["lodash", { id: ["lodash", "recompose"] }]
++  ]
+ }
+```
+
+After that, you can do imports like below without actually including the entire library content.
+
+```js
+import { compose, mapProps, withState } from 'recompose'
+```
+
 ## Feedback wanted
 
 Project is still in the early stages. Please file an issue or submit a PR if you have suggestions! Or ping me (Andrew Clark) on [Twitter](https://twitter.com/acdlite).
