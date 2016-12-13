@@ -62,7 +62,7 @@
     "gzip-size-cli": "^1.0.0",
     "jsdom": "^8.4.0",
     "kefir": "^3.2.3",
-    "most": "^0.19.7",
+    "most": "^1.0.2",
     "nyc": "^6.4.0",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",

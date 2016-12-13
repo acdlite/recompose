@@ -1,7 +1,7 @@
-import most from 'most'
+import { from, Stream } from 'most'
 
 const config = {
-  fromESObservable: most.from
+  fromESObservable: from || Stream.from
 }
 
 export default config
