@@ -18,6 +18,7 @@ test('compose can be seeded with multiple arguments', t => {
 test('compose returns the identity function if given no arguments', t => {
   t.is(compose()(1, 2), 1)
   t.is(compose()(3), 3)
+  t.is(compose(false,4,'test')(3), 3)
   t.is(compose()(), undefined)
 })
 
