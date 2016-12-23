@@ -22,7 +22,7 @@ const withHandlers = handlers => BaseComponent => {
     cachedHandlers = {};
 
     handlers = mapValues(
-      handlers,
+      typeof handlers === 'function' ? handlers(this.props) : handlers,
       (createHandler, handlerName) => (...args) => {
         const cachedHandler = this.cachedHandlers[handlerName]
         if (cachedHandler) {
@@ -36,7 +36,7 @@ const withHandlers = handlers => BaseComponent => {
           process.env.NODE_ENV !== 'production' &&
           typeof handler !== 'function'
         ) {
-          console.error(
+          console.error( // eslint-disable-line no-console
             'withHandlers(): Expected a map of higher-order functions. ' +
             'Refer to the docs for more info.'
           )
