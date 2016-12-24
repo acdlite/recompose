@@ -122,3 +122,42 @@ test.serial('withHandlers warns if handler is not a higher-order function', t =>
   console.error.restore()
   /* eslint-enable */
 })
+
+test.only('withHandlers allow handers to be a factory', t => {
+  const enhance = withHandlers((initialProps) => {
+    let cache_
+
+    return {
+      handler: () => () => {
+        if (cache_) {
+          return cache_
+        }
+        cache_ = { ...initialProps }
+
+        return cache_
+      }
+    }
+  })
+
+  const componentHandlers = []
+  const componentHandlers2 = []
+
+  const Component = enhance(({ handler }) => {
+    componentHandlers.push(handler())
+    return null
+  })
+
+  const Component2 = enhance(({ handler }) => {
+    componentHandlers2.push(handler())
+    return null
+  })
+
+  const wrapper = mount(<Component hello={'foo'} />)
+  wrapper.setProps({ hello: 'bar' })
+  t.is(componentHandlers[0], componentHandlers[1])
+
+  // check that cache is not shared
+  mount(<Component2 hello={'foo'} />)
+  t.deepEqual(componentHandlers[0], componentHandlers2[0])
+  t.not(componentHandlers[0], componentHandlers2[0])
+})
