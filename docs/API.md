@@ -130,11 +130,14 @@ Instead of an array of prop keys, the first parameter can also be a function tha
 withHandlers(
   handlerCreators: {
     [handlerName: string]: (props: Object) => Function
+  } |
+  handlerCreatorsFactory: (initialProps) => {
+    [handlerName: string]: (props: Object) => Function
   }
 ): HigherOrderComponent
 ```
 
-Takes an object map of handler creators. These are higher-order functions that accept a set of props and return a function handler:
+Takes an object map of handler creators or a factory function. These are higher-order functions that accept a set of props and return a function handler:
 
 This allows the handler to access the current props via closure, without needing to change its signature.
 
