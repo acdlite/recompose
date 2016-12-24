@@ -12,32 +12,35 @@ import {
 import { mount, shallow } from 'enzyme'
 
 test('onlyUpdateForPropTypes only updates for props specified in propTypes', t => {
+  const component = sinon.spy(() => null)
+  component.displayName = 'component'
+
   const Counter = compose(
     withState('counter', 'updateCounter', 0),
     withState('foobar', 'updateFoobar', 'foobar'),
     onlyUpdateForPropTypes,
     setPropTypes({ counter: PropTypes.number })
-  )(props => <div {...props} />)
+  )(component)
 
   t.is(
     Counter.displayName,
-    'withState(withState(onlyUpdateForPropTypes(Component)))'
+    'withState(withState(onlyUpdateForPropTypes(component)))'
   )
 
-  const div = mount(<Counter />).find('div')
-  const { updateCounter, updateFoobar } = div.props()
+  mount(<Counter />)
+  const { updateCounter, updateFoobar } = component.firstCall.args[0]
 
-  t.is(div.prop('counter'), 0)
-  t.is(div.prop('foobar'), 'foobar')
+  t.is(component.lastCall.args[0].counter, 0)
+  t.is(component.lastCall.args[0].foobar, 'foobar')
 
   // Does not update
   updateFoobar('barbaz')
-  t.is(div.prop('counter'), 0)
-  t.is(div.prop('foobar'), 'foobar')
+  t.true(component.calledOnce)
 
   updateCounter(42)
-  t.is(div.prop('counter'), 42)
-  t.is(div.prop('foobar'), 'barbaz')
+  t.true(component.calledTwice)
+  t.is(component.lastCall.args[0].counter, 42)
+  t.is(component.lastCall.args[0].foobar, 'barbaz')
 })
 
 test.serial('onlyUpdateForPropTypes warns if BaseComponent does not have any propTypes', t => {

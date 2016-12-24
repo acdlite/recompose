@@ -4,22 +4,26 @@ import { flattenProp } from '../'
 import { shallow } from 'enzyme'
 
 test('flattenProps flattens an object prop and spreads it into the top-level props object', t => {
-  const Counter = flattenProp('state')('div')
+  const Counter = flattenProp('data-state')('div')
   t.is(Counter.displayName, 'flattenProp(div)')
 
   const wrapper = shallow(
-    <Counter pass="through" state={{ counter: 1 }} />
+    <Counter data-pass="through" data-state={{ 'data-counter': 1 }} />
   )
 
   t.true(wrapper.equals(
-    <div pass="through" state={{ counter: 1 }} counter={1} />
+    <div
+      data-pass="through"
+      data-state={{ 'data-counter': 1 }}
+      data-counter={1}
+    />
   ))
 
   wrapper.setProps({
-    pass: 'through',
-    state: { state: 1 }
+    'data-pass': 'through',
+    'data-state': { 'data-state': 1 }
   })
   t.true(wrapper.equals(
-    <div pass="through" state={1} />
+    <div data-pass="through" data-state={1} />
   ))
 })

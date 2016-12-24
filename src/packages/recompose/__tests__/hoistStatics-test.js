@@ -2,9 +2,10 @@ import test from 'ava'
 import React from 'react'
 import { hoistStatics, mapProps } from '../'
 import { shallow } from 'enzyme'
+import sinon from 'sinon'
 
 test('copies non-React static properties from base component to new component', t => {
-  const BaseComponent = props => <div {...props} />
+  const BaseComponent = sinon.spy(() => null)
   BaseComponent.foo = () => {}
 
   const EnhancedComponent = hoistStatics(
@@ -13,6 +14,6 @@ test('copies non-React static properties from base component to new component', 
 
   t.is(EnhancedComponent.foo, BaseComponent.foo)
 
-  const wrapper = shallow(<EnhancedComponent n={3} />)
-  t.is(wrapper.prop('n'), 15)
+  shallow(<EnhancedComponent n={3} />)
+  t.is(BaseComponent.firstCall.args[0].n, 15)
 })
