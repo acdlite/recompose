@@ -123,7 +123,7 @@ test.serial('withHandlers warns if handler is not a higher-order function', t =>
   /* eslint-enable */
 })
 
-test.only('withHandlers allow handers to be a factory', t => {
+test('withHandlers allow handers to be a factory', t => {
   const enhance = withHandlers((initialProps) => {
     let cache_
 
