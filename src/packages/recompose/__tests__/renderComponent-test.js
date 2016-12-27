@@ -2,24 +2,28 @@ import test from 'ava'
 import React from 'react'
 import { renderComponent, withState, compose, branch } from '../'
 import { mount } from 'enzyme'
+import sinon from 'sinon'
 
 test('renderComponent always renders the given component', t => {
+  const componentA = sinon.spy(() => null)
+  const componentB = sinon.spy(() => null)
+
   const Foobar = compose(
     withState('flip', 'updateFlip', false),
     branch(
       props => props.flip,
-      renderComponent('div'),
-      renderComponent('span')
+      renderComponent(componentA),
+      renderComponent(componentB)
     )
   )(null)
 
-  const wrapper = mount(<Foobar />)
-  const { updateFlip } = wrapper.find('span').props()
+  mount(<Foobar />)
+  const { updateFlip } = componentB.firstCall.args[0]
 
-  t.is(wrapper.find('span').length, 1)
-  t.is(wrapper.find('div').length, 0)
+  t.true(componentB.calledOnce)
+  t.true(componentA.notCalled)
 
   updateFlip(true)
-  t.is(wrapper.find('span').length, 0)
-  t.is(wrapper.find('div').length, 1)
+  t.true(componentB.calledOnce)
+  t.true(componentA.calledOnce)
 })

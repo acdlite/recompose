@@ -2,6 +2,7 @@ import test from 'ava'
 import React, { PropTypes } from 'react'
 import { toClass, withContext, compose } from '../'
 import { mount } from 'enzyme'
+import sinon from 'sinon'
 
 test('toClass returns the base component if it is already a class', t => {
   class BaseComponent extends React.Component {
@@ -15,8 +16,8 @@ test('toClass returns the base component if it is already a class', t => {
 })
 
 test('toClass copies propTypes, displayName, contextTypes and defaultProps from base component', t => {
-  const StatelessComponent = props =>
-    <div {...props} />
+  const StatelessComponent = () =>
+    <div />
 
   StatelessComponent.displayName = 'Stateless'
   StatelessComponent.propTypes = { foo: PropTypes.string }
@@ -32,8 +33,7 @@ test('toClass copies propTypes, displayName, contextTypes and defaultProps from 
 })
 
 test('toClass passes defaultProps correctly', t => {
-  const StatelessComponent = props =>
-    <div {...props} />
+  const StatelessComponent = sinon.spy(() => null)
 
   StatelessComponent.displayName = 'Stateless'
   StatelessComponent.propTypes = { foo: PropTypes.string }
@@ -42,9 +42,9 @@ test('toClass passes defaultProps correctly', t => {
 
   const TestComponent = toClass(StatelessComponent)
 
-  const div = mount(<TestComponent />).find('div')
-  t.is(div.prop('foo'), 'bar')
-  t.is(div.prop('fizz'), 'buzz')
+  mount(<TestComponent />)
+  t.is(StatelessComponent.lastCall.args[0].foo, 'bar')
+  t.is(StatelessComponent.lastCall.args[0].fizz, 'buzz')
 })
 
 test('toClass passes context and props correctly', t => {
@@ -69,7 +69,7 @@ test('toClass passes context and props correctly', t => {
 
 
   const StatelessComponent = (props, context) =>
-    <div props={props} context={context} />
+    <div data-props={props} data-context={context} />
 
   StatelessComponent.contextTypes = { store: PropTypes.object }
 
@@ -81,8 +81,8 @@ test('toClass passes context and props correctly', t => {
     </Provider>
   ).find('div')
 
-  t.is(div.prop('props').fizz, 'fizzbuzz')
-  t.is(div.prop('context').store, store)
+  t.is(div.prop('data-props').fizz, 'fizzbuzz')
+  t.is(div.prop('data-context').store, store)
 })
 
 test('toClass works with strings (DOM components)', t => {

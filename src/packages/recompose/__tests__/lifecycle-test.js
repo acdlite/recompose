@@ -6,13 +6,13 @@ import { lifecycle } from '../'
 test('lifecycle is a higher-order component version of React.createClass', t => {
   const enhance = lifecycle({
     componentWillMount() {
-      this.setState({ bar: 'baz' })
+      this.setState({ 'data-bar': 'baz' })
     }
   })
   const Div = enhance('div')
   t.is(Div.displayName, 'lifecycle(div)')
 
-  const div = mount(<Div foo="bar" />).find('div')
-  t.is(div.prop('foo'), 'bar')
-  t.is(div.prop('bar'), 'baz')
+  const div = mount(<Div data-foo="bar" />).find('div')
+  t.is(div.prop('data-foo'), 'bar')
+  t.is(div.prop('data-bar'), 'baz')
 })

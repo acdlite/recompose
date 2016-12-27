@@ -3,29 +3,33 @@ import React from 'react'
 import { pure, compose, withState } from '../'
 import { countRenders } from './utils'
 import { mount } from 'enzyme'
+import sinon from 'sinon'
 
 test('pure implements shouldComponentUpdate() using shallowEqual()', t => {
+  const component = sinon.spy(() => null)
+  component.displayName = 'component'
+
   const initialTodos = ['eat', 'drink', 'sleep']
   const Todos = compose(
     withState('todos', 'updateTodos', initialTodos),
     pure,
     countRenders
-  )('div')
+  )(component)
 
-  t.is(Todos.displayName, 'withState(pure(countRenders(div)))')
+  t.is(Todos.displayName, 'withState(pure(countRenders(component)))')
 
-  const div = mount(<Todos />).find('div')
-  const { updateTodos } = div.props()
+  mount(<Todos />)
+  const { updateTodos } = component.firstCall.args[0]
 
-  t.is(div.prop('todos'), initialTodos)
-  t.is(div.prop('renderCount'), 1)
+  t.is(component.lastCall.args[0].todos, initialTodos)
+  t.is(component.lastCall.args[0].renderCount, 1)
 
   // Does not re-render
   updateTodos(initialTodos)
-  t.is(div.prop('todos'), initialTodos)
-  t.is(div.prop('renderCount'), 1)
+  t.true(component.calledOnce)
 
   updateTodos(todos => todos.slice(0, -1))
-  t.deepEqual(div.prop('todos'), ['eat', 'drink'])
-  t.is(div.prop('renderCount'), 2)
+  t.true(component.calledTwice)
+  t.deepEqual(component.lastCall.args[0].todos, ['eat', 'drink'])
+  t.is(component.lastCall.args[0].renderCount, 2)
 })

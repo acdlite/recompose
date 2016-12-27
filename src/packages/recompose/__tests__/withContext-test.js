@@ -2,6 +2,7 @@ import test from 'ava'
 import React, { Component, PropTypes } from 'react'
 import { withContext, getContext, compose, mapProps } from '../'
 import { mount } from 'enzyme'
+import sinon from 'sinon'
 
 test('withContext + getContext adds to and grabs from context', t => {
   // Mini React Redux clone
@@ -36,15 +37,18 @@ test('withContext + getContext adds to and grabs from context', t => {
     mapProps(props => selector(props.store.getState()))
   )
 
-  const TodoList = connect(({ todos }) => ({ todos }))('div')
+  const component = sinon.spy(() => null)
+  component.displayName = 'component'
 
-  t.is(TodoList.displayName, 'getContext(mapProps(div))')
+  const TodoList = connect(({ todos }) => ({ todos }))(component)
 
-  const div = mount(
+  t.is(TodoList.displayName, 'getContext(mapProps(component))')
+
+  mount(
     <Provider store={store}>
       <TodoList />
     </Provider>
-  ).find('div')
+  )
 
-  t.deepEqual(div.prop('todos'), ['eat', 'drink', 'sleep'])
+  t.deepEqual(component.lastCall.args[0].todos, ['eat', 'drink', 'sleep'])
 })

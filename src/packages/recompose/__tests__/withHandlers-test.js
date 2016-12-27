@@ -47,14 +47,17 @@ test('withHandlers passes immutable handlers', t => {
   const enhance = withHandlers({
     handler: () => () => null
   })
-  const Div = enhance('div')
+  const component = sinon.spy(() => null)
+  const Div = enhance(component)
 
   const wrapper = mount(<Div />)
-  const div = wrapper.find('div')
-  const handler = div.prop('handler')
-
   wrapper.setProps({ foo: 'bar' })
-  t.is(div.prop('handler'), handler)
+
+  t.true(component.calledTwice)
+  t.is(
+    component.firstCall.args[0].handler,
+    component.secondCall.args[0].handler
+  )
 })
 
 test('withHandlers caches handlers properly', t => {
@@ -69,11 +72,12 @@ test('withHandlers caches handlers properly', t => {
       }
     }
   })
-  const Div = enhance('div')
+
+  const component = sinon.spy(() => null)
+  const Div = enhance(component)
 
   const wrapper = mount(<Div foo="bar" />)
-  const div = wrapper.find('div')
-  const handler = div.prop('handler')
+  const { handler } = component.firstCall.args[0]
 
   // Don't create handler until it is called
   t.is(handlerCreationSpy.callCount, 0)
