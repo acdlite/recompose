@@ -13,7 +13,13 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     props$ = config.fromESObservable({
       subscribe: observer => {
         const unsubscribe = this.propsEmitter.listen(
-          props => observer.next(props)
+          (props) => {
+            if (props) {
+              observer.next(props)
+            } else {
+              observer.complete()
+            }
+          }
         )
         return { unsubscribe }
       },
@@ -45,6 +51,9 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     }
 
     componentWillUnmount() {
+      // Call without arguments to complete stream
+      this.propsEmitter.emit()
+
       // Clean-up subscription before un-mounting
       this.subscription.unsubscribe()
     }

@@ -62,3 +62,35 @@ test('handler multiple observers of props stream', t => {
   wrapper.setProps({ value: 2 })
   t.is(div.prop('value'), 2)
 })
+
+test('complete props stream before unmounting', t => {
+  let counter = 0
+
+  const Div = componentFromStream(props$ => {
+    const first$ = props$
+      .first()
+      .do(() => {
+        counter += 1
+      })
+
+    const last$ = props$
+      .last()
+      .do(() => {
+        counter -= 1
+      })
+      .startWith(null)
+
+    return props$.combineLatest(
+      first$, last$,
+      props1 => <div {...props1} />
+    )
+  })
+
+  const wrapper = mount(<Div />)
+
+  t.is(counter, 1)
+  t.is(wrapper.find('div').length, 1)
+
+  wrapper.unmount()
+  t.is(counter, 0)
+})
