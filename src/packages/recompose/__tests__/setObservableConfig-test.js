@@ -19,7 +19,7 @@ const testTransform = (t, transform) => {
   t.is(div.text(), '716')
 }
 
-test.skip('works with RxJS 5', t => {
+test('works with RxJS 5', t => {
   setObservableConfig(rxjs5Config)
   testTransform(t, props$ =>
     props$.map(({ n }) => <div>{n * 2}</div>)
