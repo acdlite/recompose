@@ -94,3 +94,23 @@ test('complete props stream before unmounting', t => {
   wrapper.unmount()
   t.is(counter, 0)
 })
+
+test('completed props stream should throw an exception', t => {
+  const Div = componentFromStream(props$ => {
+    const first$ = props$
+      .filter(() => false)
+      .first()
+      .startWith(null)
+
+    return props$.combineLatest(
+      first$,
+      props1 => <div {...props1} />
+    )
+  })
+
+  const wrapper = mount(<Div />)
+
+  t.is(wrapper.find('div').length, 1)
+
+  t.throws(() => wrapper.unmount(), /no elements in sequence/)
+})
