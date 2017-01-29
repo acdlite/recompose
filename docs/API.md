@@ -702,8 +702,6 @@ const Counter = componentFromStream(props$ => {
 })
 ```
 
-**Note: As from 0.22.0 `componentFromStream` will complete the stream during unmount and usage of [first](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-first), [last](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-last) or [single](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-single) methods can potentially throw [EmptyError](http://reactivex.io/rxjs/class/es6/util/EmptyError.js~EmptyError.html).**
-
 ### `mapPropsStream()`
 
 ```js
