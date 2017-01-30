@@ -296,11 +296,11 @@ Passes two additional props to the base component: a state value, and a dispatch
 branch(
   test: (props: Object) => boolean,
   left: HigherOrderComponent,
-  right: HigherOrderComponent
+  [right: HigherOrderComponent]
 ): HigherOrderComponent
 ```
 
-Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the `right` higher-order component is applied.
+Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the optional `right` higher-order component is applied or the wrapped component to the returned higher-order component.
 
 ### `renderComponent()`
 
