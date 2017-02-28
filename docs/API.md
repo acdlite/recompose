@@ -222,7 +222,7 @@ const enhance = compose(
 )
 const Abc = enhance(BaseComponent)
 
-// Base component receives props: { a: 'a', b: 'b', c: 'c' }
+// Base component receives props: { a: 'a', b: 'b', c: 'c', object: { a: 'a', b: 'b' } }
 ```
 
 An example use case for `flattenProp()` is when receiving fragment data from Relay. Relay fragments are passed as an object of props, which you often want flattened out into its constituent fields:
