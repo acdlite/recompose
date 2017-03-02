@@ -265,9 +265,14 @@ After that, you can do imports like below without actually including the entire 
 import { compose, mapProps, withState } from 'recompose'
 ```
 
+## Who uses Recompose
+If your company or project uses Recompose, feel free to add it to [the official list of users](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose) by [editing](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) the wiki page.
+
+
 ## Feedback wanted
 
 Project is still in the early stages. Please file an issue or submit a PR if you have suggestions! Or ping me (Andrew Clark) on [Twitter](https://twitter.com/acdlite).
+
 
 ## Getting Help
 
