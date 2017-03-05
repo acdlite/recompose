@@ -261,7 +261,7 @@ The first form accepts a function which maps the previous state value to a new s
 ```js
 const addCounting = compose(
   withState('counter', 'setCounter', 0),
-  withProps({
+  withHandlers({
     increment: ({ setCounter }) => () => setCounter(n => n + 1),
     decrement: ({ setCounter }) => () =>  setCounter(n => n - 1),
     reset: ({ setCounter }) => () => setCounter(0)
