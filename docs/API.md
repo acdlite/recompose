@@ -141,7 +141,7 @@ Takes an object map of handler creators or a factory function. These are higher-
 
 This allows the handler to access the current props via closure, without needing to change its signature.
 
-Handlers are passed to the base component as immutable props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality.
+Handlers are passed to the base component as immutable props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality. This is the main reason to use `withHandlers` to create handlers instead of using `mapProps` or `withProps`, which will create new handlers every time when it get updated.
 
 Usage example:
 
@@ -256,15 +256,15 @@ stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
 stateUpdater(newValue: any, ?callback: Function): void
 ```
 
-The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` or `withProps()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
+The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
 
 ```js
 const addCounting = compose(
   withState('counter', 'setCounter', 0),
-  withProps(({ setCounter }) => ({
-    increment: () => setCounter(n => n + 1),
-    decrement: () => setCounter(n => n - 1),
-    reset: () => setCounter(0)
+  withHandlers({
+    increment: ({ setCounter }) => () => setCounter(n => n + 1),
+    decrement: ({ setCounter }) => () =>  setCounter(n => n - 1),
+    reset: ({ setCounter }) => () => setCounter(0)
   }))
 )
 ```
