@@ -296,11 +296,11 @@ Passes two additional props to the base component: a state value, and a dispatch
 branch(
   test: (props: Object) => boolean,
   left: HigherOrderComponent,
-  right: HigherOrderComponent
+  right: ?HigherOrderComponent
 ): HigherOrderComponent
 ```
 
-Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the `right` higher-order component is applied.
+Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the `right` higher-order component is applied. If the `right` is not supplied, it will by default render the wrapped component.
 
 ### `renderComponent()`
 
@@ -315,18 +315,18 @@ Takes a component and returns a higher-order component version of that component
 This is useful in combination with another helper that expects a higher-order component, like `branch()`:
 
 ```js
-// `hasLoaded()` is a function that returns whether or not the component
-// has all the props it needs
-const spinnerWhileLoading = hasLoaded =>
+// `isLoading()` is a function that returns whether or not the component
+// is in a loading state
+const spinnerWhileLoading = isLoading =>
   branch(
-    props => !hasLoaded(props),
+    isLoading,
     renderComponent(Spinner) // `Spinner` is a React component
   )
 
 // Now use the `spinnerWhileLoading()` helper to add a loading spinner to any
 // base component
 const enhance = spinnerWhileLoading(
-  props => props.title && props.author && props.content
+  props => !(props.title && props.author && props.content)
 )
 const Post = enhance(({ title, author, content }) =>
   <article>
@@ -343,7 +343,31 @@ const Post = enhance(({ title, author, content }) =>
 renderNothing: HigherOrderComponent
 ```
 
-A higher-order component that always renders `null`.
+A higher-order component that always renders `null`. 
+
+This is useful in combination with another helper that expects a higher-order component, like `branch()`:
+
+```js
+// `hasNoData()` is a function that returns true if the component has
+// no data
+const hideIfNoData = hasNoData =>
+  branch(
+    hasNoData,
+    renderNothing
+  )
+
+// Now use the `hideIfNoData()` helper to hide any base component
+const enhance = hideIfNoData(
+  props => !(props.title && props.author && props.content)
+)
+const Post = enhance(({ title, author, content }) =>
+  <article>
+    <h1>{title}</h1>
+    <h2>By {author.name}</h2>
+    <div>{content}</div>
+  </article>
+)
+```
 
 ### `shouldUpdate()`
 
