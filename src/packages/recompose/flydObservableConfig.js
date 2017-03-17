@@ -6,9 +6,9 @@ const noop = () => {}
 const config = {
   fromESObservable: observable => {
     const stream = flyd.stream()
-    const {unsubscribe} = observable.subscribe({
+    const { unsubscribe } = observable.subscribe({
       next: value => stream(value),
-      error: error => stream({error}),
+      error: error => stream({ error }),
       complete: () => stream.end(true)
     })
 
