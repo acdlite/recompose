@@ -844,3 +844,10 @@ setObservableConfig(baconConfig)
 import kefirConfig from 'recompose/kefirObservableConfig'
 setObservableConfig(kefirConfig)
 ```
+
+#### Flyd
+
+```js
+import flydConfig from 'recompose/flydObservableConfig'
+setObservableConfig(flydConfig)
+```
