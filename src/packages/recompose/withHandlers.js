@@ -27,7 +27,7 @@ const withHandlers = handlers => BaseComponent => {
           return cachedHandler(...args)
         }
 
-        const handler = createHandler(this.props)
+        const handler = createHandler(this.props, handlers)
         this.cachedHandlers[handlerName] = handler
 
         if (
