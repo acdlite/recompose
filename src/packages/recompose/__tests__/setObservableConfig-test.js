@@ -7,6 +7,7 @@ import mostConfig from '../mostObservableConfig'
 import xstreamConfig from '../xstreamObservableConfig'
 import baconConfig from '../baconObservableConfig'
 import kefirConfig from '../kefirObservableConfig'
+import flydConfig from '../flydObservableConfig'
 import setObservableConfig from '../setObservableConfig'
 import componentFromStream from '../componentFromStream'
 
@@ -56,6 +57,13 @@ test('works with bacon', t => {
 
 test('works with kefir', t => {
   setObservableConfig(kefirConfig)
+  testTransform(t, props$ =>
+    props$.map(({ n }) => <div>{n * 2}</div>)
+  )
+})
+
+test('works with flyd', t => {
+  setObservableConfig(flydConfig)
   testTransform(t, props$ =>
     props$.map(({ n }) => <div>{n * 2}</div>)
   )
