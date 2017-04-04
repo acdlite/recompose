@@ -89,6 +89,41 @@ mapProps(
 
 Accepts a function that maps owner props to a new collection of props that are passed to the base component.
 
+This allows props to be derived from other props in a similar way to [reselect](https://github.com/reactjs/reselect).
+```js
+const User = ({ name, status }) =>
+  <div className="User">{ name }—{ status }</div>
+
+const UserList = ({ users, status }) =>
+  <div className="UserList">
+    <h3>{ status } users</h3>
+    { users.map((user) => <User {...user} />) }
+  </div>
+
+const users = [
+  { name: "Tim", status: 'active' },
+  { name: "Bob", status: 'active' },
+  { name: "Joe", status: 'active' },
+  { name: "Jim", status: 'inactive' },
+]
+
+const filterByStatus = (status) => mapProps(
+  ({ users }) => ({
+    status,
+    users: users.filter(user => user.status === status)
+  })
+)
+
+const ActiveUsers = filterByStatus('active')(UserList)
+const InactiveUsers = filterByStatus('inactive')(UserList)
+
+const App = () =>
+  <div className="App">
+    <ActiveUsers users={ users } />
+    <InactiveUsers users={ users } />
+  </div>
+```
+
 `mapProps()` pairs well with functional utility libraries like [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp). For example, Recompose does not come with a `omitProps()` function, but you can easily build one using lodash-fp's `omit()`:
 
 ```js
@@ -178,6 +213,18 @@ defaultProps(
 
 Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided to the HoC.
 
+```js
+import classNames from "classnames"
+
+const enhance = defaultProps({ size: "small" })
+
+const Button = enhance({ children, size }) =>
+  <button className={classNames(`button-${size}`)}>
+    { children }
+  </button>
+)
+```
+
 Although it has a similar effect, using the `defaultProps()` HoC is *not* the same as setting the static `defaultProps` property directly on the component.
 
 
@@ -191,6 +238,22 @@ renameProp(
 ```
 
 Renames a single prop.
+
+This can be used to change the API for an imported library match the convention used in a project:
+
+```js
+// Popover is a stateless component with a different prop naming convention.
+// We want to change the API and add local state.
+import { Popover as PopoverOriginal } from "library"
+
+const Popover = compose(
+  renameProp("isOpen", "open"),
+  withState("open", "setOpen", false),
+  withHandlers({
+    onClick: props => () => setOpen(!props.open),
+  }),
+)(PopoverOriginal)
+```
 
 ### `renameProps()`
 
@@ -343,7 +406,7 @@ const Post = enhance(({ title, author, content }) =>
 renderNothing: HigherOrderComponent
 ```
 
-A higher-order component that always renders `null`. 
+A higher-order component that always renders `null`.
 
 This is useful in combination with another helper that expects a higher-order component, like `branch()`:
 
