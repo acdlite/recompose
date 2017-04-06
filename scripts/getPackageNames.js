@@ -1,15 +1,15 @@
-import fs from 'fs'
-import path from 'path'
+const fs = require('fs')
+const path = require('path')
 
-export const PACKAGES_SRC_DIR = './src/packages'
-export const PACKAGES_OUT_DIR = './lib/packages'
+exports.PACKAGES_SRC_DIR = './src/packages'
+exports.PACKAGES_OUT_DIR = './lib/packages'
 
 let names
 
-export const getPackageNames = () => {
+exports.getPackageNames = () => {
   if (!names) {
-    names = fs.readdirSync(PACKAGES_SRC_DIR).filter(
-      file => fs.statSync(path.resolve(PACKAGES_SRC_DIR, file)).isDirectory()
+    names = fs.readdirSync(exports.PACKAGES_SRC_DIR).filter(
+      file => fs.statSync(path.resolve(exports.PACKAGES_SRC_DIR, file)).isDirectory()
     )
   }
   return names
