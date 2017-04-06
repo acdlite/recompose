@@ -1,4 +1,4 @@
-import Relay from 'react-relay'
+import Relay from 'react-relay/classic'
 import toClass from 'recompose/toClass'
 import createHelper from 'recompose/createHelper'
 
