@@ -1,4 +1,4 @@
-import { createClass } from 'react'
+import { Component } from 'react'
 import createHelper from './createHelper'
 import createEagerFactory from './createEagerFactory'
 
@@ -15,17 +15,24 @@ const lifecycle = spec => BaseComponent => {
     )
   }
 
-  /* eslint-disable react/prefer-es6-class */
-  return createClass({
-    ...spec,
+  return class extends Component {
+    constructor(...args) {
+      super(...args)
+
+      Object.keys(spec).forEach(key => {
+        this[key] = typeof spec[key] === 'function'
+          ? spec[key].bind(this)
+          : spec[key]
+      })
+    }
+
     render() {
       return factory({
         ...this.props,
         ...this.state
       })
     }
-  })
-  /* eslint-enable react/prefer-es6-class */
+  }
 }
 
 export default createHelper(lifecycle, 'lifecycle')
