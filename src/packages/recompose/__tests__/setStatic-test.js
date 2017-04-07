@@ -1,5 +1,6 @@
 import test from 'ava'
-import React, { PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { setStatic } from '../'
 
 test('setStatic sets a static property on the base component', t => {

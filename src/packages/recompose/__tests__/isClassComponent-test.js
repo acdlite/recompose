@@ -1,5 +1,6 @@
 import test from 'ava'
 import React, { Component } from 'react'
+import createReactClass from 'create-react-class'
 import isClassComponent from '../isClassComponent'
 
 test('isClassComponent returns false for functions', t => {
@@ -16,7 +17,7 @@ test('isClassComponent returns true for React component classes', t => {
   }
 
   /* eslint-disable react/prefer-es6-class */
-  const Bar = React.createClass({
+  const Bar = createReactClass({
     render() {
       return <div />
     }

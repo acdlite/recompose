@@ -1,5 +1,7 @@
 import test from 'ava'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import createReactClass from 'create-react-class'
+import PropTypes from 'prop-types'
 import isReferentiallyTransparentFunctionComponent
   from '../isReferentiallyTransparentFunctionComponent'
 
@@ -15,7 +17,7 @@ test('isReferentiallyTransparentFunctionComponent returns false for class compon
   }
 
   /* eslint-disable react/prefer-es6-class */
-  const Bar = React.createClass({
+  const Bar = createReactClass({
     render() {
       return <div />
     }
