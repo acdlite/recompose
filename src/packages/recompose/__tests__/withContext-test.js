@@ -1,5 +1,7 @@
 import test from 'ava'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
 import { withContext, getContext, compose, mapProps } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
