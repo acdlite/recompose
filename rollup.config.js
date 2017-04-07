@@ -3,13 +3,6 @@ var babel = require('rollup-plugin-babel')
 var replace = require('rollup-plugin-replace')
 var commonjs = require('rollup-plugin-commonjs')
 
-var reactExternal = {
-  root: 'React',
-  commonjs2: 'react',
-  commonjs: 'react',
-  amd: 'react'
-}
-
 module.exports = {
   external: [
     'react'
