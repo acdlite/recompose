@@ -20,9 +20,7 @@ const lifecycle = spec => BaseComponent => {
       super(...args)
 
       Object.keys(spec).forEach(key => {
-        this[key] = typeof spec[key] === 'function'
-          ? spec[key].bind(this)
-          : spec[key]
+        this[key] = spec[key]
       })
     }
 
