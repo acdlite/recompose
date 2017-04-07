@@ -8,9 +8,6 @@ const semver = require('semver')
 const glob = require('glob')
 const { pascalCase } = require('change-case')
 const { rollup } = require('rollup')
-const nodeResolve = require('rollup-plugin-node-resolve')
-const babel = require('rollup-plugin-babel')
-const replace = require('rollup-plugin-replace')
 const uglify = require('rollup-plugin-uglify')
 const rollupBaseConfig = require('../rollup.config')
 
@@ -65,8 +62,8 @@ const run = async () => {
     (semver.valid(nextVersion) && semver.gt(nextVersion, version))
   )) {
     nextVersion = readline.question(
-      `Must provide a valid version that is greater than ${version}, `
-    + `or leave blank to skip: `
+      `Must provide a valid version that is greater than ${version}, ` +
+      `or leave blank to skip: `
     )
   }
 
@@ -93,7 +90,10 @@ const run = async () => {
     ignore: `${sourceDir}/node_modules/**/*.js`
   }).map(to => path.relative(sourceDir, to))
 
-  exec(`cd ${sourceDir} && ${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} --out-dir ${path.resolve(outDir)}`)
+  exec(
+    `cd ${sourceDir} && ${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} ` +
+    `--out-dir ${path.resolve(outDir)}`
+  )
 
   log('Copying additional project files...')
   const additionalProjectFiles = [
@@ -114,7 +114,7 @@ const run = async () => {
     version: nextVersion,
     ...require(BASE_PACKAGE_LOC),
     ...require(path.resolve(sourceDir, 'package.json')),
-    private: undefined,
+    private: undefined
   }
 
   writeFile(
@@ -124,7 +124,7 @@ const run = async () => {
 
   const buildRollup = config => {
     log(`Building ${config.dest}...`)
-    return rollup(config).then(bundle => bundle.write(config));
+    return rollup(config).then(bundle => bundle.write(config))
   }
 
   const libraryName = pascalCase(packageName)
@@ -153,7 +153,7 @@ const run = async () => {
 
   await Promise.all([
     buildRollup(rollupConfig),
-    buildRollup(rollupMinConfig),
+    buildRollup(rollupMinConfig)
   ])
 
   log(`About to publish ${packageName}@${nextVersion} to npm.`)
