@@ -22,11 +22,7 @@ const config = {
     react: 'React'
   },
   moduleName: libraryName,
-  format: 'umd',
   plugins: [
-    nodeResolve({
-      jsnext: true
-    }),
     babel({
       exclude: 'node_modules/**',
       babelrc: false,
@@ -58,21 +54,46 @@ const config = {
         'babel-plugin-transform-regenerator',
         'babel-plugin-external-helpers'
       ]
-    }),
-    commonjs(),
-    replace({
-      'process.env.NODE_ENV': JSON.stringify('production')
     })
   ]
 }
 
+if (build === 'es') {
+  config.external.push(
+    'fbjs/lib/shallowEqual',
+    'hoist-non-react-statics',
+    'change-emitter',
+    'symbol-observable'
+  )
+  config.dest = `${outDir}/es/${libraryName}.js`
+  config.format = 'es'
+}
+
 if (build === 'umd') {
   config.dest = `${outDir}/build/${libraryName}.js`
+  config.format = 'umd'
+  config.plugins.push(
+    nodeResolve({
+      jsnext: true
+    }),
+    commonjs(),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    })
+  )
 }
 
 if (build === 'min') {
   config.dest = `${outDir}/build/${libraryName}.min.js`
+  config.format = 'umd'
   config.plugins.push(
+    nodeResolve({
+      jsnext: true
+    }),
+    commonjs(),
+    replace({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
     uglify({
       compress: {
         pure_getters: true,

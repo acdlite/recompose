@@ -30,8 +30,8 @@ const writeFile = (filepath, string) => (
 const run = async () => {
   if (exec('git diff-files --quiet').code !== 0) {
     logError(
-      'You have unsaved changes in the working tree. Commit or stash changes ' +
-      'before releasing.'
+      'You have unsaved changes in the working tree. ' +
+      'Commit or stash changes before releasing.'
     )
     exit(1)
   }
@@ -123,7 +123,11 @@ const run = async () => {
   const runRollup = build =>
     'rollup --config scripts/rollup.config.js ' +
     `--environment BUILD:${build},PACKAGE_NAME:${packageName}`
-  if (exec(`${runRollup('umd')} && ${runRollup('min')}`).code !== 0) {
+  if (exec([
+    runRollup('es'),
+    runRollup('umd'),
+    runRollup('min')
+  ].join(' && ')).code !== 0) {
     exit(1)
   }
 
