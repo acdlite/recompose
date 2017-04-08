@@ -19,9 +19,7 @@ const lifecycle = spec => BaseComponent => {
     constructor(...args) {
       super(...args)
 
-      Object.keys(spec).forEach(key => {
-        this[key] = spec[key]
-      })
+      Object.assign(this, spec)
     }
 
     render() {
