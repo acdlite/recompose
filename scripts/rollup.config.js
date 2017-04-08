@@ -1,17 +1,27 @@
+const path = require('path')
 const nodeResolve = require('rollup-plugin-node-resolve')
 const babel = require('rollup-plugin-babel')
 const replace = require('rollup-plugin-replace')
 const commonjs = require('rollup-plugin-commonjs')
+const uglify = require('rollup-plugin-uglify')
+const { pascalCase } = require('change-case')
+const { PACKAGES_SRC_DIR, PACKAGES_OUT_DIR } = require('./getPackageNames')
 
-module.exports = {
+const build = process.env.BUILD
+const packageName = process.env.PACKAGE_NAME
+const libraryName = pascalCase(packageName)
+const sourceDir = path.resolve(PACKAGES_SRC_DIR, packageName)
+const outDir = path.resolve(PACKAGES_OUT_DIR, packageName)
+
+const config = {
+  entry: `${sourceDir}/index.js`,
   external: [
     'react'
   ],
   globals: {
     react: 'React'
   },
-  // Set library in release script
-  // moduleName: 'Recompose',
+  moduleName: libraryName,
   format: 'umd',
   plugins: [
     nodeResolve({
@@ -55,3 +65,24 @@ module.exports = {
     })
   ]
 }
+
+if (build === 'umd') {
+  config.dest = `${outDir}/build/${libraryName}.js`
+}
+
+if (build === 'min') {
+  config.dest = `${outDir}/build/${libraryName}.min.js`
+  config.plugins.push(
+    uglify({
+      compress: {
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true,
+        warnings: false
+      }
+    })
+  )
+}
+
+export default config

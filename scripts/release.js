@@ -1,3 +1,4 @@
+/* eslint global-require: 0 */
 const fs = require('fs')
 const path = require('path')
 const { exec, exit, rm, cp, test } = require('shelljs')
@@ -6,10 +7,6 @@ const { flowRight: compose } = require('lodash')
 const readline = require('readline-sync')
 const semver = require('semver')
 const glob = require('glob')
-const { pascalCase } = require('change-case')
-const { rollup } = require('rollup')
-const uglify = require('rollup-plugin-uglify')
-const rollupBaseConfig = require('../rollup.config')
 
 const BIN = './node_modules/.bin'
 
@@ -46,7 +43,7 @@ const run = async () => {
   while (!packageNames.includes(packageName)) {
     packageName = readline.question(
       `The package "${packageName}" does not exist in this project. ` +
-      `Choose again: `
+      'Choose again: '
     )
   }
 
@@ -63,7 +60,7 @@ const run = async () => {
   )) {
     nextVersion = readline.question(
       `Must provide a valid version that is greater than ${version}, ` +
-      `or leave blank to skip: `
+      'or leave blank to skip: '
     )
   }
 
@@ -122,39 +119,13 @@ const run = async () => {
     JSON.stringify(packageConfig, null, 2)
   )
 
-  const buildRollup = config => {
-    log(`Building ${config.dest}...`)
-    return rollup(config).then(bundle => bundle.write(config))
+  log(`Building ${packageName}...`)
+  const runRollup = build =>
+    'rollup --config scripts/rollup.config.js ' +
+    `--environment BUILD:${build},PACKAGE_NAME:${packageName}`
+  if (exec(`${runRollup('umd')} && ${runRollup('min')}`).code !== 0) {
+    exit(1)
   }
-
-  const libraryName = pascalCase(packageName)
-  const rollupConfig = {
-    ...rollupBaseConfig,
-    entry: path.resolve(sourceDir, 'index.js'),
-    moduleName: libraryName,
-    dest: `${outDir}/build/${libraryName}.js`
-  }
-  const rollupMinConfig = {
-    ...rollupConfig,
-    dest: `${outDir}/build/${libraryName}.min.js`,
-    plugins: [
-      ...rollupConfig.plugins,
-      uglify({
-        compress: {
-          pure_getters: true,
-          unsafe: true,
-          unsafe_comps: true,
-          screw_ie8: true,
-          warnings: false
-        }
-      })
-    ]
-  }
-
-  await Promise.all([
-    buildRollup(rollupConfig),
-    buildRollup(rollupMinConfig)
-  ])
 
   log(`About to publish ${packageName}@${nextVersion} to npm.`)
   if (!readline.keyInYN('Sound good? ')) {

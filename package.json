@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "lint": "eslint src",
+    "lint": "eslint scripts src",
     "test": "ava --concurrency=5",
     "test:watch": "npm run test -- --watch",
     "release": "babel-node scripts/release.js",
