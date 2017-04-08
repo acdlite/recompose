@@ -1,22 +1,23 @@
-import fs from 'fs'
-import path from 'path'
-import { exec, exit, rm, cp, test } from 'shelljs'
-import chalk from 'chalk'
-import { flowRight as compose } from 'lodash'
-import readline from 'readline-sync'
-import semver from 'semver'
-import glob from 'glob'
-import { pascalCase } from 'change-case'
-import webpack from 'webpack'
-import webpackBaseConfig from '../webpack.config'
+const fs = require('fs')
+const path = require('path')
+const { exec, exit, rm, cp, test } = require('shelljs')
+const chalk = require('chalk')
+const { flowRight: compose } = require('lodash')
+const readline = require('readline-sync')
+const semver = require('semver')
+const glob = require('glob')
+const { pascalCase } = require('change-case')
+const { rollup } = require('rollup')
+const uglify = require('rollup-plugin-uglify')
+const rollupBaseConfig = require('../rollup.config')
 
 const BIN = './node_modules/.bin'
 
-import {
+const {
   PACKAGES_SRC_DIR,
   PACKAGES_OUT_DIR,
   getPackageNames
-} from './getPackageNames'
+} = require('./getPackageNames')
 
 const BASE_PACKAGE_LOC = '../src/basePackage.json'
 
@@ -61,8 +62,8 @@ const run = async () => {
     (semver.valid(nextVersion) && semver.gt(nextVersion, version))
   )) {
     nextVersion = readline.question(
-      `Must provide a valid version that is greater than ${version}, `
-    + `or leave blank to skip: `
+      `Must provide a valid version that is greater than ${version}, ` +
+      `or leave blank to skip: `
     )
   }
 
@@ -89,7 +90,10 @@ const run = async () => {
     ignore: `${sourceDir}/node_modules/**/*.js`
   }).map(to => path.relative(sourceDir, to))
 
-  exec(`cd ${sourceDir} && ${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} --out-dir ${path.resolve(outDir)}`)
+  exec(
+    `cd ${sourceDir} && ${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} ` +
+    `--out-dir ${path.resolve(outDir)}`
+  )
 
   log('Copying additional project files...')
   const additionalProjectFiles = [
@@ -110,7 +114,7 @@ const run = async () => {
     version: nextVersion,
     ...require(BASE_PACKAGE_LOC),
     ...require(path.resolve(sourceDir, 'package.json')),
-    private: undefined,
+    private: undefined
   }
 
   writeFile(
@@ -118,44 +122,25 @@ const run = async () => {
     JSON.stringify(packageConfig, null, 2)
   )
 
-  const buildWebpack = config => {
-    return new Promise((resolve, reject) => {
-      log(`Building ${config.output.filename}...`)
-      webpack(config, (err, stats) => {
-        if (err) {
-          return reject(err)
-        }
-        // log(`${config.output.filename} is ${stats.chunks[0].size}`)
-        writeFile(
-          path.resolve(outDir, `build/${config.output.filename}.stats.json`),
-          JSON.stringify(stats.toJson())
-        )
-        resolve()
-      })
-    })
+  const buildRollup = config => {
+    log(`Building ${config.dest}...`)
+    return rollup(config).then(bundle => bundle.write(config))
   }
 
   const libraryName = pascalCase(packageName)
-  const webpackConfig = {
-    ...webpackBaseConfig,
-    entry: [path.resolve(sourceDir, 'index.js')],
-    output: {
-      ...webpackBaseConfig.output,
-      library: libraryName,
-      path: `${outDir}/build`,
-      filename: `${libraryName}.js`
-    }
+  const rollupConfig = {
+    ...rollupBaseConfig,
+    entry: path.resolve(sourceDir, 'index.js'),
+    moduleName: libraryName,
+    dest: `${outDir}/build/${libraryName}.js`
   }
-  const webpackMinConfig = {
-    ...webpackConfig,
-    output: {
-      ...webpackConfig.output,
-      filename: `${libraryName}.min.js`
-    },
+  const rollupMinConfig = {
+    ...rollupConfig,
+    dest: `${outDir}/build/${libraryName}.min.js`,
     plugins: [
-      ...webpackConfig.plugins,
-      new webpack.optimize.UglifyJsPlugin({
-        compressor: {
+      ...rollupConfig.plugins,
+      uglify({
+        compress: {
           pure_getters: true,
           unsafe: true,
           unsafe_comps: true,
@@ -167,8 +152,8 @@ const run = async () => {
   }
 
   await Promise.all([
-    buildWebpack(webpackConfig),
-    buildWebpack(webpackMinConfig),
+    buildRollup(rollupConfig),
+    buildRollup(rollupMinConfig)
   ])
 
   log(`About to publish ${packageName}@${nextVersion} to npm.`)
