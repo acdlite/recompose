@@ -1,4 +1,5 @@
 import createEagerFactory from './createEagerFactory'
+import getDisplayName from './getDisplayName'
 
 const nest = (...Components) => {
   const factories = Components.map(createEagerFactory)
@@ -9,9 +10,6 @@ const nest = (...Components) => {
     )
 
   if (process.env.NODE_ENV !== 'production') {
-    /* eslint-disable global-require */
-    const getDisplayName = require('./getDisplayName').default
-    /* eslint-enable global-require */
     const displayNames = Components.map(getDisplayName)
     Nest.displayName = `nest(${displayNames.join(', ')})`
   }
