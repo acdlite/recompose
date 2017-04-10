@@ -121,7 +121,7 @@ const run = async () => {
 
   log(`Building ${packageName}...`)
   const runRollup = build =>
-    'rollup --config scripts/rollup.config.js ' +
+    'cross-env BABEL_ENV=rollup rollup --config scripts/rollup.config.js ' +
     `--environment BUILD:${build},PACKAGE_NAME:${packageName}`
   if (exec([
     runRollup('es'),
