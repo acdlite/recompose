@@ -9,6 +9,7 @@
     "utilities",
     "composition"
   ],
+  "module": "es/Recompose.js",
   "dependencies": {
     "change-emitter": "^0.1.2",
     "fbjs": "^0.8.1",

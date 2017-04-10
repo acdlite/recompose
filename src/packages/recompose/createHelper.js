@@ -1,3 +1,5 @@
+import wrapDisplayName from './wrapDisplayName'
+
 const createHelper = (
   func,
   helperName,
@@ -5,10 +7,6 @@ const createHelper = (
   noArgs = false
 ) => {
   if (process.env.NODE_ENV !== 'production' && setDisplayName) {
-    /* eslint-disable global-require */
-    const wrapDisplayName = require('./wrapDisplayName').default
-    /* eslint-enable global-require */
-
     if (noArgs) {
       return BaseComponent => {
         const Component = func(BaseComponent)

@@ -1,13 +1,11 @@
 import onlyUpdateForKeys from './onlyUpdateForKeys'
 import createHelper from './createHelper'
+import getDisplayName from './getDisplayName'
 
 const onlyUpdateForPropTypes = BaseComponent => {
   const propTypes = BaseComponent.propTypes
 
   if (process.env.NODE_ENV !== 'production') {
-    /* eslint-disable global-require */
-    const getDisplayName = require('./getDisplayName').default
-    /* eslint-enable global-require */
     if (!propTypes) {
       /* eslint-disable */
       console.error(
