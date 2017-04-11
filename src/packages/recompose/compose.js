@@ -1,4 +1,6 @@
-export default function compose(...funcs) {
+export default function compose(...unfilteredFuncs) {
+  const funcs = unfilteredFuncs.filter(func => typeof func === 'function')
+
   if (funcs.length === 0) {
     return arg => arg
   }
