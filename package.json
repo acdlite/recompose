@@ -9,8 +9,8 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint scripts src",
-    "test": "ava --concurrency=5",
-    "test:watch": "npm run test -- --watch",
+    "test": "cross-env BABEL_ENV=cjs ava --concurrency=5",
+    "test:watch": "npm test -- --watch",
     "release": "babel-node scripts/release.js",
     "postinstall": "babel-node scripts/installNestedPackageDeps.js"
   },
@@ -53,6 +53,7 @@
     "change-case": "^2.3.1",
     "codecov": "^1.0.1",
     "create-react-class": "^15.5.0",
+    "cross-env": "^4.0.0",
     "enzyme": "^2.2.0",
     "eslint": "^2.10.2",
     "eslint-config-airbnb": "9.0.1",

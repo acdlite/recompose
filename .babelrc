@@ -1,30 +1,41 @@
 {
   "plugins": [
-    "babel-plugin-transform-function-bind",
-    "babel-plugin-transform-class-constructor-call",
-    ["babel-plugin-transform-class-properties", { "loose": true }],
-    "babel-plugin-transform-export-extensions",
-    "babel-plugin-syntax-trailing-function-commas",
-    "babel-plugin-transform-object-rest-spread",
-    "babel-plugin-transform-async-to-generator",
+    "transform-function-bind",
+    "transform-class-constructor-call",
+    ["transform-class-properties", { "loose": true }],
+    "transform-export-extensions",
+    "syntax-trailing-function-commas",
+    "transform-object-rest-spread",
+    "transform-async-to-generator",
 
-    "babel-plugin-transform-react-jsx",
-    "babel-plugin-syntax-jsx",
-    "babel-plugin-transform-react-display-name",
+    "transform-react-jsx",
+    "syntax-jsx",
+    "transform-react-display-name",
 
-    ["babel-plugin-transform-es2015-template-literals", { "loose": true }],
-    "babel-plugin-transform-es2015-literals",
-    "babel-plugin-transform-es2015-function-name",
-    "babel-plugin-transform-es2015-arrow-functions",
-    "babel-plugin-transform-es2015-block-scoped-functions",
-    ["babel-plugin-transform-es2015-classes", { "loose": true }],
-    "babel-plugin-transform-es2015-shorthand-properties",
-    ["babel-plugin-transform-es2015-computed-properties", { "loose": true }],
-    ["babel-plugin-transform-es2015-spread", { "loose": true }],
-    "babel-plugin-transform-es2015-parameters",
-    ["babel-plugin-transform-es2015-destructuring", { "loose": true }],
-    "babel-plugin-transform-es2015-block-scoping",
-    ["babel-plugin-transform-es2015-modules-commonjs", { "loose": true }],
-    "babel-plugin-transform-regenerator"
-  ]
+    ["transform-es2015-template-literals", { "loose": true }],
+    "transform-es2015-literals",
+    "transform-es2015-function-name",
+    "transform-es2015-arrow-functions",
+    "transform-es2015-block-scoped-functions",
+    ["transform-es2015-classes", { "loose": true }],
+    "transform-es2015-shorthand-properties",
+    ["transform-es2015-computed-properties", { "loose": true }],
+    ["transform-es2015-spread", { "loose": true }],
+    "transform-es2015-parameters",
+    ["transform-es2015-destructuring", { "loose": true }],
+    "transform-es2015-block-scoping",
+    "transform-regenerator"
+  ],
+  "env": {
+    "cjs": {
+      "plugins": [
+        ["transform-es2015-modules-commonjs", { "loose": true }]
+      ]
+    },
+    "rollup": {
+      "plugins": [
+        "external-helpers"
+      ]
+    }
+  }
 }

@@ -88,7 +88,9 @@ const run = async () => {
   }).map(to => path.relative(sourceDir, to))
 
   exec(
-    `cd ${sourceDir} && ${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} ` +
+    `cd ${sourceDir} && ` +
+    'cross-env BABEL_ENV=cjs ' +
+    `${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} ` +
     `--out-dir ${path.resolve(outDir)}`
   )
 
@@ -121,7 +123,7 @@ const run = async () => {
 
   log(`Building ${packageName}...`)
   const runRollup = build =>
-    'rollup --config scripts/rollup.config.js ' +
+    'cross-env BABEL_ENV=rollup rollup --config scripts/rollup.config.js ' +
     `--environment BUILD:${build},PACKAGE_NAME:${packageName}`
   if (exec([
     runRollup('es'),
