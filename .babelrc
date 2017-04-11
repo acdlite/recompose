@@ -3,27 +3,12 @@
     "transform-function-bind",
     ["transform-class-properties", { "loose": true }],
     "transform-export-extensions",
-    "syntax-trailing-function-commas",
     "transform-object-rest-spread",
-    "transform-async-to-generator",
-
-    "transform-react-jsx",
-    "syntax-jsx",
-    "transform-react-display-name",
-
-    ["transform-es2015-template-literals", { "loose": true }],
-    "transform-es2015-literals",
-    "transform-es2015-function-name",
-    "transform-es2015-arrow-functions",
-    "transform-es2015-block-scoped-functions",
-    ["transform-es2015-classes", { "loose": true }],
-    "transform-es2015-shorthand-properties",
-    ["transform-es2015-computed-properties", { "loose": true }],
-    ["transform-es2015-spread", { "loose": true }],
-    "transform-es2015-parameters",
-    ["transform-es2015-destructuring", { "loose": true }],
-    "transform-es2015-block-scoping",
-    "transform-regenerator"
+    "transform-async-to-generator"
+  ],
+  "presets": [
+    ["es2015", { "loose": true, "modules": false }],
+    "react"
   ],
   "env": {
     "cjs": {
