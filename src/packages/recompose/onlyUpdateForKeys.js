@@ -1,14 +1,9 @@
 import shouldUpdate from './shouldUpdate'
-import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
-import pick from './utils/pick'
+import shallowEqualForKeys from './utils/shallowEqualForKeys'
 
 const onlyUpdateForKeys = propKeys =>
-  shouldUpdate(
-    (props, nextProps) => !shallowEqual(
-      pick(nextProps, propKeys),
-      pick(props, propKeys)
-    )
-  )
+  shouldUpdate((props, nextProps) =>
+    !shallowEqualForKeys(propKeys, nextProps, props))
 
 export default createHelper(onlyUpdateForKeys, 'onlyUpdateForKeys')
