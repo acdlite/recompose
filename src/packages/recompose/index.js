@@ -28,6 +28,7 @@ export setDisplayName from './setDisplayName'
 
 // Composition function
 export compose from './compose'
+export createComponent from './createComponent'
 
 // Other utils
 export getDisplayName from './getDisplayName'
