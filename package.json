@@ -20,7 +20,6 @@
     "babel-core": "^6.5.2",
     "babel-eslint": "^6.0.4",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-plugin-transform-class-properties": "^6.8.0",
     "babel-plugin-transform-export-extensions": "^6.8.0",
     "babel-plugin-transform-function-bind": "^6.8.0",

@@ -27,7 +27,7 @@ const writeFile = (filepath, string) => (
   fs.writeFileSync(filepath, string, 'utf8')
 )
 
-const run = async () => {
+try {
   if (exec('git diff-files --quiet').code !== 0) {
     logError(
       'You have unsaved changes in the working tree. ' +
@@ -166,8 +166,6 @@ const run = async () => {
   exec('git push --tags')
 
   logSuccess('Done.')
-}
-
-run().catch(error => {
+} catch (error) {
   logError('Release failed due to an error', error)
-})
+}

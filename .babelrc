@@ -3,8 +3,7 @@
     "transform-function-bind",
     ["transform-class-properties", { "loose": true }],
     "transform-export-extensions",
-    "transform-object-rest-spread",
-    "transform-async-to-generator"
+    "transform-object-rest-spread"
   ],
   "presets": [
     ["es2015", { "loose": true, "modules": false }],
