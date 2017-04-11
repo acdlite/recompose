@@ -5,8 +5,8 @@ import createEagerFactory from './createEagerFactory'
 const shouldUpdate = test => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
   return class extends Component {
-    shouldComponentUpdate(nextProps) {
-      return test(this.props, nextProps)
+    shouldComponentUpdate(nextProps, nextState) {
+      return test(this.props, nextProps, this.state, nextState)
     }
 
     render() {
