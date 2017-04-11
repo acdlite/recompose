@@ -9,6 +9,7 @@
     "utilities",
     "composition"
   ],
+  "main": "cjs/Recompose.js",
   "module": "es/Recompose.js",
   "dependencies": {
     "change-emitter": "^0.1.2",
