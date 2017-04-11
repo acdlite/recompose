@@ -11,8 +11,8 @@
     "lint": "eslint scripts src",
     "test": "cross-env BABEL_ENV=cjs ava --concurrency=5",
     "test:watch": "npm test -- --watch",
-    "release": "babel-node scripts/release.js",
-    "postinstall": "babel-node scripts/installNestedPackageDeps.js"
+    "release": "node scripts/release.js",
+    "postinstall": "node scripts/installNestedPackageDeps.js"
   },
   "devDependencies": {
     "ava": "^0.17.0",
