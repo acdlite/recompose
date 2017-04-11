@@ -27,7 +27,7 @@
     "transform-regenerator"
   ],
   "env": {
-    "test": {
+    "cjs": {
       "plugins": [
         ["transform-es2015-modules-commonjs", { "loose": true }]
       ]

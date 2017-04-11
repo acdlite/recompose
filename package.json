@@ -9,8 +9,8 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint scripts src",
-    "test": "cross-env BABEL_ENV=test ava --concurrency=5",
-    "test:watch": "npm run test -- --watch",
+    "test": "cross-env BABEL_ENV=cjs ava --concurrency=5",
+    "test:watch": "npm test -- --watch",
     "release": "babel-node scripts/release.js",
     "postinstall": "babel-node scripts/installNestedPackageDeps.js"
   },
