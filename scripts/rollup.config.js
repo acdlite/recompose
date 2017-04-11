@@ -29,15 +29,17 @@ const config = {
   ]
 }
 
-if (build === 'es') {
+if (build === 'es' || build === 'cjs') {
   config.external.push(
     'fbjs/lib/shallowEqual',
     'hoist-non-react-statics',
     'change-emitter',
-    'symbol-observable'
+    'symbol-observable',
+    'react-relay',
+    'recompose'
   )
-  config.dest = `${outDir}/es/${libraryName}.js`
-  config.format = 'es'
+  config.dest = `${outDir}/${build}/${libraryName}.js`
+  config.format = build
 }
 
 if (build === 'umd') {

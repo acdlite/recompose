@@ -127,6 +127,7 @@ const run = async () => {
     `--environment BUILD:${build},PACKAGE_NAME:${packageName}`
   if (exec([
     runRollup('es'),
+    runRollup('cjs'),
     runRollup('umd'),
     runRollup('min')
   ].join(' && ')).code !== 0) {

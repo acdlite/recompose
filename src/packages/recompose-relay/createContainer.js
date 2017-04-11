@@ -1,6 +1,5 @@
 import Relay from 'react-relay'
-import toClass from 'recompose/toClass'
-import createHelper from 'recompose/createHelper'
+import { toClass, createHelper } from 'recompose'
 
 const createContainer = options => BaseComponent =>
   Relay.createContainer(toClass(BaseComponent), options)

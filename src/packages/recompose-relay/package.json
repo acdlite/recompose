@@ -14,6 +14,7 @@
     "utilities",
     "composition"
   ],
+  "main": "cjs/RecomposeRelay.js",
   "module": "es/RecomposeRelay.js",
   "dependencies": {
     "lodash": "^4.0.0"
