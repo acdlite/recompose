@@ -1,6 +1,5 @@
 {
   "plugins": [
-    "transform-function-bind",
     ["transform-class-properties", { "loose": true }],
     "transform-export-extensions",
     "transform-object-rest-spread"
