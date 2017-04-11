@@ -108,10 +108,11 @@ try {
   })
 
   log('Generating package.json...')
-  const packageConfig = Object.assign({
-    name: packageName,
-    version: nextVersion
-  }, require(BASE_PACKAGE_LOC), require(path.resolve(sourceDir, 'package.json')))
+  const packageConfig = Object.assign(
+    { name: packageName, version: nextVersion },
+    require(BASE_PACKAGE_LOC),
+    require(path.resolve(sourceDir, 'package.json'))
+  )
 
   writeFile(
     path.resolve(outDir, 'package.json'),
