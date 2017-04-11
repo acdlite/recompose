@@ -52,6 +52,7 @@ const PureComponent = pure(BaseComponent)
   + [`onlyUpdateForKeys()`](#onlyupdateforkeys)
   + [`onlyUpdateForPropTypes()`](#onlyupdateforproptypes)
   + [`withContext()`](#withcontext)
+  + [`withRefs()`](#withrefs)
   + [`getContext()`](#getcontext)
   + [`lifecycle()`](#lifecycle)
   + [`toClass()`](#toclass)
@@ -459,6 +460,35 @@ withContext(
 ```
 
 Provides context to the component's children. `childContextTypes` is an object of React prop types. `getChildContext()` is a function that returns the child context. Use along with `getContext()`.
+
+### `withRefs()`
+
+```js
+withRefs(
+  refsMap: {
+    [refName: string]: refCallbackName: string
+  }
+): HigherOrderComponent
+```
+
+Provides ref callbacks with specified in `refsMap` names and `refs` prop,
+containing object with refs, initialized using those callbacks,
+which become accessible after the component is mounted.
+
+Usage example:
+
+```js
+const enhance = compose(
+  withRefs({ textInput: 'textInputRefCallback' }),
+  lifecycle({
+    componentDidMount() {
+      this.props.refs.textInput.focus();
+    }
+  })
+)(({ initTextInputRef }) => (
+  <input type="text" ref={textInputRefCallback} />
+))
+```
 
 ### `getContext()`
 
