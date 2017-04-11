@@ -282,7 +282,7 @@ withReducer<S, A>(
   stateName: string,
   dispatchName: string,
   reducer: (state: S, action: A) => S,
-  initialState: S
+  initialState: S | (ownerProps: Object) => S
 ): HigherOrderComponent
 ```
 
