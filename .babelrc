@@ -1,7 +1,6 @@
 {
   "plugins": [
     "transform-function-bind",
-    "transform-class-constructor-call",
     ["transform-class-properties", { "loose": true }],
     "transform-export-extensions",
     "syntax-trailing-function-commas",
