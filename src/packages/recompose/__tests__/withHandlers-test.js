@@ -116,9 +116,8 @@ test.serial('withHandlers warns if handler is not a higher-order function', t =>
 
   t.throws(() => button.simulate('click'), /undefined/)
 
-  // TODO return back after enzyme update error.firstCall.args[0]
   t.is(
-    error.thirdCall.args[0],
+    error.firstCall.args[0],
     'withHandlers(): Expected a map of higher-order functions. Refer to ' +
     'the docs for more info.'
   )
