@@ -2,4 +2,3 @@ node_modules
 release
 lib
 coverage
-.nyc_output
