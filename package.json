@@ -16,7 +16,7 @@
   },
   "jest": {
     "testMatch": [
-      "**/__tests__/**/*-test.js"
+      "<rootDir>/src/**/__tests__/**/*-test.js"
     ],
     "coverageReporters": [
       "text-summary",
