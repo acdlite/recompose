@@ -1,10 +1,9 @@
-import test from 'ava'
 import React from 'react'
 import { withPropsOnChange, withState, flattenProp, compose } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
-test('withPropsOnChange maps subset of owner props to child props', t => {
+test('withPropsOnChange maps subset of owner props to child props', () => {
   const component = sinon.spy(() => null)
   component.displayName = 'component'
 
@@ -24,27 +23,24 @@ test('withPropsOnChange maps subset of owner props to child props', t => {
     )
   )(component)
 
-  t.is(
-    StringConcat.displayName,
-    'withState(flattenProp(withPropsOnChange(component)))'
-  )
+  expect(StringConcat.displayName).toBe('withState(flattenProp(withPropsOnChange(component)))')
 
   mount(<StringConcat />)
   const { updateStrings } = component.firstCall.args[0]
-  t.is(component.lastCall.args[0].foobar, 'ab')
-  t.true(component.calledOnce)
-  t.is(mapSpy.callCount, 1)
+  expect(component.lastCall.args[0].foobar).toBe('ab')
+  expect(component.calledOnce).toBe(true)
+  expect(mapSpy.callCount).toBe(1)
 
   // Does not re-map for non-dependent prop updates
   updateStrings(strings => ({ ...strings, c: 'baz' }))
-  t.is(component.lastCall.args[0].foobar, 'ab')
-  t.is(component.lastCall.args[0].c, 'c')
-  t.true(component.calledTwice)
-  t.is(mapSpy.callCount, 1)
+  expect(component.lastCall.args[0].foobar).toBe('ab')
+  expect(component.lastCall.args[0].c).toBe('c')
+  expect(component.calledTwice).toBe(true)
+  expect(mapSpy.callCount).toBe(1)
 
   updateStrings(strings => ({ ...strings, a: 'foo', b: 'bar' }))
-  t.is(component.lastCall.args[0].foobar, 'foobar')
-  t.is(component.lastCall.args[0].c, 'baz')
-  t.true(component.calledThrice)
-  t.is(mapSpy.callCount, 2)
+  expect(component.lastCall.args[0].foobar).toBe('foobar')
+  expect(component.lastCall.args[0].c).toBe('baz')
+  expect(component.calledThrice).toBe(true)
+  expect(mapSpy.callCount).toBe(2)
 })

@@ -1,4 +1,3 @@
-import test from 'ava'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -6,7 +5,7 @@ import { withContext, getContext, compose, mapProps } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
-test('withContext + getContext adds to and grabs from context', t => {
+test('withContext + getContext adds to and grabs from context', () => {
   // Mini React Redux clone
   const store = {
     getState: () => ({
@@ -32,7 +31,7 @@ test('withContext + getContext adds to and grabs from context', t => {
     )
   )(BaseProvider)
 
-  t.is(Provider.displayName, 'withContext(BaseProvider)')
+  expect(Provider.displayName).toBe('withContext(BaseProvider)')
 
   const connect = selector => compose(
     getContext({ store: PropTypes.object }),
@@ -44,7 +43,7 @@ test('withContext + getContext adds to and grabs from context', t => {
 
   const TodoList = connect(({ todos }) => ({ todos }))(component)
 
-  t.is(TodoList.displayName, 'getContext(mapProps(component))')
+  expect(TodoList.displayName).toBe('getContext(mapProps(component))')
 
   mount(
     <Provider store={store}>
@@ -52,5 +51,5 @@ test('withContext + getContext adds to and grabs from context', t => {
     </Provider>
   )
 
-  t.deepEqual(component.lastCall.args[0].todos, ['eat', 'drink', 'sleep'])
+  expect(component.lastCall.args[0].todos).toEqual(['eat', 'drink', 'sleep'])
 })

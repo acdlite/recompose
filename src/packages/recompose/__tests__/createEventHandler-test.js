@@ -1,7 +1,6 @@
-import test from 'ava'
 import { createEventHandler } from '../'
 
-test('createEventHandler creates an event handler and a corresponding stream', t => {
+test('createEventHandler creates an event handler and a corresponding stream', () => {
   const result = []
   const { stream, handler } = createEventHandler()
   const subscription = stream.subscribe({ next: v => result.push(v) })
@@ -11,10 +10,10 @@ test('createEventHandler creates an event handler and a corresponding stream', t
   handler(3)
 
   subscription.unsubscribe()
-  t.deepEqual(result, [1, 2, 3])
+  expect(result).toEqual([1, 2, 3])
 })
 
-test('handles multiple subscribers', t => {
+test('handles multiple subscribers', () => {
   const result1 = []
   const result2 = []
   const { handler, stream } = createEventHandler()
@@ -28,6 +27,6 @@ test('handles multiple subscribers', t => {
   subscription1.unsubscribe()
   subscription2.unsubscribe()
 
-  t.deepEqual(result1, [1, 2, 3])
-  t.deepEqual(result2, [1, 2, 3])
+  expect(result1).toEqual([1, 2, 3])
+  expect(result2).toEqual([1, 2, 3])
 })

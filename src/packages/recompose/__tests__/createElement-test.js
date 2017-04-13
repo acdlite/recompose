@@ -1,9 +1,8 @@
-import test from 'ava'
 import React, { Component } from 'react'
 import createEagerElement from '../createEagerElement'
 import { shallow } from 'enzyme'
 
-test('createEagerElement treats class components normally', t => {
+test('createEagerElement treats class components normally', () => {
   class InnerDiv extends Component {
     render() {
       return <div data-bar="baz" />
@@ -20,14 +19,14 @@ test('createEagerElement treats class components normally', t => {
 
   const wrapper = shallow(<OuterDiv />)
 
-  t.true(wrapper.equals(
+  expect(wrapper.equals(
     <div data-foo="bar">
       <InnerDiv />
     </div>
-  ))
+  )).toBe(true)
 })
 
-test('createEagerElement calls stateless function components instead of creating an intermediate React element', t => {
+test('createEagerElement calls stateless function components instead of creating an intermediate React element', () => {
   const InnerDiv = () => <div data-bar="baz" />
   const OuterDiv = () =>
     createEagerElement('div', { 'data-foo': 'bar' },
@@ -39,14 +38,14 @@ test('createEagerElement calls stateless function components instead of creating
   // Notice the difference between this and the previous test. Functionally,
   // they're the same, but because we're using stateless function components
   // here, createEagerElement() can take advantage of referential transparency
-  t.true(wrapper.equals(
+  expect(wrapper.equals(
     <div data-foo="bar">
       <div data-bar="baz" />
     </div>
-  ))
+  )).toBe(true)
 })
 
-test('createEagerElement handles keyed elements correctly', t => {
+test('createEagerElement handles keyed elements correctly', () => {
   const InnerDiv = () => <div data-bar="baz" />
   const Div = () => createEagerElement(
     InnerDiv,
@@ -55,12 +54,12 @@ test('createEagerElement handles keyed elements correctly', t => {
 
   const wrapper = shallow(<Div />)
 
-  t.true(wrapper.equals(
+  expect(wrapper.equals(
     <InnerDiv data-foo="bar" key="key" />
-  ))
+  )).toBe(true)
 })
 
-test('createEagerElement passes children correctly', t => {
+test('createEagerElement passes children correctly', () => {
   const Div = props => <div {...props} />
   const InnerDiv = () => <div data-bar="baz" />
   const OuterDiv = () =>
@@ -70,9 +69,9 @@ test('createEagerElement passes children correctly', t => {
 
   const wrapper = shallow(<OuterDiv />)
 
-  t.true(wrapper.equals(
+  expect(wrapper.equals(
     <div data-foo="bar">
       <div data-bar="baz" />
     </div>
-  ))
+  )).toBe(true)
 })

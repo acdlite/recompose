@@ -1,30 +1,29 @@
-import test from 'ava'
 import React from 'react'
 import { withState } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
-test('withState adds a stateful value and a function for updating it', t => {
+test('withState adds a stateful value and a function for updating it', () => {
   const component = sinon.spy(() => null)
   component.displayName = 'component'
 
   const Counter = withState('counter', 'updateCounter', 0)(component)
-  t.is(Counter.displayName, 'withState(component)')
+  expect(Counter.displayName).toBe('withState(component)')
 
   mount(<Counter pass="through" />)
   const { updateCounter } = component.firstCall.args[0]
 
-  t.is(component.lastCall.args[0].counter, 0)
-  t.is(component.lastCall.args[0].pass, 'through')
+  expect(component.lastCall.args[0].counter).toBe(0)
+  expect(component.lastCall.args[0].pass).toBe('through')
 
   updateCounter(n => n + 9)
   updateCounter(n => n * 2)
 
-  t.is(component.lastCall.args[0].counter, 18)
-  t.is(component.lastCall.args[0].pass, 'through')
+  expect(component.lastCall.args[0].counter).toBe(18)
+  expect(component.lastCall.args[0].pass).toBe('through')
 })
 
-test('withState also accepts a non-function, which is passed directly to setState()', t => {
+test('withState also accepts a non-function, which is passed directly to setState()', () => {
   const component = sinon.spy(() => null)
   component.displayName = 'component'
 
@@ -33,10 +32,10 @@ test('withState also accepts a non-function, which is passed directly to setStat
   const { updateCounter } = component.firstCall.args[0]
 
   updateCounter(18)
-  t.is(component.lastCall.args[0].counter, 18)
+  expect(component.lastCall.args[0].counter).toBe(18)
 })
 
-test('withState accepts setState() callback', t => {
+test('withState accepts setState() callback', () => {
   const component = sinon.spy(() => null)
   component.displayName = 'component'
 
@@ -45,14 +44,14 @@ test('withState accepts setState() callback', t => {
   const { updateCounter } = component.firstCall.args[0]
 
   const renderSpy = sinon.spy(() => {
-    t.is(component.lastCall.args[0].counter, 18)
+    expect(component.lastCall.args[0].counter).toBe(18)
   })
 
-  t.is(component.lastCall.args[0].counter, 0)
+  expect(component.lastCall.args[0].counter).toBe(0)
   updateCounter(18, renderSpy)
 })
 
-test('withState also accepts initialState as function of props', t => {
+test('withState also accepts initialState as function of props', () => {
   const component = sinon.spy(() => null)
   component.displayName = 'component'
 
@@ -65,7 +64,7 @@ test('withState also accepts initialState as function of props', t => {
   mount(<Counter initialCounter={1} />)
   const { updateCounter } = component.firstCall.args[0]
 
-  t.is(component.lastCall.args[0].counter, 1)
+  expect(component.lastCall.args[0].counter).toBe(1)
   updateCounter(n => n * 3)
-  t.is(component.lastCall.args[0].counter, 3)
+  expect(component.lastCall.args[0].counter).toBe(3)
 })

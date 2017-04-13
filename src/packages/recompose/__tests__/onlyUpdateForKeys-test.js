@@ -1,10 +1,9 @@
-import test from 'ava'
 import React from 'react'
 import { onlyUpdateForKeys, compose, withState } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
-test('onlyUpdateForKeys implements shouldComponentUpdate()', t => {
+test('onlyUpdateForKeys implements shouldComponentUpdate()', () => {
   const component = sinon.spy(() => null)
   component.displayName = 'component'
 
@@ -14,23 +13,20 @@ test('onlyUpdateForKeys implements shouldComponentUpdate()', t => {
     onlyUpdateForKeys(['counter'])
   )(component)
 
-  t.is(
-    Counter.displayName,
-    'withState(withState(onlyUpdateForKeys(component)))'
-  )
+  expect(Counter.displayName).toBe('withState(withState(onlyUpdateForKeys(component)))')
 
   mount(<Counter />)
   const { updateCounter, updateFoobar } = component.firstCall.args[0]
 
-  t.is(component.lastCall.args[0].counter, 0)
-  t.is(component.lastCall.args[0].foobar, 'foobar')
+  expect(component.lastCall.args[0].counter).toBe(0)
+  expect(component.lastCall.args[0].foobar).toBe('foobar')
 
   // Does not update
   updateFoobar('barbaz')
-  t.true(component.calledOnce)
+  expect(component.calledOnce).toBe(true)
 
   updateCounter(42)
-  t.true(component.calledTwice)
-  t.is(component.lastCall.args[0].counter, 42)
-  t.is(component.lastCall.args[0].foobar, 'barbaz')
+  expect(component.calledTwice).toBe(true)
+  expect(component.lastCall.args[0].counter).toBe(42)
+  expect(component.lastCall.args[0].foobar).toBe('barbaz')
 })
