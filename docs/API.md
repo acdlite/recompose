@@ -58,6 +58,7 @@ const PureComponent = pure(BaseComponent)
 * [Static property helpers](#static-property-helpers)
   + [`setStatic()`](#setstatic)
   + [`setPropTypes()`](#setproptypes)
+  + [`withPropTypes()`](#addproptypes)
   + [`setDisplayName()`](#setdisplayname)
 * [Utilities](#utilities)
   + [`compose()`](#compose)
@@ -511,11 +512,17 @@ Assigns a value to a static property on the base component.
 
 ```js
 setPropTypes(
-  propTypes: Object
+  propTypes: Object | (propTypes: Object) => Object
 ): HigherOrderComponent
 ```
 
-Assigns to the `propTypes` property on the base component.
+Assigns to the `propTypes` property on the base component. If propTypes is a function,
+the function will be called with the current propTypes of the HoC and the results
+will be assigned instead.
+
+### `withPropTypes()`
+
+Just an alias to [`setPropTypes()`](#setproptypes)
 
 ### `setDisplayName()`
 
