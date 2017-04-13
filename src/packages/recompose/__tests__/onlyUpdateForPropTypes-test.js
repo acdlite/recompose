@@ -40,20 +40,17 @@ test('onlyUpdateForPropTypes only updates for props specified in propTypes', () 
   expect(component.lastCall.args[0].foobar).toBe('barbaz')
 })
 
-test(
-  'onlyUpdateForPropTypes warns if BaseComponent does not have any propTypes',
-  () => {
-    const error = sinon.stub(console, 'error')
-    const ShouldWarn = onlyUpdateForPropTypes('div')
+test('onlyUpdateForPropTypes warns if BaseComponent does not have any propTypes', () => {
+  const error = sinon.stub(console, 'error')
+  const ShouldWarn = onlyUpdateForPropTypes('div')
 
-    shallow(<ShouldWarn />)
+  shallow(<ShouldWarn />)
 
-    expect(error.firstCall.args[0]).toBe('A component without any `propTypes` was passed to ' +
-    '`onlyUpdateForPropTypes()`. Check the implementation of the component ' +
-    'with display name "div".')
+  expect(error.firstCall.args[0]).toBe('A component without any `propTypes` was passed to ' +
+  '`onlyUpdateForPropTypes()`. Check the implementation of the component ' +
+  'with display name "div".')
 
-    /* eslint-disable */
-    console.error.restore()
-    /* eslint-enable */
-  }
-)
+  /* eslint-disable */
+  console.error.restore()
+  /* eslint-enable */
+})
