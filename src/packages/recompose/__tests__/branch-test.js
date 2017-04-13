@@ -1,10 +1,9 @@
 import sinon from 'sinon'
-import test from 'ava'
 import React from 'react'
 import { branch, compose, withState, withProps } from '../'
 import { mount } from 'enzyme'
 
-test('branch tests props and applies one of two HoCs, for true and false', t => {
+test('branch tests props and applies one of two HoCs, for true and false', () => {
   const SayMyName = compose(
     withState('isBad', 'updateIsBad', false),
     branch(
@@ -20,23 +19,23 @@ test('branch tests props and applies one of two HoCs, for true and false', t => 
     </div>
   )
 
-  t.is(SayMyName.displayName, 'withState(branch(Component))')
+  expect(SayMyName.displayName).toBe('withState(branch(Component))')
 
   const wrapper = mount(<SayMyName />)
   const getIsBad = () => wrapper.find('.isBad').text()
   const getName = () => wrapper.find('.name').text()
   const toggle = wrapper.find('button')
 
-  t.is(getIsBad(), 'false')
-  t.is(getName(), 'Walter')
+  expect(getIsBad()).toBe('false')
+  expect(getName()).toBe('Walter')
 
   toggle.simulate('click')
 
-  t.is(getIsBad(), 'true')
-  t.is(getName(), 'Heisenberg')
+  expect(getIsBad()).toBe('true')
+  expect(getName()).toBe('Heisenberg')
 })
 
-test('branch defaults third argument to identity function', t => {
+test('branch defaults third argument to identity function', () => {
   const Left = () => <div className="left">Left</div>
   const Right = () => <div className="right">Right</div>
 
@@ -48,10 +47,10 @@ test('branch defaults third argument to identity function', t => {
   const wrapper = mount(<BranchedComponent />)
   const right = wrapper.find('.right').text()
 
-  t.is(right, 'Right')
+  expect(right).toBe('Right')
 })
 
-test('branch third argument should not cause console error', t => {
+test('branch third argument should not cause console error', () => {
   const error = sinon.stub(console, 'error')
   const Component = () => <div className="right">Component</div>
 
@@ -63,7 +62,7 @@ test('branch third argument should not cause console error', t => {
 
   mount(<BranchedComponent />)
 
-  t.is(error.called, false)
+  expect(error.called).toBe(false)
 
   /* eslint-disable */
   error.restore()

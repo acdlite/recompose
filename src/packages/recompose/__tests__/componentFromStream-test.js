@@ -1,4 +1,3 @@
-import test from 'ava'
 import React from 'react'
 import { mount } from 'enzyme'
 import { Observable, Subject } from 'rxjs'
@@ -8,18 +7,18 @@ import componentFromStream from '../componentFromStream'
 
 setObservableConfig(rxjsConfig)
 
-test('componentFromStream creates a component from a prop stream transformation', t => {
+test('componentFromStream creates a component from a prop stream transformation', () => {
   const Double = componentFromStream(props$ =>
     props$.map(({ n }) => <div>{n * 2}</div>)
   )
   const wrapper = mount(<Double n={112} />)
   const div = wrapper.find('div')
-  t.is(div.text(), '224')
+  expect(div.text()).toBe('224')
   wrapper.setProps({ n: 358 })
-  t.is(div.text(), '716')
+  expect(div.text()).toBe('716')
 })
 
-test('componentFromStream unsubscribes from stream before unmounting', t => {
+test('componentFromStream unsubscribes from stream before unmounting', () => {
   let subscriptions = 0
   const vdom$ = new Observable(observer => {
     subscriptions += 1
@@ -32,21 +31,21 @@ test('componentFromStream unsubscribes from stream before unmounting', t => {
   })
   const Div = componentFromStream(() => vdom$)
   const wrapper = mount(<Div />)
-  t.is(subscriptions, 1)
+  expect(subscriptions).toBe(1)
   wrapper.unmount()
-  t.is(subscriptions, 0)
+  expect(subscriptions).toBe(0)
 })
 
-test('componentFromStream renders nothing until the stream emits a value', t => {
+test('componentFromStream renders nothing until the stream emits a value', () => {
   const vdom$ = new Subject()
   const Div = componentFromStream(() => vdom$.mapTo(<div />))
   const wrapper = mount(<Div />)
-  t.is(wrapper.find('div').length, 0)
+  expect(wrapper.find('div').length).toBe(0)
   vdom$.next()
-  t.is(wrapper.find('div').length, 1)
+  expect(wrapper.find('div').length).toBe(1)
 })
 
-test('handler multiple observers of props stream', t => {
+test('handler multiple observers of props stream', () => {
   const Div = componentFromStream(props$ =>
     // Adds three observers to props stream
     props$.combineLatest(
@@ -58,12 +57,12 @@ test('handler multiple observers of props stream', t => {
   const wrapper = mount(<Div value={1} />)
   const div = wrapper.find('div')
 
-  t.is(div.prop('value'), 1)
+  expect(div.prop('value')).toBe(1)
   wrapper.setProps({ value: 2 })
-  t.is(div.prop('value'), 2)
+  expect(div.prop('value')).toBe(2)
 })
 
-test('complete props stream before unmounting', t => {
+test('complete props stream before unmounting', () => {
   let counter = 0
 
   const Div = componentFromStream(props$ => {
@@ -88,14 +87,14 @@ test('complete props stream before unmounting', t => {
 
   const wrapper = mount(<Div />)
 
-  t.is(counter, 1)
-  t.is(wrapper.find('div').length, 1)
+  expect(counter).toBe(1)
+  expect(wrapper.find('div').length).toBe(1)
 
   wrapper.unmount()
-  t.is(counter, 0)
+  expect(counter).toBe(0)
 })
 
-test('completed props stream should throw an exception', t => {
+test('completed props stream should throw an exception', () => {
   const Div = componentFromStream(props$ => {
     const first$ = props$
       .filter(() => false)
@@ -110,7 +109,7 @@ test('completed props stream should throw an exception', t => {
 
   const wrapper = mount(<Div />)
 
-  t.is(wrapper.find('div').length, 1)
+  expect(wrapper.find('div').length).toBe(1)
 
-  t.throws(() => wrapper.unmount(), /no elements in sequence/)
+  expect(() => wrapper.unmount()).toThrowError(/no elements in sequence/)
 })

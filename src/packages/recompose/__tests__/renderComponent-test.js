@@ -1,10 +1,9 @@
-import test from 'ava'
 import React from 'react'
 import { renderComponent, withState, compose, branch } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
-test('renderComponent always renders the given component', t => {
+test('renderComponent always renders the given component', () => {
   const componentA = sinon.spy(() => null)
   const componentB = sinon.spy(() => null)
 
@@ -20,10 +19,10 @@ test('renderComponent always renders the given component', t => {
   mount(<Foobar />)
   const { updateFlip } = componentB.firstCall.args[0]
 
-  t.true(componentB.calledOnce)
-  t.true(componentA.notCalled)
+  expect(componentB.calledOnce).toBe(true)
+  expect(componentA.notCalled).toBe(true)
 
   updateFlip(true)
-  t.true(componentB.calledOnce)
-  t.true(componentA.calledOnce)
+  expect(componentB.calledOnce).toBe(true)
+  expect(componentA.calledOnce).toBe(true)
 })

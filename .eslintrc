@@ -3,7 +3,8 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "globals": {
     "sinon": true
@@ -16,7 +17,7 @@
     "no-underscore-dangle": [0],
     "no-confusing-arrow": [0],
     "no-class-assign": [0],
-    "max-len": ["error", { "ignorePattern": "^test", "ignoreUrls": true }],
+    "max-len": ["error", { "code": 120, "ignorePattern": "^test", "ignoreUrls": true }],
     "import/no-unresolved": [0],
     "react/prop-types": [0],
     "react/prefer-stateless-function": [0],

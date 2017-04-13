@@ -1,15 +1,14 @@
-import test from 'ava'
 import React, { Component } from 'react'
 import createReactClass from 'create-react-class'
 import isClassComponent from '../isClassComponent'
 
-test('isClassComponent returns false for functions', t => {
+test('isClassComponent returns false for functions', () => {
   const Foo = () => <div />
 
-  t.false(isClassComponent(Foo))
+  expect(isClassComponent(Foo)).toBe(false)
 })
 
-test('isClassComponent returns true for React component classes', t => {
+test('isClassComponent returns true for React component classes', () => {
   class Foo extends Component {
     render() {
       return <div />
@@ -24,6 +23,6 @@ test('isClassComponent returns true for React component classes', t => {
   })
   /* eslint-enable react/prefer-es6-class */
 
-  t.true(isClassComponent(Foo))
-  t.true(isClassComponent(Bar))
+  expect(isClassComponent(Foo)).toBe(true)
+  expect(isClassComponent(Bar)).toBe(true)
 })

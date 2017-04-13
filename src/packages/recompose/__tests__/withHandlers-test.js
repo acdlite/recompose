@@ -1,10 +1,9 @@
-import test from 'ava'
 import React from 'react'
 import { mount } from 'enzyme'
 import { withHandlers, withState, compose } from '../'
 import sinon from 'sinon'
 
-test('withHandlers passes handlers to base component', t => {
+test('withHandlers passes handlers to base component', () => {
   let submittedFormValue
   const enhanceForm = compose(
     withState('value', 'updateValue', ''),
@@ -34,16 +33,16 @@ test('withHandlers passes handlers to base component', t => {
   const form = wrapper.find('form')
 
   input.simulate('change', { target: { value: 'Yay' } })
-  t.is(output.text(), 'Yay')
+  expect(output.text()).toBe('Yay')
 
   input.simulate('change', { target: { value: 'Yay!!' } })
-  t.is(output.text(), 'Yay!!')
+  expect(output.text()).toBe('Yay!!')
 
   form.simulate('submit')
-  t.is(submittedFormValue, 'Yay!!')
+  expect(submittedFormValue).toBe('Yay!!')
 })
 
-test('withHandlers passes immutable handlers', t => {
+test('withHandlers passes immutable handlers', () => {
   const enhance = withHandlers({
     handler: () => () => null
   })
@@ -53,14 +52,11 @@ test('withHandlers passes immutable handlers', t => {
   const wrapper = mount(<Div />)
   wrapper.setProps({ foo: 'bar' })
 
-  t.true(component.calledTwice)
-  t.is(
-    component.firstCall.args[0].handler,
-    component.secondCall.args[0].handler
-  )
+  expect(component.calledTwice).toBe(true)
+  expect(component.firstCall.args[0].handler).toBe(component.secondCall.args[0].handler)
 })
 
-test('withHandlers caches handlers properly', t => {
+test('withHandlers caches handlers properly', () => {
   const handlerCreationSpy = sinon.spy()
   const handlerCallSpy = sinon.spy()
 
@@ -80,31 +76,31 @@ test('withHandlers caches handlers properly', t => {
   const { handler } = component.firstCall.args[0]
 
   // Don't create handler until it is called
-  t.is(handlerCreationSpy.callCount, 0)
-  t.is(handlerCallSpy.callCount, 0)
+  expect(handlerCreationSpy.callCount).toBe(0)
+  expect(handlerCallSpy.callCount).toBe(0)
 
   handler(1)
-  t.is(handlerCreationSpy.callCount, 1)
-  t.deepEqual(handlerCreationSpy.args[0], [{ foo: 'bar' }])
-  t.is(handlerCallSpy.callCount, 1)
-  t.deepEqual(handlerCallSpy.args[0], [1])
+  expect(handlerCreationSpy.callCount).toBe(1)
+  expect(handlerCreationSpy.args[0]).toEqual([{ foo: 'bar' }])
+  expect(handlerCallSpy.callCount).toBe(1)
+  expect(handlerCallSpy.args[0]).toEqual([1])
 
   // Props haven't changed; should use cached handler
   handler(2)
-  t.is(handlerCreationSpy.callCount, 1)
-  t.is(handlerCallSpy.callCount, 2)
-  t.deepEqual(handlerCallSpy.args[1], [2])
+  expect(handlerCreationSpy.callCount).toBe(1)
+  expect(handlerCallSpy.callCount).toBe(2)
+  expect(handlerCallSpy.args[1]).toEqual([2])
 
   wrapper.setProps({ foo: 'baz' })
   handler(3)
   // Props did change; handler should be recreated
-  t.is(handlerCreationSpy.callCount, 2)
-  t.deepEqual(handlerCreationSpy.args[1], [{ foo: 'baz' }])
-  t.is(handlerCallSpy.callCount, 3)
-  t.deepEqual(handlerCallSpy.args[2], [3])
+  expect(handlerCreationSpy.callCount).toBe(2)
+  expect(handlerCreationSpy.args[1]).toEqual([{ foo: 'baz' }])
+  expect(handlerCallSpy.callCount).toBe(3)
+  expect(handlerCallSpy.args[2]).toEqual([3])
 })
 
-test.serial('withHandlers warns if handler is not a higher-order function', t => {
+test('withHandlers warns if handler is not a higher-order function', () => {
   const error = sinon.stub(console, 'error')
 
   const Button = withHandlers({
@@ -114,20 +110,17 @@ test.serial('withHandlers warns if handler is not a higher-order function', t =>
   const wrapper = mount(<Button />)
   const button = wrapper.find('button')
 
-  t.throws(() => button.simulate('click'), /undefined/)
+  expect(() => button.simulate('click')).toThrowError(/undefined/)
 
-  t.is(
-    error.firstCall.args[0],
-    'withHandlers(): Expected a map of higher-order functions. Refer to ' +
-    'the docs for more info.'
-  )
+  expect(error.firstCall.args[0]).toBe('withHandlers(): Expected a map of higher-order functions. Refer to ' +
+  'the docs for more info.')
 
   /* eslint-disable */
   console.error.restore()
   /* eslint-enable */
 })
 
-test('withHandlers allow handers to be a factory', t => {
+test('withHandlers allow handers to be a factory', () => {
   const enhance = withHandlers((initialProps) => {
     let cache_
 
@@ -158,10 +151,10 @@ test('withHandlers allow handers to be a factory', t => {
 
   const wrapper = mount(<Component hello={'foo'} />)
   wrapper.setProps({ hello: 'bar' })
-  t.is(componentHandlers[0], componentHandlers[1])
+  expect(componentHandlers[0]).toBe(componentHandlers[1])
 
   // check that cache is not shared
   mount(<Component2 hello={'foo'} />)
-  t.deepEqual(componentHandlers[0], componentHandlers2[0])
-  t.not(componentHandlers[0], componentHandlers2[0])
+  expect(componentHandlers[0]).toEqual(componentHandlers2[0])
+  expect(componentHandlers[0]).not.toBe(componentHandlers2[0])
 })

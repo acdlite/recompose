@@ -1,4 +1,3 @@
-import test from 'ava'
 import React from 'react'
 import PropTypes from 'prop-types'
 import sinon from 'sinon'
@@ -12,7 +11,7 @@ import {
 
 import { mount, shallow } from 'enzyme'
 
-test('onlyUpdateForPropTypes only updates for props specified in propTypes', t => {
+test('onlyUpdateForPropTypes only updates for props specified in propTypes', () => {
   const component = sinon.spy(() => null)
   component.displayName = 'component'
 
@@ -23,39 +22,33 @@ test('onlyUpdateForPropTypes only updates for props specified in propTypes', t =
     setPropTypes({ counter: PropTypes.number })
   )(component)
 
-  t.is(
-    Counter.displayName,
-    'withState(withState(onlyUpdateForPropTypes(component)))'
-  )
+  expect(Counter.displayName).toBe('withState(withState(onlyUpdateForPropTypes(component)))')
 
   mount(<Counter />)
   const { updateCounter, updateFoobar } = component.firstCall.args[0]
 
-  t.is(component.lastCall.args[0].counter, 0)
-  t.is(component.lastCall.args[0].foobar, 'foobar')
+  expect(component.lastCall.args[0].counter).toBe(0)
+  expect(component.lastCall.args[0].foobar).toBe('foobar')
 
   // Does not update
   updateFoobar('barbaz')
-  t.true(component.calledOnce)
+  expect(component.calledOnce).toBe(true)
 
   updateCounter(42)
-  t.true(component.calledTwice)
-  t.is(component.lastCall.args[0].counter, 42)
-  t.is(component.lastCall.args[0].foobar, 'barbaz')
+  expect(component.calledTwice).toBe(true)
+  expect(component.lastCall.args[0].counter).toBe(42)
+  expect(component.lastCall.args[0].foobar).toBe('barbaz')
 })
 
-test.serial('onlyUpdateForPropTypes warns if BaseComponent does not have any propTypes', t => {
+test('onlyUpdateForPropTypes warns if BaseComponent does not have any propTypes', () => {
   const error = sinon.stub(console, 'error')
   const ShouldWarn = onlyUpdateForPropTypes('div')
 
   shallow(<ShouldWarn />)
 
-  t.is(
-    error.firstCall.args[0],
-    'A component without any `propTypes` was passed to ' +
-    '`onlyUpdateForPropTypes()`. Check the implementation of the component ' +
-    'with display name "div".'
-  )
+  expect(error.firstCall.args[0]).toBe('A component without any `propTypes` was passed to ' +
+  '`onlyUpdateForPropTypes()`. Check the implementation of the component ' +
+  'with display name "div".')
 
   /* eslint-disable */
   console.error.restore()

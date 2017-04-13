@@ -1,32 +1,19 @@
-import test from 'ava'
 import createHelper from '../createHelper'
 
-test('createHelper properly sets display name', t => {
+test('createHelper properly sets display name', () => {
   const BaseComponent = { displayName: 'Base' }
   const func = () => _ => ({})
 
-  t.is(
-    createHelper(func, 'func')()(BaseComponent).displayName,
-    'func(Base)'
-  )
+  expect(createHelper(func, 'func')()(BaseComponent).displayName).toBe('func(Base)')
 
-  t.is(
-    createHelper(func, 'func', false)()(BaseComponent).displayName,
-    undefined
-  )
+  expect(createHelper(func, 'func', false)()(BaseComponent).displayName).toBe(undefined)
 })
 
-test('createHelper works for zero-arg helpers', t => {
+test('createHelper works for zero-arg helpers', () => {
   const BaseComponent = { displayName: 'Base' }
   const func = _ => ({})
 
-  t.is(
-    createHelper(func, 'func', true, true)(BaseComponent).displayName,
-    'func(Base)'
-  )
+  expect(createHelper(func, 'func', true, true)(BaseComponent).displayName).toBe('func(Base)')
 
-  t.is(
-    createHelper(func, 'func', false, true)(BaseComponent).displayName,
-    undefined
-  )
+  expect(createHelper(func, 'func', false, true)(BaseComponent).displayName).toBe(undefined)
 })

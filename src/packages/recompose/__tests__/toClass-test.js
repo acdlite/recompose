@@ -1,11 +1,10 @@
-import test from 'ava'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { toClass, withContext, compose } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
-test('toClass returns the base component if it is already a class', t => {
+test('toClass returns the base component if it is already a class', () => {
   class BaseComponent extends React.Component {
     render() {
       return <div />
@@ -13,10 +12,10 @@ test('toClass returns the base component if it is already a class', t => {
   }
 
   const TestComponent = toClass(BaseComponent)
-  t.is(TestComponent, BaseComponent)
+  expect(TestComponent).toBe(BaseComponent)
 })
 
-test('toClass copies propTypes, displayName, contextTypes and defaultProps from base component', t => {
+test('toClass copies propTypes, displayName, contextTypes and defaultProps from base component', () => {
   const StatelessComponent = () =>
     <div />
 
@@ -27,13 +26,13 @@ test('toClass copies propTypes, displayName, contextTypes and defaultProps from 
 
   const TestComponent = toClass(StatelessComponent)
 
-  t.is(TestComponent.displayName, 'Stateless')
-  t.deepEqual(TestComponent.propTypes, { foo: PropTypes.string })
-  t.deepEqual(TestComponent.contextTypes, { bar: PropTypes.object })
-  t.deepEqual(TestComponent.defaultProps, { foo: 'bar', fizz: 'buzz' })
+  expect(TestComponent.displayName).toBe('Stateless')
+  expect(TestComponent.propTypes).toEqual({ foo: PropTypes.string })
+  expect(TestComponent.contextTypes).toEqual({ bar: PropTypes.object })
+  expect(TestComponent.defaultProps).toEqual({ foo: 'bar', fizz: 'buzz' })
 })
 
-test('toClass passes defaultProps correctly', t => {
+test('toClass passes defaultProps correctly', () => {
   const StatelessComponent = sinon.spy(() => null)
 
   StatelessComponent.displayName = 'Stateless'
@@ -44,11 +43,11 @@ test('toClass passes defaultProps correctly', t => {
   const TestComponent = toClass(StatelessComponent)
 
   mount(<TestComponent />)
-  t.is(StatelessComponent.lastCall.args[0].foo, 'bar')
-  t.is(StatelessComponent.lastCall.args[0].fizz, 'buzz')
+  expect(StatelessComponent.lastCall.args[0].foo).toBe('bar')
+  expect(StatelessComponent.lastCall.args[0].fizz).toBe('buzz')
 })
 
-test('toClass passes context and props correctly', t => {
+test('toClass passes context and props correctly', () => {
   const store = {}
 
   class Provider extends React.Component {
@@ -82,12 +81,12 @@ test('toClass passes context and props correctly', t => {
     </Provider>
   ).find('div')
 
-  t.is(div.prop('data-props').fizz, 'fizzbuzz')
-  t.is(div.prop('data-context').store, store)
+  expect(div.prop('data-props').fizz).toBe('fizzbuzz')
+  expect(div.prop('data-context').store).toBe(store)
 })
 
-test('toClass works with strings (DOM components)', t => {
+test('toClass works with strings (DOM components)', () => {
   const Div = toClass('div')
   const div = mount(<Div>Hello</Div>)
-  t.is(div.html(), '<div>Hello</div>')
+  expect(div.html()).toBe('<div>Hello</div>')
 })
