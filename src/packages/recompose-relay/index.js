@@ -1,1 +1,1 @@
-export createContainer from './createContainer'
+export { default as createContainer } from './createContainer'
