@@ -1,17 +1,14 @@
 import { Component } from 'react'
-import pick from './utils/pick'
-import shallowEqual from './shallowEqual'
 import createHelper from './createHelper'
 import createEagerFactory from './createEagerFactory'
+import shallowEqualForKeys from './utils/shallowEqualForKeys'
 
 const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
   const shouldMap = typeof shouldMapOrKeys === 'function'
     ? shouldMapOrKeys
-    : (props, nextProps) => !shallowEqual(
-        pick(props, shouldMapOrKeys),
-        pick(nextProps, shouldMapOrKeys),
-      )
+    : (props, nextProps) =>
+      !shallowEqualForKeys(shouldMapOrKeys, props, nextProps)
 
   return class extends Component {
     computedProps = propsMapper(this.props);
