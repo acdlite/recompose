@@ -243,13 +243,14 @@ const Post = enhance(({ title, content, author }) =>
 
 ```js
 withState(
-  stateName: string,
-  stateUpdaterName: string,
+  stateName: ?string,
+  stateUpdaterName: ?string,
   initialState: any | (props: Object) => any
 ): HigherOrderComponent
 ```
+Passes two additional props to the base component: a state value, and a function to update that state value.
 
-Passes two additional props to the base component: a state value, and a function to update that state value. The state updater has the following signature:
+If stateName and stateUpdateName are provided then the behavior is as follows. The state updater has the following signature:
 
 ```js
 stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
@@ -273,7 +274,20 @@ The second form accepts a single value, which is used as the new state.
 
 Both forms accept an optional second parameter, a callback function that will be executed once `setState()` is completed and the component is re-rendered.
 
-An initial state value is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
+Only the initialState param is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
+
+If stateName and stateUpdaterName are not provided then they default to `'state'` and `'setState'`. In this form, state and setState behave exactly like setState in a typical react class. So `state` will be an object and `setState()` will accept a new state object to merge with the existing state. In this form `setState()` also still allows either an object or function as a param for updating state:
+
+```js
+const addCounting = compose(
+  withState({ count: 0 }),
+  withHandlers({
+    increment: ({ setState }) => () => setState(({ count }) => count + 1),
+    decrement: ({ setState }) => () =>  setState(({ count }) => count - 1),
+    reset: ({ setState }) => () => setState({ count: 0 })
+  }))
+)
+```
 
 ### `withReducer()`
 
