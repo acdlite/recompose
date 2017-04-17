@@ -13,7 +13,6 @@
   "module": "es/Recompose.js",
   "dependencies": {
     "change-emitter": "^0.1.2",
-    "fbjs": "^0.8.1",
     "hoist-non-react-statics": "^1.0.0",
     "symbol-observable": "^1.0.4"
   },
