@@ -254,7 +254,7 @@ This can be done by updating `lodash` config in `.babelrc`.
  {
 -  "plugins": ["lodash"]
 +  "plugins": [
-+    ["lodash", { id: ["lodash", "recompose"] }]
++    ["lodash", { "id": ["lodash", "recompose"] }]
 +  ]
  }
 ```
