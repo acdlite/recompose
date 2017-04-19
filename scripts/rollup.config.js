@@ -15,18 +15,16 @@ const outDir = path.resolve(PACKAGES_OUT_DIR, packageName)
 
 const config = {
   entry: `${sourceDir}/index.js`,
-  external: [
-    'react'
-  ],
+  external: ['react'],
   globals: {
-    react: 'React'
+    react: 'React',
   },
   moduleName: libraryName,
   plugins: [
     babel({
-      exclude: '**/node_modules/**'
-    })
-  ]
+      exclude: '**/node_modules/**',
+    }),
+  ],
 }
 
 if (build === 'es' || build === 'cjs') {
@@ -47,11 +45,11 @@ if (build === 'umd') {
   config.format = 'umd'
   config.plugins.push(
     nodeResolve({
-      jsnext: true
+      jsnext: true,
     }),
     commonjs(),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env.NODE_ENV': JSON.stringify('development'),
     })
   )
 }
@@ -61,11 +59,11 @@ if (build === 'min') {
   config.format = 'umd'
   config.plugins.push(
     nodeResolve({
-      jsnext: true
+      jsnext: true,
     }),
     commonjs(),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     uglify({
       compress: {
@@ -73,8 +71,8 @@ if (build === 'min') {
         unsafe: true,
         unsafe_comps: true,
         screw_ie8: true,
-        warnings: false
-      }
+        warnings: false,
+      },
     })
   )
 }

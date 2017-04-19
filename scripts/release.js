@@ -1,4 +1,5 @@
 /* eslint global-require: 0 */
+/* eslint-disable import/no-dynamic-require, no-console */
 const fs = require('fs')
 const path = require('path')
 const { exec, exit, rm, cp, test } = require('shelljs')
@@ -13,7 +14,7 @@ const BIN = './node_modules/.bin'
 const {
   PACKAGES_SRC_DIR,
   PACKAGES_OUT_DIR,
-  getPackageNames
+  getPackageNames,
 } = require('./getPackageNames')
 
 const BASE_PACKAGE_LOC = '../src/basePackage.json'
@@ -23,15 +24,14 @@ const log = compose(consoleLog, chalk.bold)
 const logSuccess = compose(consoleLog, chalk.green.bold)
 const logError = compose(consoleLog, chalk.red.bold)
 
-const writeFile = (filepath, string) => (
+const writeFile = (filepath, string) =>
   fs.writeFileSync(filepath, string, 'utf8')
-)
 
 try {
   if (exec('git diff-files --quiet').code !== 0) {
     logError(
       'You have unsaved changes in the working tree. ' +
-      'Commit or stash changes before releasing.'
+        'Commit or stash changes before releasing.'
     )
     exit(1)
   }
@@ -43,7 +43,7 @@ try {
   while (!packageNames.includes(packageName)) {
     packageName = readline.question(
       `The package "${packageName}" does not exist in this project. ` +
-      'Choose again: '
+        'Choose again: '
     )
   }
 
@@ -54,22 +54,20 @@ try {
     `Next version of ${packageName} (current version is ${version}): `
   )
 
-  while (!(
-    !nextVersion ||
-    (semver.valid(nextVersion) && semver.gt(nextVersion, version))
-  )) {
+  while (
+    !(!nextVersion ||
+      (semver.valid(nextVersion) && semver.gt(nextVersion, version)))
+  ) {
     nextVersion = readline.question(
       `Must provide a valid version that is greater than ${version}, ` +
-      'or leave blank to skip: '
+        'or leave blank to skip: '
     )
   }
 
   log('Running tests...')
 
   if (exec('npm run lint && npm test').code !== 0) {
-    logError(
-      'The test command did not exit cleanly. Aborting release.'
-    )
+    logError('The test command did not exit cleanly. Aborting release.')
     exit(1)
   }
 
@@ -83,22 +81,21 @@ try {
 
   log('Compiling source files...')
 
-  const sourceFiles = glob.sync(`${sourceDir}/**/*.js`, {
-    ignore: `${sourceDir}/node_modules/**/*.js`
-  }).map(to => path.relative(sourceDir, to))
+  const sourceFiles = glob
+    .sync(`${sourceDir}/**/*.js`, {
+      ignore: `${sourceDir}/node_modules/**/*.js`,
+    })
+    .map(to => path.relative(sourceDir, to))
 
   exec(
     `cd ${sourceDir} && ` +
-    'cross-env BABEL_ENV=cjs ' +
-    `${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} ` +
-    `--out-dir ${path.resolve(outDir)}`
+      'cross-env BABEL_ENV=cjs ' +
+      `${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} ` +
+      `--out-dir ${path.resolve(outDir)}`
   )
 
   log('Copying additional project files...')
-  const additionalProjectFiles = [
-    'README.md',
-    '.npmignore'
-  ]
+  const additionalProjectFiles = ['README.md', '.npmignore']
   additionalProjectFiles.forEach(filename => {
     const src = path.resolve(sourceDir, filename)
 
@@ -123,12 +120,16 @@ try {
   const runRollup = build =>
     'cross-env BABEL_ENV=rollup rollup --config scripts/rollup.config.js ' +
     `--environment BUILD:${build},PACKAGE_NAME:${packageName}`
-  if (exec([
-    runRollup('es'),
-    runRollup('cjs'),
-    runRollup('umd'),
-    runRollup('min')
-  ].join(' && ')).code !== 0) {
+  if (
+    exec(
+      [
+        runRollup('es'),
+        runRollup('cjs'),
+        runRollup('umd'),
+        runRollup('min'),
+      ].join(' && ')
+    ).code !== 0
+  ) {
     exit(1)
   }
 

@@ -5,27 +5,20 @@ test('shallowEqual returns true if arguments are equal, without comparing proper
   const throwOnAccess = {
     get foo() {
       throw new Error('Property was accessed')
-    }
+    },
   }
   expect(shallowEqual(throwOnAccess, throwOnAccess)).toBe(true)
 })
 
 test('shallowEqual returns true if arguments fields are equal', () => {
-  expect(shallowEqual(
-    { a: 1, b: 2, c: undefined },
-    { a: 1, b: 2, c: undefined }
-  )).toBe(true)
+  expect(
+    shallowEqual({ a: 1, b: 2, c: undefined }, { a: 1, b: 2, c: undefined })
+  ).toBe(true)
 
-  expect(shallowEqual(
-    { a: 1, b: 2, c: 3 },
-    { a: 1, b: 2, c: 3 }
-  )).toBe(true)
+  expect(shallowEqual({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 })).toBe(true)
 
   const o = {}
-  expect(shallowEqual(
-    { a: 1, b: 2, c: o },
-    { a: 1, b: 2, c: o }
-  )).toBe(true)
+  expect(shallowEqual({ a: 1, b: 2, c: o }, { a: 1, b: 2, c: o })).toBe(true)
 })
 
 test('shallowEqual returns false if either argument is null or undefined', () => {
@@ -34,22 +27,15 @@ test('shallowEqual returns false if either argument is null or undefined', () =>
 })
 
 test('shallowEqual returns false if first argument has too many keys', () => {
-  expect(shallowEqual(
-    { a: 1, b: 2, c: 3 },
-    { a: 1, b: 2 }
-  )).toBe(false)
+  expect(shallowEqual({ a: 1, b: 2, c: 3 }, { a: 1, b: 2 })).toBe(false)
 })
 
 test('shallowEqual returns false if second argument has too many keys', () => {
-  expect(shallowEqual(
-    { a: 1, b: 2 },
-    { a: 1, b: 2, c: 3 }
-  )).toBe(false)
+  expect(shallowEqual({ a: 1, b: 2 }, { a: 1, b: 2, c: 3 })).toBe(false)
 })
 
 test('shallowEqual returns false if arguments have different keys', () => {
-  expect(shallowEqual(
-    { a: 1, b: 2, c: undefined },
-    { a: 1, bb: 2, c: undefined }
-  )).toBe(false)
+  expect(
+    shallowEqual({ a: 1, b: 2, c: undefined }, { a: 1, bb: 2, c: undefined })
+  ).toBe(false)
 })

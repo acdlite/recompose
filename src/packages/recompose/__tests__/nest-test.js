@@ -1,6 +1,6 @@
 import React from 'react'
-import { nest, setDisplayName, toClass } from '../'
 import { shallow } from 'enzyme'
+import { nest, setDisplayName, toClass } from '../'
 
 test('nest nests components from outer to inner', () => {
   const A = setDisplayName('A')(toClass('div'))
@@ -17,13 +17,15 @@ test('nest nests components from outer to inner', () => {
     </Nest>
   )
 
-  expect(wrapper.equals(
-    <A pass="through">
-      <B pass="through">
-        <C pass="through">
-          Child
-        </C>
-      </B>
-    </A>
-  )).toBe(true)
+  expect(
+    wrapper.equals(
+      <A pass="through">
+        <B pass="through">
+          <C pass="through">
+            Child
+          </C>
+        </B>
+      </A>
+    )
+  ).toBe(true)
 })

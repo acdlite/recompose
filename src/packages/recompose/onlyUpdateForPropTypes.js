@@ -10,8 +10,8 @@ const onlyUpdateForPropTypes = BaseComponent => {
       /* eslint-disable */
       console.error(
         'A component without any `propTypes` was passed to ' +
-        '`onlyUpdateForPropTypes()`. Check the implementation of the ' +
-        `component with display name "${getDisplayName(BaseComponent)}".`
+          '`onlyUpdateForPropTypes()`. Check the implementation of the ' +
+          `component with display name "${getDisplayName(BaseComponent)}".`
       )
       /* eslint-enable */
     }

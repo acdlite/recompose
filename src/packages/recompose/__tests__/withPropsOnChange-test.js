@@ -1,7 +1,7 @@
 import React from 'react'
-import { withPropsOnChange, withState, flattenProp, compose } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
+import { withPropsOnChange, withState, flattenProp, compose } from '../'
 
 test('withPropsOnChange maps subset of owner props to child props', () => {
   const component = sinon.spy(() => null)
@@ -11,19 +11,18 @@ test('withPropsOnChange maps subset of owner props to child props', () => {
   const StringConcat = compose(
     withState('strings', 'updateStrings', { a: 'a', b: 'b', c: 'c' }),
     flattenProp('strings'),
-    withPropsOnChange(
-      ['a', 'b'],
-      ({ a, b, ...props }) => {
-        mapSpy()
-        return {
-          ...props,
-          foobar: a + b
-        }
+    withPropsOnChange(['a', 'b'], ({ a, b, ...props }) => {
+      mapSpy()
+      return {
+        ...props,
+        foobar: a + b,
       }
-    )
+    })
   )(component)
 
-  expect(StringConcat.displayName).toBe('withState(flattenProp(withPropsOnChange(component)))')
+  expect(StringConcat.displayName).toBe(
+    'withState(flattenProp(withPropsOnChange(component)))'
+  )
 
   mount(<StringConcat />)
   const { updateStrings } = component.firstCall.args[0]

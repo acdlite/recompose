@@ -3,12 +3,11 @@ import createEagerFactory from './createEagerFactory'
 
 const getContext = contextTypes => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
-  const GetContext = (ownerProps, context) => (
+  const GetContext = (ownerProps, context) =>
     factory({
       ...ownerProps,
-      ...context
+      ...context,
     })
-  )
 
   GetContext.contextTypes = contextTypes
 

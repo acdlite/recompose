@@ -1,7 +1,7 @@
 import React from 'react'
-import { createSink, compose, withState, mapProps } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
+import { createSink, compose, withState, mapProps } from '../'
 
 test('createSink creates a React component that fires a callback when receiving new props', () => {
   const spy = sinon.spy()
@@ -10,7 +10,7 @@ test('createSink creates a React component that fires a callback when receiving 
     withState('counter', 'updateCounter', 0),
     mapProps(({ updateCounter, ...rest }) => ({
       increment: () => updateCounter(n => n + 1),
-      ...rest
+      ...rest,
     }))
   )(Sink)
 

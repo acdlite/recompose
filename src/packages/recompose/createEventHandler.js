@@ -11,11 +11,11 @@ export const createEventHandlerWithConfig = config => () => {
     },
     [$$observable]() {
       return this
-    }
+    },
   })
   return {
     handler: emitter.emit,
-    stream
+    stream,
   }
 }
 

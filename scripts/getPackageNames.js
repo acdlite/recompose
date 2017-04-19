@@ -8,9 +8,11 @@ let names
 
 exports.getPackageNames = () => {
   if (!names) {
-    names = fs.readdirSync(exports.PACKAGES_SRC_DIR).filter(file =>
-      fs.statSync(path.resolve(exports.PACKAGES_SRC_DIR, file)).isDirectory()
-    )
+    names = fs
+      .readdirSync(exports.PACKAGES_SRC_DIR)
+      .filter(file =>
+        fs.statSync(path.resolve(exports.PACKAGES_SRC_DIR, file)).isDirectory()
+      )
   }
   return names
 }

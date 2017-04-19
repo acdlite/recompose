@@ -9,7 +9,7 @@ const config = {
     const { unsubscribe } = observable.subscribe({
       next: value => stream(value),
       error: error => stream({ error }),
-      complete: () => stream.end(true)
+      complete: () => stream.end(true),
     })
 
     flyd.on(unsubscribe, stream.end)
@@ -21,13 +21,13 @@ const config = {
       const sub = flyd.on(observer.next || noop, stream)
       flyd.on(_ => observer.complete(), sub.end)
       return {
-        unsubscribe: () => sub.end(true)
+        unsubscribe: () => sub.end(true),
       }
     },
     [$$observable]() {
       return this
-    }
-  })
+    },
+  }),
 }
 
 export default config

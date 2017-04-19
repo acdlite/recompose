@@ -19,7 +19,7 @@ test('isReferentiallyTransparentFunctionComponent returns false for class compon
   const Bar = createReactClass({
     render() {
       return <div />
-    }
+    },
   })
   /* eslint-enable react/prefer-es6-class */
 

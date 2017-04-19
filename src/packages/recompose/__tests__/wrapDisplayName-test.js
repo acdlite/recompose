@@ -8,5 +8,7 @@ test('wrapDisplayName wraps the display name of a React component with the name 
     }
   }
 
-  expect(wrapDisplayName(SomeComponent, 'someHoC')).toBe('someHoC(SomeComponent)')
+  expect(wrapDisplayName(SomeComponent, 'someHoC')).toBe(
+    'someHoC(SomeComponent)'
+  )
 })

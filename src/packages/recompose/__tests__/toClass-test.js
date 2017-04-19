@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { toClass, withContext, compose } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
+import { toClass, withContext, compose } from '../'
 
 test('toClass returns the base component if it is already a class', () => {
   class BaseComponent extends React.Component {
@@ -16,8 +16,7 @@ test('toClass returns the base component if it is already a class', () => {
 })
 
 test('toClass copies propTypes, displayName, contextTypes and defaultProps from base component', () => {
-  const StatelessComponent = () =>
-    <div />
+  const StatelessComponent = () => <div />
 
   StatelessComponent.displayName = 'Stateless'
   StatelessComponent.propTypes = { foo: PropTypes.string }
@@ -52,8 +51,8 @@ test('toClass passes context and props correctly', () => {
 
   class Provider extends React.Component {
     static propTypes = {
-      children: PropTypes.node
-    };
+      children: PropTypes.node,
+    }
 
     render() {
       return this.props.children
@@ -61,15 +60,12 @@ test('toClass passes context and props correctly', () => {
   }
 
   Provider = compose(
-    withContext(
-      { store: PropTypes.object },
-      props => ({ store: props.store })
-    )
+    withContext({ store: PropTypes.object }, props => ({ store: props.store }))
   )(Provider)
 
-
-  const StatelessComponent = (props, context) =>
+  const StatelessComponent = (props, context) => (
     <div data-props={props} data-context={context} />
+  )
 
   StatelessComponent.contextTypes = { store: PropTypes.object }
 

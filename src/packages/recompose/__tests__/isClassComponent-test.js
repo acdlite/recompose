@@ -19,7 +19,7 @@ test('isClassComponent returns true for React component classes', () => {
   const Bar = createReactClass({
     render() {
       return <div />
-    }
+    },
   })
   /* eslint-enable react/prefer-es6-class */
 

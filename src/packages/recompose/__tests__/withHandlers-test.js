@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { withHandlers, withState, compose } from '../'
 import sinon from 'sinon'
+import { withHandlers, withState, compose } from '../'
 
 test('withHandlers passes handlers to base component', () => {
   let submittedFormValue
@@ -13,19 +13,19 @@ test('withHandlers passes handlers to base component', () => {
       },
       onSubmit: props => () => {
         submittedFormValue = props.value
-      }
+      },
     })
   )
 
-  const Form = enhanceForm(
-    ({ value, onChange, onSubmit }) =>
-      <form onSubmit={onSubmit}>
-        <label>Value
-          <input type="text" value={value} onChange={onChange} />
-        </label>
-        <p>{value}</p>
-      </form>
-  )
+  const Form = enhanceForm(({ value, onChange, onSubmit }) => (
+    <form onSubmit={onSubmit}>
+      <label>
+        Value
+        <input type="text" value={value} onChange={onChange} />
+      </label>
+      <p>{value}</p>
+    </form>
+  ))
 
   const wrapper = mount(<Form />)
   const input = wrapper.find('input')
@@ -44,7 +44,7 @@ test('withHandlers passes handlers to base component', () => {
 
 test('withHandlers passes immutable handlers', () => {
   const enhance = withHandlers({
-    handler: () => () => null
+    handler: () => () => null,
   })
   const component = sinon.spy(() => null)
   const Div = enhance(component)
@@ -53,7 +53,9 @@ test('withHandlers passes immutable handlers', () => {
   wrapper.setProps({ foo: 'bar' })
 
   expect(component.calledTwice).toBe(true)
-  expect(component.firstCall.args[0].handler).toBe(component.secondCall.args[0].handler)
+  expect(component.firstCall.args[0].handler).toBe(
+    component.secondCall.args[0].handler
+  )
 })
 
 test('withHandlers caches handlers properly', () => {
@@ -66,7 +68,7 @@ test('withHandlers caches handlers properly', () => {
       return val => {
         handlerCallSpy(val)
       }
-    }
+    },
   })
 
   const component = sinon.spy(() => null)
@@ -104,7 +106,7 @@ test('withHandlers warns if handler is not a higher-order function', () => {
   const error = sinon.stub(console, 'error')
 
   const Button = withHandlers({
-    onClick: () => {}
+    onClick: () => {},
   })('button')
 
   const wrapper = mount(<Button />)
@@ -112,8 +114,10 @@ test('withHandlers warns if handler is not a higher-order function', () => {
 
   expect(() => button.simulate('click')).toThrowError(/undefined/)
 
-  expect(error.firstCall.args[0]).toBe('withHandlers(): Expected a map of higher-order functions. Refer to ' +
-  'the docs for more info.')
+  expect(error.firstCall.args[0]).toBe(
+    'withHandlers(): Expected a map of higher-order functions. Refer to ' +
+      'the docs for more info.'
+  )
 
   /* eslint-disable */
   console.error.restore()
@@ -121,7 +125,7 @@ test('withHandlers warns if handler is not a higher-order function', () => {
 })
 
 test('withHandlers allow handers to be a factory', () => {
-  const enhance = withHandlers((initialProps) => {
+  const enhance = withHandlers(initialProps => {
     let cache_
 
     return {
@@ -132,7 +136,7 @@ test('withHandlers allow handers to be a factory', () => {
         cache_ = { ...initialProps }
 
         return cache_
-      }
+      },
     }
   })
 

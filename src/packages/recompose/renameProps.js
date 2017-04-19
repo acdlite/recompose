@@ -17,10 +17,7 @@ const mapKeys = (obj, func) =>
 const renameProps = nameMap =>
   mapProps(props => ({
     ...omit(props, keys(nameMap)),
-    ...mapKeys(
-      pick(props, keys(nameMap)),
-      (_, oldName) => nameMap[oldName]
-    )
+    ...mapKeys(pick(props, keys(nameMap)), (_, oldName) => nameMap[oldName]),
   }))
 
 export default createHelper(renameProps, 'renameProps')
