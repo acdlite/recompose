@@ -12,7 +12,9 @@
     "test": "cross-env BABEL_ENV=cjs jest --coverage",
     "test:watch": "npm test -- --watch",
     "release": "node scripts/release.js",
-    "postinstall": "node scripts/installNestedPackageDeps.js"
+    "postinstall": "node scripts/installNestedPackageDeps.js",
+    "format": "rm -rf src/packages/*/node_modules;prettier --semi false --trailing-comma es5 --single-quote --write '{src/,scripts}/**/*.js'",
+    "precommit": "lint-staged"
   },
   "jest": {
     "testMatch": [
@@ -21,6 +23,13 @@
     "coverageReporters": [
       "text-summary",
       "lcov"
+    ]
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --semi false --trailing-comma es5 --single-quote --write",
+      "git add",
+      "jest --bail --findRelatedTests"
     ]
   },
   "devDependencies": {
@@ -39,15 +48,20 @@
     "create-react-class": "^15.5.0",
     "cross-env": "^4.0.0",
     "enzyme": "^2.2.0",
-    "eslint": "^2.10.2",
-    "eslint-config-airbnb": "9.0.1",
-    "eslint-plugin-import": "^1.8.0",
-    "eslint-plugin-jsx-a11y": "^1.2.2",
-    "eslint-plugin-react": "^5.1.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-prettier": "^1.7.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-prettier": "^2.0.1",
+    "eslint-plugin-react": "^6.10.3",
     "flyd": "^0.2.4",
+    "husky": "^0.13.3",
     "jest": "^19.0.2",
     "kefir": "^3.2.3",
+    "lint-staged": "^3.4.0",
     "most": "^1.0.2",
+    "prettier": "^1.2.2",
     "prop-types": "^15.5.0",
     "react": "^15.0.0",
     "react-addons-test-utils": "^15.0.0",
