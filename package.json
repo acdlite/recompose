@@ -13,7 +13,7 @@
     "test:watch": "npm test -- --watch",
     "release": "node scripts/release.js",
     "postinstall": "node scripts/installNestedPackageDeps.js",
-    "format": "rm -rf src/packages/*/node_modules;prettier --semi false --trailing-comma es5 --single-quote --write '{src/,scripts}/**/*.js'",
+    "format": "prettier --semi false --trailing-comma es5 --single-quote --write 'scripts/*.js' 'src/packages/*/*.js' 'src/packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged"
   },
   "jest": {
