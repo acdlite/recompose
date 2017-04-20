@@ -21,6 +21,8 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
             }
           }
         )
+        // Emit props on subscribe
+        this.propsEmitter.emit(this.props)
         return { unsubscribe }
       },
       [$$observable]() {
