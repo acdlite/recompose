@@ -15,12 +15,11 @@ const createHelper = (
       }
     }
 
-    return (...args) =>
-      BaseComponent => {
-        const Component = func(...args)(BaseComponent)
-        Component.displayName = wrapDisplayName(BaseComponent, helperName)
-        return Component
-      }
+    return (...args) => BaseComponent => {
+      const Component = func(...args)(BaseComponent)
+      Component.displayName = wrapDisplayName(BaseComponent, helperName)
+      return Component
+    }
   }
 
   return func

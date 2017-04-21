@@ -3,8 +3,9 @@ import isReferentiallyTransparentFunctionComponent
   from './isReferentiallyTransparentFunctionComponent'
 
 const createEagerElement = (type, props, children) => {
-  const isReferentiallyTransparent =
-    isReferentiallyTransparentFunctionComponent(type)
+  const isReferentiallyTransparent = isReferentiallyTransparentFunctionComponent(
+    type
+  )
   /* eslint-disable */
   const hasKey = props && props.hasOwnProperty('key')
   /* eslint-enable */

@@ -1,15 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import sinon from 'sinon'
-
-import {
-  onlyUpdateForPropTypes,
-  compose,
-  withState,
-  setPropTypes
-} from '../'
-
 import { mount, shallow } from 'enzyme'
+import { onlyUpdateForPropTypes, compose, withState, setPropTypes } from '../'
 
 test('onlyUpdateForPropTypes only updates for props specified in propTypes', () => {
   const component = sinon.spy(() => null)
@@ -22,7 +15,9 @@ test('onlyUpdateForPropTypes only updates for props specified in propTypes', () 
     setPropTypes({ counter: PropTypes.number })
   )(component)
 
-  expect(Counter.displayName).toBe('withState(withState(onlyUpdateForPropTypes(component)))')
+  expect(Counter.displayName).toBe(
+    'withState(withState(onlyUpdateForPropTypes(component)))'
+  )
 
   mount(<Counter />)
   const { updateCounter, updateFoobar } = component.firstCall.args[0]
@@ -46,9 +41,11 @@ test('onlyUpdateForPropTypes warns if BaseComponent does not have any propTypes'
 
   shallow(<ShouldWarn />)
 
-  expect(error.firstCall.args[0]).toBe('A component without any `propTypes` was passed to ' +
-  '`onlyUpdateForPropTypes()`. Check the implementation of the component ' +
-  'with display name "div".')
+  expect(error.firstCall.args[0]).toBe(
+    'A component without any `propTypes` was passed to ' +
+      '`onlyUpdateForPropTypes()`. Check the implementation of the component ' +
+      'with display name "div".'
+  )
 
   /* eslint-disable */
   console.error.restore()

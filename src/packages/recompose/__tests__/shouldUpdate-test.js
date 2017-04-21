@@ -1,8 +1,8 @@
 import React from 'react'
-import { shouldUpdate, compose, withState } from '../'
-import { countRenders } from './utils'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
+import { shouldUpdate, compose, withState } from '../'
+import { countRenders } from './utils'
 
 test('shouldUpdate implements shouldComponentUpdate', () => {
   const component = sinon.spy(() => null)
@@ -15,7 +15,9 @@ test('shouldUpdate implements shouldComponentUpdate', () => {
     countRenders
   )(component)
 
-  expect(Todos.displayName).toBe('withState(shouldUpdate(countRenders(component)))')
+  expect(Todos.displayName).toBe(
+    'withState(shouldUpdate(countRenders(component)))'
+  )
 
   mount(<Todos />)
   const { updateTodos } = component.firstCall.args[0]

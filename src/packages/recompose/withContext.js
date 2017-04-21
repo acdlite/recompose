@@ -5,7 +5,7 @@ import createEagerFactory from './createEagerFactory'
 const withContext = (childContextTypes, getChildContext) => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
   class WithContext extends Component {
-    getChildContext = () => getChildContext(this.props);
+    getChildContext = () => getChildContext(this.props)
 
     render() {
       return factory(this.props)

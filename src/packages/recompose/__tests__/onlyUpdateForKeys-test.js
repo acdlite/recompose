@@ -1,7 +1,7 @@
 import React from 'react'
-import { onlyUpdateForKeys, compose, withState } from '../'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
+import { onlyUpdateForKeys, compose, withState } from '../'
 
 test('onlyUpdateForKeys implements shouldComponentUpdate()', () => {
   const component = sinon.spy(() => null)
@@ -13,7 +13,9 @@ test('onlyUpdateForKeys implements shouldComponentUpdate()', () => {
     onlyUpdateForKeys(['counter'])
   )(component)
 
-  expect(Counter.displayName).toBe('withState(withState(onlyUpdateForKeys(component)))')
+  expect(Counter.displayName).toBe(
+    'withState(withState(onlyUpdateForKeys(component)))'
+  )
 
   mount(<Counter />)
   const { updateCounter, updateFoobar } = component.firstCall.args[0]

@@ -1,7 +1,7 @@
 import React from 'react'
+import { mount } from 'enzyme'
 import setObservableConfig from '../setObservableConfig'
 import rxjs4Config from '../rxjs4ObservableConfig'
-import { mount } from 'enzyme'
 import { mapPropsStream } from '../'
 
 setObservableConfig(rxjs4Config)

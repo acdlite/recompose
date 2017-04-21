@@ -6,7 +6,7 @@ test('lifecycle is a higher-order component version of React.createClass', () =>
   const enhance = lifecycle({
     componentWillMount() {
       this.setState({ 'data-bar': 'baz' })
-    }
+    },
   })
   const Div = enhance('div')
   expect(Div.displayName).toBe('lifecycle(div)')

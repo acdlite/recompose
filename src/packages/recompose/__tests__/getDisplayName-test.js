@@ -9,7 +9,7 @@ test('getDisplayName gets the display name of a React component', () => {
   }
 
   class SomeOtherComponent extends React.Component {
-    static displayName = 'CustomDisplayName';
+    static displayName = 'CustomDisplayName'
     render() {
       return <div />
     }

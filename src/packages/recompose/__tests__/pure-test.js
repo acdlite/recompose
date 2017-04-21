@@ -1,8 +1,8 @@
 import React from 'react'
-import { pure, compose, withState } from '../'
-import { countRenders } from './utils'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
+import { pure, compose, withState } from '../'
+import { countRenders } from './utils'
 
 test('pure implements shouldComponentUpdate() using shallowEqual()', () => {
   const component = sinon.spy(() => null)

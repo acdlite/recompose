@@ -1,6 +1,6 @@
 import React from 'react'
-import { flattenProp } from '../'
 import { shallow } from 'enzyme'
+import { flattenProp } from '../'
 
 test('flattenProps flattens an object prop and spreads it into the top-level props object', () => {
   const Counter = flattenProp('data-state')('div')
@@ -10,19 +10,19 @@ test('flattenProps flattens an object prop and spreads it into the top-level pro
     <Counter data-pass="through" data-state={{ 'data-counter': 1 }} />
   )
 
-  expect(wrapper.equals(
-    <div
-      data-pass="through"
-      data-state={{ 'data-counter': 1 }}
-      data-counter={1}
-    />
-  )).toBe(true)
+  expect(
+    wrapper.equals(
+      <div
+        data-pass="through"
+        data-state={{ 'data-counter': 1 }}
+        data-counter={1}
+      />
+    )
+  ).toBe(true)
 
   wrapper.setProps({
     'data-pass': 'through',
-    'data-state': { 'data-state': 1 }
+    'data-state': { 'data-state': 1 },
   })
-  expect(wrapper.equals(
-    <div data-pass="through" data-state={1} />
-  )).toBe(true)
+  expect(wrapper.equals(<div data-pass="through" data-state={1} />)).toBe(true)
 })

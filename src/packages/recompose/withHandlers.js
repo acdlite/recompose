@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Component } from 'react'
 import createEagerFactory from './createEagerFactory'
 import createHelper from './createHelper'
@@ -17,7 +18,7 @@ const mapValues = (obj, func) => {
 const withHandlers = handlers => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
   return class extends Component {
-    cachedHandlers = {};
+    cachedHandlers = {}
 
     handlers = mapValues(
       typeof handlers === 'function' ? handlers(this.props) : handlers,
@@ -34,15 +35,16 @@ const withHandlers = handlers => BaseComponent => {
           process.env.NODE_ENV !== 'production' &&
           typeof handler !== 'function'
         ) {
-          console.error( // eslint-disable-line no-console
+          console.error(
+            // eslint-disable-line no-console
             'withHandlers(): Expected a map of higher-order functions. ' +
-            'Refer to the docs for more info.'
+              'Refer to the docs for more info.'
           )
         }
 
         return handler(...args)
       }
-    );
+    )
 
     componentWillReceiveProps() {
       this.cachedHandlers = {}
@@ -51,7 +53,7 @@ const withHandlers = handlers => BaseComponent => {
     render() {
       return factory({
         ...this.props,
-        ...this.handlers
+        ...this.handlers,
       })
     }
   }
