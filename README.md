@@ -231,18 +231,9 @@ class Component extends React.Component {...}
 
 ### Optimizing bundle size
 
-You can reduce your bundle size by only including the modules that you need.
-
-All top-level exports can be imported individually:
-
-```js
-import compose from 'recompose/compose'
-import mapProps from 'recompose/mapProps'
-import withState from 'recompose/withState'
-// ... and so on
-```
-
-This is the recommended import pattern for library authors.
+Since `0.23.1` version recompose got support of ES2015 modules.
+To reduce size all you need is to use bundler with tree shaking support
+like [webpack 2](https://github.com/webpack/webpack) or [Rollup](https://github.com/rollup/rollup).
 
 #### Using babel-lodash-plugin
 
