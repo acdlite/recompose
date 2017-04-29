@@ -9,7 +9,8 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint scripts src",
-    "test": "cross-env BABEL_ENV=cjs jest --coverage",
+    "build-recompose": "cross-env BABEL_ENV=rollup rollup --config scripts/rollup.config.js --environment BUILD:es,PACKAGE_NAME:recompose",
+    "test": "yarn run build-recompose && cross-env BABEL_ENV=cjs jest --coverage",
     "test:watch": "npm test -- --watch",
     "release": "node scripts/release.js",
     "postinstall": "node scripts/installNestedPackageDeps.js",
