@@ -11,4 +11,4 @@ const renderComponent = Component => _ => {
   return RenderComponent
 }
 
-export default createHelper(renderComponent, 'renderComponent', false)
+export default renderComponent
