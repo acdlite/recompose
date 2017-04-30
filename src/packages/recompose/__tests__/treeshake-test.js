@@ -1,7 +1,5 @@
 import webpack from 'webpack'
 import MemoryFS from 'memory-fs'
-import pkg from '../package.json'
-import fs from 'fs'
 
 const list = [
   'mapProps',
