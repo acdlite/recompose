@@ -61,6 +61,7 @@ export const componentFromStreamWithConfig = config => propsToVdom => class Comp
   }
 }
 
-const componentFromStream = componentFromStreamWithConfig(globalConfig)
+const componentFromStream = propsToVdom =>
+  componentFromStreamWithConfig(globalConfig)(propsToVdom)
 
 export default componentFromStream

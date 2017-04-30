@@ -15,6 +15,7 @@ const branch = (test, left, right = identity) => BaseComponent => {
     rightFactory = rightFactory || createEagerFactory(right(BaseComponent))
     return rightFactory(props)
   }
+
   if (process.env.NODE_ENV !== 'production') {
     return setDisplayName(wrapDisplayName(BaseComponent, 'branch'))(Branch)
   }
