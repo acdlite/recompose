@@ -1,7 +1,8 @@
 import { Component } from 'react'
 import pick from './utils/pick'
 import shallowEqual from './shallowEqual'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 import createEagerFactory from './createEagerFactory'
 
 const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
@@ -14,7 +15,7 @@ const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
           pick(nextProps, shouldMapOrKeys)
         )
 
-  return class extends Component {
+  class WithPropsOnChange extends Component {
     computedProps = propsMapper(this.props)
 
     componentWillReceiveProps(nextProps) {
@@ -30,6 +31,13 @@ const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
       })
     }
   }
+
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(wrapDisplayName(BaseComponent, 'withPropsOnChange'))(
+      WithPropsOnChange
+    )
+  }
+  return WithPropsOnChange
 }
 
-export default createHelper(withPropsOnChange, 'withPropsOnChange')
+export default withPropsOnChange

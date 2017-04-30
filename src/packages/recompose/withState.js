@@ -1,5 +1,6 @@
 import { Component } from 'react'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 import createEagerFactory from './createEagerFactory'
 
 const withState = (
@@ -8,7 +9,7 @@ const withState = (
   initialState
 ) => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
-  return class extends Component {
+  class WithState extends Component {
     state = {
       stateValue: typeof initialState === 'function'
         ? initialState(this.props)
@@ -33,6 +34,13 @@ const withState = (
       })
     }
   }
+
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(wrapDisplayName(BaseComponent, 'withState'))(
+      WithState
+    )
+  }
+  return WithState
 }
 
-export default createHelper(withState, 'withState')
+export default withState
