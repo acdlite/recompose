@@ -1,16 +1,18 @@
 import React from 'react'
-import createHelper from '../createHelper'
+import setDisplayName from '../setDisplayName'
+import wrapDisplayName from '../wrapDisplayName'
 
-export const countRenders = createHelper(
-  BaseComponent => class extends React.Component {
+export const countRenders = BaseComponent => {
+  class CountRenders extends React.Component {
     renderCount = 0
 
     render() {
       this.renderCount += 1
       return <BaseComponent renderCount={this.renderCount} {...this.props} />
     }
-  },
-  'countRenders',
-  true,
-  true
-)
+  }
+
+  return setDisplayName(wrapDisplayName(BaseComponent, 'countRenders'))(
+    CountRenders
+  )
+}
