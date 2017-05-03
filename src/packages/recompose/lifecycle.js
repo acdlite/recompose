@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { Component } from 'react'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 import createEagerFactory from './createEagerFactory'
 
 const lifecycle = spec => BaseComponent => {
@@ -13,7 +14,7 @@ const lifecycle = spec => BaseComponent => {
     )
   }
 
-  return class extends Component {
+  class Lifecycle extends Component {
     constructor(...args) {
       super(...args)
 
@@ -27,6 +28,13 @@ const lifecycle = spec => BaseComponent => {
       })
     }
   }
+
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(wrapDisplayName(BaseComponent, 'lifecycle'))(
+      Lifecycle
+    )
+  }
+  return Lifecycle
 }
 
-export default createHelper(lifecycle, 'lifecycle')
+export default lifecycle

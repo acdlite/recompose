@@ -1,7 +1,8 @@
 import omit from './utils/omit'
 import pick from './utils/pick'
 import mapProps from './mapProps'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 
 const { keys } = Object
 
@@ -14,10 +15,18 @@ const mapKeys = (obj, func) =>
     return result
   }, {})
 
-const renameProps = nameMap =>
-  mapProps(props => ({
+const renameProps = nameMap => {
+  const hoc = mapProps(props => ({
     ...omit(props, keys(nameMap)),
     ...mapKeys(pick(props, keys(nameMap)), (_, oldName) => nameMap[oldName]),
   }))
+  if (process.env.NODE_ENV !== 'production') {
+    return BaseComponent =>
+      setDisplayName(wrapDisplayName(BaseComponent, 'renameProps'))(
+        hoc(BaseComponent)
+      )
+  }
+  return hoc
+}
 
-export default createHelper(renameProps, 'renameProps')
+export default renameProps

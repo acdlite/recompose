@@ -1,5 +1,6 @@
 import onlyUpdateForKeys from './onlyUpdateForKeys'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 import getDisplayName from './getDisplayName'
 
 const onlyUpdateForPropTypes = BaseComponent => {
@@ -20,12 +21,12 @@ const onlyUpdateForPropTypes = BaseComponent => {
   const propKeys = Object.keys(propTypes || {})
   const OnlyUpdateForPropTypes = onlyUpdateForKeys(propKeys)(BaseComponent)
 
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(
+      wrapDisplayName(BaseComponent, 'onlyUpdateForPropTypes')
+    )(OnlyUpdateForPropTypes)
+  }
   return OnlyUpdateForPropTypes
 }
 
-export default createHelper(
-  onlyUpdateForPropTypes,
-  'onlyUpdateForPropTypes',
-  true,
-  true
-)
+export default onlyUpdateForPropTypes

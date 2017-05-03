@@ -1,35 +1,48 @@
 import $$observable from 'symbol-observable'
 import createEagerFactory from './createEagerFactory'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 import { componentFromStreamWithConfig } from './componentFromStream'
 import { config as globalConfig } from './setObservableConfig'
 
 const identity = t => t
-const componentFromStream = componentFromStreamWithConfig({
-  fromESObservable: identity,
-  toESObservable: identity,
-})
 
-export const mapPropsStreamWithConfig = config => transform => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
-  const { fromESObservable, toESObservable } = config
-  return componentFromStream(props$ => ({
-    subscribe(observer) {
-      const subscription = toESObservable(
-        transform(fromESObservable(props$))
-      ).subscribe({
-        next: childProps => observer.next(factory(childProps)),
-      })
-      return {
-        unsubscribe: () => subscription.unsubscribe(),
-      }
-    },
-    [$$observable]() {
-      return this
-    },
-  }))
+export const mapPropsStreamWithConfig = config => {
+  const componentFromStream = componentFromStreamWithConfig({
+    fromESObservable: identity,
+    toESObservable: identity,
+  })
+  return transform => BaseComponent => {
+    const factory = createEagerFactory(BaseComponent)
+    const { fromESObservable, toESObservable } = config
+    return componentFromStream(props$ => ({
+      subscribe(observer) {
+        const subscription = toESObservable(
+          transform(fromESObservable(props$))
+        ).subscribe({
+          next: childProps => observer.next(factory(childProps)),
+        })
+        return {
+          unsubscribe: () => subscription.unsubscribe(),
+        }
+      },
+      [$$observable]() {
+        return this
+      },
+    }))
+  }
 }
 
-const mapPropsStream = mapPropsStreamWithConfig(globalConfig)
+const mapPropsStream = transform => {
+  const hoc = mapPropsStreamWithConfig(globalConfig)(transform)
 
-export default createHelper(mapPropsStream, 'mapPropsStream')
+  if (process.env.NODE_ENV !== 'production') {
+    return BaseComponent =>
+      setDisplayName(wrapDisplayName(BaseComponent, 'mapPropsStream'))(
+        hoc(BaseComponent)
+      )
+  }
+  return hoc
+}
+
+export default mapPropsStream

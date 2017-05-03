@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import { Component } from 'react'
 import createEagerFactory from './createEagerFactory'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 
 const mapValues = (obj, func) => {
   const result = {}
@@ -17,7 +18,7 @@ const mapValues = (obj, func) => {
 
 const withHandlers = handlers => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
-  return class extends Component {
+  class WithHandlers extends Component {
     cachedHandlers = {}
 
     handlers = mapValues(
@@ -57,6 +58,13 @@ const withHandlers = handlers => BaseComponent => {
       })
     }
   }
+
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(wrapDisplayName(BaseComponent, 'withHandlers'))(
+      WithHandlers
+    )
+  }
+  return WithHandlers
 }
 
-export default createHelper(withHandlers, 'withHandlers')
+export default withHandlers

@@ -1,7 +1,19 @@
 import shouldUpdate from './shouldUpdate'
 import shallowEqual from './shallowEqual'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 
-const pure = shouldUpdate((props, nextProps) => !shallowEqual(props, nextProps))
+const pure = BaseComponent => {
+  const hoc = shouldUpdate(
+    (props, nextProps) => !shallowEqual(props, nextProps)
+  )
 
-export default createHelper(pure, 'pure', true, true)
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(wrapDisplayName(BaseComponent, 'pure'))(
+      hoc(BaseComponent)
+    )
+  }
+  return hoc
+}
+
+export default pure

@@ -1,5 +1,3 @@
-import createHelper from './createHelper'
-
 const setStatic = (key, value) => BaseComponent => {
   /* eslint-disable no-param-reassign */
   BaseComponent[key] = value
@@ -7,4 +5,4 @@ const setStatic = (key, value) => BaseComponent => {
   return BaseComponent
 }
 
-export default createHelper(setStatic, 'setStatic', false)
+export default setStatic

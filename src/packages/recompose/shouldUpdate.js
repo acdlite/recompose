@@ -1,10 +1,11 @@
 import { Component } from 'react'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 import createEagerFactory from './createEagerFactory'
 
 const shouldUpdate = test => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
-  return class extends Component {
+  class ShouldUpdate extends Component {
     shouldComponentUpdate(nextProps) {
       return test(this.props, nextProps)
     }
@@ -13,6 +14,13 @@ const shouldUpdate = test => BaseComponent => {
       return factory(this.props)
     }
   }
+
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(wrapDisplayName(BaseComponent, 'shouldUpdate'))(
+      ShouldUpdate
+    )
+  }
+  return ShouldUpdate
 }
 
-export default createHelper(shouldUpdate, 'shouldUpdate')
+export default shouldUpdate
