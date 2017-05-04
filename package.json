@@ -9,7 +9,8 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint scripts src",
-    "test": "cross-env BABEL_ENV=cjs jest --coverage",
+    "build-recompose": "cross-env BABEL_ENV=rollup rollup --config scripts/rollup.config.js --environment BUILD:es,PACKAGE_NAME:recompose",
+    "test": "npm run build-recompose && cross-env BABEL_ENV=cjs jest --coverage",
     "test:watch": "npm test -- --watch",
     "release": "node scripts/release.js",
     "postinstall": "node scripts/installNestedPackageDeps.js",
@@ -77,6 +78,7 @@
     "rxjs": "^5.0.0-beta.9",
     "shelljs": "^0.6.0",
     "sinon": "^1.17.1",
+    "webpack": "^2.4.1",
     "xstream": "^5.0.5"
   },
   "devEngines": {

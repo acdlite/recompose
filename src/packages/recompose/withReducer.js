@@ -1,5 +1,6 @@
 import { Component } from 'react'
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 import createEagerFactory from './createEagerFactory'
 
 const withReducer = (
@@ -9,7 +10,7 @@ const withReducer = (
   initialState
 ) => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
-  return class extends Component {
+  class WithReducer extends Component {
     state = {
       stateValue: this.initializeStateValue(),
     }
@@ -36,6 +37,13 @@ const withReducer = (
       })
     }
   }
+
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(wrapDisplayName(BaseComponent, 'withReducer'))(
+      WithReducer
+    )
+  }
+  return WithReducer
 }
 
-export default createHelper(withReducer, 'withReducer')
+export default withReducer

@@ -1,4 +1,5 @@
-import createHelper from './createHelper'
+import setDisplayName from './setDisplayName'
+import wrapDisplayName from './wrapDisplayName'
 import createEagerFactory from './createEagerFactory'
 
 const getContext = contextTypes => BaseComponent => {
@@ -11,7 +12,12 @@ const getContext = contextTypes => BaseComponent => {
 
   GetContext.contextTypes = contextTypes
 
+  if (process.env.NODE_ENV !== 'production') {
+    return setDisplayName(wrapDisplayName(BaseComponent, 'getContext'))(
+      GetContext
+    )
+  }
   return GetContext
 }
 
-export default createHelper(getContext, 'getContext')
+export default getContext
