@@ -343,7 +343,7 @@ const Post = enhance(({ title, author, content }) =>
 renderNothing: HigherOrderComponent
 ```
 
-A higher-order component that always renders `null`. 
+A higher-order component that always renders `null`.
 
 This is useful in combination with another helper that expects a higher-order component, like `branch()`:
 
@@ -726,6 +726,18 @@ const Counter = componentFromStream(props$ => {
       </div>
   )
 })
+```
+
+### `mapPropsStreamWithConfig()`
+```js
+mapPropsStreamWithConfig<Stream>(
+  config: {
+    fromESObservable<T>: ?(observable: Observable<T>) => Stream<T>,
+    toESObservable<T>: ?(stream: Stream<T>) => Observable<T>,
+  },
+  ownerPropsToChildProps: (props$: Stream<object>) => Stream<object>,
+  BaseComponent: ReactElementType
+): ReactComponent
 ```
 
 ### `mapPropsStream()`

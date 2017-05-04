@@ -1,11 +1,28 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { Observable, Subject } from 'rxjs'
-import setObservableConfig from '../setObservableConfig'
+import { Stream as MostStream } from 'most'
 import rxjsConfig from '../rxjsObservableConfig'
-import componentFromStream from '../componentFromStream'
+import mostConfig from '../mostObservableConfig'
+import { componentFromStreamWithConfig } from '../componentFromStream'
 
-setObservableConfig(rxjsConfig)
+const componentFromStream = componentFromStreamWithConfig(rxjsConfig)
+
+test('componentFromStreamWithConfig creates a stream with the correct stream type.', () => {
+  const MostComponent = componentFromStreamWithConfig(mostConfig)(props$ => {
+    expect(props$ instanceof MostStream).toBe(true)
+    return props$.map(v => <div>{String(v)}</div>)
+  })
+
+  mount(<MostComponent />)
+
+  const RXJSComponent = componentFromStreamWithConfig(rxjsConfig)(props$ => {
+    expect(props$ instanceof Observable).toBe(true)
+    return props$.map(v => <div>{String(v)}</div>)
+  })
+
+  mount(<RXJSComponent />)
+})
 
 test('componentFromStream creates a component from a prop stream transformation', () => {
   const Double = componentFromStream(props$ =>

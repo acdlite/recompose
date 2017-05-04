@@ -1,7 +1,10 @@
 import $$observable from 'symbol-observable'
 import createEagerFactory from './createEagerFactory'
 import createHelper from './createHelper'
-import { componentFromStreamWithConfig } from './componentFromStream'
+import {
+  componentFromStreamWithConfig,
+  createObservableConfig,
+} from './componentFromStream'
 import { config as globalConfig } from './setObservableConfig'
 
 const identity = t => t
@@ -10,9 +13,10 @@ const componentFromStream = componentFromStreamWithConfig({
   toESObservable: identity,
 })
 
-export const mapPropsStreamWithConfig = config => transform => BaseComponent => {
+const mapPropsStreamWithConfigBase = config => transform => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
-  const { fromESObservable, toESObservable } = config
+  const { fromESObservable, toESObservable } = createObservableConfig(config)
+
   return componentFromStream(props$ => ({
     subscribe(observer) {
       const subscription = toESObservable(
@@ -30,6 +34,10 @@ export const mapPropsStreamWithConfig = config => transform => BaseComponent => 
   }))
 }
 
-const mapPropsStream = mapPropsStreamWithConfig(globalConfig)
+const mapPropsStream = mapPropsStreamWithConfigBase(globalConfig)
 
+export const mapPropsStreamWithConfig = createHelper(
+  mapPropsStreamWithConfigBase,
+  'mapPropsStream'
+)
 export default createHelper(mapPropsStream, 'mapPropsStream')
