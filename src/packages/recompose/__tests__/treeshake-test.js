@@ -38,7 +38,9 @@ const list = [
   'nest',
   'hoistStatics',
   'componentFromStream',
+  'componentFromStreamWithConfig',
   'mapPropsStream',
+  'mapPropsStreamWithConfig',
   'createEventHandler',
   'setObservableConfig',
 ]

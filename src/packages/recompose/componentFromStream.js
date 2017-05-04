@@ -19,7 +19,6 @@ export const componentFromStreamWithConfig = rawConfig => {
 
     propsEmitter = createChangeEmitter()
 
-
     // Stream of props
     props$ = config.fromESObservable({
       subscribe: observer => {
@@ -71,6 +70,7 @@ export const componentFromStreamWithConfig = rawConfig => {
       return this.state.vdom
     }
   }
+}
 
 const componentFromStream = propsToVdom =>
   componentFromStreamWithConfig(globalConfig)(propsToVdom)

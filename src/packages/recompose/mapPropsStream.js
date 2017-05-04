@@ -1,6 +1,5 @@
 import $$observable from 'symbol-observable'
 import createEagerFactory from './createEagerFactory'
-import createHelper from './createHelper'
 import {
   componentFromStreamWithConfig,
   createObservableConfig,
