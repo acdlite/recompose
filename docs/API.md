@@ -856,6 +856,8 @@ setObservableConfig<Stream>({
 })
 ```
 
+**Note: `setObservableConfig()` uses global state, and could break apps if used inside a package intended to be shared. See `componentFromStreamWithConfig()` and `mapPropsStreamWithConfig()` as alternatives for package authors.**
+
 Observables in Recompose are plain objects that conform to the [ES Observable proposal](https://github.com/zenparsing/es-observable). Usually, you'll want to use them alongside an observable library like RxJS so that you have access to its suite of operators. By default, this requires you to convert the observables provided by Recompose before applying any transforms:
 
 ```js
@@ -877,8 +879,6 @@ setObservableConfig({
   fromESObservable: Rx.Observable.from
 })
 ```
-
-**Note: `setObservableConfig()` uses global state, and could break apps if used inside a package intended to be shared. See `componentFromStreamWithConfig()` and `mapPropsStreamWithConfig()` as alternatives for package authors.**
 
 In addition to `fromESObservable`, the config object also accepts `toESObservable`, which converts a stream back into an ES observable. Because RxJS 5 observables already conform to the ES observable spec, `toESObservable` is not necessary in the above example. However, it is required for libraries like RxJS 4 or xstream, whose streams do not conform to the ES observable spec.
 
