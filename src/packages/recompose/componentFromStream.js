@@ -3,72 +3,61 @@ import { createChangeEmitter } from 'change-emitter'
 import $$observable from 'symbol-observable'
 import { config as globalConfig } from './setObservableConfig'
 
-const identity = v => v
+export const componentFromStreamWithConfig = config => propsToVdom => class ComponentFromStream
+  extends Component {
+  state = { vdom: null }
 
-export const createObservableConfig = rawConfig => ({
-  toESObservable: identity,
-  fromESObservable: identity,
-  ...rawConfig,
-})
+  propsEmitter = createChangeEmitter()
 
-export const componentFromStreamWithConfig = rawConfig => {
-  const config = createObservableConfig(rawConfig)
+  // Stream of props
+  props$ = config.fromESObservable({
+    subscribe: observer => {
+      const unsubscribe = this.propsEmitter.listen(props => {
+        if (props) {
+          observer.next(props)
+        } else {
+          observer.complete()
+        }
+      })
+      return { unsubscribe }
+    },
+    [$$observable]() {
+      return this
+    },
+  })
 
-  return propsToVdom => class ComponentFromStream extends Component {
-    state = { vdom: null }
+  // Stream of vdom
+  vdom$ = config.toESObservable(propsToVdom(this.props$))
 
-    propsEmitter = createChangeEmitter()
-
-    // Stream of props
-    props$ = config.fromESObservable({
-      subscribe: observer => {
-        const unsubscribe = this.propsEmitter.listen(props => {
-          if (props) {
-            observer.next(props)
-          } else {
-            observer.complete()
-          }
-        })
-        return { unsubscribe }
-      },
-      [$$observable]() {
-        return this
+  componentWillMount() {
+    // Subscribe to child prop changes so we know when to re-render
+    this.subscription = this.vdom$.subscribe({
+      next: vdom => {
+        this.setState({ vdom })
       },
     })
+    this.propsEmitter.emit(this.props)
+  }
 
-    // Stream of vdom
-    vdom$ = config.toESObservable(propsToVdom(this.props$))
+  componentWillReceiveProps(nextProps) {
+    // Receive new props from the owner
+    this.propsEmitter.emit(nextProps)
+  }
 
-    componentWillMount() {
-      // Subscribe to child prop changes so we know when to re-render
-      this.subscription = this.vdom$.subscribe({
-        next: vdom => {
-          this.setState({ vdom })
-        },
-      })
-      this.propsEmitter.emit(this.props)
-    }
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState.vdom !== this.state.vdom
+  }
 
-    componentWillReceiveProps(nextProps) {
-      // Receive new props from the owner
-      this.propsEmitter.emit(nextProps)
-    }
+  componentWillUnmount() {
+    // Call without arguments to complete stream
+    this.propsEmitter.emit()
 
-    shouldComponentUpdate(nextProps, nextState) {
-      return nextState.vdom !== this.state.vdom
-    }
+    // Clean-up subscription before un-mounting
+    this.subscription.unsubscribe()
+  }
 
-    componentWillUnmount() {
-      // Call without arguments to complete stream
-      this.propsEmitter.emit()
-
-      // Clean-up subscription before un-mounting
-      this.subscription.unsubscribe()
-    }
-
-    render() {
-      return this.state.vdom
-    }
+  render() {
+    return this.state.vdom
   }
 }
 

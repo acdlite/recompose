@@ -1,9 +1,6 @@
 import $$observable from 'symbol-observable'
 import createEagerFactory from './createEagerFactory'
-import {
-  componentFromStreamWithConfig,
-  createObservableConfig,
-} from './componentFromStream'
+import { componentFromStreamWithConfig } from './componentFromStream'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 import { config as globalConfig } from './setObservableConfig'
@@ -17,7 +14,7 @@ export const mapPropsStreamWithConfig = config => {
   })
   return transform => BaseComponent => {
     const factory = createEagerFactory(BaseComponent)
-    const { fromESObservable, toESObservable } = createObservableConfig(config)
+    const { fromESObservable, toESObservable } = config
     return componentFromStream(props$ => ({
       subscribe(observer) {
         const subscription = toESObservable(
