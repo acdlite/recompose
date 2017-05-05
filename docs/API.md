@@ -742,6 +742,7 @@ componentFromStreamWithConfig<Stream>(
 ```
 
 Alternative to `componentFromStream()` that accepts an observable config and returns a customized `componentFromStream()` which uses the specified observable library. This option is recommended if you want to avoid global state with `setObservableConfig()`.
+
 **Note: The following configuration modules are not included in the main export. You must import them individually, as shown in the examples.**
 
 #### RxJS
@@ -877,7 +878,7 @@ setObservableConfig({
 })
 ```
 
-**Note: `setObservableConfig()` uses global state, and could break apps if used inside a package inteded to be shared. See `componentFromStreamWithConfig()` and `mapPropsStreamWithConfig()` for alternatives for package authors.**
+**Note: `setObservableConfig()` uses global state, and could break apps if used inside a package intended to be shared. See `componentFromStreamWithConfig()` and `mapPropsStreamWithConfig()` as alternatives for package authors.**
 
 In addition to `fromESObservable`, the config object also accepts `toESObservable`, which converts a stream back into an ES observable. Because RxJS 5 observables already conform to the ES observable spec, `toESObservable` is not necessary in the above example. However, it is required for libraries like RxJS 4 or xstream, whose streams do not conform to the ES observable spec.
 
