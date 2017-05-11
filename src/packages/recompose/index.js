@@ -42,7 +42,13 @@ export { default as nest } from './nest'
 export { default as hoistStatics } from './hoistStatics'
 
 // Observable helpers
-export { default as componentFromStream } from './componentFromStream'
-export { default as mapPropsStream } from './mapPropsStream'
+export {
+  default as componentFromStream,
+  componentFromStreamWithConfig,
+} from './componentFromStream'
+export {
+  default as mapPropsStream,
+  mapPropsStreamWithConfig,
+} from './mapPropsStream'
 export { default as createEventHandler } from './createEventHandler'
 export { default as setObservableConfig } from './setObservableConfig'

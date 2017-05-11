@@ -343,7 +343,7 @@ const Post = enhance(({ title, author, content }) =>
 renderNothing: HigherOrderComponent
 ```
 
-A higher-order component that always renders `null`. 
+A higher-order component that always renders `null`.
 
 This is useful in combination with another helper that expects a higher-order component, like `branch()`:
 
@@ -728,6 +728,72 @@ const Counter = componentFromStream(props$ => {
 })
 ```
 
+### `componentFromStreamWithConfig()`
+
+```js
+componentFromStreamWithConfig<Stream>(
+  config: {
+    fromESObservable<T>: ?(observable: Observable<T>) => Stream<T>,
+    toESObservable<T>: ?(stream: Stream<T>) => Observable<T>,
+  }
+) => (
+  propsToReactNode: (props$: Stream<object>) => Stream<ReactNode>
+): ReactComponent
+```
+
+Alternative to `componentFromStream()` that accepts an observable config and returns a customized `componentFromStream()` which uses the specified observable library. This option is recommended if you want to avoid global state with `setObservableConfig()`.
+
+**Note: The following configuration modules are not included in the main export. You must import them individually, as shown in the examples.**
+
+#### RxJS
+
+```js
+import rxjsConfig from 'recompose/rxjsObservableConfig'
+const componentFromStream = componentFromStreamWithConfig(rxjsConfig)
+```
+
+#### RxJS 4 (legacy)
+
+```js
+import rxjs4Config from 'recompose/rxjs4ObservableConfig'
+const componentFromStream = componentFromStreamWithConfig(rxjs4Config)
+```
+
+#### most
+
+```js
+import mostConfig from 'recompose/mostObservableConfig'
+const componentFromStream = componentFromStreamWithConfig(mostConfig)
+```
+
+#### xstream
+
+```js
+import xstreamConfig from 'recompose/xstreamObservableConfig'
+const componentFromStream = componentFromStreamWithConfig(xstreamCondfig)
+```
+
+#### Bacon
+
+```js
+import baconConfig from 'recompose/baconObservableConfig'
+const componentFromStream = componentFromStreamWithConfig(baconConfig)
+```
+
+#### Kefir
+
+```js
+import kefirConfig from 'recompose/kefirObservableConfig'
+const componentFromStream = componentFromStreamWithConfig(kefirConfig)
+```
+
+#### Flyd
+
+```js
+import flydConfig from 'recompose/flydObservableConfig'
+const componentFromStream = componentFromStreamWithConfig(flydConfig)
+```
+
 ### `mapPropsStream()`
 
 ```js
@@ -740,6 +806,21 @@ mapPropsStream(
 A higher-order component version of `componentFromStream()` — accepts a function that maps an observable stream of owner props to a stream of child props, rather than directly to a stream of React nodes. The child props are then passed to a base component.
 
 You may want to use this version to interoperate with other Recompose higher-order component helpers.
+
+### `mapPropsStreamWithConfig()`
+```js
+mapPropsStreamWithConfig<Stream>(
+  config: {
+    fromESObservable<T>: ?(observable: Observable<T>) => Stream<T>,
+    toESObservable<T>: ?(stream: Stream<T>) => Observable<T>,
+  },
+) => (
+  ownerPropsToChildProps: (props$: Stream<object>) => Stream<object>,
+  BaseComponent: ReactElementType
+): ReactComponent
+```
+
+Alternative to `mapPropsStream()` that accepts a observable config and returns a customized `mapPropsStream()` that uses the specified observable library. See `componentFromStreamWithConfig()` above.
 
 ```js
 const enhance = mapPropsStream(props$ => {
@@ -774,6 +855,8 @@ setObservableConfig<Stream>({
   toESObservable<T>: ?(stream: Stream<T>) => Observable<T>
 })
 ```
+
+**Note: `setObservableConfig()` uses global state, and could break apps if used inside a package intended to be shared. See `componentFromStreamWithConfig()` and `mapPropsStreamWithConfig()` as alternatives for package authors.**
 
 Observables in Recompose are plain objects that conform to the [ES Observable proposal](https://github.com/zenparsing/es-observable). Usually, you'll want to use them alongside an observable library like RxJS so that you have access to its suite of operators. By default, this requires you to convert the observables provided by Recompose before applying any transforms:
 

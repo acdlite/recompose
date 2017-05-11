@@ -1,8 +1,8 @@
 import $$observable from 'symbol-observable'
 import createEagerFactory from './createEagerFactory'
+import { componentFromStreamWithConfig } from './componentFromStream'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import { componentFromStreamWithConfig } from './componentFromStream'
 import { config as globalConfig } from './setObservableConfig'
 
 const identity = t => t

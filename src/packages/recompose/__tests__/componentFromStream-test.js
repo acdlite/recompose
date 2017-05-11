@@ -1,11 +1,10 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { Observable, Subject } from 'rxjs'
-import setObservableConfig from '../setObservableConfig'
 import rxjsConfig from '../rxjsObservableConfig'
-import componentFromStream from '../componentFromStream'
+import { componentFromStreamWithConfig } from '../componentFromStream'
 
-setObservableConfig(rxjsConfig)
+const componentFromStream = componentFromStreamWithConfig(rxjsConfig)
 
 test('componentFromStream creates a component from a prop stream transformation', () => {
   const Double = componentFromStream(props$ =>

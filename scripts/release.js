@@ -50,7 +50,9 @@ try {
   const versionLoc = path.resolve(PACKAGES_SRC_DIR, packageName, 'VERSION')
   const version = fs.readFileSync(versionLoc, 'utf8').trim()
 
-  let nextVersion = readline.question(`Next version of ${packageName} (current version is ${version}): `)
+  let nextVersion = readline.question(
+    `Next version of ${packageName} (current version is ${version}): `
+  )
 
   while (
     !(!nextVersion ||
