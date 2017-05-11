@@ -33,6 +33,7 @@
     ]
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.5.2",
     "babel-eslint": "^6.0.4",
     "babel-jest": "^19.0.0",
