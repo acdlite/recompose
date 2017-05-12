@@ -13,7 +13,8 @@ const pure = BaseComponent => {
       hoc(BaseComponent)
     )
   }
-  return hoc
+
+  return hoc(BaseComponent)
 }
 
 export default pure
