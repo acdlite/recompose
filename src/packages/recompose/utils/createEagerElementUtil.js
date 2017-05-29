@@ -14,13 +14,11 @@ const createEagerElementUtil = (
     return type(props)
   }
 
-  const Component = type
-
-  if (children) {
-    return <Component {...props}>{children}</Component>
-  }
-
-  return <Component {...props} />
+  return React.createElement(
+    type,
+    props,
+    children
+  )
 }
 
 export default createEagerElementUtil
