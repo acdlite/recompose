@@ -17,7 +17,7 @@ test('withHandlers passes handlers to base component', () => {
     })
   )
 
-  const Form = enhanceForm(({ value, onChange, onSubmit }) => (
+  const Form = enhanceForm(({ value, onChange, onSubmit }) =>
     <form onSubmit={onSubmit}>
       <label>
         Value
@@ -25,7 +25,7 @@ test('withHandlers passes handlers to base component', () => {
       </label>
       <p>{value}</p>
     </form>
-  ))
+  )
 
   const wrapper = mount(<Form />)
   const input = wrapper.find('input')

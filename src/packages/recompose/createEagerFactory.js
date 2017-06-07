@@ -1,6 +1,5 @@
 import createEagerElementUtil from './utils/createEagerElementUtil'
-import isReferentiallyTransparentFunctionComponent
-  from './isReferentiallyTransparentFunctionComponent'
+import isReferentiallyTransparentFunctionComponent from './isReferentiallyTransparentFunctionComponent'
 
 const createFactory = type => {
   const isReferentiallyTransparent = isReferentiallyTransparentFunctionComponent(

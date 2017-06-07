@@ -11,13 +11,13 @@ test('branch tests props and applies one of two HoCs, for true and false', () =>
       withProps({ name: 'Heisenberg' }),
       withProps({ name: 'Walter' })
     )
-  )(({ isBad, name, updateIsBad }) => (
+  )(({ isBad, name, updateIsBad }) =>
     <div>
       <div className="isBad">{isBad ? 'true' : 'false'}</div>
       <div className="name">{name}</div>
       <button onClick={() => updateIsBad(b => !b)}>Toggle</button>
     </div>
-  ))
+  )
 
   expect(SayMyName.displayName).toBe('withState(branch(Component))')
 
