@@ -55,8 +55,10 @@ try {
   )
 
   while (
-    !(!nextVersion ||
-      (semver.valid(nextVersion) && semver.gt(nextVersion, version)))
+    !(
+      !nextVersion ||
+      (semver.valid(nextVersion) && semver.gt(nextVersion, version))
+    )
   ) {
     nextVersion = readline.question(
       `Must provide a valid version that is greater than ${version}, ` +

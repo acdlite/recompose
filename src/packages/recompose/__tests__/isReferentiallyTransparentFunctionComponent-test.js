@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
-import isReferentiallyTransparentFunctionComponent
-  from '../isReferentiallyTransparentFunctionComponent'
+import isReferentiallyTransparentFunctionComponent from '../isReferentiallyTransparentFunctionComponent'
 
 test('isReferentiallyTransparentFunctionComponent returns false for strings', () => {
   expect(isReferentiallyTransparentFunctionComponent('div')).toBe(false)
