@@ -87,9 +87,23 @@ mapProps(
 ): HigherOrderComponent
 ```
 
-Accepts a function that maps owner props to a new collection of props that are passed to the base component.
+Accepts a function that maps owner props to a new collection of props that are passed to the base component. Use this when adding or replacing props while removing existing ones.
 
-`mapProps()` pairs well with functional utility libraries like [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp). For example, Recompose does not come with a `omitProps()` function, but you can easily build one using lodash-fp's `omit()`:
+Example: Replace props `firstName` and `lastName` with `fullName`, but leave all other props intact.
+```js
+const enhance = mapProps(
+  ({ firstName, lastName, ...rest }) => ({
+    ...rest,
+    fullName: `${firstName} ${lastName}`,
+  }),
+)
+
+const Greeting = enhance({ fullName, ...rest }) =>
+  <p { ...rest }>Hello, { fullName }!</p>
+```
+
+`mapProps()` pairs well with functional utility libraries like [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp). For example, Recompose does not come with a `omitProps()` function, but you can easily build one using lodash-fp's
+`omit()`:
 
 ```js
 const omitProps = keys => mapProps(props => omit(keys, props))
@@ -106,10 +120,23 @@ withProps(
 ): HigherOrderComponent
 ```
 
-Like `mapProps()`, except the newly created props are merged with the owner props.
+Like `mapProps()`, except the newly created props are merged with the owner props. Use this when adding or replacing props while keeping all others intact.
+
+Example: Force `target="_blank"` to be added to all external links.
+```js
+const enhance = withProps(
+  ({ href, target }) => ({
+    href,
+    target: /^https?/.test(href) ? "_blank" : null,
+  }),
+)
+
+const Link = enhance(props =>
+  <a {...props} />
+)
+```
 
 Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the owner.
-
 
 ### `withPropsOnChange()`
 
@@ -122,7 +149,30 @@ withPropsOnChange(
 
 Like `withProps()`, except the new props are only created when one of the owner props specified by `shouldMapOrKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
 
+```js
+const enhance = withPropsOnChange(
+  ['description'],
+  props => addHyphens(description), // expensive for large text blocks!
+)
+
+const Post = enhance(props =>
+  <div>
+    <h5>{ props.title }</h5>
+    <p>{ props.description}</p>
+  </div>
+)
+```
+
 Instead of an array of prop keys, the first parameter can also be a function that returns a boolean, given the current props and the next props. This allows you to customize when `createProps()` should be called.
+
+```js
+const enhance = withPropsOnChange(
+  props => props.active,
+  props => ({
+    lastComment: findLatest(props.allComments, props.id),
+  }),
+)
+```
 
 ### `withHandlers()`
 
@@ -137,7 +187,7 @@ withHandlers(
 ): HigherOrderComponent
 ```
 
-Takes an object map of handler creators or a factory function. These are higher-order functions that accept a set of props and return a function handler:
+Takes an object map of handler creators or a factory function. These are higher-order functions that accept a set ofprops and return a function handler:
 
 This allows the handler to access the current props via closure, without needing to change its signature.
 
@@ -178,6 +228,16 @@ defaultProps(
 
 Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided to the HoC.
 
+```js
+const enhance = defaultProps({ size: "small" })
+
+const Button = enhance({ children, size }) =>
+  <button className={size}>
+    { children }
+  </button>
+)
+```
+
 Although it has a similar effect, using the `defaultProps()` HoC is *not* the same as setting the static `defaultProps` property directly on the component.
 
 
@@ -191,6 +251,16 @@ renameProp(
 ```
 
 Renames a single prop.
+
+This can be used to change the API for an imported library match the convention used in a project:
+
+```js
+import { Popover as PopoverOriginal } from "library"
+
+const Popover = compose(
+  renameProp("isOpen", "open"),
+)(PopoverOriginal)
+```
 
 ### `renameProps()`
 
@@ -301,6 +371,8 @@ branch(
 ```
 
 Accepts a test function and two higher-order components. The test function is passed the props from the owner. If it returns true, the `left` higher-order component is applied to `BaseComponent`; otherwise, the `right` higher-order component is applied. If the `right` is not supplied, it will by default render the wrapped component.
+
+See renderComponent() for example usage.
 
 ### `renderComponent()`
 
@@ -933,4 +1005,40 @@ setObservableConfig(kefirConfig)
 ```js
 import flydConfig from 'recompose/flydObservableConfig'
 setObservableConfig(flydConfig)
+```
+
+#### Complex Examples
+
+mapProps allows props to be derived from other props in a similar way to [reselect](https://github.com/reactjs/reselect).
+
+```js
+
+const USERS = [
+  { name: "Tim", status: 'active' },
+  { name: "Bob", status: 'active' },
+  { name: "Joe", status: 'active' },
+  { name: "Jim", status: 'inactive' },
+]
+
+const UserList = ({ users, status }) =>
+  <div className="UserList">
+    <h3>{ status } users</h3>
+    { users.map((user) => <p>{ user.name }</p>) }
+  </div>
+
+const filterByStatus = (status) => mapProps(
+  props => ({
+    status,
+    users: users.filter(user => user.status === status)
+  })
+)
+
+const ActiveUsers = filterByStatus('active')(UserList)
+const InactiveUsers = filterByStatus('inactive')(UserList)
+
+const App = () =>
+  <div className="App">
+    <ActiveUsers users={ USERS } />
+    <InactiveUsers users={ USERS } />
+  </div>
 ```
