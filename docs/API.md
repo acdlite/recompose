@@ -65,6 +65,7 @@ const PureComponent = pure(BaseComponent)
   + [`wrapDisplayName()`](#wrapdisplayname)
   + [`shallowEqual()`](#shallowequal)
   + [`isClassComponent()`](#isclasscomponent)
+  + [`ifElse()`](#ifelse)
   + [`createEagerElement()`](#createeagerelement)
   + [`createEagerFactory()`](#createeagerfactory)
   + [`createSink()`](#createsink)
@@ -575,6 +576,18 @@ isClassComponent(value: any): boolean
 ```
 
 Returns true if the given value is a React component class.
+
+### `ifElse()`
+
+```js
+ifElse(
+  test: (props: Object) => boolean,
+  left: (props: Object) => any,
+  right: ?(props: Object) => any
+): HigherOrderComponent
+```
+
+Accepts a test function and two functions. The test function is passed the props from the owner. If it returns true, the left function will be invoked; otherwise, the right function will be invoked if it is supplied.
 
 ### `createEagerElement()`
 
