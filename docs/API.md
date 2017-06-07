@@ -129,10 +129,10 @@ Instead of an array of prop keys, the first parameter can also be a function tha
 ```js
 withHandlers(
   handlerCreators: {
-    [handlerName: string]: (props: Object) => Function
+    [handlerName: string]: (props: Object, self: Object) => Function
   } |
   handlerCreatorsFactory: (initialProps) => {
-    [handlerName: string]: (props: Object) => Function
+    [handlerName: string]: (props: Object, self: Object) => Function
   }
 ): HigherOrderComponent
 ```
@@ -143,18 +143,25 @@ This allows the handler to access the current props via closure, without needing
 
 Handlers are passed to the base component as immutable props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality. This is the main reason to use `withHandlers` to create handlers instead of using `mapProps` or `withProps`, which will create new handlers every time when it get updated.
 
+self argument contains all handlers defined in current enhancer.
+
 Usage example:
 
 ```js
 const enhance = compose(
   withState('value', 'updateValue', ''),
   withHandlers({
-    onChange: props => event => {
-      props.updateValue(event.target.value)
+    onLog: props => message => {
+      console.log(message, props)
     },
-    onSubmit: props => event => {
+    onChange: (props, self) => event => {
+      props.updateValue(event.target.value)
+      self.onLog('onChange')
+    },
+    onSubmit: (props, self) => event => {
       event.preventDefault()
       submitForm(props.value)
+      self.onLog('onSubmit')
     }
   })
 )
@@ -167,6 +174,7 @@ const Form = enhance(({ value, onChange, onSubmit }) =>
   </form>
 )
 ```
+
 
 ### `defaultProps()`
 

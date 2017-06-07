@@ -162,3 +162,37 @@ test('withHandlers allow handers to be a factory', () => {
   expect(componentHandlers[0]).toEqual(componentHandlers2[0])
   expect(componentHandlers[0]).not.toBe(componentHandlers2[0])
 })
+
+test('withHandlers allows to call internal handlers', () => {
+  const selfHandlerCallSpy = sinon.spy()
+
+  const enhance = withHandlers({
+    handler: (_, { selfHandler }) => val => {
+      selfHandler(val)
+    },
+    selfHandler: props => val => {
+      selfHandlerCallSpy({ props, val })
+    },
+  })
+
+  const component = sinon.spy(() => null)
+  const Div = enhance(component)
+
+  const wrapper = mount(<Div foo="bar" />)
+  const { handler } = component.firstCall.args[0]
+
+  expect(selfHandlerCallSpy.callCount).toBe(0)
+
+  handler(1)
+  expect(selfHandlerCallSpy.callCount).toBe(1)
+  expect(selfHandlerCallSpy.args[0]).toEqual([
+    { props: { foo: 'bar' }, val: 1 },
+  ])
+
+  wrapper.setProps({ foo: 'baz' })
+  handler(2)
+
+  expect(selfHandlerCallSpy.args[1]).toEqual([
+    { props: { foo: 'baz' }, val: 2 },
+  ])
+})
