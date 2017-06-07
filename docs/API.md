@@ -42,6 +42,7 @@ const PureComponent = pure(BaseComponent)
   + [`renameProp()`](#renameprop)
   + [`renameProps()`](#renameprops)
   + [`flattenProp()`](#flattenprop)
+  + [`flattenProps()`](#flattenprops)
   + [`withState()`](#withstate)
   + [`withReducer()`](#withreducer)
   + [`branch()`](#branch)
@@ -211,6 +212,16 @@ flattenProp(
 ```
 
 Flattens a prop so that its fields are spread out into the props object.
+
+### `flattenProps()`
+
+```js
+flattenProps(
+  propNames: Array<string>
+): HigherOrderComponent
+```
+
+Same as `flattenProp` but takes an array of prop names. Higher index props overwrite lower index props.
 
 ```js
 const enhance = compose(
