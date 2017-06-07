@@ -15,12 +15,6 @@ const lifecycle = spec => BaseComponent => {
   }
 
   class Lifecycle extends Component {
-    constructor(...args) {
-      super(...args)
-
-      Object.assign(this, spec)
-    }
-
     render() {
       return factory({
         ...this.props,
@@ -28,6 +22,8 @@ const lifecycle = spec => BaseComponent => {
       })
     }
   }
+
+  Object.keys(spec).forEach(hook => (Lifecycle.prototype[hook] = spec[hook]))
 
   if (process.env.NODE_ENV !== 'production') {
     return setDisplayName(wrapDisplayName(BaseComponent, 'lifecycle'))(
