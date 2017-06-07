@@ -32,7 +32,7 @@ Helpers like `withState()` and `withReducer()` provide a nicer way to express st
 
 ```js
 const enhance = withState('counter', 'setCounter', 0)
-const Counter = enhance(({ counter, setCounter }) =>
+const Counter = enhance(({ counter, setCounter }) => (
   <div>
     Count: {counter}
     <button onClick={() => setCounter(n => n + 1)}>Increment</button>
@@ -56,7 +56,7 @@ const counterReducer = (count, action) => {
 }
 
 const enhance = withReducer('counter', 'dispatch', counterReducer, 0)
-const Counter = enhance(({ counter, dispatch }) =>
+const Counter = enhance(({ counter, dispatch }) => (
   <div>
     Count: {counter}
     <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
