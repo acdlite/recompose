@@ -4,22 +4,18 @@ import { mount } from 'enzyme'
 import { ifElse, compose, withState, withProps } from '../'
 
 test('branch tests props and invokes one of two functions, for true and false', () => {
-  const heisenberg = sinon.spy();
-  const walter = sinon.spy();
+  const heisenberg = sinon.spy()
+  const walter = sinon.spy()
   const SayMyName = compose(
     withState('isBad', 'updateIsBad', false),
-    ifElse(
-      props => props.isBad,
-      props => heisenberg(),
-      props => walter()
-    )
-  )(({ isBad, name, updateIsBad }) => (
+    ifElse(props => props.isBad, props => heisenberg(), props => walter())
+  )(({ isBad, name, updateIsBad }) =>
     <div>
       <button onClick={() => updateIsBad(b => !b)}>Toggle</button>
     </div>
-  ))
+  )
 
-  expect(SayMyName.displayName).toBe('withState(branch(Component))')
+  expect(SayMyName.displayName).toBe('withState(ifElse(Component))')
 
   const wrapper = mount(<SayMyName />)
   const toggle = wrapper.find('button')
