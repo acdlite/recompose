@@ -256,12 +256,11 @@ After that, you can do imports like below without actually including the entire 
 import { compose, mapProps, withState } from 'recompose'
 ```
 
-## Recipes for Inspiration
-We've started a Recipes page to help show some various patterns for inspiration. Feel free to add to it! [Recipes](https://github.com/acdlite/recompose/wiki/Recipes).
-
 ## Who uses Recompose
 If your company or project uses Recompose, feel free to add it to [the official list of users](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose) by [editing](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) the wiki page.
 
+## Recipes for Inspiration
+We have a community-driven Recipes page. It's a place to share and see recompose patterns for inspiration. Please add to it! [Recipes](https://github.com/acdlite/recompose/wiki/Recipes).
 
 ## Feedback wanted
 
