@@ -265,7 +265,7 @@ const addCounting = compose(
     increment: ({ setCounter }) => () => setCounter(n => n + 1),
     decrement: ({ setCounter }) => () =>  setCounter(n => n - 1),
     reset: ({ setCounter }) => () => setCounter(0)
-  }))
+  })
 )
 ```
 
