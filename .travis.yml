@@ -3,8 +3,8 @@ node_js:
   - "node"
 before_script: "npm install -g codeclimate-test-reporter"
 script:
-  - npm run lint
-  - npm test
+  - yarn run lint
+  - yarn test
 after_script:
   - "CODECLIMATE_REPO_TOKEN=27125df6192d300baf67cd5f5eab6597c998256f4883b744a1055d0f0c18e608 codeclimate-test-reporter < coverage/lcov.info"
   - "cat ./coverage/lcov.info | $(npm bin)/codecov"

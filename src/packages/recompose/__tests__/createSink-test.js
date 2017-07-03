@@ -14,7 +14,11 @@ test('createSink creates a React component that fires a callback when receiving 
     }))
   )(Sink)
 
-  mount(<div><Counter /></div>)
+  mount(
+    <div>
+      <Counter />
+    </div>
+  )
 
   const { increment } = spy.lastCall.args[0]
   const getCounter = () => spy.lastCall.args[0].counter

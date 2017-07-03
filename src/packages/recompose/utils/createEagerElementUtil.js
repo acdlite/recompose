@@ -17,7 +17,11 @@ const createEagerElementUtil = (
   const Component = type
 
   if (children) {
-    return <Component {...props}>{children}</Component>
+    return (
+      <Component {...props}>
+        {children}
+      </Component>
+    )
   }
 
   return <Component {...props} />

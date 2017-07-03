@@ -7,13 +7,14 @@ import createEagerFactory from './createEagerFactory'
 
 const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
-  const shouldMap = typeof shouldMapOrKeys === 'function'
-    ? shouldMapOrKeys
-    : (props, nextProps) =>
-        !shallowEqual(
-          pick(props, shouldMapOrKeys),
-          pick(nextProps, shouldMapOrKeys)
-        )
+  const shouldMap =
+    typeof shouldMapOrKeys === 'function'
+      ? shouldMapOrKeys
+      : (props, nextProps) =>
+          !shallowEqual(
+            pick(props, shouldMapOrKeys),
+            pick(nextProps, shouldMapOrKeys)
+          )
 
   class WithPropsOnChange extends Component {
     computedProps = propsMapper(this.props)

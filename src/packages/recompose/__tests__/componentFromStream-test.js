@@ -8,7 +8,11 @@ const componentFromStream = componentFromStreamWithConfig(rxjsConfig)
 
 test('componentFromStream creates a component from a prop stream transformation', () => {
   const Double = componentFromStream(props$ =>
-    props$.map(({ n }) => <div>{n * 2}</div>)
+    props$.map(({ n }) =>
+      <div>
+        {n * 2}
+      </div>
+    )
   )
   const wrapper = mount(<Double n={112} />)
   const div = wrapper.find('div')
