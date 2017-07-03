@@ -6,8 +6,6 @@ class Nothing extends Component {
   }
 }
 
-Nothing.displayName = 'Nothing'
-
 const renderNothing = _ => Nothing
 
 export default renderNothing
