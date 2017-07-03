@@ -18,13 +18,9 @@
     "precommit": "lint-staged"
   },
   "jest": {
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*-test.js"
-    ],
-    "coverageReporters": [
-      "text-summary",
-      "lcov"
-    ]
+    "testMatch": ["<rootDir>/src/**/__tests__/**/*-test.js"],
+    "coverageReporters": ["text-summary", "lcov"],
+    "setupTestFrameworkScriptFile": "<rootDir>/scripts/jest.setup.js"
   },
   "lint-staged": {
     "*.js": [
