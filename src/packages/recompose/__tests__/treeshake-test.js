@@ -11,6 +11,7 @@ const list = [
   'renameProps',
   'flattenProp',
   'withState',
+  'withStateHandlers',
   'withReducer',
   'branch',
   'renderComponent',

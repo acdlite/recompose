@@ -43,6 +43,7 @@ const PureComponent = pure(BaseComponent)
   + [`renameProps()`](#renameprops)
   + [`flattenProp()`](#flattenprop)
   + [`withState()`](#withstate)
+  + [`withStateHandlers()`](#withStateHandlers)
   + [`withReducer()`](#withreducer)
   + [`branch()`](#branch)
   + [`renderComponent()`](#rendercomponent)
@@ -274,6 +275,52 @@ The second form accepts a single value, which is used as the new state.
 Both forms accept an optional second parameter, a callback function that will be executed once `setState()` is completed and the component is re-rendered.
 
 An initial state value is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
+
+### `withStateHandlers()`
+
+```js
+withStateHandlers(
+  initialState: Object | (props: Object) => any,
+  stateUpdaters: {
+    [key: string]: (state:Object, props:Object) => (...payload: any[]) => Object
+  }
+)
+
+```
+
+Passes state object properties and immutable updater functions
+in a form of `(...payload: any[]) => Object` to the base component.
+
+Every state updater function accepts state, props and payload and must return a new state or undefined.
+Returning undefined does not cause a component rerender.
+
+Example:
+
+```js
+  const Counter = withStateHandlers(
+    ({ initialCounter = 0 }) => ({
+      counter: initialCounter,
+    }),
+    {
+      incrementOn: ({ counter }) => (value) => ({
+        counter: counter + value,
+      }),
+      decrementOn: ({ counter }) => (value) => ({
+        counter: counter - value,
+      }),
+      resetCounter: (_, { initialCounter = 0 }) => () => ({
+        counter: initialCounter,
+      }),
+    }
+  )(
+    ({ counter, incrementOn, decrementOn, resetCounter }) =>
+      <div>
+        <Button onClick={() => incrementOn(2)}>Inc</Button>
+        <Button onClick={() => decrementOn(3)}>Dec</Button>
+        <Button onClick={resetCounter}>Dec</Button>
+      </div>
+  )
+```
 
 ### `withReducer()`
 
