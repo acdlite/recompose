@@ -11,19 +11,13 @@ test('nest nests components from outer to inner', () => {
 
   expect(Nest.displayName).toBe('nest(A, B, C)')
 
-  const wrapper = shallow(
-    <Nest pass="through">
-      Child
-    </Nest>
-  )
+  const wrapper = shallow(<Nest pass="through">Child</Nest>)
 
   expect(
     wrapper.equals(
       <A pass="through">
         <B pass="through">
-          <C pass="through">
-            Child
-          </C>
+          <C pass="through">Child</C>
         </B>
       </A>
     )

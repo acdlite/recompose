@@ -11,17 +11,17 @@ const withState = (
   const factory = createEagerFactory(BaseComponent)
   class WithState extends Component {
     state = {
-      stateValue: typeof initialState === 'function'
-        ? initialState(this.props)
-        : initialState,
+      stateValue:
+        typeof initialState === 'function'
+          ? initialState(this.props)
+          : initialState,
     }
 
     updateStateValue = (updateFn, callback) =>
       this.setState(
         ({ stateValue }) => ({
-          stateValue: typeof updateFn === 'function'
-            ? updateFn(stateValue)
-            : updateFn,
+          stateValue:
+            typeof updateFn === 'function' ? updateFn(stateValue) : updateFn,
         }),
         callback
       )

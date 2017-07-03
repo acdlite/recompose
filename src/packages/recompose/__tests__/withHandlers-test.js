@@ -23,7 +23,9 @@ test('withHandlers passes handlers to base component', () => {
         Value
         <input type="text" value={value} onChange={onChange} />
       </label>
-      <p>{value}</p>
+      <p>
+        {value}
+      </p>
     </form>
   )
 
