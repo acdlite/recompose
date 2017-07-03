@@ -3,18 +3,7 @@ import { Component } from 'react'
 import createEagerFactory from './createEagerFactory'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-
-const mapValues = (obj, func) => {
-  const result = {}
-  /* eslint-disable no-restricted-syntax */
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      result[key] = func(obj[key], key)
-    }
-  }
-  /* eslint-enable no-restricted-syntax */
-  return result
-}
+import mapValues from './utils/mapValues'
 
 const withHandlers = handlers => BaseComponent => {
   const factory = createEagerFactory(BaseComponent)
