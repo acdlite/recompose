@@ -68,7 +68,7 @@ try {
 
   log('Running tests...')
 
-  if (exec('npm run lint && npm test').code !== 0) {
+  if (exec('yarn run lint && yarn test').code !== 0) {
     logError('The test command did not exit cleanly. Aborting release.')
     exit(1)
   }
@@ -142,7 +142,7 @@ try {
   }
 
   log('Publishing...')
-  if (exec(`cd ${outDir} && npm publish`).code !== 0) {
+  if (exec(`cd ${outDir} && yarn publish`).code !== 0) {
     logError('Publish failed. Aborting release.')
     exit(1)
   }
