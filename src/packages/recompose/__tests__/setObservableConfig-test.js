@@ -1,5 +1,6 @@
 import React from 'react'
 import { mount } from 'enzyme'
+import 'rxjs/add/operator/map'
 import rxjs5Config from '../rxjsObservableConfig'
 import rxjs4Config from '../rxjs4ObservableConfig'
 import mostConfig from '../mostObservableConfig'
