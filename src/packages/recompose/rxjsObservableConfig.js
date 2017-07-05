@@ -1,7 +1,7 @@
-import Rx from 'rxjs'
+import { from } from 'rxjs/observable/from'
 
 const config = {
-  fromESObservable: Rx.Observable.from,
+  fromESObservable: from,
   toESObservable: stream => stream,
 }
 
