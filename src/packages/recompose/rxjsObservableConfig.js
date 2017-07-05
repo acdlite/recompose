@@ -1,4 +1,4 @@
-import { from } from 'rxjs/Observable/from'
+import { from } from 'rxjs/observable/from'
 
 const config = {
   fromESObservable: from,
