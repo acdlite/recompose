@@ -10,14 +10,15 @@
     "hoist-non-react-statics": "^2.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-motion": "^0.5.0"
+    "react-motion": "^0.5.0",
+    "recompose": "^0.24.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"
   },
   "scripts": {
-    "start": "NODE_PATH=../../lib/packages react-scripts start",
-    "build": "NODE_PATH=../../lib/packages react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "flow": "flow"
   }
 }
