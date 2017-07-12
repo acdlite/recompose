@@ -13,13 +13,17 @@ css.insert(`
     -webkit-font-smoothing: antialiased;
     background-color: indigo;
   }
+`)
 
+css.insert(`
   * {
     min-width: 0;
     min-height: 0;
     box-sizing: border-box;
   }
+`)
 
+css.insert(`
   #root {
     min-height: 100%; /* not 100 vh because of mobile chrome */
     display: flex;
