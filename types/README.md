@@ -49,7 +49,7 @@ Or use [flow-typed](https://github.com/flowtype/flow-typed)
 flow-typed install recompose
 ```
 
-(_flow-typed defs will be available after this PR will be merged //github.com/flowtype/flow-typed/pull/1032_)
+(_flow-typed defs will be available after this [PR](https://github.com/flowtype/flow-typed/pull/1032) will be merged_)
 
 ## Support
 
