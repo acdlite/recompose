@@ -41,6 +41,16 @@ Look at [this](https://coolmenu-pguyikfzsr.now.sh) app [source](./flow-example)
 
 Look at [library definitions and tests](./flow-typed/recompose_v0.24.x-/flow_v0.49.x-)
 
+To add into project you can download library definitions [here](./flow-typed/recompose_v0.24.x-/flow_v0.49.x-/recompose_v0.24.x-.js) and add a path to it into `[lib]` section of `.flowconfig`.
+
+Or use [flow-typed](https://github.com/flowtype/flow-typed)
+
+```bash
+flow-typed install recompose
+```
+
+(_flow-typed defs will be available after this PR will be merged //github.com/flowtype/flow-typed/pull/1032_)
+
 ## Support
 
 Type definitions of recompose HOCs are splitted into 2 parts.
