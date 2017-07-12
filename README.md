@@ -156,6 +156,10 @@ const ClassComponent = toClass(FunctionComponent)
 
 [Read them here](docs/API.md)
 
+## Flow support
+
+[Read the docs](types)
+
 ## Why
 
 Forget ES6 classes vs. `createClass()`.
