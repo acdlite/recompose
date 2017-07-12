@@ -83,3 +83,7 @@ See `test_voodoo.js`, `test_mapPropsStream.js`
 Why to use existential type with `HOC<*, Blbla>` isn't it possible to avoid this?
 
 (*I tried to use type alias but haven't found how to make it work*)
+
+## Thanks
+
+Big thanks to @gcanti for his PR #241, it was nice and clear base for current definitions.
