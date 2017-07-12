@@ -2,7 +2,6 @@
 /* eslint-disable no-unused-vars, no-unused-expressions, arrow-body-style */
 /* @flow */
 import React from 'react'
-import { Observable } from 'rxjs'
 import { compose, mapProps, withProps } from 'recompose'
 
 import type { HOC } from 'recompose'

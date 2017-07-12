@@ -2,9 +2,13 @@
 /* @flow */
 import React from 'react'
 import { compose, withProps, getContext } from 'recompose'
-import PropTypes from 'prop-types'
-
+// import PropTypes from 'prop-types'
 import type { HOC } from 'recompose'
+
+const PropTypes = {
+  number: () => {},
+  string: () => {},
+}
 
 type EnhancedCompProps = { eA: 1 }
 
@@ -21,8 +25,8 @@ const enhacer: HOC<*, EnhancedCompProps> = compose(
   getContext({
     // as an idea is to use a hack like this
     // so we can test all such types
-    color: (PropTypes.string: string),
-    num: (PropTypes.number: number),
+    color: ((PropTypes.string: any): string),
+    num: ((PropTypes.number: any): number),
   }),
   withProps(props => ({
     eA: (props.eA: number),

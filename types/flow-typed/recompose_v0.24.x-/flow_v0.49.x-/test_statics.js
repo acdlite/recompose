@@ -8,8 +8,12 @@ import {
   setPropTypes,
   setDisplayName,
 } from 'recompose'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import type { HOC } from 'recompose'
+
+const PropTypes = {
+  string: () => {},
+}
 
 type EnhancedCompProps = { eA: 1 }
 

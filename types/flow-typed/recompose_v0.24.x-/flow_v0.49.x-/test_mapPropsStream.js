@@ -2,12 +2,16 @@
 /* eslint-disable no-unused-vars, no-unused-expressions, arrow-body-style */
 /* @flow */
 import React from 'react'
-import { Observable } from 'rxjs'
+// import { Observable } from 'rxjs'
 import { compose, mapProps, withProps, mapPropsStream } from 'recompose'
 
 import type { HOC } from 'recompose'
 
 type EnhancedCompProps = { eA: 1 }
+
+const Observable = {
+  of: (a: Object) => Object,
+}
 
 const Comp = ({ a }) =>
   <div>
