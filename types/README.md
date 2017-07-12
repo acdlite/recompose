@@ -75,10 +75,10 @@ See `test_voodoo.js` for the idea.
 
 Some recomendations:
 
-(*flattenProp,renameProp, renameProps*) can easily be replaced with _withProps_
-(*withReducer, withState*) -> use _withStateHandlers_ instead
-_lifecycle_ -> you don't need recompose if you need a _lifecycle_, just use React class instead
-_mapPropsStream_ -> see `test_mapPropsStream.js`
+- (*flattenProp,renameProp, renameProps*) can easily be replaced with _withProps_
+- (*withReducer, withState*) -> use _withStateHandlers_ instead
+- _lifecycle_ -> you don't need recompose if you need a _lifecycle_, just use React class instead
+- _mapPropsStream_ -> see `test_mapPropsStream.js`
 
 #### Known issues for above HOCs
 
