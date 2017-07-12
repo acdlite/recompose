@@ -142,7 +142,7 @@ try {
   }
 
   log('Publishing...')
-  if (exec(`cd ${outDir} && yarn publish`).code !== 0) {
+  if (exec(`cd ${outDir} && npm publish`).code !== 0) {
     logError('Publish failed. Aborting release.')
     exit(1)
   }
