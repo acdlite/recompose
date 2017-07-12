@@ -39,7 +39,7 @@ The easiest way is to start from example.
 
 Look at [this](https://coolmenu-pguyikfzsr.now.sh) app [source](./flow-example)
 
-Look at [library definitions and tests](./recompose_v0.24.x-/flow_v0.49.x-)
+Look at [library definitions and tests](./flow-typed/recompose_v0.24.x-/flow_v0.49.x-)
 
 ## Support
 
