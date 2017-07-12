@@ -27,7 +27,7 @@ const mouseDetector = ({ styles, registerChild, children, mousePos }) =>
   </div>
 
 // set existential * type for base component i.e. mouseDetector,
-// flow is smart enough to infer component and enhancer props types
+// flow is smart enough to infer base component and enhancers props types
 const enhanceMouseDetector: HOC<*, EnhancedMouseDetectorProps> = compose(
   /**
    * styles can be overwritten by parent component
@@ -79,6 +79,7 @@ const enhanceMouseDetector: HOC<*, EnhancedMouseDetectorProps> = compose(
       registerChild: ({ setInitialOffsetYAndScrollY, setMousePosition }) => (
         ref: ?HTMLDivElement
       ) => {
+        // I have no idea why window has any type so this is not covered
         const window: Node = document.defaultView
 
         if (ref) {

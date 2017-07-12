@@ -5,6 +5,8 @@ import { css } from 'glamor'
 import { compose, defaultProps, withProps, withPropsOnChange } from 'recompose'
 import type { HOC } from 'recompose'
 
+// Props type of enhanced component
+// It's the only props type we need to declare using supporting recompose enhancers
 type ItemProps = {
   title: string,
   styles?: {
@@ -32,6 +34,8 @@ const item = ({ title, componentDynamicStyle, styles, borders }) =>
     )}
   </div>
 
+// set existential * type for base component,
+// flow is smart enough to infer base component and enhancers props types
 const enhanceItem: HOC<*, ItemProps> = compose(
   defaultProps({
     title: '',
@@ -66,7 +70,11 @@ const enhanceItem: HOC<*, ItemProps> = compose(
     textColor: 'white',
     hoveredColor: 'white',
   }),
-  // better to use withProps BTW it's flow example
+  /**
+   * calculate css based on hovered prop
+   * better to use withProps as glamour uses class caching
+   * BTW it's flow example
+   */
   withPropsOnChange(
     ['hovered', 'styles', 'color', 'hoveredColor', 'textColor'],
     ({ hovered, styles, color, textColor, hoveredColor }) => ({
@@ -82,6 +90,9 @@ const enhanceItem: HOC<*, ItemProps> = compose(
       },
     })
   ),
+  /**
+   * calculate component dynamic style
+   */
   withProps(({ size, x, y, hovered }) => ({
     componentDynamicStyle: {
       width: size,
@@ -91,6 +102,9 @@ const enhanceItem: HOC<*, ItemProps> = compose(
       zIndex: hovered ? 1 : 0,
     },
   })),
+  /**
+   * generate borders props
+   */
   withProps(({ borderCount, borderK }) => ({
     borders: Array(borderCount).fill(0).map((_, index) => ({
       id: index,

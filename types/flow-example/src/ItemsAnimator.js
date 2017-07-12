@@ -15,6 +15,8 @@ type ItemT = {
   color?: string,
 }
 
+// Props type of enhanced component
+// It's the only props type we need to declare using supporting recompose enhancers
 type ItemsAnimatorProps = {
   items: Array<ItemT>,
   config?: {
@@ -26,6 +28,8 @@ type ItemsAnimatorProps = {
   mousePos: MousePosition,
 }
 
+// set existential * type for base component,
+// flow is smart enough to infer base component and enhancers props types
 const itemsAnimator = ({ styles, animStyles }) =>
   <TransitionMotion styles={animStyles}>
     {(
@@ -52,6 +56,9 @@ const itemsAnimator = ({ styles, animStyles }) =>
   </TransitionMotion>
 
 const enhanceItemsAnimator: HOC<*, ItemsAnimatorProps> = compose(
+  /**
+   * Defaults
+   */
   defaultProps({
     styles: {
       component: css({
@@ -70,6 +77,10 @@ const enhanceItemsAnimator: HOC<*, ItemsAnimatorProps> = compose(
       precision: 0.001,
     },
   }),
+  /**
+   * Function to calculate items positions size and hover
+   * based on mouse position and previously hovered item
+   */
   withHandlers(() => {
     let hoveredItemId_ = -1
 
@@ -123,9 +134,15 @@ const enhanceItemsAnimator: HOC<*, ItemsAnimatorProps> = compose(
       },
     }
   }),
+  /**
+   * Recalculate items positions, size, hover
+   */
   withProps(({ getItemsViewProps }) => ({
     items: getItemsViewProps(),
   })),
+  /**
+   * Prepare data for react-motion
+   */
   withProps(({ items, springConfig }) => ({
     animStyles: items.map(item => ({
       key: `${item.id}`,
