@@ -1,0 +1,12 @@
+[ignore]
+.*/node_modules/eslint-plugin-jsx-a11y/.*
+
+[include]
+
+[libs]
+../flow-typed/recompose_v0.24.x-/flow_v0.49.x-/recompose_v0.24.x.js
+
+[options]
+suppress_comment=\\(.\\|\n\\)*\\$ExpectError
+
+[lints]
