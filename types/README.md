@@ -86,4 +86,4 @@ Why to use existential type with `HOC<*, Blbla>` isn't it possible to avoid this
 
 ## Thanks
 
-Big thanks to @gcanti for his PR #241, it was nice and clear base for current definitions.
+Big thanks to [@gcanti](https://github.com/gcanti) for his work on PR [#241](https://github.com/acdlite/recompose/pull/241), it was nice and clear base for current definitions.
