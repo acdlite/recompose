@@ -1,4 +1,5 @@
 // Higher-order component helpers
+export { default as effect } from './effect'
 export { default as mapProps } from './mapProps'
 export { default as withProps } from './withProps'
 export { default as withPropsOnChange } from './withPropsOnChange'
