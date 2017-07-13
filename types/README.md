@@ -46,10 +46,8 @@ To add into project you can download library definitions [here](./flow-typed/rec
 Or use [flow-typed](https://github.com/flowtype/flow-typed)
 
 ```bash
-flow-typed install recompose
+flow-typed install recompose@0.24.x
 ```
-
-(_flow-typed defs will be available after this [PR](https://github.com/flowtype/flow-typed/pull/1032) will be merged_)
 
 ## Support
 
