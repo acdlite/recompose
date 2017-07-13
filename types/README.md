@@ -60,7 +60,7 @@ Type definitions of recompose HOCs are splitted into 2 parts.
 In most cases you can use them without big issues.
 Type inference and errors detection works near well.
 
-Theese HOCs are: (*defaultProps, mapProps, withProps, withStateHandlers, withHandlers, pure, onlyUpdateForKeys, shouldUpdate, renderNothing, renderComponent, branch, withPropsOnChange, onlyUpdateForPropTypes, toClass, withContext, getContext, setStatic, setPropTypes, setDisplayName*)
+Theese HOCs are: *defaultProps, mapProps, withProps, withStateHandlers, withHandlers, pure, onlyUpdateForKeys, shouldUpdate, renderNothing, renderComponent, branch, withPropsOnChange, onlyUpdateForPropTypes, toClass, withContext, getContext, setStatic, setPropTypes, setDisplayName*
 
 #### Known issues for "good" HOCs
 
@@ -75,8 +75,8 @@ See `test_voodoo.js` for the idea.
 
 Some recomendations:
 
-- (*flattenProp,renameProp, renameProps*) can easily be replaced with _withProps_
-- (*withReducer, withState*) -> use _withStateHandlers_ instead
+- *flattenProp,renameProp, renameProps* can easily be replaced with _withProps_
+- *withReducer, withState* -> use _withStateHandlers_ instead
 - _lifecycle_ -> you don't need recompose if you need a _lifecycle_, just use React class instead
 - _mapPropsStream_ -> see `test_mapPropsStream.js`
 
@@ -86,13 +86,13 @@ See `test_voodoo.js`, `test_mapPropsStream.js`
 
 ### Utils
 
-(*getDisplayName, wrapDisplayName, shallowEqual,isClassComponent, createEagerElement, createEagerFactory, createSink, componentFromProp, nest, hoistStatics*)
+*getDisplayName, wrapDisplayName, shallowEqual,isClassComponent, createEagerElement, createEagerFactory, createSink, componentFromProp, nest, hoistStatics.*
 
 ### Faq
 
 Why to use existential type with `HOC<*, Blbla>` isn't it possible to avoid this?
 
-(*I tried to use type alias but haven't found how to make it work*)
+*I tried to use type alias but haven't found how to make it work.*
 
 ## Thanks
 
