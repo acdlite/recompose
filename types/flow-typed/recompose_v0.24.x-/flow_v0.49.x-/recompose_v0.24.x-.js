@@ -65,7 +65,7 @@ declare module 'recompose' {
     v: (props: Enhanced) => V
   ) => V
 
-  declare type FunctionComponent<A> = (props: A) => ?React$Element<any>
+  declare type FunctionComponent<A> = (props: A, context?: any) => ?React$Element<any>
 
   declare type ClassComponent<D, A, S> = Class<React$Component<D, A, S>>
 
