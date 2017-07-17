@@ -308,7 +308,7 @@ Example:
       decrementOn: ({ counter }) => (value) => ({
         counter: counter - value,
       }),
-      resetCounter: (_, { initialCounter = 0 }) => () => ({
+      resetCounter: ({ counter }, { initialCounter = 0 }) => () => ({
         counter: initialCounter,
       }),
     }
