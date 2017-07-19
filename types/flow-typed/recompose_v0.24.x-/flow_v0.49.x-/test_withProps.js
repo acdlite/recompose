@@ -21,7 +21,7 @@ const Comp = ({ hello, b }) =>
     }
   </div>
 
-const enhacer: HOC<*, EnhancedCompProps> = compose(
+const enhancer: HOC<*, EnhancedCompProps> = compose(
   withProps(({ a, b }) => ({
     hello: a,
     b: `${b}`,
@@ -46,7 +46,7 @@ const enhacer: HOC<*, EnhancedCompProps> = compose(
   })
 )
 
-const EnhancedComponent = enhacer(Comp)
+const EnhancedComponent = enhancer(Comp)
 
 ;<EnhancedComponent a={'1'} b={1} />
 
