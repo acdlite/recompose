@@ -69,8 +69,6 @@ declare module 'recompose' {
 
   declare type ClassComponent<D, A, S> = Class<React$Component<D, A, S>>
 
-  declare type Component<A> = FunctionComponent<A> | ClassComponent<any, A, any>
-
   declare type UnaryFn<A, R> = (a: A) => R
 
   declare type Compose = (<A, B, C, D, E, F, G>(
@@ -113,6 +111,8 @@ declare module 'recompose' {
   // -----------------------------------------------------------------
   // Public declarations
   // -----------------------------------------------------------------
+
+  declare export type Component<A> = FunctionComponent<A> | ClassComponent<any, A, any>
 
   declare export type HOC<Base, Enhanced> = UnaryFn<
     Component<Base>,
