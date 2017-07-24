@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "change-emitter": "^0.1.6",
+    "flow": "^0.2.3",
     "flow-bin": "^0.49.1",
     "glamor": "^3.0.0-3",
     "glamor-reset": "^3.0.0-2",

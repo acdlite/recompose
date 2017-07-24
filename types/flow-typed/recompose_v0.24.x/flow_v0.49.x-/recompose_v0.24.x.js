@@ -112,7 +112,9 @@ declare module 'recompose' {
   // Public declarations
   // -----------------------------------------------------------------
 
-  declare export type Component<A> = FunctionComponent<A> | ClassComponent<any, A, any>
+  declare export type Component<A> =
+    | FunctionComponent<A>
+    | ClassComponent<any, A, any>
 
   declare export type HOC<Base, Enhanced> = UnaryFn<
     Component<Base>,
