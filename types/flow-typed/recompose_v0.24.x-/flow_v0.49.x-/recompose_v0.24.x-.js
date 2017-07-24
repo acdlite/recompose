@@ -134,7 +134,7 @@ declare module 'recompose' {
   ): HOC<Base, Enhanced>
 
   declare export function withProps<BaseAdd, Enhanced>(
-    propsMapper: (ownerProps: Enhanced) => BaseAdd
+    propsMapper: ((ownerProps: Enhanced) => BaseAdd) | BaseAdd
   ): HOC<{ ...$Exact<Enhanced>, ...BaseAdd }, Enhanced>
 
   declare export function withStateHandlers<
