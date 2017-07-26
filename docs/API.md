@@ -207,7 +207,8 @@ Renames multiple props, using a map of old prop names to new prop names.
 
 ```js
 flattenProp(
-  propName: string
+  propName: string,
+  fields: ?Array<string>
 ): HigherOrderComponent
 ```
 
@@ -224,6 +225,21 @@ const enhance = compose(
 const Abc = enhance(BaseComponent)
 
 // Base component receives props: { a: 'a', b: 'b', c: 'c', object: { a: 'a', b: 'b' } }
+```
+
+Or, if you only want to flatten certain fields, you can specify an array of fields as a second parameter.
+In this case, it will only flatten the fields `a`.
+```js
+const enhance = compose(
+  withProps({
+    object: { a: 'a', b: 'b' },
+    c: 'c'
+  }),
+  flattenProp('object', ['a'])
+)
+const Ac = enhance(BaseComponent)
+
+// Base component receives props: { a: 'a', c: 'c', object: { a: 'a', b: 'b' } }
 ```
 
 An example use case for `flattenProp()` is when receiving fragment data from Relay. Relay fragments are passed as an object of props, which you often want flattened out into its constituent fields:
