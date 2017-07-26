@@ -817,7 +817,7 @@ const componentFromStream = componentFromStreamWithConfig(mostConfig)
 
 ```js
 import xstreamConfig from 'recompose/xstreamObservableConfig'
-const componentFromStream = componentFromStreamWithConfig(xstreamCondfig)
+const componentFromStream = componentFromStreamWithConfig(xstreamConfig)
 ```
 
 #### Bacon
