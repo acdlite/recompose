@@ -160,6 +160,10 @@ const ClassComponent = toClass(FunctionComponent)
 
 [Read the docs](types)
 
+## Translation
+
+[Traditional Chinese](https://github.com/neighborhood999/recompose)
+
 ## Why
 
 Forget ES6 classes vs. `createClass()`.
