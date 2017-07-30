@@ -96,7 +96,7 @@ No need to write a new class just to implement `shouldComponentUpdate()`. Recomp
 const ExpensiveComponent = ({ propA, propB }) => {...}
 
 // Optimized version of same component, using shallow comparison of props
-// Same effect as React's PureRenderMixin or extending React.PureComponent
+// Same effect as extending React.PureComponent
 const OptimizedComponent = pure(ExpensiveComponent)
 
 // Even more optimized: only updates if specific prop keys have changed
