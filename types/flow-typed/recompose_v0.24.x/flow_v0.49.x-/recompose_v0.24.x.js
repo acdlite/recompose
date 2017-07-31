@@ -1,8 +1,5 @@
 /* eslint-disable */
 
-// TODO:
-// extend compose to 10
-
 /**
  * 1) Types give additional constraint on a language, recompose was written on the untyped language
  * as a consequence of this fact
@@ -71,7 +68,28 @@ declare module 'recompose' {
 
   declare type UnaryFn<A, R> = (a: A) => R
 
-  declare type Compose = (<A, B, C, D, E, F, G>(
+  declare type Compose = (<A, B, C, D, E, F, G, H, I>(
+    hi: UnaryFn<H, I>,
+    gh: UnaryFn<G, H>,
+    fg: UnaryFn<F, G>,
+    ef: UnaryFn<E, F>,
+    de: UnaryFn<D, E>,
+    cd: UnaryFn<C, D>,
+    bc: UnaryFn<B, C>,
+    ab: UnaryFn<A, B>,
+    ...rest: Array<void>
+  ) => UnaryFn<A, I>) &
+  (<A, B, C, D, E, F, G, H>(
+    gh: UnaryFn<G, H>,
+    fg: UnaryFn<F, G>,
+    ef: UnaryFn<E, F>,
+    de: UnaryFn<D, E>,
+    cd: UnaryFn<C, D>,
+    bc: UnaryFn<B, C>,
+    ab: UnaryFn<A, B>,
+    ...rest: Array<void>
+  ) => UnaryFn<A, H>) &
+  (<A, B, C, D, E, F, G>(
     fg: UnaryFn<F, G>,
     ef: UnaryFn<E, F>,
     de: UnaryFn<D, E>,
