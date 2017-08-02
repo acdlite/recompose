@@ -58,7 +58,7 @@ Type definitions of recompose HOCs are splitted into 2 parts.
 In most cases you can use them without big issues.
 Type inference and errors detection works near well.
 
-Theese HOCs are: *defaultProps, mapProps, withProps, withStateHandlers, withHandlers, pure, onlyUpdateForKeys, shouldUpdate, renderNothing, renderComponent, branch, withPropsOnChange, onlyUpdateForPropTypes, toClass, withContext, getContext, setStatic, setPropTypes, setDisplayName*
+These HOCs are: *defaultProps, mapProps, withProps, withStateHandlers, withHandlers, pure, onlyUpdateForKeys, shouldUpdate, renderNothing, renderComponent, branch, withPropsOnChange, onlyUpdateForPropTypes, toClass, withContext, getContext, setStatic, setPropTypes, setDisplayName*
 
 #### Known issues for "good" HOCs
 
