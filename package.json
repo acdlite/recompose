@@ -15,7 +15,12 @@
     "release": "node scripts/release.js",
     "postinstall": "node scripts/installNestedPackageDeps.js",
     "format": "prettier --semi false --trailing-comma es5 --single-quote --write 'scripts/*.js' 'src/packages/*/*.js' 'src/packages/*/!(node_modules)/**/*.js'",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "docs:clean": "rimraf _book",
+    "docs:prepare": "gitbook install",
+    "docs:build": "npm run docs:prepare && gitbook build -g acdlite/recompose",
+    "docs:watch": "npm run docs:prepare && gitbook serve",
+    "docs:publish": "npm run docs:clean && npm run docs:build && cd _book && git init && git commit --allow-empty -m 'update book' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'update book' && git push git@github.com:acdlite/recompose gh-pages --force"
   },
   "jest": {
     "testMatch": [
@@ -59,6 +64,7 @@
     "eslint-plugin-prettier": "^2.0.1",
     "eslint-plugin-react": "^6.10.3",
     "flyd": "^0.2.4",
+    "gitbook-cli": "^2.3.0",
     "husky": "^0.13.3",
     "jest": "^20.0.4",
     "kefir": "^3.2.3",
@@ -71,6 +77,7 @@
     "react-dom": "^15.0.0",
     "react-test-renderer": "^15.5.4",
     "readline-sync": "^1.2.21",
+    "rimraf": "^2.6.1",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",

@@ -1,0 +1,17 @@
+{
+  "title": "recompose",
+  "author": "Andrew Clark <acdlite@me.com>",
+  "gitbook": "3.2.0",
+  "plugins": ["prism", "-highlight", "github", "sharing"],
+  "pluginsConfig": {
+    "github": {
+      "url": "https://github.com/acdlite/recompose"
+    },
+    "sharing": {
+      "facebook": true,
+      "twitter": true,
+      "google": false,
+      "weibo": false
+    }
+  }
+}
