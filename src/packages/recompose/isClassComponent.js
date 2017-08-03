@@ -2,7 +2,7 @@ const isClassComponent = Component =>
   Boolean(
     Component &&
       Component.prototype &&
-      typeof Component.prototype.isReactComponent === 'object'
+      typeof Component.prototype.render === 'function'
   )
 
 export default isClassComponent
