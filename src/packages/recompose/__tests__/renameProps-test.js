@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import { withProps, renameProps, compose } from '../'
 
 test('renameProps renames props', () => {
@@ -10,7 +10,7 @@ test('renameProps renames props', () => {
 
   expect(StringConcat.displayName).toBe('withProps(renameProps(div))')
 
-  const div = shallow(<StringConcat />).find('div')
+  const div = mount(<StringConcat />).find('div')
 
   expect(div.prop('data-do')).toBe(123)
   expect(div.prop('data-fa')).toBe(456)
