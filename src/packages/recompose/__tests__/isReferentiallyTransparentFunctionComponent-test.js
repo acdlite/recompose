@@ -3,25 +3,11 @@ import createReactClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import isReferentiallyTransparentFunctionComponent from '../isReferentiallyTransparentFunctionComponent'
 
-const origNodeEnv = process.env.NODE_ENV
-
-afterEach(() => {
-  process.env.NODE_ENV = origNodeEnv
-})
-
-test('isReferentiallyTransparentFunctionComponent returns false in non-production env', () => {
-  const Foo = props => <div {...props} />
-
-  expect(isReferentiallyTransparentFunctionComponent(Foo)).toBe(false)
-})
-
 test('isReferentiallyTransparentFunctionComponent returns false for strings', () => {
   expect(isReferentiallyTransparentFunctionComponent('div')).toBe(false)
 })
 
 test('isReferentiallyTransparentFunctionComponent returns false for class components', () => {
-  process.env.NODE_ENV = 'production'
-
   class Foo extends Component {
     render() {
       return <div />
@@ -41,14 +27,12 @@ test('isReferentiallyTransparentFunctionComponent returns false for class compon
 })
 
 test('isReferentiallyTransparentFunctionComponent returns true for functions', () => {
-  process.env.NODE_ENV = 'production'
   const Foo = props => <div {...props} />
 
   expect(isReferentiallyTransparentFunctionComponent(Foo)).toBe(true)
 })
 
 test('isReferentiallyTransparentFunctionComponent returns false for functions that use context', () => {
-  process.env.NODE_ENV = 'production'
   const Foo = (props, context) => <div {...props} {...context} />
   Foo.contextTypes = { store: PropTypes.object }
 
@@ -56,17 +40,15 @@ test('isReferentiallyTransparentFunctionComponent returns false for functions th
 })
 
 test('isReferentiallyTransparentFunctionComponent returns false for functions that use default props', () => {
-  process.env.NODE_ENV = 'production'
   const Foo = (props, context) => <div {...props} {...context} />
   Foo.defaultProps = { store: PropTypes.object }
 
   expect(isReferentiallyTransparentFunctionComponent(Foo)).toBe(false)
 })
 
-test('isReferentiallyTransparentFunctionComponent returns true for functions that use propTypes', () => {
-  process.env.NODE_ENV = 'production'
+test('isReferentiallyTransparentFunctionComponent returns false for functions that use propTypes', () => {
   const Foo = (props, context) => <div {...props} {...context} />
   Foo.propTypes = { store: PropTypes.object }
 
-  expect(isReferentiallyTransparentFunctionComponent(Foo)).toBe(true)
+  expect(isReferentiallyTransparentFunctionComponent(Foo)).toBe(false)
 })
