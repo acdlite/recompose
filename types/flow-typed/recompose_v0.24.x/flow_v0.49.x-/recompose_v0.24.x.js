@@ -334,8 +334,8 @@ declare module 'recompose' {
   declare export function hoistStatics<A, B, H: HOC<A, B>>(hoc: H): H
 
   declare export function componentFromStream<T>(
-    (props$: *) => $Exact<*>
+    (props$: any) => any
   ): T => React.Element<*>
 
-  declare export function createEventHandler(): { stream: *, handler: Function }
+  declare export function createEventHandler(): { stream: any, handler: Function }
 }
