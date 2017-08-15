@@ -79,25 +79,25 @@ declare module 'recompose' {
     ab: UnaryFn<A, B>,
     ...rest: Array<void>
   ) => UnaryFn<A, I>) &
-  (<A, B, C, D, E, F, G, H>(
-    gh: UnaryFn<G, H>,
-    fg: UnaryFn<F, G>,
-    ef: UnaryFn<E, F>,
-    de: UnaryFn<D, E>,
-    cd: UnaryFn<C, D>,
-    bc: UnaryFn<B, C>,
-    ab: UnaryFn<A, B>,
-    ...rest: Array<void>
-  ) => UnaryFn<A, H>) &
-  (<A, B, C, D, E, F, G>(
-    fg: UnaryFn<F, G>,
-    ef: UnaryFn<E, F>,
-    de: UnaryFn<D, E>,
-    cd: UnaryFn<C, D>,
-    bc: UnaryFn<B, C>,
-    ab: UnaryFn<A, B>,
-    ...rest: Array<void>
-  ) => UnaryFn<A, G>) &
+    (<A, B, C, D, E, F, G, H>(
+      gh: UnaryFn<G, H>,
+      fg: UnaryFn<F, G>,
+      ef: UnaryFn<E, F>,
+      de: UnaryFn<D, E>,
+      cd: UnaryFn<C, D>,
+      bc: UnaryFn<B, C>,
+      ab: UnaryFn<A, B>,
+      ...rest: Array<void>
+    ) => UnaryFn<A, H>) &
+    (<A, B, C, D, E, F, G>(
+      fg: UnaryFn<F, G>,
+      ef: UnaryFn<E, F>,
+      de: UnaryFn<D, E>,
+      cd: UnaryFn<C, D>,
+      bc: UnaryFn<B, C>,
+      ab: UnaryFn<A, B>,
+      ...rest: Array<void>
+    ) => UnaryFn<A, G>) &
     (<A, B, C, D, E, F>(
       ef: UnaryFn<E, F>,
       de: UnaryFn<D, E>,
@@ -332,4 +332,10 @@ declare module 'recompose' {
   ): Component<A>
 
   declare export function hoistStatics<A, B, H: HOC<A, B>>(hoc: H): H
+
+  declare export function componentFromStream<T>(
+    (props$: any) => any
+  ): T => React.Element<*>
+
+  declare export function createEventHandler(): { stream: any, handler: Function }
 }
