@@ -4,7 +4,7 @@ import sinon from 'sinon'
 
 import { compose, withStateHandlers } from '../'
 
-test.only('withStateHandlers should persist events passed as argument', () => {
+test('withStateHandlers should persist events passed as argument', () => {
   const component = ({ value, onChange }) =>
     <div>
       <input type="text" value={value} onChange={onChange} />
