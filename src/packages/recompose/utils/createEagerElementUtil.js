@@ -7,7 +7,11 @@ const createEagerElementUtil = (
   props,
   children
 ) => {
-  if (!hasKey && isReferentiallyTransparent) {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    !hasKey &&
+    isReferentiallyTransparent
+  ) {
     if (children) {
       return type({ ...props, children })
     }

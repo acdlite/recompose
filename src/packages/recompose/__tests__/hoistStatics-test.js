@@ -1,5 +1,5 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { mount } from 'enzyme'
 import sinon from 'sinon'
 import { hoistStatics, mapProps } from '../'
 
@@ -13,6 +13,6 @@ test('copies non-React static properties from base component to new component', 
 
   expect(EnhancedComponent.foo).toBe(BaseComponent.foo)
 
-  shallow(<EnhancedComponent n={3} />)
+  mount(<EnhancedComponent n={3} />)
   expect(BaseComponent.firstCall.args[0].n).toBe(15)
 })

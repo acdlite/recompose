@@ -46,9 +46,9 @@ test('isReferentiallyTransparentFunctionComponent returns false for functions th
   expect(isReferentiallyTransparentFunctionComponent(Foo)).toBe(false)
 })
 
-test('isReferentiallyTransparentFunctionComponent returns false for functions that use propTypes', () => {
+test('isReferentiallyTransparentFunctionComponent returns true for functions that use propTypes', () => {
   const Foo = (props, context) => <div {...props} {...context} />
   Foo.propTypes = { store: PropTypes.object }
 
-  expect(isReferentiallyTransparentFunctionComponent(Foo)).toBe(false)
+  expect(isReferentiallyTransparentFunctionComponent(Foo)).toBe(true)
 })

@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import { shallow } from 'enzyme'
 import createEagerElement from '../createEagerElement'
 
+const origNodeEnv = process.env.NODE_ENV
+
+afterEach(() => {
+  process.env.NODE_ENV = origNodeEnv
+})
+
 test('createEagerElement treats class components normally', () => {
   class InnerDiv extends Component {
     render() {
@@ -31,6 +37,7 @@ test('createEagerElement treats class components normally', () => {
 })
 
 test('createEagerElement calls stateless function components instead of creating an intermediate React element', () => {
+  process.env.NODE_ENV = 'production'
   const InnerDiv = () => <div data-bar="baz" />
   const OuterDiv = () =>
     createEagerElement(
@@ -64,6 +71,7 @@ test('createEagerElement handles keyed elements correctly', () => {
 })
 
 test('createEagerElement passes children correctly', () => {
+  process.env.NODE_ENV = 'production'
   const Div = props => <div {...props} />
   const InnerDiv = () => <div data-bar="baz" />
   const OuterDiv = () =>
