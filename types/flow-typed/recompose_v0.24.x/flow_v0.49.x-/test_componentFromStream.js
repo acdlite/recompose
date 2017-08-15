@@ -6,9 +6,6 @@ import { componentFromStream } from 'recompose'
 componentFromStream(1)
 
 // $ExpectError
-componentFromStream(() => {})
-
-// $ExpectError
 const result1: number = componentFromStream(() => React.createElement('div'))
 
 componentFromStream(a => a)
