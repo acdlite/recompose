@@ -4,7 +4,6 @@ const isReferentiallyTransparentFunctionComponent = Component =>
   Boolean(
     typeof Component === 'function' &&
       !isClassComponent(Component) &&
-      !Component.propTypes &&
       !Component.defaultProps &&
       !Component.contextTypes
   )
