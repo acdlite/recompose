@@ -4,6 +4,40 @@ import sinon from 'sinon'
 
 import { compose, withStateHandlers } from '../'
 
+test.only('withStateHandlers should persist events passed as argument', () => {
+  const component = ({ value, onChange }) =>
+    <div>
+      <input type="text" value={value} onChange={onChange} />
+      <p>
+        {value}
+      </p>
+    </div>
+
+  const InputComponent = withStateHandlers(
+    { value: '' },
+    {
+      onChange: () => e => ({
+        value: e.target.value,
+      }),
+    }
+  )(component)
+
+  const wrapper = mount(<InputComponent />)
+  const input = wrapper.find('input')
+  const output = wrapper.find('p')
+  // having that enzyme simulate does not simulate real situation
+  // emulate persist
+  input.simulate('change', {
+    persist() {
+      this.target = { value: 'Yay' }
+    },
+  })
+  expect(output.text()).toBe('Yay')
+
+  input.simulate('change', { target: { value: 'empty' } })
+  expect(output.text()).toBe('empty')
+})
+
 test('withStateHandlers adds a stateful value and a function for updating it', () => {
   const component = sinon.spy(() => null)
   component.displayName = 'component'
