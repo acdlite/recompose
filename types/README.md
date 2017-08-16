@@ -41,7 +41,7 @@ Look at [this](http://grader-meets-16837.netlify.com/) app [source](./flow-examp
 
 Look at [library definitions and tests](./flow-typed/recompose_v0.24.x-/flow_v0.49.x-)
 
-To add into project you can download library definitions [here](./flow-typed/recompose_v0.24.x-/flow_v0.49.x-/recompose_v0.24.x-.js) and add a path to it into `[lib]` section of `.flowconfig`.
+To add into project you can download library definitions [here](./flow-typed/recompose_v0.24.x/flow_v0.53.x-/recompose_v0.24.x.js) and add a path to it into `[lib]` section of `.flowconfig`.
 
 Or use [flow-typed](https://github.com/flowtype/flow-typed)
 
