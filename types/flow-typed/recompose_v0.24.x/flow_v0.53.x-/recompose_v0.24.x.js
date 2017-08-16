@@ -62,10 +62,6 @@ declare module 'recompose' {
     v: (props: Enhanced) => V
   ) => V
 
-  declare type FunctionComponent<A> = (props: A) => ?React$Element<any>
-
-  declare type ClassComponent<D, A, S> = Class<React$Component<D, A, S>>
-
   declare type UnaryFn<A, R> = (a: A) => R
 
   declare type Compose = (<A, B, C, D, E, F, G, H, I>(
@@ -130,9 +126,7 @@ declare module 'recompose' {
   // Public declarations
   // -----------------------------------------------------------------
 
-  declare export type Component<A> =
-    | FunctionComponent<A>
-    | ClassComponent<any, A, any>
+  declare export type Component<A> = React$ComponentType<A>
 
   declare export type HOC<Base, Enhanced> = UnaryFn<
     Component<Base>,
@@ -314,12 +308,12 @@ declare module 'recompose' {
   declare export function createEagerElement<A>(
     type: Component<A> | string,
     props: ?A,
-    children?: ?ReactNode
+    children?: ?React$Node
   ): React$Element<any>
 
   declare export function createEagerFactory<A>(
     type: Component<A> | string
-  ): (props: ?A, children?: ?ReactNode) => React$Element<any>
+  ): (props: ?A, children?: ?React$Node) => React$Element<any>
 
   declare export function createSink<A>(
     callback: (props: A) => void
@@ -335,7 +329,10 @@ declare module 'recompose' {
 
   declare export function componentFromStream<T>(
     (props$: any) => any
-  ): T => React.Element<*>
+  ): T => React$Element<any>
 
-  declare export function createEventHandler(): { stream: any, handler: Function }
+  declare export function createEventHandler(): {
+    stream: any,
+    handler: Function,
+  }
 }

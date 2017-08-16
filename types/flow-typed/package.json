@@ -5,7 +5,7 @@
   "author": "istarkov@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "flow-bin": "^0.52.0",
+    "flow-bin": "^0.53.0",
     "prop-types": "^15.5.10",
     "rxjs": "^5.4.2"
   },
