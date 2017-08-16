@@ -1,10 +1,12 @@
 [ignore]
 .*/node_modules/eslint-plugin-jsx-a11y/.*
+# TODO: remove after react-motion will be updated with new flow typedefs
+.*/node_modules/react-motion/lib/*
 
 [include]
 
 [libs]
-../flow-typed/recompose_v0.24.x/flow_v0.49.x-/recompose_v0.24.x.js
+../flow-typed/recompose_v0.24.x/flow_v0.53.x-/recompose_v0.24.x.js
 
 [options]
 suppress_comment=\\(.\\|\n\\)*\\$ExpectError
