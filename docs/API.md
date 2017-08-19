@@ -478,12 +478,14 @@ Works like `onlyUpdateForKeys()`, but prop keys are inferred from the `propTypes
 If the base component does not have any `propTypes`, the component will never receive any updates. This probably isn't the expected behavior, so a warning is printed to the console.
 
 ```js
+import PropTypes from 'prop-types'; // You need to import prop-types. See https://facebook.github.io/react/docs/typechecking-with-proptypes.html
+
 const enhance = compose(
   onlyUpdateForPropTypes,
   setPropTypes({
-    title: React.PropTypes.string.isRequired,
-    content: React.PropTypes.string.isRequired,
-    author: React.PropTypes.object.isRequired
+    title: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    author: PropTypes.object.isRequired
   })
 )
 
