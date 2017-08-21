@@ -11,7 +11,7 @@ Recompose is a React utility belt for function components and higher-order compo
 
 [**Full API documentation**](docs/API.md) - Learn about each helper
 
-[**Recompose Base Fiddle**](https://jsfiddle.net/acdlite/69z2wepo/41596/) - Easy way to dive in
+[**Recompose Base Fiddle**](https://jsfiddle.net/samsch/p3vsmrvo/2/) - Easy way to dive in
 
 ```
 npm install recompose --save
