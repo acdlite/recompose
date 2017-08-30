@@ -51,5 +51,8 @@ export {
   default as mapPropsStream,
   mapPropsStreamWithConfig,
 } from './mapPropsStream'
-export { default as createEventHandler } from './createEventHandler'
+export {
+  default as createEventHandler,
+  createEventHandlerWithConfig,
+} from './createEventHandler'
 export { default as setObservableConfig } from './setObservableConfig'
