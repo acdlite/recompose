@@ -1,4 +1,4 @@
-import Relay from 'react-relay'
+import Relay from 'react-relay-compat'
 import { toClass } from 'recompose'
 
 const createContainer = options => BaseComponent =>
