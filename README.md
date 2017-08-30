@@ -205,6 +205,16 @@ All functions are available on the top-level export.
 import { compose, mapProps, withState /* ... */ } from 'recompose'
 ```
 
+**Note:** `react` is a _peer dependency_ of Recompose.  If you're using `preact`, add this to your `webpack.config.js`:
+
+```js
+resolve: {
+  alias: {
+    react: "preact"
+  }
+}
+```
+
 ### Composition
 
 Recompose helpers are designed to be composable:
