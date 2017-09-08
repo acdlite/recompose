@@ -1,5 +1,8 @@
 import $$observable from 'symbol-observable'
 import Rx from 'rx'
+import componentFromStreamWithConfig from './componentFromStreamWithConfig'
+import mapPropsStreamWithConfig from './mapPropsStreamWithConfig'
+import createEventHandlerWithConfig from './createEventHandlerWithConfig'
 
 const config = {
   fromESObservable: observable =>
@@ -26,4 +29,10 @@ const config = {
   }),
 }
 
-export default config
+export const componentFromStream = propsToVdom =>
+  componentFromStreamWithConfig(config)(propsToVdom)
+
+export const mapPropsStream = transform =>
+  mapPropsStreamWithConfig(config)(transform)
+
+export const createEventHandler = () => createEventHandlerWithConfig(config)

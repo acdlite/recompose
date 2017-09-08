@@ -1,7 +1,10 @@
 import $$observable from 'symbol-observable'
 import Bacon from 'baconjs'
+import componentFromStreamWithConfig from './componentFromStreamWithConfig'
+import mapPropsStreamWithConfig from './mapPropsStreamWithConfig'
+import createEventHandlerWithConfig from './createEventHandlerWithConfig'
 
-const config = {
+export const config = {
   fromESObservable: observable =>
     Bacon.fromBinder(sink => {
       const { unsubscribe } = observable.subscribe({
@@ -30,4 +33,10 @@ const config = {
   }),
 }
 
-export default config
+export const componentFromStream = propsToVdom =>
+  componentFromStreamWithConfig(config)(propsToVdom)
+
+export const mapPropsStream = transform =>
+  mapPropsStreamWithConfig(config)(transform)
+
+export const createEventHandler = () => createEventHandlerWithConfig(config)

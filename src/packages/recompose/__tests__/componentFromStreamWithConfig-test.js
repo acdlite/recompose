@@ -2,9 +2,9 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { Observable } from 'rxjs'
 import { Stream as MostStream } from 'most'
-import mostConfig from '../mostObservableConfig'
-import rxjsConfig from '../rxjsObservableConfig'
-import { componentFromStreamWithConfig } from '../componentFromStream'
+import { config as mostConfig } from '../most'
+import { config as rxjsConfig } from '../rxjs'
+import { componentFromStreamWithConfig } from '../'
 
 test('componentFromStreamWithConfig creates a stream with the correct stream type.', () => {
   const MostComponent = componentFromStreamWithConfig(mostConfig)(props$ => {

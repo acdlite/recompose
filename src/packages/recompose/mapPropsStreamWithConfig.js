@@ -1,13 +1,12 @@
 import $$observable from 'symbol-observable'
 import createEagerFactory from './createEagerFactory'
-import { componentFromStreamWithConfig } from './componentFromStream'
+import componentFromStreamWithConfig from './componentFromStreamWithConfig'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import { config as globalConfig } from './setObservableConfig'
 
 const identity = t => t
 
-export const mapPropsStreamWithConfig = config => {
+const mapPropsStreamWithConfig = config => {
   const componentFromStream = componentFromStreamWithConfig({
     fromESObservable: identity,
     toESObservable: identity,
@@ -15,7 +14,7 @@ export const mapPropsStreamWithConfig = config => {
   return transform => BaseComponent => {
     const factory = createEagerFactory(BaseComponent)
     const { fromESObservable, toESObservable } = config
-    return componentFromStream(props$ => ({
+    const Enhanced = componentFromStream(props$ => ({
       subscribe(observer) {
         const subscription = toESObservable(
           transform(fromESObservable(props$))
@@ -30,19 +29,13 @@ export const mapPropsStreamWithConfig = config => {
         return this
       },
     }))
-  }
-}
-
-const mapPropsStream = transform => {
-  const hoc = mapPropsStreamWithConfig(globalConfig)(transform)
-
-  if (process.env.NODE_ENV !== 'production') {
-    return BaseComponent =>
-      setDisplayName(wrapDisplayName(BaseComponent, 'mapPropsStream'))(
-        hoc(BaseComponent)
+    if (process.env.NODE_ENV !== 'production') {
+      return setDisplayName(wrapDisplayName(BaseComponent, 'mapPropsStream'))(
+        Enhanced
       )
+    }
+    return Enhanced
   }
-  return hoc
 }
 
-export default mapPropsStream
+export default mapPropsStreamWithConfig

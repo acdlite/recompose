@@ -1,10 +1,15 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import setObservableConfig from '../setObservableConfig'
-import rxjs4Config from '../rxjs4ObservableConfig'
-import { mapPropsStream } from '../'
-
-setObservableConfig(rxjs4Config)
+import { mapPropsStream } from '../rxjs'
+// Existing check
+/* eslint-disable */
+import { mapPropsStream as rxjs4 } from '../rxjs4'
+import { mapPropsStream as bacon } from '../bacon'
+import { mapPropsStream as flyd } from '../flyd'
+import { mapPropsStream as kefir } from '../kefir'
+import { mapPropsStream as most } from '../most'
+import { mapPropsStream as xstream } from '../xstream'
+/* eslint-enable */
 
 // Most of mapPropsStream's functionality is covered by componentFromStream
 test('mapPropsStream creates a higher-order component from a stream', () => {

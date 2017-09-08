@@ -1,9 +1,8 @@
 import { Component } from 'react'
 import { createChangeEmitter } from 'change-emitter'
 import $$observable from 'symbol-observable'
-import { config as globalConfig } from './setObservableConfig'
 
-export const componentFromStreamWithConfig = config => propsToVdom =>
+const componentFromStreamWithConfig = config => propsToVdom =>
   class ComponentFromStream extends Component {
     state = { vdom: null }
 
@@ -61,7 +60,4 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     }
   }
 
-const componentFromStream = propsToVdom =>
-  componentFromStreamWithConfig(globalConfig)(propsToVdom)
-
-export default componentFromStream
+export default componentFromStreamWithConfig

@@ -1,10 +1,16 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { Observable, Subject } from 'rxjs'
-import rxjsConfig from '../rxjsObservableConfig'
-import { componentFromStreamWithConfig } from '../componentFromStream'
-
-const componentFromStream = componentFromStreamWithConfig(rxjsConfig)
+import { componentFromStream } from '../rxjs'
+// Existing check
+/* eslint-disable */
+import { componentFromStream as rxjs4 } from '../rxjs4'
+import { componentFromStream as bacon } from '../bacon'
+import { componentFromStream as flyd } from '../flyd'
+import { componentFromStream as kefir } from '../kefir'
+import { componentFromStream as most } from '../most'
+import { componentFromStream as xstream } from '../xstream'
+/* eslint-enable */
 
 test('componentFromStream creates a component from a prop stream transformation', () => {
   const Double = componentFromStream(props$ =>

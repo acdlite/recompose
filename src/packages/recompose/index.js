@@ -44,12 +44,9 @@ export { default as hoistStatics } from './hoistStatics'
 
 // Observable helpers
 export {
-  default as componentFromStream,
-  componentFromStreamWithConfig,
-} from './componentFromStream'
+  default as componentFromStreamWithConfig,
+} from './componentFromStreamWithConfig'
+export { default as mapPropsStreamWithConfig } from './mapPropsStreamWithConfig'
 export {
-  default as mapPropsStream,
-  mapPropsStreamWithConfig,
-} from './mapPropsStream'
-export { default as createEventHandler } from './createEventHandler'
-export { default as setObservableConfig } from './setObservableConfig'
+  default as createEventHandlerWithConfig,
+} from './createEventHandlerWithConfig'

@@ -3,8 +3,8 @@ import { mount } from 'enzyme'
 import { Stream as MostStream } from 'most'
 import { Observable } from 'rxjs'
 import { mapPropsStreamWithConfig } from '../'
-import rxConfig from '../rxjsObservableConfig'
-import mostConfig from '../mostObservableConfig'
+import { config as rxConfig } from '../rxjs'
+import { config as mostConfig } from '../most'
 
 // Most of mapPropsStreamConfig's functionality is covered by componentFromStream
 test('mapPropsStreamWithConfig creates a higher-order component from a stream and a observable config', () => {

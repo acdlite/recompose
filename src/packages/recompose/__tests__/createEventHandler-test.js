@@ -1,4 +1,13 @@
-import { createEventHandler } from '../'
+import { createEventHandler } from '../rxjs'
+// Existing check
+/* eslint-disable */
+import { createEventHandler as rxjs4 } from '../rxjs4'
+import { createEventHandler as bacon } from '../bacon'
+import { createEventHandler as flyd } from '../flyd'
+import { createEventHandler as kefir } from '../kefir'
+import { createEventHandler as most } from '../most'
+import { createEventHandler as xstream } from '../xstream'
+/* eslint-enable */
 
 test('createEventHandler creates an event handler and a corresponding stream', () => {
   const result = []

@@ -1,8 +1,7 @@
 import $$observable from 'symbol-observable'
 import { createChangeEmitter } from 'change-emitter'
-import { config as globalConfig } from './setObservableConfig'
 
-export const createEventHandlerWithConfig = config => () => {
+const createEventHandlerWithConfig = config => {
   const emitter = createChangeEmitter()
   const stream = config.fromESObservable({
     subscribe(observer) {
@@ -19,6 +18,4 @@ export const createEventHandlerWithConfig = config => () => {
   }
 }
 
-const createEventHandler = createEventHandlerWithConfig(globalConfig)
-
-export default createEventHandler
+export default createEventHandlerWithConfig

@@ -1,9 +1,12 @@
 import $$observable from 'symbol-observable'
 import xstream from 'xstream'
+import componentFromStreamWithConfig from './componentFromStreamWithConfig'
+import mapPropsStreamWithConfig from './mapPropsStreamWithConfig'
+import createEventHandlerWithConfig from './createEventHandlerWithConfig'
 
 const noop = () => {}
 
-const config = {
+export const config = {
   fromESObservable: observable =>
     xstream.create({
       subscription: null,
@@ -32,4 +35,10 @@ const config = {
   }),
 }
 
-export default config
+export const componentFromStream = propsToVdom =>
+  componentFromStreamWithConfig(config)(propsToVdom)
+
+export const mapPropsStream = transform =>
+  mapPropsStreamWithConfig(config)(transform)
+
+export const createEventHandler = () => createEventHandlerWithConfig(config)
