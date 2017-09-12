@@ -86,6 +86,10 @@ See `test_voodoo.js`, `test_mapPropsStream.js`
 
 *getDisplayName, wrapDisplayName, shallowEqual,isClassComponent, createEagerElement, createEagerFactory, createSink, componentFromProp, nest, hoistStatics.*
 
+### Articles 
+
+[Typing Higher-order Components in Recompose With Flow](https://medium.com/flow-type/flow-support-in-recompose-1b76f58f4cfc)
+
 ### Faq
 
 Why to use existential type with `HOC<*, Blbla>` isn't it possible to avoid this?
