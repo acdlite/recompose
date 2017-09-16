@@ -12,7 +12,7 @@ type EnhancedCompProps = {
 
 const enhancer: HOC<*, EnhancedCompProps> = compose(
   withStateHandlers(
-    { value: 'world', letIt: 'be' },
+    { value: 'world', letIt: 'be', obj: ({}: { [key: string]: string }) },
     {
       // we need to set argument type so inference will work good
       setValue: (state, props) => (value: string) => ({
@@ -31,8 +31,11 @@ const enhancer: HOC<*, EnhancedCompProps> = compose(
   withProps(props => ({
     hi: (props.value: string),
     ic: (props.initialCounter: number),
+    cc: (props.obj.a: string),
     // $ExpectError value not a number or any
     ehi: (props.value: number),
+    // $ExpectError not a number
+    cn: (props.obj.a: number),
     // $ExpectError property not found (to detect that props is not any)
     err: props.iMNotExists,
     // $ExpectError initialCounter not any nor string
@@ -87,3 +90,17 @@ const BaseComponent = ({ hi, changeValue }) =>
 
 const EnhancedComponent = enhancer(BaseComponent)
 ;<EnhancedComponent initialCounter={0} />
+
+// Without $Exact<State> this will cause error
+const enhancer3: HOC<*, EnhancedCompProps> = compose(
+  withStateHandlers(
+    ({
+      mapA2B: {},
+    }: { mapA2B: { [key: string]: string } }),
+    {}
+  ),
+  withProps(props => ({
+    // check that result is void
+    iVal: props.mapA2B.c,
+  }))
+)
