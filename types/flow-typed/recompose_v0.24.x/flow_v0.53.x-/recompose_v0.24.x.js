@@ -166,7 +166,7 @@ declare module 'recompose' {
   ): HOC<
     {
       ...$Exact<Enhanced>,
-      ...State,
+      ...$Exact<State>,
       ...$ObjMap<StateHandlers, ExtractStateHandlersCodomain>,
     },
     Enhanced
