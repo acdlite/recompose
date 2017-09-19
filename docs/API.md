@@ -889,12 +889,27 @@ const Timer = enhance(({ timeElapsed }) =>
 
 ```js
 createEventHandler<T>(): {
-  handler: (value: T) => void
-  stream: Observable<T>,
+  handler: (value: T) => void,
+  stream: Observable<T>
 }
 ```
 
 Returns an object with properties `handler` and `stream`. `stream` is an observable sequence, and `handler` is a function that pushes new values onto the sequence. Useful for creating event handlers like `onClick`.
+
+### `createEventHandlerWithConfig()`
+```js
+createEventHandlerWithConfig<T>(
+  config: {
+    fromESObservable<T>: ?(observable: Observable<T>) => Stream<T>,
+    toESObservable<T>: ?(stream: Stream<T>) => Observable<T>,
+  }
+) => (): {
+  handler: (value: T) => void
+  stream: Observable<T>
+}
+```
+
+Alternative to `createEventHandler()` that accepts an observable config and returns a customized `createEventHandler()` that uses the specified observable library. See `componentFromStreamWithConfig()` above.
 
 ### `setObservableConfig()`
 
