@@ -904,7 +904,7 @@ createEventHandlerWithConfig<T>(
     toESObservable<T>: ?(stream: Stream<T>) => Observable<T>,
   }
 ) => (): {
-  handler: (value: T) => void
+  handler: (value: T) => void,
   stream: Observable<T>
 }
 ```
