@@ -74,8 +74,11 @@ const PureComponent = pure(BaseComponent)
   + [`hoistStatics()`](#hoiststatics)
 * [Observable utilities](#observable-utilities)
   + [`componentFromStream()`](#componentfromstream)
+  + [`componentFromStreamWithConfig()`](#componentfromstreamwithconfig)
   + [`mapPropsStream()`](#mappropsstream)
+  + [`mapPropsStreamWithConfig()`](#mappropsstreamwithconfig)
   + [`createEventHandler()`](#createeventhandler)
+  + [`createEventHandlerWithConfig()`](#createeventhandlerwithconfig)
   + [`setObservableConfig()`](#setobservableconfig)
 
 ## Higher-order components
