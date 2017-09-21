@@ -31,7 +31,7 @@ const enhacer: HOC<*, EnhancedCompProps> = compose(
   // but because of this https://github.com/facebook/flow/issues/4342
   withProps(props => ({
     a: (props.a: string),
-    // Must $ ExpectError but not
+    // $ExpectError but not
     e: Math.round(props.a),
   }))
 )

@@ -48,7 +48,7 @@ const flattenEnhacer: HOC<*, EnhancedCompProps> = compose(
   >),
   withProps(props => ({
     eA: (props.eA: number),
-    // TODO: Must throw, but not
+    // $ExpectError
     eB: (props.eA: string),
   }))
 )
@@ -95,7 +95,7 @@ const renameEnhacer: HOC<*, EnhancedCompProps> = compose(
   >),
   withProps(props => ({
     eA: (props.eA: number),
-    // TODO: Must throw issue but no !!!!
+    // $ExpectError
     eB: (props.eA: string),
   }))
 )
@@ -115,7 +115,7 @@ const renamePropsEnhacer: HOC<*, EnhancedCompProps> = compose(
   >),
   withProps(props => ({
     eA: (props.eA: number),
-    // TODO: Must throw issue but no !!!!
+    // $ExpectError
     eB: (props.eA: string),
   }))
 )
@@ -131,7 +131,7 @@ const withStateEnhancer: HOC<*, EnhancedCompProps> = compose(
   >),
   withProps(props => ({
     eA: (props.eA: number),
-    // TODO: Must throw issue but no !!!!
+    // $ExpectError
     eB: (props.eA: string),
   }))
 )
