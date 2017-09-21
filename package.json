@@ -64,6 +64,7 @@
     "hoist-non-react-statics": "^2.3.1",
     "husky": "^0.13.3",
     "jest": "^20.0.4",
+    "jest-cli": "^21.1.0",
     "kefir": "^3.2.3",
     "lint-staged": "^3.4.0",
     "most": "^1.0.2",
@@ -90,5 +91,6 @@
   "devEngines": {
     "node": "5.x",
     "npm": "3.x"
-  }
+  },
+  "dependencies": {}
 }
