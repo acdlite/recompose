@@ -28,9 +28,9 @@ fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-flow-bin@^0.54.1:
-  version "0.54.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.54.1.tgz#7101bcccf006dc0652714a8aef0c72078a760510"
+flow-bin@^0.55.0:
+  version "0.55.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.55.0.tgz#9083da9327bd8cab6b4076d63d85f2247a7eae1b"
 
 iconv-lite@~0.4.13:
   version "0.4.18"
