@@ -21,6 +21,8 @@ test('compose returns the identity function if given no arguments', () => {
 })
 
 test('compose returns the first function if given only one', () => {
-  const fn = () => {}
-  expect(compose(fn)).toBe(fn)
+  const square = x => x * x
+  const plus = (a, b) => a + b
+  expect(compose(plus)(5, 6)).toBe(11)
+  expect(compose(square)(9)).toBe(81)
 })
