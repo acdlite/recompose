@@ -195,7 +195,12 @@ Recompose focuses on another unit of composition: **higher-order components** (H
 
 Recompose provides a toolkit of helper functions for creating higher-order components.
 
-## [Should I use this? Performance and other concerns](docs/performance.md)
+## Should I use this?
+
+[Performance and other concerns](docs/performance.md)
+
+
+[Use a Render Prop](https://cdb.reacttraining.com/use-a-render-prop-50de598f11ce) [Michael Jackson](https://twitter.com/mjackson) article about whats wrong with HOCs.
 
 ## Usage
 
