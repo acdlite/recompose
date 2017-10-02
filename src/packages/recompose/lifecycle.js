@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
-import { Component } from 'react'
+import { createFactory, Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 
 const lifecycle = spec => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
 
   if (process.env.NODE_ENV !== 'production' && spec.hasOwnProperty('render')) {
     console.error(

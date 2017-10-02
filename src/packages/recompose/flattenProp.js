@@ -1,9 +1,9 @@
+import { createFactory } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 
 const flattenProp = propName => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
   const FlattenProp = props =>
     factory({
       ...props,

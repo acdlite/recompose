@@ -1,12 +1,11 @@
-import { Component } from 'react'
+import { createFactory, Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 import shallowEqual from './shallowEqual'
 import mapValues from './utils/mapValues'
 
 const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
 
   class WithStateHandlers extends Component {
     state = typeof initialState === 'function'

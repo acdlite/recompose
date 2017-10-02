@@ -1,14 +1,13 @@
-import { Component } from 'react'
+import { createFactory, Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 
 const withState = (
   stateName,
   stateUpdaterName,
   initialState
 ) => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
   class WithState extends Component {
     state = {
       stateValue:

@@ -1,5 +1,5 @@
+import { createFactory } from 'react'
 import $$observable from 'symbol-observable'
-import createEagerFactory from './createEagerFactory'
 import { componentFromStreamWithConfig } from './componentFromStream'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
@@ -13,7 +13,7 @@ export const mapPropsStreamWithConfig = config => {
     toESObservable: identity,
   })
   return transform => BaseComponent => {
-    const factory = createEagerFactory(BaseComponent)
+    const factory = createFactory(BaseComponent)
     const { fromESObservable, toESObservable } = config
     return componentFromStream(props$ => ({
       subscribe(observer) {

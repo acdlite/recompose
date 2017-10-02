@@ -1,12 +1,11 @@
-import { Component } from 'react'
+import { createFactory, Component } from 'react'
 import pick from './utils/pick'
 import shallowEqual from './shallowEqual'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 
 const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
   const shouldMap =
     typeof shouldMapOrKeys === 'function'
       ? shouldMapOrKeys
