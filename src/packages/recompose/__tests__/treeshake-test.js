@@ -32,8 +32,6 @@ const list = [
   'wrapDisplayName',
   // 'shallowEqual',
   'isClassComponent',
-  'createEagerElement',
-  'createEagerFactory',
   'createSink',
   'componentFromProp',
   'nest',

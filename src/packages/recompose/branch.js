@@ -1,6 +1,6 @@
+import { createFactory } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 
 const identity = Component => Component
 
@@ -9,10 +9,10 @@ const branch = (test, left, right = identity) => BaseComponent => {
   let rightFactory
   const Branch = props => {
     if (test(props)) {
-      leftFactory = leftFactory || createEagerFactory(left(BaseComponent))
+      leftFactory = leftFactory || createFactory(left(BaseComponent))
       return leftFactory(props)
     }
-    rightFactory = rightFactory || createEagerFactory(right(BaseComponent))
+    rightFactory = rightFactory || createFactory(right(BaseComponent))
     return rightFactory(props)
   }
 

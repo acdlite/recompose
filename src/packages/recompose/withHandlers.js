@@ -1,12 +1,11 @@
 /* eslint-disable no-console */
-import { Component } from 'react'
-import createEagerFactory from './createEagerFactory'
+import { createFactory, Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 import mapValues from './utils/mapValues'
 
 const withHandlers = handlers => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
   class WithHandlers extends Component {
     cachedHandlers = {}
 

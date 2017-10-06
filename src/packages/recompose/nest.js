@@ -1,8 +1,8 @@
-import createEagerFactory from './createEagerFactory'
+import { createFactory } from 'react'
 import getDisplayName from './getDisplayName'
 
 const nest = (...Components) => {
-  const factories = Components.map(createEagerFactory)
+  const factories = Components.map(createFactory)
   const Nest = ({ ...props, children }) =>
     factories.reduceRight((child, factory) => factory(props, child), children)
 

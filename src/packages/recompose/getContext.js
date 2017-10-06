@@ -1,9 +1,9 @@
+import { createFactory } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 
 const getContext = contextTypes => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
   const GetContext = (ownerProps, context) =>
     factory({
       ...ownerProps,

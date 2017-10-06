@@ -34,7 +34,7 @@
  *
  * utils:
  * getDisplayName, wrapDisplayName, shallowEqual,
- * isClassComponent, createEagerElement, createEagerFactory, createSink, componentFromProp,
+ * isClassComponent, createSink, componentFromProp,
  * nest, hoistStatics,
  */
 
@@ -246,16 +246,6 @@ declare module 'recompose' {
   declare export function shallowEqual(objA: mixed, objB: mixed): boolean
 
   declare export function isClassComponent(value: any): boolean
-
-  declare export function createEagerElement<A>(
-    type: Component<A> | string,
-    props: ?A,
-    children?: ?React$Node
-  ): React$Element<any>
-
-  declare export function createEagerFactory<A>(
-    type: Component<A> | string
-  ): (props: ?A, children?: ?React$Node) => React$Element<any>
 
   declare export function createSink<A>(
     callback: (props: A) => void

@@ -66,8 +66,6 @@ const PureComponent = pure(BaseComponent)
   + [`wrapDisplayName()`](#wrapdisplayname)
   + [`shallowEqual()`](#shallowequal)
   + [`isClassComponent()`](#isclasscomponent)
-  + [`createEagerElement()`](#createeagerelement)
-  + [`createEagerFactory()`](#createeagerfactory)
   + [`createSink()`](#createsink)
   + [`componentFromProp()`](#componentfromprop)
   + [`nest()`](#nest)
@@ -627,31 +625,6 @@ isClassComponent(value: any): boolean
 ```
 
 Returns true if the given value is a React component class.
-
-### `createEagerElement()`
-
-```js
-createEagerElement(
-  type: ReactClass | ReactFunctionalComponent | string,
-  props: ?Object,
-  children: ReactNode
-): ReactElement
-```
-
-React elements are lazily evaluated. But when a higher-order component renders a functional component, the laziness doesn't have any real benefit. `createEagerElement()` is a replacement for `React.createElement()` that checks if the given component is referentially transparent. If so, rather than returning a React element, it calls the functional component with the given props and returns its output.
-
-### `createEagerFactory()`
-
-```js
-createEagerFactory(
-  type: ReactClass | ReactFunctionalComponent | string,
-): (
-  props: ?Object,
-  children: ReactNode
-) => ReactElement
-```
-
-The factory form of `createEagerElement()`. Given a component, it returns a [factory](https://facebook.github.io/react/docs/react-api.html#createfactory).
 
 ### `createSink()`
 

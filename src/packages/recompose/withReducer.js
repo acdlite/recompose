@@ -1,7 +1,6 @@
-import { Component } from 'react'
+import { createFactory, Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 
 const withReducer = (
   stateName,
@@ -9,7 +8,7 @@ const withReducer = (
   reducer,
   initialState
 ) => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
   class WithReducer extends Component {
     state = {
       stateValue: this.initializeStateValue(),

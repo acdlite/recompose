@@ -1,10 +1,9 @@
-import { Component } from 'react'
+import { createFactory, Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import createEagerFactory from './createEagerFactory'
 
 const withContext = (childContextTypes, getChildContext) => BaseComponent => {
-  const factory = createEagerFactory(BaseComponent)
+  const factory = createFactory(BaseComponent)
   class WithContext extends Component {
     getChildContext = () => getChildContext(this.props)
 

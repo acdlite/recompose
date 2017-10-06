@@ -84,7 +84,7 @@ See `test_voodoo.js`, `test_mapPropsStream.js`
 
 ### Utils
 
-*getDisplayName, wrapDisplayName, shallowEqual,isClassComponent, createEagerElement, createEagerFactory, createSink, componentFromProp, nest, hoistStatics.*
+*getDisplayName, wrapDisplayName, shallowEqual,isClassComponent, createSink, componentFromProp, nest, hoistStatics.*
 
 ### Articles 
 
