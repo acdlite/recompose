@@ -258,7 +258,7 @@ stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
 stateUpdater(newValue: any, ?callback: Function): void
 ```
 
-The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` to create specific updater functions. For example, to create an HoC that adds basic counting functionality to a component:
+The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` to create specific updater functions. For example, to create a HoC that adds basic counting functionality to a component:
 
 ```js
 const addCounting = compose(
