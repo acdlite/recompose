@@ -524,13 +524,15 @@ Gets values from context and passes them along as props. Use along with `withCon
 
 ```js
 lifecycle(
-  spec: Object,
+  spec: Object || spec: (props: Object) => Object
 ): HigherOrderComponent
 ```
 
 A higher-order component version of [`React.Component()`](https://facebook.github.io/react/docs/react-api.html#react.component). It supports the entire `Component` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
 
 Any state changes made in a lifecycle method, by using `setState`, will be propagated to the wrapped component as props.
+
+You may also pass in a function that receives props from parent higher order components, to create the object of lifecycle methods.
 
 ### `toClass()`
 
