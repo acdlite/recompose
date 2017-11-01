@@ -85,7 +85,7 @@ test('withHandlers caches handlers properly', () => {
 
   handler(1)
   expect(handlerCreationSpy.callCount).toBe(1)
-  expect(handlerCreationSpy.args[0]).toEqual([{ foo: 'bar' }])
+  expect(handlerCreationSpy.args[0]).toEqual([{ foo: 'bar', handler }])
   expect(handlerCallSpy.callCount).toBe(1)
   expect(handlerCallSpy.args[0]).toEqual([1])
 
@@ -99,7 +99,7 @@ test('withHandlers caches handlers properly', () => {
   handler(3)
   // Props did change; handler should be recreated
   expect(handlerCreationSpy.callCount).toBe(2)
-  expect(handlerCreationSpy.args[1]).toEqual([{ foo: 'baz' }])
+  expect(handlerCreationSpy.args[1]).toEqual([{ foo: 'baz', handler }])
   expect(handlerCallSpy.callCount).toBe(3)
   expect(handlerCallSpy.args[2]).toEqual([3])
 })
@@ -163,4 +163,28 @@ test('withHandlers allow handers to be a factory', () => {
   mount(<Component2 hello={'foo'} />)
   expect(componentHandlers[0]).toEqual(componentHandlers2[0])
   expect(componentHandlers[0]).not.toBe(componentHandlers2[0])
+})
+
+test('withHandlers passes handlers as props to defined handlers', () => {
+  const handlerSpy = sinon.spy(() => () => null)
+
+  const enhance = withHandlers({
+    handler: handlerSpy,
+    otherHandler: () => () => null,
+  })
+
+  const component = sinon.spy(() => null)
+  const Div = enhance(component)
+
+  // mount the Component so the handlers get injected
+  const wrapper = mount(<Div />)
+  const { handler, otherHandler } = component.firstCall.args[0]
+
+  handler()
+  expect(handlerSpy.lastCall.args[0]).toEqual({ handler, otherHandler })
+
+  wrapper.setProps({ otherHandler: 'bar' })
+
+  handler()
+  expect(handlerSpy.lastCall.args[0]).toEqual({ handler, otherHandler: 'bar' })
 })
