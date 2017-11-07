@@ -37,6 +37,7 @@ const PureComponent = pure(BaseComponent)
   + [`mapProps()`](#mapprops)
   + [`withProps()`](#withprops)
   + [`withPropsOnChange()`](#withpropsonchange)
+  + [`withPropChangeHandler()`](#withpropchangehandler)
   + [`withHandlers()`](#withhandlers)
   + [`defaultProps()`](#defaultprops)
   + [`renameProp()`](#renameprop)
@@ -125,6 +126,56 @@ withPropsOnChange(
 Like `withProps()`, except the new props are only created when one of the owner props specified by `shouldMapOrKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
 
 Instead of an array of prop keys, the first parameter can also be a function that returns a boolean, given the current props and the next props. This allows you to customize when `createProps()` should be called.
+
+### `withPropChangeHandler()`
+
+```js
+withPropChangeHandler(
+  keys: Array<string> | null,
+  propChangeHandler: (nextProps:Object, previousProps:Object) => void
+): HigherOrderComponent
+```
+
+Calls the handler function if any of the props that are specified in the first parameter change.
+
+If the first parameter is null, the handler will be called on every change.
+
+The handler will be called
+ * before mount with an empty object as previousProps,
+ * on prop change with the next and previous props,
+ * before unmount with an empty object as nextProps.
+
+Usage example:
+
+```js
+const enhance = withPropChangeHandler(
+  ['groupId', 'userId'],
+  (
+    { groupId, userId, loadPosts },
+    { groupId: previousGroupId, userId: previousUserId, unloadPosts }
+  ) => {
+    if (previousGroupId && previousUserId) {
+      unloadPosts(previousGroupId, previousUserId)
+    }
+
+    if (groupId && userId) {
+      loadPosts(groupId, userId)
+    }
+  }
+)
+
+const Posts = enhance(
+  ({ posts }) =>
+    posts &&
+    <div>
+      {posts.map(({ id, content }) =>
+        <div key={id}>
+          {content}
+        </div>
+      )}
+    </div>
+)
+```
 
 ### `withHandlers()`
 
