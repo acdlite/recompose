@@ -2,6 +2,7 @@
 export { default as mapProps } from './mapProps'
 export { default as withProps } from './withProps'
 export { default as withPropsOnChange } from './withPropsOnChange'
+export { default as withPropChangeHandler } from './withPropChangeHandler'
 export { default as withHandlers } from './withHandlers'
 export { default as defaultProps } from './defaultProps'
 export { default as renameProp } from './renameProp'
