@@ -20,6 +20,7 @@ export { default as onlyUpdateForPropTypes } from './onlyUpdateForPropTypes'
 export { default as withContext } from './withContext'
 export { default as getContext } from './getContext'
 export { default as lifecycle } from './lifecycle'
+export { default as onChange } from './onChange'
 export { default as toClass } from './toClass'
 
 // Static property helpers
