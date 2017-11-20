@@ -532,6 +532,21 @@ A higher-order component version of [`React.Component()`](https://facebook.githu
 
 Any state changes made in a lifecycle method, by using `setState`, will be propagated to the wrapped component as props.
 
+Example:
+```js
+const PostsList = ({ posts }) => (
+  <ul>{posts.map(p => <li>{p.title}</li>)}</ul>
+)
+
+const PostsListWithData = lifecycle({
+  componentDidMount() {
+    fetchPosts().then(posts => {
+      this.setState({ posts });
+    })
+  }
+})(PostsList);
+```
+
 ### `toClass()`
 
 ```js
