@@ -194,6 +194,16 @@ renameProp(
 
 Renames a single prop.
 
+Example: 
+```js
+const ArticleComponent = ({ articleTitle }) => (
+  <div>{articleTitle}</div>
+);
+const Article = renameProp('title', 'articleTitle')(ArticleComponent);
+
+<Article title="article title" />
+```
+
 ### `renameProps()`
 
 ```js
@@ -203,6 +213,22 @@ renameProps(
 ```
 
 Renames multiple props, using a map of old prop names to new prop names.
+
+Example: 
+```js
+const ArticleComponent = ({ articleTitle, articleBody }) => (
+  <div>
+    <h2>{articleTitle}</h2>
+    <p>{articleBody}</p>
+  </div>
+);
+const Article = renameProps({
+  title: 'articleTitle',
+  body: 'articleBody'
+})(ArticleComponent);
+
+<Article title="article title" body="article body" />
+```
 
 ### `flattenProp()`
 
@@ -337,6 +363,31 @@ withReducer<S, A>(
 Similar to `withState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
 
 Passes two additional props to the base component: a state value, and a dispatch method. The dispatch method sends an action to the reducer, and the new state is applied.
+
+Example:
+```js
+const counterReducer = (state, action) => {
+  switch(action.type) {
+    case: 'INCREMENT':
+      return state + 1;
+    case 'DECREMENT':
+      return state - 1;
+    case: 'RESET':
+      return 0;
+    default:
+      return state;
+  }
+}
+
+const addCounting = compose(
+  withReducer('counter', 'dispatchCounter', counterReducer, 0),
+  withHandlers({
+    increment: ({ dispatchCounter }) => () => dispatchCounter({ type: 'INCREMENT' }),
+    decrement: ({ dispatchCounter }) => () =>  dispatchCounter({ type: 'DECREMENT' }),
+    reset: ({ dispatchCounter }) => () => dispatchCounter({ type: 'RESET' })
+  })
+)
+```
 
 ### `branch()`
 
