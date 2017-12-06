@@ -194,14 +194,12 @@ renameProp(
 
 Renames a single prop.
 
-Example: 
-```js
-const ArticleComponent = ({ articleTitle }) => (
-  <div>{articleTitle}</div>
-);
-const Article = renameProp('title', 'articleTitle')(ArticleComponent);
+NOTE: We recommend using `#withProps` and ES6 syntax instead. This method may be deprecated in future releases.
 
-<Article title="article title" />
+```
+renameProp('oldName', 'newName')
+->
+withProps(props => ({newName: props.oldName}))
 ```
 
 ### `renameProps()`
@@ -214,20 +212,11 @@ renameProps(
 
 Renames multiple props, using a map of old prop names to new prop names.
 
-Example: 
-```js
-const ArticleComponent = ({ articleTitle, articleBody }) => (
-  <div>
-    <h2>{articleTitle}</h2>
-    <p>{articleBody}</p>
-  </div>
-);
-const Article = renameProps({
-  title: 'articleTitle',
-  body: 'articleBody'
-})(ArticleComponent);
-
-<Article title="article title" body="article body" />
+NOTE: We recommend using `#withProps` and ES6 syntax instead. This method may be deprecated in future releases.
+```
+renameProps({old1: 'new1', old2: 'new2'})
+->
+withProps(props => ({new1: props.old1, new2: props.old2}))
 ```
 
 ### `flattenProp()`
