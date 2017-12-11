@@ -199,7 +199,7 @@ NOTE: We recommend using `#withProps` and ES6 syntax instead. This method may be
 ```
 renameProp('oldName', 'newName')
 ->
-withProps(props => ({newName: props.oldName}))
+withProps(props => ({ newName: props.oldName }))
 ```
 
 ### `renameProps()`
@@ -214,9 +214,9 @@ Renames multiple props, using a map of old prop names to new prop names.
 
 NOTE: We recommend using `#withProps` and ES6 syntax instead. This method may be deprecated in future releases.
 ```
-renameProps({old1: 'new1', old2: 'new2'})
+renameProps({ old1: 'new1', old2: 'new2' })
 ->
-withProps(props => ({new1: props.old1, new2: props.old2}))
+withProps(props => ({ new1: props.old1, new2: props.old2 }))
 ```
 
 ### `flattenProp()`
