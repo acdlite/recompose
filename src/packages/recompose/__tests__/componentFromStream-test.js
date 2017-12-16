@@ -102,3 +102,22 @@ test('completed props stream should throw an exception', () => {
 
   expect(() => wrapper.unmount()).toThrowError(/no elements in sequence/)
 })
+
+// TODO: test that this feeds into componentDidCatch() once upgraded to React 16
+test('throws stream error in render', async () => {
+  const Throws = componentFromStream(props$ =>
+    props$.map(props => {
+      if (props.throw) {
+        throw new Error('thrown from component')
+      } else {
+        return <div>okay</div>
+      }
+    })
+  )
+
+  const wrapper = mount(<Throws />)
+  expect(wrapper.text()).toBe('okay')
+  expect(() => wrapper.setProps({ throw: true })).toThrowError(
+    'thrown from component'
+  )
+})
