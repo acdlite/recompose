@@ -14,7 +14,7 @@ const toClass = (baseComponent, Class = Component) =>
           if (typeof baseComponent === 'string') {
             return React.createElement(baseComponent, this.props)
           }
-          return baseComponent(this.props, this.context)
+          return baseComponent(this.props, this.context, this)
         }
       }
 export default toClass
