@@ -336,7 +336,13 @@ withReducer<S, A>(
 
 Similar to `withState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
 
-Passes two additional props to the base component: a state value, and a dispatch method. The dispatch method sends an action to the reducer, and the new state is applied.
+Passes two additional props to the base component: a state value, and a dispatch method. The dispatch method has the following signature:
+
+```js
+dispatch(action: Object, ?callback: Function): void
+```
+
+It sends an action to the reducer, after which the new state is applied. It also accepts an optional second parameter, a callback function with the new state as its only argument.
 
 ### `branch()`
 
