@@ -5,7 +5,7 @@ import wrapDisplayName from './wrapDisplayName'
 const withContext = (childContextTypes, getChildContext) => BaseComponent => {
   const factory = createFactory(BaseComponent)
   class WithContext extends Component {
-    getChildContext = () => getChildContext(this.props)
+    getChildContext = () => getChildContext.call(this, this.props)
 
     render() {
       return factory(this.props)
