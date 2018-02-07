@@ -252,9 +252,9 @@ Since `0.23.1` version recompose got support of ES2015 modules.
 To reduce size all you need is to use bundler with tree shaking support
 like [webpack 2](https://github.com/webpack/webpack) or [Rollup](https://github.com/rollup/rollup).
 
-#### Using babel-lodash-plugin
+#### Using babel-plugin-lodash
 
-[babel-lodash-plugin](https://github.com/lodash/babel-plugin-lodash) is not only limited to [lodash](https://github.com/lodash/lodash). It can be used with `recompose` as well.
+[babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) is not only limited to [lodash](https://github.com/lodash/lodash). It can be used with `recompose` as well.
 
 This can be done by updating `lodash` config in `.babelrc`.
 
