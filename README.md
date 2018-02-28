@@ -273,6 +273,28 @@ After that, you can do imports like below without actually including the entire 
 import { compose, mapProps, withState } from 'recompose'
 ```
 
+### Debugging
+
+It might be hard to trace how does `props` change between HOCs. A useful tip is you can create a debug HOC to print out the props it gets without modifying the base component. For example:
+
+make
+
+```js
+const debug = withProps(console.log)
+```
+
+then use it between HOCs
+
+```js
+const enhance = compose(
+  withState(/*...args*/),
+  debug, // print out the props here
+  mapProps(/*...args*/),
+  pure
+)
+```
+
+
 ## Who uses Recompose
 If your company or project uses Recompose, feel free to add it to [the official list of users](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose) by [editing](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) the wiki page.
 
