@@ -280,7 +280,7 @@ It might be hard to trace how does `props` change between HOCs. A useful tip is 
 make
 
 ```js
-cosnt debug = withProps(console.log)
+const debug = withProps(console.log)
 ```
 
 then use it between HOCs
