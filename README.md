@@ -17,7 +17,8 @@ Recompose is a React utility belt for function components and higher-order compo
 npm install recompose --save
 ```
 
-**📺 Watch Andrew's [talk on Recompose at React Europe](https://www.youtube.com/watch?v=zD_judE-bXk).**
+**📺 Watch Andrew's [talk on Recompose at React Europe](https://www.youtube.com/watch?v=zD_judE-bXk).**  
+*(Note: Performance optimizations he speaks about have been removed, more info [here](https://github.com/acdlite/recompose/releases/tag/v0.26.0))*
 
 ### Related modules
 
