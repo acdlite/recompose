@@ -11,6 +11,7 @@
   ],
   "main": "cjs/Recompose.js",
   "module": "es/Recompose.js",
+  "sideEffects" : false,
   "dependencies": {
     "change-emitter": "^0.1.2",
     "fbjs": "^0.8.1",
