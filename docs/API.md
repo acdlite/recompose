@@ -9,10 +9,14 @@ const EnhancedComponent = hoc(BaseComponent)
 This form makes HOCs (sometimes called **enhancers**) composable:
 
 ```js
-const composedHoc = compose(hoc1, hoc2, hoc3)(BaseComponent)
+// instead of defining usual HOC (ES6 function) definition
+const composedHoc = Component => hoc1(hoc2(hoc3(Component)))
 
-// Same as
-const composedHoc = BaseComponent => hoc1(hoc2(hoc3(BaseComponent)))
+// we can express it shorter
+const composedHoc = compose(hoc1, hoc2, hoc3)
+
+// In both cases we can use this HOC in the same way
+const EnhancedComponent = composedHoc(BaseComponent)
 ```
 
 Most Recompose helpers are **functions that return higher-order components**:
