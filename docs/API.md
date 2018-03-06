@@ -9,7 +9,7 @@ const EnhancedComponent = hoc(BaseComponent)
 This form makes HOCs (sometimes called **enhancers**) composable:
 
 ```js
-// instead of defining usual HOC (ES6 function) definition
+// instead of defining HOC as usual (ES6 function)
 const composedHoc = Component => hoc1(hoc2(hoc3(Component)))
 
 // we can express it shorter
