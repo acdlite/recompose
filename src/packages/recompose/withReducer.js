@@ -2,6 +2,8 @@ import { createFactory, Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 
+const noop = () => {}
+
 const withReducer = (
   stateName,
   dispatchName,
@@ -23,10 +25,13 @@ const withReducer = (
       return reducer(undefined, { type: '@@recompose/INIT' })
     }
 
-    dispatch = action =>
-      this.setState(({ stateValue }) => ({
-        stateValue: reducer(stateValue, action),
-      }))
+    dispatch = (action, callback = noop) =>
+      this.setState(
+        ({ stateValue }) => ({
+          stateValue: reducer(stateValue, action),
+        }),
+        () => callback(this.state.stateValue)
+      )
 
     render() {
       return factory({
