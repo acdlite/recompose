@@ -4,7 +4,7 @@
     "transform-object-rest-spread"
   ],
   "presets": [
-    ["es2015", { "loose": true, "modules": false }],
+    ["env", { "loose": true, "modules": false }],
     "react"
   ],
   "env": {
