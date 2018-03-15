@@ -7,5 +7,11 @@ export default function compose(...funcs) {
     return funcs[0]
   }
 
-  return funcs.reduce((a, b) => (...args) => a(b(...args)))
+  const innerFunc = funcs[funcs.length - 1]
+  const restFuncs = funcs.slice(0, -1)
+  const reducer = (result, fn) => fn(result)
+
+  return function composed(...args) {
+    return restFuncs.reduceRight(reducer, innerFunc(...args))
+  }
 }
