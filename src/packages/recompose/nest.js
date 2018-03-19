@@ -3,7 +3,7 @@ import getDisplayName from './getDisplayName'
 
 const nest = (...Components) => {
   const factories = Components.map(createFactory)
-  const Nest = ({ ...props, children }) =>
+  const Nest = ({ children, ...props }) =>
     factories.reduceRight((child, factory) => factory(props, child), children)
 
   if (process.env.NODE_ENV !== 'production') {
