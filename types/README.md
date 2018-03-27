@@ -11,7 +11,7 @@ Example:
 import type { HOC } from 'recompose';
 
 type EnhancedComponentProps = {
-  text?: string,
+  text: string,
 };
 
 const baseComponent = ({ text }) => <div>{text}</div>;
