@@ -251,7 +251,7 @@ class Component extends React.Component {...}
 
 Since `0.23.1` version recompose got support of ES2015 modules.
 To reduce size all you need is to use bundler with tree shaking support
-like [webpack 2](https://github.com/webpack/webpack) or [Rollup](https://github.com/rollup/rollup).
+like [webpack 2 or above](https://github.com/webpack/webpack) or [Rollup](https://github.com/rollup/rollup).
 
 #### Using babel-plugin-lodash
 
