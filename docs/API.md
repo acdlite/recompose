@@ -702,12 +702,21 @@ const ABC = nest(A, B, C)
 ### `hoistStatics()`
 
 ```js
-hoistStatics(hoc: HigherOrderComponent): HigherOrderComponent
+hoistStatics(
+  hoc: HigherOrderComponent,
+  blacklist: Object
+): HigherOrderComponent
 ```
 
 Augments a higher-order component so that when used, it copies non-react static properties from the base component to the new component. This is helpful when using Recompose with libraries like Relay.
 
 Note that this only hoists _non-react_ statics. The following static properties will not be hoisted: `childContextTypes`, `contextTypes`, `defaultProps`, `displayName`, `getDefaultProps`, `mixins`, `propTypes`, and `type`. The following native static methods will also be ignored: `name`, `length`, `prototype`, `caller`, `arguments`, and `arity`.
+
+You can exclude more static properties by passing them as `blacklist` object:
+
+```js
+hoistStatics(EnhancedComponent, { foo: true })(BaseComponent) // Exclude `foo`
+```
 
 ## Observable utilities
 
