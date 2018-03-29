@@ -97,7 +97,7 @@ Accepts a function that maps owner props to a new collection of props that are p
 const omitProps = keys => mapProps(props => omit(keys, props))
 
 // Because of currying in lodash-fp, this is the same as
-const omitProps = compose(mapProps, omit)
+const omitProps = compose(mapProps, omit(keys))
 ```
 
 ### `withProps()`
