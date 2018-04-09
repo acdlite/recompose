@@ -119,19 +119,10 @@ try {
   )
 
   log(`Building ${packageName}...`)
-  const runRollup = build =>
-    'cross-env BABEL_ENV=rollup rollup --config scripts/rollup.config.js ' +
-    `--environment BUILD:${build},PACKAGE_NAME:${packageName}`
-  if (
-    exec(
-      [
-        runRollup('es'),
-        runRollup('cjs'),
-        runRollup('umd'),
-        runRollup('min'),
-      ].join(' && ')
-    ).code !== 0
-  ) {
+  const runRollup = () =>
+    `cross-env PACKAGE_NAME:${packageName}` +
+    ' rollup --config scripts/rollup.config.js'
+  if (exec(runRollup()).code !== 0) {
     exit(1)
   }
 
