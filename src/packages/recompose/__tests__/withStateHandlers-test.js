@@ -94,7 +94,10 @@ test('withStateHandlers initial state must be function or object or null or unde
 
   const Counter = withStateHandlers(1, {})(component)
   // React throws an error
-  expect(() => mount(<Counter />)).toThrow()
+  // expect(() => mount(<Counter />)).toThrow()
+  const error = sinon.stub(console, 'error')
+  mount(<Counter />)
+  expect(error.called).toBe(true)
 })
 
 test('withStateHandlers have access to props', () => {
