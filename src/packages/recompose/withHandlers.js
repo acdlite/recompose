@@ -7,18 +7,10 @@ import mapValues from './utils/mapValues'
 const withHandlers = handlers => BaseComponent => {
   const factory = createFactory(BaseComponent)
   class WithHandlers extends Component {
-    cachedHandlers = {}
-
     handlers = mapValues(
       typeof handlers === 'function' ? handlers(this.props) : handlers,
-      (createHandler, handlerName) => (...args) => {
-        const cachedHandler = this.cachedHandlers[handlerName]
-        if (cachedHandler) {
-          return cachedHandler(...args)
-        }
-
+      createHandler => (...args) => {
         const handler = createHandler(this.props)
-        this.cachedHandlers[handlerName] = handler
 
         if (
           process.env.NODE_ENV !== 'production' &&
@@ -34,10 +26,6 @@ const withHandlers = handlers => BaseComponent => {
         return handler(...args)
       }
     )
-
-    componentWillReceiveProps() {
-      this.cachedHandlers = {}
-    }
 
     render() {
       return factory({

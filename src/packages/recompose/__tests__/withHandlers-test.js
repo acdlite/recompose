@@ -60,50 +60,6 @@ test('withHandlers passes immutable handlers', () => {
   )
 })
 
-test('withHandlers caches handlers properly', () => {
-  const handlerCreationSpy = sinon.spy()
-  const handlerCallSpy = sinon.spy()
-
-  const enhance = withHandlers({
-    handler: props => {
-      handlerCreationSpy(props)
-      return val => {
-        handlerCallSpy(val)
-      }
-    },
-  })
-
-  const component = sinon.spy(() => null)
-  const Div = enhance(component)
-
-  const wrapper = mount(<Div foo="bar" />)
-  const { handler } = component.firstCall.args[0]
-
-  // Don't create handler until it is called
-  expect(handlerCreationSpy.callCount).toBe(0)
-  expect(handlerCallSpy.callCount).toBe(0)
-
-  handler(1)
-  expect(handlerCreationSpy.callCount).toBe(1)
-  expect(handlerCreationSpy.args[0]).toEqual([{ foo: 'bar' }])
-  expect(handlerCallSpy.callCount).toBe(1)
-  expect(handlerCallSpy.args[0]).toEqual([1])
-
-  // Props haven't changed; should use cached handler
-  handler(2)
-  expect(handlerCreationSpy.callCount).toBe(1)
-  expect(handlerCallSpy.callCount).toBe(2)
-  expect(handlerCallSpy.args[1]).toEqual([2])
-
-  wrapper.setProps({ foo: 'baz' })
-  handler(3)
-  // Props did change; handler should be recreated
-  expect(handlerCreationSpy.callCount).toBe(2)
-  expect(handlerCreationSpy.args[1]).toEqual([{ foo: 'baz' }])
-  expect(handlerCallSpy.callCount).toBe(3)
-  expect(handlerCallSpy.args[2]).toEqual([3])
-})
-
 test('withHandlers warns if handler is not a higher-order function', () => {
   const error = sinon.stub(console, 'error')
 
