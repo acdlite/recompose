@@ -17,23 +17,15 @@ const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
           )
 
   class WithPropsOnChange extends Component {
-    computedProps = propsMapper(this.props)
-    recalc = {}
-
     state = {
-      recalc: this.recalc,
+      computedProps: propsMapper(this.props),
+      prevProps: this.props,
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-      if (!prevState.prevProps) {
-        return {
-          prevProps: nextProps,
-        }
-      }
-
       if (shouldMap(prevState.prevProps, nextProps)) {
         return {
-          recalc: {},
+          computedProps: propsMapper(nextProps),
           prevProps: nextProps,
         }
       }
@@ -42,14 +34,9 @@ const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
     }
 
     render() {
-      if (this.recalc !== this.state.recalc) {
-        this.recalc = this.state.recalc
-        this.computedProps = propsMapper(this.props)
-      }
-
       return factory({
         ...this.props,
-        ...this.computedProps,
+        ...this.state.computedProps,
       })
     }
   }
