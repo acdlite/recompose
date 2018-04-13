@@ -5,11 +5,7 @@ import shallowEqual from './shallowEqual'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 
-const withPropsOnChange = (
-  shouldMapOrKeys,
-  propsMapper,
-  memoize = fn => fn
-) => BaseComponent => {
+const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
   const factory = createFactory(BaseComponent)
   const shouldMap =
     typeof shouldMapOrKeys === 'function'
@@ -21,8 +17,7 @@ const withPropsOnChange = (
           )
 
   class WithPropsOnChange extends Component {
-    memoizedPropsMapper = memoize(propsMapper)
-    computedProps = this.memoizedPropsMapper(this.props)
+    computedProps = propsMapper(this.props)
     recalc = {}
 
     state = {
@@ -49,7 +44,7 @@ const withPropsOnChange = (
     render() {
       if (this.recalc !== this.state.recalc) {
         this.recalc = this.state.recalc
-        this.computedProps = this.memoizedPropsMapper(this.props)
+        this.computedProps = propsMapper(this.props)
       }
 
       return factory({
