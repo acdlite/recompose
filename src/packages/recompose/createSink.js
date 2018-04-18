@@ -1,18 +1,22 @@
 import { Component } from 'react'
+import { polyfill } from 'react-lifecycles-compat'
 
-const createSink = callback =>
+const createSink = callback => {
   class Sink extends Component {
-    componentWillMount() {
-      callback(this.props)
-    }
+    state = {}
 
-    componentWillReceiveProps(nextProps) {
+    static getDerivedStateFromProps(nextProps) {
       callback(nextProps)
+      return null
     }
 
     render() {
       return null
     }
   }
+
+  polyfill(Sink)
+  return Sink
+}
 
 export default createSink
