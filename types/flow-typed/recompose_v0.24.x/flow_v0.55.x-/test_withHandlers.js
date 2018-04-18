@@ -9,6 +9,7 @@ import type { HOC } from 'recompose'
 type EnhancedCompProps = {
   value: number,
   onChange: (value: number) => void,
+  onOtherChange: (value: { id: string }) => void,
 }
 
 const enhancer: HOC<*, EnhancedCompProps> = compose(
@@ -17,11 +18,16 @@ const enhancer: HOC<*, EnhancedCompProps> = compose(
       props.onChange(value)
       return true
     },
+    onOtherValueChange: props => value => {
+      props.onOtherChange(value)
+      return true
+    },
   }),
   // here props itself will not be infered without explicit handler args types
   withProps(props => ({
     valueClone: (props.value: number),
     resType: (props.onValueChange(0): boolean),
+    ee: props.onOtherValueChange({ id: 'aa' }),
 
     // $ExpectError result is not any or number
     resTypeErr: (props.onValueChange(0): number),

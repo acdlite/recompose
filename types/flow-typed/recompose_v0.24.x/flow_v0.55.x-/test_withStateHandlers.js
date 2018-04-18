@@ -66,12 +66,13 @@ const enhancerFuncInit: HOC<*, EnhancedCompProps> = compose(
   }))
 )
 
-const BaseComponent = ({ hi, changeValue }) =>
+const BaseComponent = ({ hi, changeValue, setValue }) =>
   <div
     onClick={() => {
       // check that supports few arguments
       const x = changeValue({ i: 1, j: '1' }, 1)
 
+      setValue('ww')
       // Check that result is void
       ;(x: void)
 

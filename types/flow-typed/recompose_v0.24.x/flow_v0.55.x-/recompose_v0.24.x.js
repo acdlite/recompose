@@ -45,18 +45,13 @@ declare module 'recompose' {
   // Private declarations
   // -----------------------------------------------------------------
 
-  declare type Void_<A, B, C, D, R, Fn: (A, B, C, D) => R> = (
-    A,
-    B,
-    C,
-    D
-  ) => void
-
-  declare type Void<T> = Void_<*, *, *, *, *, T>
+  declare type ExtractToVoid = <A, B, C, R>(
+    v: (a: A, b: B, c: C) => R
+  ) => (A, B, C) => void
 
   declare type ExtractStateHandlersCodomain = <State, Enhanced, V>(
     v: (state: State, props: Enhanced) => V
-  ) => Void<V>
+  ) => V
 
   declare type ExtractHandlersCodomain = <Enhanced, V>(
     v: (props: Enhanced) => V
@@ -109,7 +104,10 @@ declare module 'recompose' {
     {
       ...$Exact<Enhanced>,
       ...$Exact<State>,
-      ...$ObjMap<StateHandlers, ExtractStateHandlersCodomain>,
+      ...$ObjMap<
+        $ObjMap<StateHandlers, ExtractStateHandlersCodomain>,
+        ExtractToVoid
+      >,
     },
     Enhanced
   >
