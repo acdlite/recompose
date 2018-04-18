@@ -16,7 +16,8 @@
     "postinstall": "node scripts/installNestedPackageDeps.js",
     "format": "prettier --semi false --trailing-comma es5 --single-quote --write 'scripts/*.js' 'src/packages/*/*.js' 'src/packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged",
-    "prepush": "yarn test"
+    "prepush": "yarn test",
+    "flow": "flow"
   },
   "jest": {
     "testMatch": [
@@ -60,6 +61,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-prettier": "^2.0.1",
     "eslint-plugin-react": "^6.10.3",
+    "flow-bin": "^0.70.0",
     "flyd": "^0.2.4",
     "husky": "^0.13.3",
     "jest": "^22.4.3",

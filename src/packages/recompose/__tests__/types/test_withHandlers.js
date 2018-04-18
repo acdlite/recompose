@@ -2,9 +2,9 @@
 /* @flow */
 
 import React from 'react'
-import { compose, withProps, withHandlers } from 'recompose'
+import { compose, withProps, withHandlers } from '../..'
 
-import type { HOC } from 'recompose'
+import type { HOC } from '../..'
 
 type EnhancedCompProps = {
   value: number,

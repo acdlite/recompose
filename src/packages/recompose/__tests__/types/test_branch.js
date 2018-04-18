@@ -8,9 +8,9 @@ import {
   renderNothing,
   renderComponent,
   onlyUpdateForKeys,
-} from 'recompose'
+} from '../..'
 
-import type { HOC } from 'recompose'
+import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 

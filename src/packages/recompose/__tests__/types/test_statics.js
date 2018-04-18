@@ -1,9 +1,19 @@
 /* eslint-disable no-unused-vars, no-unused-expressions, arrow-body-style */
 /* @flow */
 import React from 'react'
-import { compose, withProps, withContext } from 'recompose'
+import {
+  compose,
+  withProps,
+  setStatic,
+  setPropTypes,
+  setDisplayName,
+} from '../..'
+// import PropTypes from 'prop-types'
+import type { HOC } from '../..'
 
-import type { HOC } from 'recompose'
+const PropTypes = {
+  string: () => {},
+}
 
 type EnhancedCompProps = { eA: 1 }
 
@@ -17,11 +27,11 @@ const Comp = ({ eA }) =>
   </div>
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
-  withContext({}, props => {
-    // $ExpectError eA nor any nor string
-    ;(props.eA: string)
-    return {}
+  setStatic('hello', 'world'),
+  setPropTypes({
+    a: PropTypes.string,
   }),
+  setDisplayName('hello'),
   withProps(props => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string
@@ -32,5 +42,14 @@ const enhacer: HOC<*, EnhancedCompProps> = compose(
     err: props.iMNotExists,
   }))
 )
+
+// $ExpectError name is string
+setDisplayName(1)
+
+// $ExpectError propTypes is object
+setPropTypes(1)
+
+// $ExpectError name is string
+setStatic(1, 'world')
 
 const EnhancedComponent = enhacer(Comp)
