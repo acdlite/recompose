@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint scripts src",
     "build-recompose": "cross-env PACKAGE_NAME=recompose rollup --config scripts/rollup.config.js",
-    "test": "jest",
+    "test": "jest && flow",
     "test:watch": "cross-env BABEL_ENV=cjs jest --watch",
     "release": "node scripts/release.js",
     "postinstall": "node scripts/installNestedPackageDeps.js",
