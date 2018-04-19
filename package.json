@@ -16,8 +16,7 @@
     "postinstall": "node scripts/installNestedPackageDeps.js",
     "format": "prettier --semi false --trailing-comma es5 --single-quote --write 'scripts/*.js' 'src/packages/*/*.js' 'src/packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged",
-    "prepush": "yarn test",
-    "flow": "flow"
+    "prepush": "yarn test"
   },
   "jest": {
     "testMatch": [
