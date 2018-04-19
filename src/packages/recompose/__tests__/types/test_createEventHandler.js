@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { createEventHandler } from 'recompose'
+import { createEventHandler } from '../..'
 
 // $ExpectError
 createEventHandler(1)

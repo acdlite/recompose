@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { componentFromStream } from 'recompose'
+import { componentFromStream } from '../..'
 
 // $ExpectError
 componentFromStream(1)

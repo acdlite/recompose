@@ -1,8 +1,8 @@
 /* @flow */
 
 import * as React from 'react'
-import { compose, withProps } from 'recompose'
-import type { HOC } from 'recompose'
+import { compose, withProps } from '../..'
+import type { HOC } from '../..'
 
 function mapProps<BaseProps: {}, EnhancedProps>(
   mapperFn: EnhancedProps => BaseProps

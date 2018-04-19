@@ -1,9 +1,14 @@
 /* eslint-disable no-unused-vars, no-unused-expressions, arrow-body-style */
 /* @flow */
 import React from 'react'
-import { compose, withProps, shouldUpdate } from 'recompose'
+import { compose, withProps, getContext } from '../..'
+// import PropTypes from 'prop-types'
+import type { HOC } from '../..'
 
-import type { HOC } from 'recompose'
+const PropTypes = {
+  number: () => {},
+  string: () => {},
+}
 
 type EnhancedCompProps = { eA: 1 }
 
@@ -17,30 +22,24 @@ const Comp = ({ eA }) =>
   </div>
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
-  shouldUpdate((props, nextProps) => {
-    // $ExpectError eA nor any nor string
-    ;(props.eA: string)
-    // $ExpectError eA nor any nor string
-    ;(nextProps.eA: string)
-
-    return props.eA === nextProps.eA
+  getContext({
+    // as an idea is to use a hack like this
+    // so we can test all such types
+    color: ((PropTypes.string: any): string),
+    num: ((PropTypes.number: any): number),
   }),
   withProps(props => ({
     eA: (props.eA: number),
+    color: (props.color: string),
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
+    // $ExpectError color nor any nor number
+    colorErr: (props.color: number),
   })),
   withProps(props => ({
     // $ExpectError property not found
     err: props.iMNotExists,
   }))
-)
-
-const enhacerErr: HOC<*, EnhancedCompProps> = compose(
-  shouldUpdate(() => {
-    // $ExpectError must be boolean
-    return 1
-  })
 )
 
 const EnhancedComponent = enhacer(Comp)

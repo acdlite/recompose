@@ -8,6 +8,7 @@ const { flowRight: compose } = require('lodash')
 const readline = require('readline-sync')
 const semver = require('semver')
 const glob = require('glob')
+const { pascalCase } = require('change-case')
 
 const BIN = './node_modules/.bin'
 
@@ -46,6 +47,8 @@ try {
         'Choose again: '
     )
   }
+
+  const libraryName = pascalCase(packageName)
 
   const versionLoc = path.resolve(PACKAGES_SRC_DIR, packageName, 'VERSION')
   const version = fs.readFileSync(versionLoc, 'utf8').trim()
@@ -119,12 +122,17 @@ try {
   )
 
   log(`Building ${packageName}...`)
-  const runRollup = () =>
-    `cross-env PACKAGE_NAME:${packageName}` +
-    ' rollup --config scripts/rollup.config.js'
+  const runRollup = () => `yarn build:${packageName}`
   if (exec(runRollup()).code !== 0) {
     exit(1)
   }
+
+  log(`Preparing ${libraryName}.cjs.js.flow...`)
+  cp(
+    '-f',
+    path.resolve(sourceDir, 'index.js.flow'),
+    path.resolve(outDir, 'dist', `${libraryName}.cjs.js.flow`)
+  )
 
   log(`About to publish ${packageName}@${nextVersion} to npm.`)
   if (!readline.keyInYN('Sound good? ')) {

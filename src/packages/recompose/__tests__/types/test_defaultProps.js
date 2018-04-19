@@ -1,25 +1,35 @@
 /* eslint-disable no-unused-vars, no-unused-expressions */
 /* @flow */
 import React from 'react'
-import { compose, withProps, onlyUpdateForKeys } from 'recompose'
+import { compose, withProps, defaultProps } from '../..'
 
-import type { HOC } from 'recompose'
+import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ eA }) =>
+const Comp = ({ hello, eA }) =>
   <div>
+    {(hello: string)}
     {(eA: number)}
     {
       // $ExpectError eA nor any nor string
       (eA: string)
     }
+    {
+      // $ExpectError hello nor any nor number
+      (hello: number)
+    }
   </div>
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
-  onlyUpdateForKeys(['eA']),
+  defaultProps({
+    hello: 'world',
+  }),
   withProps(props => ({
+    hello: (props.hello: string),
     eA: (props.eA: number),
+    // $ExpectError hello nor any nor number
+    helloErr: (props.hello: number),
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
   })),
@@ -27,11 +37,6 @@ const enhacer: HOC<*, EnhancedCompProps> = compose(
     // $ExpectError property not found
     err: props.iMNotExists,
   }))
-)
-
-const enhacerErr: HOC<*, EnhancedCompProps> = compose(
-  // $ExpectError property not found
-  onlyUpdateForKeys(['eB'])
 )
 
 const EnhancedComponent = enhacer(Comp)
