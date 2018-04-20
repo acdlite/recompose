@@ -30,10 +30,20 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     vdom$ = config.toESObservable(propsToVdom(this.props$))
 
     componentWillMount() {
+      // while the component is mounted funnel errors through render
+      this.renderErrors = true
+
       // Subscribe to child prop changes so we know when to re-render
       this.subscription = this.vdom$.subscribe({
         next: vdom => {
           this.setState({ vdom })
+        },
+        error: thrown => {
+          if (this.renderErrors) {
+            this.setState({ thrown, vdom: null })
+          } else {
+            throw thrown
+          }
         },
       })
       this.propsEmitter.emit(this.props)
@@ -45,10 +55,16 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-      return nextState.vdom !== this.state.vdom
+      return (
+        nextState.vdom !== this.state.vdom ||
+        nextState.thrown !== this.state.thrown
+      )
     }
 
     componentWillUnmount() {
+      // notify the subscription that errors from this point should be thrown
+      this.renderErrors = false
+
       // Call without arguments to complete stream
       this.propsEmitter.emit()
 
@@ -57,7 +73,11 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     }
 
     render() {
-      return this.state.vdom
+      if (this.state.thrown) {
+        throw this.state.thrown
+      } else {
+        return this.state.vdom
+      }
     }
   }
 

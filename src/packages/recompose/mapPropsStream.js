@@ -21,6 +21,7 @@ export const mapPropsStreamWithConfig = config => {
           transform(fromESObservable(props$))
         ).subscribe({
           next: childProps => observer.next(factory(childProps)),
+          error: error => observer.error(error),
         })
         return {
           unsubscribe: () => subscription.unsubscribe(),
