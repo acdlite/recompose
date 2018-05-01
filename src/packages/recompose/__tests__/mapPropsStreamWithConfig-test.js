@@ -2,6 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { Stream as MostStream } from 'most'
 import { Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
 import { mapPropsStreamWithConfig } from '../'
 import rxConfig from '../rxjsObservableConfig'
 import mostConfig from '../mostObservableConfig'
@@ -9,7 +10,7 @@ import mostConfig from '../mostObservableConfig'
 // Most of mapPropsStreamConfig's functionality is covered by componentFromStream
 test('mapPropsStreamWithConfig creates a higher-order component from a stream and a observable config', () => {
   const Double = mapPropsStreamWithConfig(rxConfig)(props$ =>
-    props$.map(({ n }) => ({ children: n * 2 }))
+    props$.pipe(map(({ n }) => ({ children: n * 2 })))
   )('div')
   const wrapper = mount(<Double n={112} />)
   const div = wrapper.find('div')
@@ -28,7 +29,7 @@ test('mapPropsStreamWithConfig creates a stream with the correct config', () => 
 
   const RXJSComponent = mapPropsStreamWithConfig(rxConfig)(props$ => {
     expect(props$ instanceof Observable).toBe(true)
-    return props$.map(v => v)
+    return props$.pipe(map(v => v))
   })('div')
 
   mount(<RXJSComponent />)

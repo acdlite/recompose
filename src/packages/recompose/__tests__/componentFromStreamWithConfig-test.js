@@ -1,6 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import { Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
 import { Stream as MostStream } from 'most'
 import mostConfig from '../mostObservableConfig'
 import rxjsConfig from '../rxjsObservableConfig'
@@ -20,10 +21,12 @@ test('componentFromStreamWithConfig creates a stream with the correct stream typ
 
   const RXJSComponent = componentFromStreamWithConfig(rxjsConfig)(props$ => {
     expect(props$ instanceof Observable).toBe(true)
-    return props$.map(v =>
-      <div>
-        {String(v)}
-      </div>
+    return props$.pipe(
+      map(v =>
+        <div>
+          {String(v)}
+        </div>
+      )
     )
   })
 

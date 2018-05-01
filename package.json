@@ -80,9 +80,10 @@
     "rollup-plugin-size-snapshot": "^0.3.0",
     "rollup-plugin-uglify": "^3.0.0",
     "rx": "^4.1.0",
-    "rxjs": "^5.0.0",
+    "rxjs": "^6.0.0",
     "shelljs": "^0.6.0",
     "sinon": "^1.17.1",
+    "symbol-observable": "^1.2.0",
     "webpack": "^2.4.1",
     "xstream": "^5.0.5"
   },
