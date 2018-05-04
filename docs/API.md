@@ -56,6 +56,7 @@ const PureComponent = pure(BaseComponent)
   + [`getContext()`](#getcontext)
   + [`lifecycle()`](#lifecycle)
   + [`toClass()`](#toclass)
+  + [`withRenderProps()`](#withRenderProps)
 * [Static property helpers](#static-property-helpers)
   + [`setStatic()`](#setstatic)
   + [`setPropTypes()`](#setproptypes)
@@ -562,6 +563,27 @@ toClass: HigherOrderComponent
 Takes a function component and wraps it in a class. This can be used as a fallback for libraries that need to add a ref to a component, like Relay.
 
 If the base component is already a class, it returns the given component.
+
+
+### `withRenderProps()`
+
+```js
+withRenderProps(
+  hoc: HigherOrderComponent
+): ReactFunctionalComponent
+```
+
+Creates a component that accepts a function as a children with the high-order component applied to it. 
+
+Example:
+```js
+const enhance = withProps(({ foo }) => ({ fooPlusOne: foo + 1 }))
+const Enhanced = withRenderProps(enhance)
+
+<Enhanced foo={1}>{({ fooPlusOne }) => <h1>{fooPlusOne}</h1>}</Enhanced>
+// renders <h1>2</h1>
+```
+
 
 ## Static property helpers
 
