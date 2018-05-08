@@ -94,7 +94,7 @@ Accepts a function that maps owner props to a new collection of props that are p
 `mapProps()` pairs well with functional utility libraries like [lodash/fp](https://github.com/lodash/lodash/tree/npm/fp). For example, Recompose does not come with a `omitProps()` function, but you can easily build one using lodash-fp's `omit()`:
 
 ```js
-const omitProps = keys => mapProps(props => omit(keys, props))
+const omitProps = keys => mapProps(props => omit(props, keys))
 
 // Because of currying in lodash-fp, this is the same as
 const omitProps = compose(mapProps, omit)
