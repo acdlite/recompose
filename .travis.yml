@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - "node"
+install: "yarn install --ignore-engines"
 before_script: "npm install -g codeclimate-test-reporter"
 script:
   - yarn run lint
