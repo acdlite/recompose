@@ -30,7 +30,9 @@ const withPropsOnChange = (shouldMapOrKeys, propsMapper) => BaseComponent => {
         }
       }
 
-      return null
+      return {
+        prevProps: nextProps,
+      }
     }
 
     render() {
