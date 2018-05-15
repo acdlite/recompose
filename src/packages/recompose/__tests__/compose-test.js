@@ -21,6 +21,6 @@ test('compose returns the identity function if given no arguments', () => {
 })
 
 test('compose returns the first function if given only one', () => {
-  const fn = () => {}
-  expect(compose(fn)).toBe(fn)
+  const fn = x => x * x
+  expect(compose(fn)(3)).toBe(fn(3))
 })
