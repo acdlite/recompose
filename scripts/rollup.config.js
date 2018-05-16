@@ -24,6 +24,8 @@ const getBabelOptions = () => ({
   runtimeHelpers: true,
 })
 
+const matchSnapshot = process.env.SNAPSHOT === 'match'
+
 export default [
   {
     input,
@@ -41,7 +43,7 @@ export default [
       babel(getBabelOptions()),
       commonjs(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
-      sizeSnapshot(),
+      sizeSnapshot({ matchSnapshot }),
     ],
   },
 
@@ -61,7 +63,7 @@ export default [
       babel(getBabelOptions()),
       commonjs(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-      sizeSnapshot(),
+      sizeSnapshot({ matchSnapshot }),
       uglify(),
     ],
   },
@@ -83,6 +85,6 @@ export default [
       format: 'es',
     },
     external: isExternal,
-    plugins: [babel(getBabelOptions()), sizeSnapshot()],
+    plugins: [babel(getBabelOptions()), sizeSnapshot({ matchSnapshot })],
   },
 ]

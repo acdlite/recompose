@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "eslint scripts src",
     "build:recompose": "cross-env PACKAGE_NAME=recompose rollup --config scripts/rollup.config.js",
-    "test": "jest && flow",
+    "test": "jest && flow check && cross-env SNAPSHOT=match npm run build:recompose",
     "test:watch": "cross-env BABEL_ENV=cjs jest --watch",
     "release": "node scripts/release.js",
     "postinstall": "node scripts/installNestedPackageDeps.js",
@@ -77,7 +77,7 @@
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-size-snapshot": "^0.3.0",
+    "rollup-plugin-size-snapshot": "^0.4.1",
     "rollup-plugin-uglify": "^3.0.0",
     "rx": "^4.1.0",
     "rxjs": "^5.0.0",
