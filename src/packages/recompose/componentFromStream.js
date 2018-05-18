@@ -29,23 +29,22 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     // Stream of vdom
     vdom$ = config.toESObservable(propsToVdom(this.props$))
 
-    componentWillMount() {
+    componentDidMount() {
       // Subscribe to child prop changes so we know when to re-render
       this.subscription = this.vdom$.subscribe({
         next: vdom => {
-          this.setState({ vdom })
+          if (this.state.vdom !== vdom) {
+            this.setState({ vdom })
+          }
         },
       })
       this.propsEmitter.emit(this.props)
     }
 
-    componentWillReceiveProps(nextProps) {
-      // Receive new props from the owner
-      this.propsEmitter.emit(nextProps)
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-      return nextState.vdom !== this.state.vdom
+    componentDidUpdate(prevProps) {
+      if (this.props !== prevProps) {
+        this.propsEmitter.emit(this.props)
+      }
     }
 
     componentWillUnmount() {
