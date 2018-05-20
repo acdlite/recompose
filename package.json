@@ -60,7 +60,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-prettier": "^2.0.1",
     "eslint-plugin-react": "^6.10.3",
-    "flow-bin": "^0.70.0",
+    "flow-bin": "^0.72.0",
     "flyd": "^0.2.4",
     "husky": "^0.13.3",
     "jest": "^22.4.3",

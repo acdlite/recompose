@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 /* @flow */
 
 /**
@@ -260,3 +261,10 @@ declare export function createEventHandler(): {
   stream: any,
   handler: Function,
 }
+
+declare export function withRenderProps<B, E>(
+  hoc: HOC<B, E>
+): React$ComponentType<{|
+  ...$Exact<E>,
+  children: (b: B) => React$Node,
+|}>
