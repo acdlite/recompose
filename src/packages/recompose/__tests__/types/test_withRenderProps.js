@@ -35,9 +35,9 @@ const Comp2 = () =>
   </WithProps>
 
 // $ExpectError cannot create `WithProps` element because property `children` is missing in props
-const Comp2 = () => <WithProps x={1} />
+const Comp3 = () => <WithProps x={1} />
 
-const Comp3 = () =>
+const Comp4 = () =>
   <WithProps x={1}>
     {({ y, sayHello }) =>
       <div
