@@ -22,6 +22,7 @@ export { default as getContext } from './getContext'
 export { default as lifecycle } from './lifecycle'
 export { default as toClass } from './toClass'
 export { default as toRenderProps } from './toRenderProps'
+export { default as fromRenderProps } from './fromRenderProps'
 
 // Static property helpers
 export { default as setStatic } from './setStatic'

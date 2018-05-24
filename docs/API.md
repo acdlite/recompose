@@ -57,6 +57,7 @@ const PureComponent = pure(BaseComponent)
   + [`lifecycle()`](#lifecycle)
   + [`toClass()`](#toclass)
   + [`toRenderProps()`](#toRenderProps)
+  + [`fromRenderProps()`](#fromRenderProps)
 * [Static property helpers](#static-property-helpers)
   + [`setStatic()`](#setstatic)
   + [`setPropTypes()`](#setproptypes)
@@ -584,6 +585,36 @@ const Enhanced = toRenderProps(enhance)
 // renders <h1>2</h1>
 ```
 
+### `fromRenderProps()`
+
+```js
+fromRenderProps(
+  RenderPropsComponent: ReactClass | ReactFunctionalComponent,
+  propsMapper: (props: Object) => Object,
+  renderPropName?: string
+): HigherOrderComponent
+```
+
+Takes a **render props** component and a function that maps consumer props to a new collection of props that are passed to the base component.
+
+The default value of third argument (`renderPropName`) is `children`. You can use any props (e.g., `render`) for render props component to work.
+
+> Check the official documents [Render Props](https://reactjs.org/docs/render-props.html#using-props-other-than-render) for more details.
+
+```js
+import { fromRenderProps } from 'recompose';
+const { Consumer: ThemeConsumer } = React.createContext({ theme: 'dark' });
+const { Consumer: I18NConsumer } = React.createContext({ i18n: 'en' });
+const RenderPropsComponent = ({ render, value }) => render({ value: 1 });
+
+const enhance = compose(
+  // Context (Function as Child Components)
+  fromRenderProps(ThemeConsumer, ({ theme }) => ({ theme })),
+  fromRenderProps(I18NConsumer, ({ i18n }) => ({ i18n })),
+  // Render props
+  fromRenderProps(RenderPropsComponent, ({ value }) => ({ value }), 'render'),
+);
+```
 
 ## Static property helpers
 

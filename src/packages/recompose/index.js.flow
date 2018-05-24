@@ -268,3 +268,11 @@ declare export function toRenderProps<B, E>(
   ...$Exact<E>,
   children: (b: B) => React$Node,
 |}>
+
+declare export function fromRenderProps<B, E, RenderPropName, Props>(
+  RenderPropsComponent: Component<{
+    [RenderPropName]: (Props) => React$Node,
+  }>,
+  propsMapper: ((props: Props) => B),
+  renderPropName?: RenderPropName
+): HOC<{ ...$Exact<E>, ...B }, E>
