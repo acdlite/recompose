@@ -262,7 +262,7 @@ declare export function createEventHandler(): {
   handler: Function,
 }
 
-declare export function withRenderProps<B, E>(
+declare export function toRenderProps<B, E>(
   hoc: HOC<B, E>
 ): React$ComponentType<{|
   ...$Exact<E>,

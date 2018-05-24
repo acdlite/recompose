@@ -56,7 +56,7 @@ const PureComponent = pure(BaseComponent)
   + [`getContext()`](#getcontext)
   + [`lifecycle()`](#lifecycle)
   + [`toClass()`](#toclass)
-  + [`withRenderProps()`](#withrenderprops)
+  + [`toRenderProps()`](#toRenderProps)
 * [Static property helpers](#static-property-helpers)
   + [`setStatic()`](#setstatic)
   + [`setPropTypes()`](#setproptypes)
@@ -565,10 +565,10 @@ Takes a function component and wraps it in a class. This can be used as a fallba
 If the base component is already a class, it returns the given component.
 
 
-### `withRenderProps()`
+### `toRenderProps()`
 
 ```js
-withRenderProps(
+toRenderProps(
   hoc: HigherOrderComponent
 ): ReactFunctionalComponent
 ```
@@ -578,7 +578,7 @@ Creates a component that accepts a function as a children with the high-order co
 Example:
 ```js
 const enhance = withProps(({ foo }) => ({ fooPlusOne: foo + 1 }))
-const Enhanced = withRenderProps(enhance)
+const Enhanced = toRenderProps(enhance)
 
 <Enhanced foo={1}>{({ fooPlusOne }) => <h1>{fooPlusOne}</h1>}</Enhanced>
 // renders <h1>2</h1>
