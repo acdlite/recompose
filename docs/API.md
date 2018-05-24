@@ -595,9 +595,9 @@ fromRenderProps(
 ): HigherOrderComponent
 ```
 
-Takes a **render props** component and a function that maps consumer props to a new collection of props that are passed to the base component.
+Takes a **render props** component and a function that maps props to a new collection of props that are passed to the base component.
 
-The default value of third argument (`renderPropName`) is `children`. You can use any props (e.g., `render`) for render props component to work.
+The default value of third parameter (`renderPropName`) is `children`. You can use any prop (e.g., `render`) for render props component to work.
 
 > Check the official documents [Render Props](https://reactjs.org/docs/render-props.html#using-props-other-than-render) for more details.
 
@@ -607,13 +607,30 @@ const { Consumer: ThemeConsumer } = React.createContext({ theme: 'dark' });
 const { Consumer: I18NConsumer } = React.createContext({ i18n: 'en' });
 const RenderPropsComponent = ({ render, value }) => render({ value: 1 });
 
-const enhance = compose(
+const EnhancedApp = compose(
   // Context (Function as Child Components)
   fromRenderProps(ThemeConsumer, ({ theme }) => ({ theme })),
-  fromRenderProps(I18NConsumer, ({ i18n }) => ({ i18n })),
+  fromRenderProps(I18NConsumer, ({ i18n }) => ({ locale: i18n })),
   // Render props
   fromRenderProps(RenderPropsComponent, ({ value }) => ({ value }), 'render'),
-);
+)(App);
+
+// Same as
+const EnhancedApp = () => (
+  <ThemeConsumer>
+    {({ theme }) => (
+      <I18NConsumer>
+        {({ i18n }) => (
+          <RenderPropsComponent
+            render={({ value }) => (
+              <App theme={theme} locale={i18n} value={value} />
+            )}
+          />
+        )}
+      </I18NConsumer>
+    )}
+  </ThemeConsumer>
+)
 ```
 
 ## Static property helpers
