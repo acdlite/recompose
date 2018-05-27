@@ -1690,6 +1690,12 @@ create-react-class@^15.5.0:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+create-subscription@^16.4.0:
+  version "16.4.0"
+  resolved "https://registry.yarnpkg.com/create-subscription/-/create-subscription-16.4.0.tgz#0202bdb5603aa08867a8907bd78fcd262f7407ab"
+  dependencies:
+    fbjs "^0.8.16"
+
 cross-env@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-4.0.0.tgz#16083862d08275a4628b0b243b121bedaa55dd80"

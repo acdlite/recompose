@@ -91,6 +91,7 @@
     "npm": "3.x"
   },
   "dependencies": {
+    "create-subscription": "^16.4.0",
     "enzyme-adapter-react-16": "^1.1.1"
   }
 }
