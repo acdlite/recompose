@@ -51,6 +51,7 @@ const PureComponent = pure(BaseComponent)
   + [`shouldUpdate()`](#shouldupdate)
   + [`pure()`](#pure)
   + [`onlyUpdateForKeys()`](#onlyupdateforkeys)
+  + [`onlyUpdateForKeysFunc()`](#onlyupdateforkeysfunc)
   + [`onlyUpdateForPropTypes()`](#onlyupdateforproptypes)
   + [`withContext()`](#withcontext)
   + [`getContext()`](#getcontext)
@@ -475,6 +476,35 @@ const Post = enhance(({ title, content, author }) =>
 )
 ```
 
+### `onlyUpdateForKeysFunc()`
+
+```js
+onlyUpdateForKeysFunc(
+  checkFunc: Function
+): HigherOrderComponent
+```
+
+Prevents the component from updating unless a prop corresponding to one of the given keys from function has updated. Uses `shallowEqual()` to test for changes.
+
+It is useful in cases you want compare some nested objects in state/props.
+
+Example:
+
+```js
+/**
+ * Our function will return some object to compare states and update componenty only
+ * if title changed value in case-insensitive style.
+ */
+const enhance = onlyUpdateForKeysFunc(({ title, content }) => [ title.toLowerCase(), content ])
+const Post = enhance(({ title, content, author }) =>
+  <article>
+    <h1>{title}</h1>
+    <h2>By {author.name}</h2>
+    <div>{content}</div>
+  </article>
+)
+```
+
 ### `onlyUpdateForPropTypes()`
 
 ```js
@@ -573,7 +603,7 @@ withRenderProps(
 ): ReactFunctionalComponent
 ```
 
-Creates a component that accepts a function as a children with the high-order component applied to it. 
+Creates a component that accepts a function as a children with the high-order component applied to it.
 
 Example:
 ```js
