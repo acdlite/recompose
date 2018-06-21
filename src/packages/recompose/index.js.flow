@@ -262,9 +262,17 @@ declare export function createEventHandler(): {
   handler: Function,
 }
 
-declare export function withRenderProps<B, E>(
+declare export function toRenderProps<B, E>(
   hoc: HOC<B, E>
 ): React$ComponentType<{|
   ...$Exact<E>,
   children: (b: B) => React$Node,
 |}>
+
+declare export function fromRenderProps<B, E, RenderPropName, Props>(
+  RenderPropsComponent: Component<{
+    [RenderPropName]: (Props) => React$Node,
+  }>,
+  propsMapper: ((props: Props) => B),
+  renderPropName?: RenderPropName
+): HOC<{ ...$Exact<E>, ...B }, E>

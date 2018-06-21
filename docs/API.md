@@ -56,7 +56,8 @@ const PureComponent = pure(BaseComponent)
   + [`getContext()`](#getcontext)
   + [`lifecycle()`](#lifecycle)
   + [`toClass()`](#toclass)
-  + [`withRenderProps()`](#withrenderprops)
+  + [`toRenderProps()`](#torenderprops)
+  + [`fromRenderProps()`](#fromrenderprops)
 * [Static property helpers](#static-property-helpers)
   + [`setStatic()`](#setstatic)
   + [`setPropTypes()`](#setproptypes)
@@ -565,10 +566,10 @@ Takes a function component and wraps it in a class. This can be used as a fallba
 If the base component is already a class, it returns the given component.
 
 
-### `withRenderProps()`
+### `toRenderProps()`
 
 ```js
-withRenderProps(
+toRenderProps(
   hoc: HigherOrderComponent
 ): ReactFunctionalComponent
 ```
@@ -578,12 +579,59 @@ Creates a component that accepts a function as a children with the high-order co
 Example:
 ```js
 const enhance = withProps(({ foo }) => ({ fooPlusOne: foo + 1 }))
-const Enhanced = withRenderProps(enhance)
+const Enhanced = toRenderProps(enhance)
 
 <Enhanced foo={1}>{({ fooPlusOne }) => <h1>{fooPlusOne}</h1>}</Enhanced>
 // renders <h1>2</h1>
 ```
 
+### `fromRenderProps()`
+
+```js
+fromRenderProps(
+  RenderPropsComponent: ReactClass | ReactFunctionalComponent,
+  propsMapper: (props: Object) => Object,
+  renderPropName?: string
+): HigherOrderComponent
+```
+
+Takes a **render props** component and a function that maps props to a new collection of props that are passed to the base component.
+
+The default value of third parameter (`renderPropName`) is `children`. You can use any prop (e.g., `render`) for render props component to work.
+
+> Check the official documents [Render Props](https://reactjs.org/docs/render-props.html#using-props-other-than-render) for more details.
+
+```js
+import { fromRenderProps } from 'recompose';
+const { Consumer: ThemeConsumer } = React.createContext({ theme: 'dark' });
+const { Consumer: I18NConsumer } = React.createContext({ i18n: 'en' });
+const RenderPropsComponent = ({ render, value }) => render({ value: 1 });
+
+const EnhancedApp = compose(
+  // Context (Function as Child Components)
+  fromRenderProps(ThemeConsumer, ({ theme }) => ({ theme })),
+  fromRenderProps(I18NConsumer, ({ i18n }) => ({ locale: i18n })),
+  // Render props
+  fromRenderProps(RenderPropsComponent, ({ value }) => ({ value }), 'render'),
+)(App);
+
+// Same as
+const EnhancedApp = () => (
+  <ThemeConsumer>
+    {({ theme }) => (
+      <I18NConsumer>
+        {({ i18n }) => (
+          <RenderPropsComponent
+            render={({ value }) => (
+              <App theme={theme} locale={i18n} value={value} />
+            )}
+          />
+        )}
+      </I18NConsumer>
+    )}
+  </ThemeConsumer>
+)
+```
 
 ## Static property helpers
 

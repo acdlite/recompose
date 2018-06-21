@@ -1,10 +1,10 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { withRenderProps, defaultProps } from '../'
+import { toRenderProps, defaultProps } from '../'
 
-test('withRenderProps creates a component from defaultProps HOC', () => {
+test('toRenderProps creates a component from defaultProps HOC', () => {
   const enhance = defaultProps({ foo: 'bar' })
-  const Enhanced = withRenderProps(enhance)
+  const Enhanced = toRenderProps(enhance)
 
   expect(Enhanced.displayName).toBe('defaultProps(RenderPropsComponent)')
 

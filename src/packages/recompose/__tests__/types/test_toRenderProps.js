@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as React from 'react'
-import { compose, withProps, withRenderProps, withHandlers } from '../..'
+import { compose, withProps, toRenderProps, withHandlers } from '../..'
 import type { HOC } from '../..'
 
 const enhance: HOC<*, {| +x: number |}> = compose(
@@ -15,7 +15,7 @@ const enhance: HOC<*, {| +x: number |}> = compose(
   })
 )
 
-const WithProps = withRenderProps(enhance)
+const WithProps = toRenderProps(enhance)
 
 const Comp = () =>
   <WithProps x={1}>
