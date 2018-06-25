@@ -70,3 +70,19 @@ test('fromRenderProps meet toRenderProps', () => {
   const div = mount(<EnhancedComponent />)
   expect(div.html()).toBe(`<div foo="bar1"></div>`)
 })
+
+test('fromRenderProps with multiple arguments #693', () => {
+  const RenderPropsComponent = ({ children }) =>
+    children({ theme: 'dark' }, { data: 'data' })
+  const EnhancedComponent = compose(
+    fromRenderProps(
+      RenderPropsComponent,
+      ({ theme }, { data }) => ({ theme, data }),
+      'children'
+    )
+  )('div')
+  expect(EnhancedComponent.displayName).toBe('fromRenderProps(div)')
+
+  const div = mount(<EnhancedComponent />)
+  expect(div.html()).toBe(`<div theme="dark" data="data"></div>`)
+})

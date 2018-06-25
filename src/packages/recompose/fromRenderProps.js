@@ -12,8 +12,8 @@ const fromRenderProps = (
 
   const FromRenderProps = ownerProps =>
     renderPropsFactory({
-      [renderPropName]: props =>
-        baseFactory({ ...ownerProps, ...propsMapper(props) }),
+      [renderPropName]: (...props) =>
+        baseFactory({ ...ownerProps, ...propsMapper(...props) }),
     })
 
   if (process.env.NODE_ENV !== 'production') {
