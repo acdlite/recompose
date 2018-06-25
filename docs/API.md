@@ -590,7 +590,7 @@ const Enhanced = toRenderProps(enhance)
 ```js
 fromRenderProps(
   RenderPropsComponent: ReactClass | ReactFunctionalComponent,
-  propsMapper: (props: Object) => Object,
+  propsMapper: (...props: any[]) => Object,
   renderPropName?: string
 ): HigherOrderComponent
 ```
