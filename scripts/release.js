@@ -121,6 +121,9 @@ try {
     JSON.stringify(packageConfig, null, 2)
   )
 
+  log('Copying license...')
+  cp('-f', 'LICENSE.md', outDir)
+
   log(`Building ${packageName}...`)
   const runRollup = () => `yarn build:${packageName}`
   if (exec(runRollup()).code !== 0) {
