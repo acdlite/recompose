@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars, no-unused-expressions, arrow-body-style */
 /* @flow */
-import React from 'react'
+import * as React from 'react'
 import {
   compose,
   withProps,
@@ -53,3 +53,14 @@ setPropTypes(1)
 setStatic(1, 'world')
 
 const EnhancedComponent = enhacer(Comp)
+
+const Component = ({ x, y }) => `${x} ${y}`
+
+const Out: React.ComponentType<{ x: string }> = compose(
+  withProps(({ x }) => ({ y: x }))
+)(Component)
+
+const OutStatic = setStatic('name', 'Ivan')(Out)
+OutStatic.name = 'hello'
+
+const xx = () => <OutStatic x={'1'} />

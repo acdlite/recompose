@@ -171,7 +171,11 @@ declare export function branch<Base, Enhanced>(
 ): HOC<Base, Enhanced>
 
 // test_statics
-declare export function setStatic<A>(key: string, value: any): HOC<A, A>
+declare export function setStatic<A, K: string, V: mixed>(
+  key: K,
+  value: V
+): (a: React$ComponentType<A>) => { [K]: V } & React$ComponentType<A>
+
 declare export function setPropTypes<A>(propTypes: Object): HOC<A, A>
 declare export function setDisplayName<A>(displayName: string): HOC<A, A>
 
