@@ -17,11 +17,13 @@ const input = `./${path.join(PACKAGES_SRC_DIR, packageName, 'index.js')}`
 
 const outDir = path.join(PACKAGES_OUT_DIR, packageName, 'dist')
 
-const isExternal = id => !id.startsWith('.') && !id.startsWith('/')
+const isExternal = id =>
+  !id.startsWith('\0') && !id.startsWith('.') && !id.startsWith('/')
 
-const getBabelOptions = () => ({
+const getBabelOptions = ({ useESModules }) => ({
   exclude: '**/node_modules/**',
   runtimeHelpers: true,
+  plugins: [['@babel/transform-runtime', { useESModules, useBuiltIns: true }]],
 })
 
 const matchSnapshot = process.env.SNAPSHOT === 'match'
@@ -40,7 +42,7 @@ export default [
     external: ['react'],
     plugins: [
       nodeResolve(),
-      babel(getBabelOptions()),
+      babel(getBabelOptions({ useESModules: true })),
       commonjs(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
       sizeSnapshot({ matchSnapshot }),
@@ -60,7 +62,7 @@ export default [
     external: ['react'],
     plugins: [
       nodeResolve(),
-      babel(getBabelOptions()),
+      babel(getBabelOptions({ useESModules: true })),
       commonjs(),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       sizeSnapshot({ matchSnapshot }),
@@ -75,7 +77,7 @@ export default [
       format: 'cjs',
     },
     external: isExternal,
-    plugins: [babel(getBabelOptions())],
+    plugins: [babel(getBabelOptions({ useESModules: false }))],
   },
 
   {
@@ -85,6 +87,9 @@ export default [
       format: 'es',
     },
     external: isExternal,
-    plugins: [babel(getBabelOptions()), sizeSnapshot({ matchSnapshot })],
+    plugins: [
+      babel(getBabelOptions({ useESModules: true })),
+      sizeSnapshot({ matchSnapshot }),
+    ],
   },
 ]
