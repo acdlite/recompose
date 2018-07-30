@@ -86,17 +86,14 @@ try {
 
   log('Compiling source files...')
 
-  const sourceFiles = glob
-    .sync(`${sourceDir}/**/*.js`, {
-      ignore: `${sourceDir}/node_modules/**/*.js`,
-    })
-    .map(to => path.relative(sourceDir, to))
+  const sourceFiles = glob.sync(`${sourceDir}/**/*.js`, {
+    ignore: `${sourceDir}/node_modules/**/*.js`,
+  })
 
   exec(
-    `cd ${sourceDir} && ` +
-      'cross-env BABEL_ENV=cjs ' +
+    'cross-env NODE_ENV=cjs ' +
       `${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} ` +
-      `--out-dir ${path.resolve(outDir)}`
+      `--out-dir ${path.resolve(outDir)} --ignore="**/__tests__/**"`
   )
 
   log('Copying additional project files...')
