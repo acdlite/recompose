@@ -7,7 +7,6 @@ const chalk = require('chalk')
 const { flowRight: compose } = require('lodash')
 const readline = require('readline-sync')
 const semver = require('semver')
-const glob = require('glob')
 const { pascalCase } = require('change-case')
 
 const BIN = './node_modules/.bin'
@@ -86,14 +85,12 @@ try {
 
   log('Compiling source files...')
 
-  const sourceFiles = glob.sync(`${sourceDir}/**/*.js`, {
-    ignore: `${sourceDir}/node_modules/**/*.js`,
-  })
-
   exec(
     'cross-env NODE_ENV=cjs ' +
-      `${path.resolve(BIN)}/babel ${sourceFiles.join(' ')} ` +
-      `--out-dir ${path.resolve(outDir)} --ignore="**/__tests__/**"`
+      `${path.resolve(BIN)}/babel ${sourceDir} ` +
+      `--out-dir ${path.resolve(
+        outDir
+      )} --ignore="**/__tests__/**,**/node_modules/**"`
   )
 
   log('Copying additional project files...')
