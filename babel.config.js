@@ -5,7 +5,7 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'cjs' || process.env.NODE_ENV === 'test') {
   module.exports.plugins.push(
-    ['@babel/transform-runtime', { useBuiltIns: true }],
+    ['@babel/transform-runtime'],
     '@babel/transform-modules-commonjs'
   )
 }

@@ -10,16 +10,16 @@
     "gzipped": 4220
   },
   "lib/packages/recompose/dist/Recompose.esm.js": {
-    "bundled": 31344,
-    "minified": 14863,
-    "gzipped": 3459,
+    "bundled": 31320,
+    "minified": 14839,
+    "gzipped": 3451,
     "treeshaked": {
       "rollup": {
-        "code": 364,
-        "import_statements": 364
+        "code": 340,
+        "import_statements": 340
       },
       "webpack": {
-        "code": 1893
+        "code": 1869
       }
     }
   }
