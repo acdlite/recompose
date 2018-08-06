@@ -23,7 +23,7 @@ const isExternal = id =>
 const getBabelOptions = ({ useESModules }) => ({
   exclude: '**/node_modules/**',
   runtimeHelpers: true,
-  plugins: [['@babel/transform-runtime', { useESModules, useBuiltIns: true }]],
+  plugins: [['@babel/transform-runtime', { useESModules }]],
 })
 
 const matchSnapshot = process.env.SNAPSHOT === 'match'
