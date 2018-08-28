@@ -17,8 +17,7 @@ const input = `./${path.join(PACKAGES_SRC_DIR, packageName, 'index.js')}`
 
 const outDir = path.join(PACKAGES_OUT_DIR, packageName, 'dist')
 
-const isExternal = id =>
-  !id.startsWith('\0') && !id.startsWith('.') && !id.startsWith('/')
+const isExternal = id => !id.startsWith('.') && !id.startsWith('/')
 
 const getBabelOptions = ({ useESModules }) => ({
   exclude: '**/node_modules/**',

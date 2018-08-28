@@ -12,7 +12,7 @@
   "main": "dist/Recompose.cjs.js",
   "module": "dist/Recompose.esm.js",
   "dependencies": {
-    "@babel/runtime": "7.0.0-beta.56",
+    "@babel/runtime": "^7.0.0",
     "change-emitter": "^0.1.2",
     "fbjs": "^0.8.1",
     "hoist-non-react-statics": "^2.3.1",
