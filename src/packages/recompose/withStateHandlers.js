@@ -4,7 +4,7 @@ import wrapDisplayName from './wrapDisplayName'
 import shallowEqual from './shallowEqual'
 import mapValues from './utils/mapValues'
 
-const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
+const withStateHandlers = (initialState, stateUpdaters, stateHandlers) => BaseComponent => {
   const factory = createFactory(BaseComponent)
 
   class WithStateHandlers extends Component {
@@ -27,6 +27,13 @@ const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
       }
     )
 
+    stateHandlers = mapValues(
+      stateHandlers,
+      handler => (...args) => {
+        this.setState(handler(...args));
+      }
+    )
+
     shouldComponentUpdate(nextProps, nextState) {
       const propsChanged = nextProps !== this.props
       // the idea is to skip render if stateUpdater handler return undefined
@@ -40,6 +47,7 @@ const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
         ...this.props,
         ...this.state,
         ...this.stateUpdaters,
+        ...this.stateHandlers,
       })
     }
   }
