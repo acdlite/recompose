@@ -1,7 +1,6 @@
 import { createFactory, Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
-import shallowEqual from './shallowEqual'
 import mapValues from './utils/mapValues'
 
 const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
@@ -26,14 +25,6 @@ const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
         )
       }
     )
-
-    shouldComponentUpdate(nextProps, nextState) {
-      const propsChanged = nextProps !== this.props
-      // the idea is to skip render if stateUpdater handler return undefined
-      // this allows to create no state update handlers with access to state and props
-      const stateChanged = !shallowEqual(nextState, this.state)
-      return propsChanged || stateChanged
-    }
 
     render() {
       return factory({
