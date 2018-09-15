@@ -44,6 +44,7 @@ const PureComponent = pure(BaseComponent)
   + [`flattenProp()`](#flattenprop)
   + [`withState()`](#withstate)
   + [`withStateHandlers()`](#withstatehandlers)
+  + [`withStateUpdaters()`](#withstateupdaters)
   + [`withReducer()`](#withreducer)
   + [`branch()`](#branch)
   + [`renderComponent()`](#rendercomponent)
@@ -321,6 +322,64 @@ Example:
         <Button onClick={() => incrementOn(2)}>Inc</Button>
         <Button onClick={() => decrementOn(3)}>Dec</Button>
         <Button onClick={resetCounter}>Reset</Button>
+      </div>
+  )
+```
+
+### `withStateUpdaters()`
+
+```js
+withStateUpdaters(
+  initialState: Object | (props: Object) => any,
+  stateUpdaters: {
+    [key: string]: (...payload: any[]) => Object | (state:Object, props:Object) => Object
+  }
+)
+
+```
+
+Passes state object properties and state update factory functions
+in a form of `(...payload: any[]) => Object | (state:Object, props:Object) => Object` to the base component.
+
+Every state update factory function accepts payload and must return either a new state object, state updater function or undefined. The result will be passed to React.Component's setState function. State updater function recieves previous state and props and should return new state or undefined. New state is shallowly merged with the previous state.
+Returning undefined does not cause a component rerender.
+
+Example:
+
+```js
+  const RangeSelector = withStateUpdaters(
+    ({ initialMin = 0, initialMax = 1 }) => ({
+      min: initialMin,
+      max: initialMax,
+    }),
+    {
+      setMinimum: (e) => {
+        if (e.key === 'Enter') {
+          const value = e.target.value; // or alterntively e.persist();
+          return ({ min, max }) => ({
+            min: value < max ? value : max,
+          });
+        }
+      },
+      setMaximum: (e) => {
+        if (e.key === 'Enter') {
+          const value = e.target.value; // or alterntively e.persist();
+          return ({ min, max }) => ({
+            max: value > min ? value : min,
+          });
+        }
+      },
+      resetRange: () => (_, { initialMin = 0, initialMax = 1 }) => ({
+        min: initialMin,
+        max: initialMax,
+      }),
+    }
+  )(
+    ({ min, max, setMinimum, setMaximum, resetRange }) =>
+      <div>
+        <input onKeyPress={setMinimum} value={min} />
+        <input onKeyPress={setMaximum} value={max} />
+        <Button onClick={resetRange}>Reset</Button>
       </div>
   )
 ```

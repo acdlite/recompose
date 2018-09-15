@@ -3,13 +3,14 @@ import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 import mapValues from './utils/mapValues'
 
-const withStateHandlers = (initialState, stateUpdaters, stateHandlers) => BaseComponent => {
+const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
   const factory = createFactory(BaseComponent)
 
   class WithStateHandlers extends Component {
-    state = typeof initialState === 'function'
-      ? initialState(this.props)
-      : initialState
+    state =
+      typeof initialState === 'function'
+        ? initialState(this.props)
+        : initialState
 
     stateUpdaters = mapValues(
       stateUpdaters,
@@ -26,19 +27,11 @@ const withStateHandlers = (initialState, stateUpdaters, stateHandlers) => BaseCo
       }
     )
 
-    stateHandlers = mapValues(
-      stateHandlers,
-      handler => (...args) => {
-        this.setState(handler(...args));
-      }
-    )
-
     render() {
       return factory({
         ...this.props,
         ...this.state,
         ...this.stateUpdaters,
-        ...this.stateHandlers,
       })
     }
   }
