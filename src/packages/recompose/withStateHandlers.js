@@ -7,10 +7,9 @@ const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
   const factory = createFactory(BaseComponent)
 
   class WithStateHandlers extends Component {
-    state =
-      typeof initialState === 'function'
-        ? initialState(this.props)
-        : initialState
+    state = typeof initialState === 'function'
+      ? initialState(this.props)
+      : initialState
 
     stateUpdaters = mapValues(
       stateUpdaters,

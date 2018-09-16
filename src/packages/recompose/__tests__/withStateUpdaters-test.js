@@ -5,12 +5,13 @@ import sinon from 'sinon'
 import { compose, withStateUpdaters } from '..'
 
 test('withStateUpdaters can persist events passed as argument', () => {
-  const component = ({ value, onChange }) => (
+  const component = ({ value, onChange }) =>
     <div>
       <input type="text" value={value} onChange={onChange} />
-      <p>{value}</p>
+      <p>
+        {value}
+      </p>
     </div>
-  )
 
   const InputComponent = withStateUpdaters(
     { value: '' },
@@ -41,12 +42,13 @@ test('withStateUpdaters can persist events passed as argument', () => {
 })
 
 test('withStateUpdaters can save values from events passed as argument', () => {
-  const component = ({ value, onChange }) => (
+  const component = ({ value, onChange }) =>
     <div>
       <input type="text" value={value} onChange={onChange} />
-      <p>{value}</p>
+      <p>
+        {value}
+      </p>
     </div>
-  )
 
   const InputComponent = withStateUpdaters(
     { value: '' },
