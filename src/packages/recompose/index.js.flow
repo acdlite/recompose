@@ -54,13 +54,9 @@ declare type ExtractStateHandlersCodomain = <State, Enhanced, V>(
   v: (state: State, props: Enhanced) => V
 ) => V
 
-declare type ExtractStateUpdatersToVoid = <State, Enhanced>(
-  s: $Shape<State> | ((state: State, props: Enhanced) => $Shape<State>)
-) => void
-
-declare type ExtractStateUpdatersCodomain = <V>(
+declare type ExtractStateUpdaters = <V>(
   v: (...payload: any[]) => V
-) => V
+) => (...payload: any[]) => void
 
 declare type ExtractHandlersCodomain = <Enhanced, V>(
   v: (props: Enhanced) => V
@@ -121,11 +117,12 @@ declare export function withStateHandlers<
 declare export function withStateUpdaters<
   State,
   Enhanced,
-  StateUpdaters: {
-    [key: string]: (...payload: any[]) => $Shape<State> | ((
+  StateOrStateUpdater: ?$Shape<State> | ((
       state: State,
       props: Enhanced
-    ) => $Shape<State>),
+    ) => ?$Shape<State>),
+  StateUpdaters: {
+    [key: string]: (...payload: any[]) => StateOrStateUpdater,
   }
 >(
   initialState: ((props: Enhanced) => State) | State,
@@ -134,10 +131,7 @@ declare export function withStateUpdaters<
   {
     ...$Exact<Enhanced>,
     ...$Exact<State>,
-    ...$ObjMap<
-      $ObjMap<StateUpdaters, ExtractStateUpdatersCodomain>,
-      ExtractStateUpdatersToVoid
-    >,
+    ...$ObjMap<StateUpdaters, ExtractStateUpdaters>,
   },
   Enhanced
 >

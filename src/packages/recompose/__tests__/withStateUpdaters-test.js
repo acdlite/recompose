@@ -65,14 +65,14 @@ test('withStateUpdaters can save values from events passed as argument', () => {
   const output = wrapper.find('p')
   // having that enzyme simulate does not simulate real situation
   // emulate persist
-  input.simulate('change', {
-    persist() {
-      this.target = { value: 'Yay' }
-    },
-  })
+  const e = {
+    target: { value: 'Yay' },
+  }
+  input.simulate('change', e)
   expect(output.text()).toBe('Yay')
 
-  input.simulate('change', { target: { value: 'empty' } })
+  e.target.value = 'empty'
+  input.simulate('change', e)
   expect(output.text()).toBe('empty')
 })
 
