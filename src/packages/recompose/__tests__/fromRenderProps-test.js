@@ -1,6 +1,12 @@
 import React from 'react'
 import { mount } from 'enzyme'
-import { fromRenderProps, compose, toRenderProps, defaultProps } from '../'
+import {
+  fromRenderProps,
+  compose,
+  toRenderProps,
+  defaultProps,
+  withProps,
+} from '../'
 
 test('fromRenderProps passes additional props to base component', () => {
   const RenderPropsComponent = ({ children }) => children({ i18n: 'zh-TW' })
@@ -85,4 +91,21 @@ test('fromRenderProps with multiple arguments #693', () => {
 
   const div = mount(<EnhancedComponent />)
   expect(div.html()).toBe(`<div theme="dark" data="data"></div>`)
+})
+
+test('fromRenderProps with owner props #740', () => {
+  const RenderPropsComponent = ({ children, count }) =>
+    children({ count: count + 1, theme: 'dark' })
+  const EnhancedComponent = compose(
+    withProps({ count: 1 }),
+    fromRenderProps(
+      RenderPropsComponent,
+      ({ theme, count }) => ({ theme, count }),
+      'children'
+    )
+  )('div')
+  expect(EnhancedComponent.displayName).toBe('withProps(fromRenderProps(div))')
+
+  const div = mount(<EnhancedComponent />)
+  expect(div.html()).toBe(`<div count="2" theme="dark"></div>`)
 })

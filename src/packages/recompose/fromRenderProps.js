@@ -12,6 +12,7 @@ const fromRenderProps = (
 
   const FromRenderProps = ownerProps =>
     renderPropsFactory({
+      ...ownerProps,
       [renderPropName]: (...props) =>
         baseFactory({ ...ownerProps, ...propsMapper(...props) }),
     })
