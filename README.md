@@ -184,7 +184,7 @@ Function components have several key advantages:
 - They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 - They encourage code that is more reusable and modular.
 - They discourage giant, complicated components that do too many things.
-- In the future, they will allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
+- They allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
 
 (Note that although Recompose encourages the use of function components whenever possible, it works with normal React components as well.)
 
