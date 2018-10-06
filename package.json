@@ -2,6 +2,7 @@
   "name": "recompose-build",
   "private": true,
   "author": "Andrew Clark <acdlite@me.com>",
+  "version": "0.30.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/acdlite/recompose.git"
