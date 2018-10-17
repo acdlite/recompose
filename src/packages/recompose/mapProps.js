@@ -1,14 +1,10 @@
 import { createFactory } from 'react'
-import setDisplayName from './setDisplayName'
-import wrapDisplayName from './wrapDisplayName'
+import composeWithDisplayName from './composeWithDisplayName'
 
-const mapProps = propsMapper => BaseComponent => {
-  const factory = createFactory(BaseComponent)
-  const MapProps = props => factory(propsMapper(props))
-  if (process.env.NODE_ENV !== 'production') {
-    return setDisplayName(wrapDisplayName(BaseComponent, 'mapProps'))(MapProps)
-  }
-  return MapProps
-}
+const mapProps = propsMapper =>
+  composeWithDisplayName('mapProps', BaseComponent => {
+    const factory = createFactory(BaseComponent)
+    return props => factory(propsMapper(props))
+  })
 
 export default mapProps

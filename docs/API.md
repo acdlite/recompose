@@ -64,6 +64,7 @@ const PureComponent = pure(BaseComponent)
   + [`setDisplayName()`](#setdisplayname)
 * [Utilities](#utilities)
   + [`compose()`](#compose)
+  + [`composeWithDisplayName()`](#composewithdisplayname)
   + [`getDisplayName()`](#getdisplayname)
   + [`wrapDisplayName()`](#wrapdisplayname)
   + [`shallowEqual()`](#shallowequal)
@@ -679,6 +680,37 @@ compose(...functions: Array<Function>): Function
 ```
 
 Use to compose multiple higher-order components into a single higher-order component. This works exactly like the function of the same name in Redux, or lodash's `flowRight()`.
+
+### `composeWithDisplayName()`
+
+```js
+composeWithDisplayName(name: String, ...functions: Array<Function>): Function
+```
+
+A utility function similar to `compose`, but the resulting higher-order component also derives its name directly from the name of the component you pass to it. Compare the following examples:
+
+```js
+const myHOC1 = BaseComponent => compose(
+  setDisplayName(wrapDisplayName(BaseComponent, 'myName')),
+  renameProp('old', 'new'),
+  flattenProp('data'),
+)(BaseComponent)
+// myHOC1(Test).displayName === 'myName(Test)'
+
+const myHOC2 = compose(
+  (Component) => setDisplayName(wrapDisplayName(Component, 'myName'))(Component),
+  renameProp('old', 'new'),
+  flattenProp('data'),
+)
+// myHOC2(Test).displayName === 'myName(renameProp(flattenProp(Test)))'
+
+const myHOC3 = composeWithDisplayName(
+  'myName',
+  renameProp('old', 'new'),
+  flattenProp('data'),
+)
+// myHOC3(Test).displayName === 'myName(Test)'
+```
 
 ### `getDisplayName()`
 
