@@ -11,8 +11,8 @@ This form makes HOCs (sometimes called **enhancers**) composable:
 ```js
 const composedHoc = compose(hoc1, hoc2, hoc3)(BaseComponent)
 
-// Same as
-const composedHoc = hoc1(hoc2(hoc3(BaseComponent)))
+// Internally does
+const composedHoc = BaseComponent => hoc1(hoc2(hoc3(BaseComponent)))
 ```
 
 Most Recompose helpers are **functions that return higher-order components**:
