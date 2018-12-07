@@ -1,23 +1,18 @@
 import { createFactory } from 'react'
-import setDisplayName from './setDisplayName'
-import wrapDisplayName from './wrapDisplayName'
+import composeWithDisplayName from './composeWithDisplayName'
 
-const getContext = contextTypes => BaseComponent => {
-  const factory = createFactory(BaseComponent)
-  const GetContext = (ownerProps, context) =>
-    factory({
-      ...ownerProps,
-      ...context,
-    })
+const getContext = contextTypes =>
+  composeWithDisplayName('getContext', BaseComponent => {
+    const factory = createFactory(BaseComponent)
+    const GetContext = (ownerProps, context) =>
+      factory({
+        ...ownerProps,
+        ...context,
+      })
 
-  GetContext.contextTypes = contextTypes
+    GetContext.contextTypes = contextTypes
 
-  if (process.env.NODE_ENV !== 'production') {
-    return setDisplayName(wrapDisplayName(BaseComponent, 'getContext'))(
-      GetContext
-    )
-  }
-  return GetContext
-}
+    return GetContext
+  })
 
 export default getContext

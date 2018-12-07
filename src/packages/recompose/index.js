@@ -31,6 +31,7 @@ export { default as setDisplayName } from './setDisplayName'
 
 // Composition function
 export { default as compose } from './compose'
+export { default as composeWithDisplayName } from './composeWithDisplayName'
 
 // Other utils
 export { default as getDisplayName } from './getDisplayName'
