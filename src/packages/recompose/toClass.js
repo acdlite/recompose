@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import getDisplayName from './getDisplayName'
 import isClassComponent from './isClassComponent'
 
-const toClass = baseComponent =>
+const toClass = (baseComponent, Class = Component) =>
   isClassComponent(baseComponent)
     ? baseComponent
-    : class ToClass extends Component {
+    : class ToClass extends Class {
         static displayName = getDisplayName(baseComponent)
         static propTypes = baseComponent.propTypes
         static contextTypes = baseComponent.contextTypes
@@ -14,7 +14,7 @@ const toClass = baseComponent =>
           if (typeof baseComponent === 'string') {
             return React.createElement(baseComponent, this.props)
           }
-          return baseComponent(this.props, this.context)
+          return baseComponent(this.props, this.context, this)
         }
       }
 export default toClass
