@@ -18,9 +18,11 @@ const withState = (
 
     updateStateValue = (updateFn, callback) =>
       this.setState(
-        ({ stateValue }) => ({
+        prevState => ({
           stateValue:
-            typeof updateFn === 'function' ? updateFn(stateValue) : updateFn,
+            typeof updateFn === 'function'
+              ? updateFn(prevState && prevState.stateValue)
+              : updateFn,
         }),
         callback
       )
