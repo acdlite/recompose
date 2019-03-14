@@ -102,10 +102,10 @@ declare export function withStateHandlers<
   {
     ...$Exact<Enhanced>,
     ...$Exact<State>,
-    ...$ObjMap<
+    ...$Exact<$ObjMap<
       $ObjMap<StateHandlers, ExtractStateHandlersCodomain>,
       ExtractToVoid
-    >,
+    >>,
   },
   Enhanced
 >
