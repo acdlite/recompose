@@ -7,7 +7,8 @@ export const getContextPair = contextName => {
     return contextCache[contextName]
   }
   const contextPair = createContext()
-  contextPair.contextName = contextName
+  contextPair.Provider.contextName = contextName
+  contextPair.Consumer.contextName = contextName
   contextCache[contextName] = contextPair
   return contextPair
 }

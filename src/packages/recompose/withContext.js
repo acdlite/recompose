@@ -12,15 +12,14 @@ const withContext = (childContextTypes, getChildContext) => BaseComponent => {
   )
   const WithContext = props => {
     const contextValues = getChildContext(props)
-    const element = contextNames.reduce(
-      (acc, contextName) =>
-        React.createElement(
-          contextProviders[contextName],
-          { value: contextValues[contextName] },
-          acc
-        ),
-      React.createElement(BaseComponent, props)
-    )
+    const element = contextNames.reduce((acc, contextName) => {
+      const Provider = contextProviders[contextName]
+      return (
+        <Provider value={contextValues[contextName]}>
+          {acc}
+        </Provider>
+      )
+    }, <BaseComponent {...props} />)
 
     return element
   }

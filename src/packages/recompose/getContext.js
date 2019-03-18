@@ -1,15 +1,24 @@
 import React from 'react'
-import compose from './compose'
 import { getContextPair } from './contextManager'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 import mapValues from './utils/mapValues'
 
-const consumerHoc = (Consumer, contextName) => BaseComponent => props => (
-  <Consumer>
-    {value => <BaseComponent {...{ ...props, [contextName]: value }} />}
-  </Consumer>
-)
+const wrapComponent = (BaseComponent, consumers, props) => {
+  if (consumers.length > 0) {
+    const Consumer = consumers[0]
+    return (
+      <Consumer>
+        {value =>
+          wrapComponent(BaseComponent, consumers.slice(1), {
+            ...props,
+            [Consumer.contextName]: value,
+          })}
+      </Consumer>
+    )
+  }
+  return <BaseComponent {...props} />
+}
 
 const getContext = childContextTypes => BaseComponent => {
   const contextNames = Object.keys(childContextTypes)
@@ -17,14 +26,9 @@ const getContext = childContextTypes => BaseComponent => {
     childContextTypes,
     (v, k) => getContextPair(k).Consumer
   )
+  const consumers = contextNames.map(name => contextConsumers[name])
 
-  const enhancer = compose(
-    ...contextNames.map(contextName =>
-      consumerHoc(contextConsumers[contextName], contextName)
-    )
-  )
-
-  const GetContext = enhancer(BaseComponent)
+  const GetContext = props => wrapComponent(BaseComponent, consumers, props)
 
   if (process.env.NODE_ENV !== 'production') {
     return setDisplayName(wrapDisplayName(BaseComponent, 'getContext'))(
