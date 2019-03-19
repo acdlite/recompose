@@ -91,6 +91,6 @@
     "npm": "3.x"
   },
   "dependencies": {
-    "enzyme-adapter-react-16": "^1.1.1"
+    "enzyme-adapter-react-16": "^1.6.0"
   }
 }
