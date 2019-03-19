@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { getContextPair } from './contextManager'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
@@ -10,19 +10,25 @@ const withContext = (childContextTypes, getChildContext) => BaseComponent => {
     childContextTypes,
     (v, k) => getContextPair(k).Provider
   )
-  const WithContext = props => {
-    const contextValues = getChildContext(props)
-    const element = contextNames.reduce((acc, contextName) => {
-      const Provider = contextProviders[contextName]
-      return (
-        <Provider value={contextValues[contextName]}>
-          {acc}
-        </Provider>
-      )
-    }, <BaseComponent {...props} />)
+  class WithContext extends Component {
+    getChildContext = () => getChildContext(this.props)
 
-    return element
+    render() {
+      const contextValues = this.getChildContext()
+      const element = contextNames.reduce((acc, contextName) => {
+        const Provider = contextProviders[contextName]
+        return (
+          <Provider value={contextValues[contextName]}>
+            {acc}
+          </Provider>
+        )
+      }, <BaseComponent {...this.props} />)
+
+      return element
+    }
   }
+
+  WithContext.childContextTypes = childContextTypes
 
   if (process.env.NODE_ENV !== 'production') {
     return setDisplayName(wrapDisplayName(BaseComponent, 'withContext'))(
