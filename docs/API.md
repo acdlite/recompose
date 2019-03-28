@@ -462,6 +462,13 @@ const Post = enhance(({ title, author, content }) =>
 )
 ```
 
+It's also possible get the hoc class Nothing used :
+```
+import { renderNothing } from 'recompose';
+
+const { Nothing } = renderNothing;
+```
+
 ### `shouldUpdate()`
 
 ```js

@@ -1,6 +1,6 @@
 import { Component } from 'react'
 
-class Nothing extends Component {
+export class Nothing extends Component {
   render() {
     return null
   }
