@@ -141,7 +141,7 @@ withHandlers(
 ): HigherOrderComponent
 ```
 
-Takes an object map of handler creators or a factory function. These are higher-order functions that accept a set of props and return a function handler:
+Takes an object map of handler creators or a factory function. These are higher-order functions that accept a set of props and return a function handler.
 
 This allows the handler to access the current props via closure, without needing to change its signature.
 
