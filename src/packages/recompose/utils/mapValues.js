@@ -1,13 +1,9 @@
-const mapValues = (obj, func) => {
-  const result = {}
-  /* eslint-disable no-restricted-syntax */
-  for (const key in obj) {
+const mapValues = (obj, func) => Object.enteties(obj)
+  .reduce((acc,[key,val])=>{
     if (obj.hasOwnProperty(key)) {
-      result[key] = func(obj[key], key)
+      acc[key] = func(val, key)
     }
-  }
-  /* eslint-enable no-restricted-syntax */
-  return result
-}
+    return acc;
+  },{});
 
 export default mapValues
