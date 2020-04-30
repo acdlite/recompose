@@ -1,5 +1,6 @@
-import { createFactory, Component } from 'react'
+import { Component } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
+import createFactory from './utils/createFactory'
 import pick from './utils/pick'
 import shallowEqual from './shallowEqual'
 import setDisplayName from './setDisplayName'
