@@ -1,3 +1,7 @@
+## This is a forked repo from https://github.com/acdlite/recompose
+
+It resolves the warning from using React.createFactory deprecation warning that was announced in [here](https://reactjs.org/blog/2020/02/26/react-v16.13.0.html)
+
 ## A Note from the Author (acdlite, Oct 25 2018):
 
 Hi! I created Recompose about three years ago. About a year after that, I joined the React team. Today, we announced a proposal for [*Hooks*](https://reactjs.org/hooks). Hooks solves all the problems I attempted to address with Recompose three years ago, and more on top of that. I will be discontinuing active maintenance of this package (excluding perhaps bugfixes or patches for compatibility with future React releases), and recommending that people use Hooks instead. **Your existing code with Recompose will still work**, just don't expect any new features. Thank you so, so much to [@wuct](https://github.com/wuct) and [@istarkov](https://github.com/istarkov) for their heroic work maintaining Recompose over the last few years.
