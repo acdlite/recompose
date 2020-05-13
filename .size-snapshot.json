@@ -22,5 +22,29 @@
         "code": 1838
       }
     }
+  },
+  "lib/packages/@myapos/recompose/dist/MyaposRecompose.umd.js": {
+    "bundled": 46355,
+    "minified": 16365,
+    "gzipped": 4647
+  },
+  "lib/packages/@myapos/recompose/dist/MyaposRecompose.min.js": {
+    "bundled": 42793,
+    "minified": 15085,
+    "gzipped": 4206
+  },
+  "lib/packages/@myapos/recompose/dist/MyaposRecompose.esm.js": {
+    "bundled": 32444,
+    "minified": 15257,
+    "gzipped": 3571,
+    "treeshaked": {
+      "rollup": {
+        "code": 310,
+        "import_statements": 310
+      },
+      "webpack": {
+        "code": 1838
+      }
+    }
   }
 }

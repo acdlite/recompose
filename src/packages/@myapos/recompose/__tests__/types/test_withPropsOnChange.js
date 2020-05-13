@@ -7,7 +7,7 @@ import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ hello, eA }) =>
+const Comp = ({ hello, eA }) => (
   <div>
     {(hello: string)}
     {(eA: number)}
@@ -20,6 +20,7 @@ const Comp = ({ hello, eA }) =>
       (hello: number)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
   withPropsOnChange(['eA'], ({ eA }) => ({

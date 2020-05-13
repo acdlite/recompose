@@ -1,7 +1,7 @@
 import React from 'react'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
-import { withHandlers, withState, compose } from '../'
+import { withHandlers, withState, compose } from '..'
 
 test('withHandlers passes handlers to base component', () => {
   let submittedFormValue

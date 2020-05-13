@@ -13,7 +13,7 @@ const Observable = {
   of: (a: Object) => Object,
 }
 
-const Comp = ({ a }) =>
+const Comp = ({ a }) => (
   <div>
     {(a: string)}
     {
@@ -21,6 +21,7 @@ const Comp = ({ a }) =>
       (a: number)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
   (mapPropsStream((props$: Observable<EnhancedCompProps>) =>

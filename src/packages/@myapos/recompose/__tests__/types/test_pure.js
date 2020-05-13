@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars, no-unused-expressions */
 /* @flow */
 import React from 'react'
-import { compose, withProps, onlyUpdateForPropTypes } from '../..'
+import { compose, withProps, pure } from '../..'
 
 import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ eA }) =>
+const Comp = ({ eA }) => (
   <div>
     {(eA: number)}
     {
@@ -15,9 +15,10 @@ const Comp = ({ eA }) =>
       (eA: string)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
-  onlyUpdateForPropTypes,
+  pure,
   withProps(props => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string

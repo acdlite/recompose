@@ -17,29 +17,25 @@ const enhance: HOC<*, {| +x: number |}> = compose(
 
 const WithProps = toRenderProps(enhance)
 
-const Comp = () =>
+const Comp = () => (
   <WithProps x={1}>
-    {({ y, sayHello }) =>
-      <div onClick={() => sayHello()}>
-        {y}
-      </div>}
+    {({ y, sayHello }) => <div onClick={() => sayHello()}>{y}</div>}
   </WithProps>
+)
 
-const Comp2 = () =>
+const Comp2 = () => (
   // $ExpectError
   <WithProps x={'1'}>
-    {({ y, sayHello }) =>
-      <div onClick={() => sayHello()}>
-        {y}
-      </div>}
+    {({ y, sayHello }) => <div onClick={() => sayHello()}>{y}</div>}
   </WithProps>
+)
 
 // $ExpectError cannot create `WithProps` element because property `children` is missing in props
 const Comp3 = () => <WithProps x={1} />
 
-const Comp4 = () =>
+const Comp4 = () => (
   <WithProps x={1}>
-    {({ y, sayHello }) =>
+    {({ y, sayHello }) => (
       <div
         onClick={() => {
           ;(sayHello: () => void)
@@ -54,5 +50,7 @@ const Comp4 = () =>
           // $ExpectError
           (y: string)
         }
-      </div>}
+      </div>
+    )}
   </WithProps>
+)
