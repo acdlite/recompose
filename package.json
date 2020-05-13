@@ -1,8 +1,11 @@
 {
-  "name": "recompose-build",
+  "name": "@myapos/recompose-build",
   "version": "0.30.1",
   "private": true,
   "author": "Andrew Clark <acdlite@me.com>",
+  "contributors": [
+    "Myron Apostolakis <myron.apostolakis@sunlight.io>"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/myapos/recompose.git"
