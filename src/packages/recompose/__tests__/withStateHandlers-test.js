@@ -5,13 +5,12 @@ import sinon from 'sinon'
 import { compose, withStateHandlers } from '../'
 
 test('withStateHandlers should persist events passed as argument', () => {
-  const component = ({ value, onChange }) =>
+  const component = ({ value, onChange }) => (
     <div>
       <input type="text" value={value} onChange={onChange} />
-      <p>
-        {value}
-      </p>
+      <p>{value}</p>
     </div>
+  )
 
   const InputComponent = withStateHandlers(
     { value: '' },
