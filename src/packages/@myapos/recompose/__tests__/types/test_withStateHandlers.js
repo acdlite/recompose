@@ -66,7 +66,7 @@ const enhancerFuncInit: HOC<*, EnhancedCompProps> = compose(
   }))
 )
 
-const BaseComponent = ({ hi, changeValue, setValue }) =>
+const BaseComponent = ({ hi, changeValue, setValue }) => (
   <div
     onClick={() => {
       // check that supports few arguments
@@ -88,6 +88,7 @@ const BaseComponent = ({ hi, changeValue, setValue }) =>
   >
     {hi}
   </div>
+)
 
 const EnhancedComponent = enhancer(BaseComponent)
 ;<EnhancedComponent initialCounter={0} />

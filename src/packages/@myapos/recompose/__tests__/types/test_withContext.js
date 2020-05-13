@@ -1,13 +1,13 @@
-/* eslint-disable no-unused-vars, no-unused-expressions */
+/* eslint-disable no-unused-vars, no-unused-expressions, arrow-body-style */
 /* @flow */
 import React from 'react'
-import { compose, withProps, toClass } from '../..'
+import { compose, withProps, withContext } from '../..'
 
 import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ eA }) =>
+const Comp = ({ eA }) => (
   <div>
     {(eA: number)}
     {
@@ -15,9 +15,14 @@ const Comp = ({ eA }) =>
       (eA: string)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
-  toClass,
+  withContext({}, props => {
+    // $ExpectError eA nor any nor string
+    ;(props.eA: string)
+    return {}
+  }),
   withProps(props => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string

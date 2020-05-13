@@ -14,7 +14,7 @@ import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ eA }) =>
+const Comp = ({ eA }) => (
   <div>
     {(eA: number)}
     {
@@ -22,6 +22,7 @@ const Comp = ({ eA }) =>
       (eA: string)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
   branch(({ eA }) => eA === 1, renderNothing),
@@ -37,7 +38,10 @@ const enhacer: HOC<*, EnhancedCompProps> = compose(
 )
 
 const enhacerLoading: HOC<*, EnhancedCompProps> = compose(
-  branch(({ eA }) => eA === 1, renderComponent(p => <div>Loading</div>)),
+  branch(
+    ({ eA }) => eA === 1,
+    renderComponent(p => <div>Loading</div>)
+  ),
   withProps(props => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string
@@ -57,7 +61,10 @@ const enhacerUpdating: HOC<*, EnhancedCompProps> = compose(
 
 // can infer withProps type
 const enhacerWithProps: HOC<*, EnhancedCompProps> = compose(
-  branch(({ eA }) => eA === 1, withProps(props => ({ x: 1 }))),
+  branch(
+    ({ eA }) => eA === 1,
+    withProps(props => ({ x: 1 }))
+  ),
   withProps(props => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string
