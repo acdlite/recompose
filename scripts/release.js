@@ -50,6 +50,7 @@ try {
   const libraryName = pascalCase(packageName)
 
   const versionLoc = path.resolve(PACKAGES_SRC_DIR, packageName, 'VERSION')
+  console.log('versionLoc', versionLoc)
   const version = fs.readFileSync(versionLoc, 'utf8').trim()
 
   let nextVersion = readline.question(
