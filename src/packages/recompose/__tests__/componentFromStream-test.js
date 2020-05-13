@@ -9,11 +9,7 @@ const componentFromStream = componentFromStreamWithConfig(rxjsConfig)
 
 test('componentFromStream creates a component from a prop stream transformation', () => {
   const Double = componentFromStream(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
+    props$.map(({ n }) => <div>{n * 2}</div>)
   )
   const wrapper = mount(<Double n={112} />)
   const div = wrapper.find('div')
@@ -96,7 +92,10 @@ test('complete props stream before unmounting', () => {
 
 test('completed props stream should throw an exception', () => {
   const Div = componentFromStream(props$ => {
-    const first$ = props$.filter(() => false).first().startWith(null)
+    const first$ = props$
+      .filter(() => false)
+      .first()
+      .startWith(null)
 
     return props$.combineLatest(first$, props1 => <div {...props1} />)
   })

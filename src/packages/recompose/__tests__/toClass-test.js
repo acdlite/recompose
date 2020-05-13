@@ -25,8 +25,16 @@ test('toClass copies propTypes, displayName, contextTypes and defaultProps from 
 
   const TestComponent = toClass(StatelessComponent)
 
+  StatelessComponent.propTypes = {
+    foo: PropTypes.string,
+    fizz: PropTypes.string,
+  }
+
   expect(TestComponent.displayName).toBe('Stateless')
-  expect(TestComponent.propTypes).toEqual({ foo: PropTypes.string })
+  expect(TestComponent.propTypes).toEqual({
+    foo: PropTypes.string,
+    fizz: PropTypes.string,
+  })
   expect(TestComponent.contextTypes).toEqual({ bar: PropTypes.object })
   expect(TestComponent.defaultProps).toEqual({ foo: 'bar', fizz: 'buzz' })
 })
@@ -63,8 +71,9 @@ test('toClass passes context and props correctly', () => {
     withContext({ store: PropTypes.object }, props => ({ store: props.store }))
   )(Provider)
 
-  const StatelessComponent = (props, context) =>
+  const StatelessComponent = (props, context) => (
     <div data-props={props} data-context={context} />
+  )
 
   StatelessComponent.contextTypes = { store: PropTypes.object }
 
