@@ -33,7 +33,7 @@ try {
       'You have unsaved changes in the working tree. ' +
         'Commit or stash changes before releasing.'
     )
-    exit(1)
+    // exit(1)
   }
 
   const packageNames = getPackageNames()
