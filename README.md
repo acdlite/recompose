@@ -13,12 +13,6 @@ Read more discussion about this decision [here](https://github.com/acdlite/recom
 Recompose
 -----
 
-[![build status](https://img.shields.io/travis/acdlite/recompose/master.svg?style=flat-square)](https://travis-ci.org/acdlite/recompose)
-[![coverage](https://img.shields.io/codecov/c/github/acdlite/recompose.svg?style=flat-square)](https://codecov.io/github/acdlite/recompose)
-[![code climate](https://img.shields.io/codeclimate/github/acdlite/recompose.svg?style=flat-square)](https://codeclimate.com/github/acdlite/recompose)
-[![npm version](0.0.32)](https://www.npmjs.com/package/myapos_recompose)
-[![npm downloads](https://img.shields.io/npm/dm/recompose.svg?style=flat-square)](https://www.npmjs.com/package/myapos_recompose)
-
 Recompose is a React utility belt for function components and higher-order components. Think of it like lodash for React.
 
 [**Full API documentation**](docs/API.md) - Learn about each helper
