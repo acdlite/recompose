@@ -1,4 +1,5 @@
-import { createFactory, Component } from 'react'
+import { Component } from 'react'
+import createFactory from './utils/createFactory'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 import mapValues from './utils/mapValues'
@@ -7,9 +8,10 @@ const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
   const factory = createFactory(BaseComponent)
 
   class WithStateHandlers extends Component {
-    state = typeof initialState === 'function'
-      ? initialState(this.props)
-      : initialState
+    state =
+      typeof initialState === 'function'
+        ? initialState(this.props)
+        : initialState
 
     stateUpdaters = mapValues(
       stateUpdaters,
