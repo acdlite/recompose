@@ -37,7 +37,7 @@ try {
   }
 
   const packageNames = getPackageNames()
-
+  console.log('packageNames', packageNames)
   let packageName = readline.question('Name of package to release: ')
 
   while (!packageNames.includes(packageName)) {
