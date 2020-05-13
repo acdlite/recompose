@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
-import { toClass, withContext, compose } from '../'
+import { toClass, withContext, compose } from '..'
 
 test('toClass returns the base component if it is already a class', () => {
   class BaseComponent extends React.Component {

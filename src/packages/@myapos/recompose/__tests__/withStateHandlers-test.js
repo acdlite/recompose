@@ -2,7 +2,7 @@ import React from 'react'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
 
-import { compose, withStateHandlers } from '../'
+import { compose, withStateHandlers } from '..'
 
 test('withStateHandlers should persist events passed as argument', () => {
   const component = ({ value, onChange }) => (
