@@ -4,14 +4,15 @@ It resolves the warning from using React.createFactory deprecation warning that 
 
 ## A Note from the Author (acdlite, Oct 25 2018):
 
-Hi! I created Recompose about three years ago. About a year after that, I joined the React team. Today, we announced a proposal for [*Hooks*](https://reactjs.org/hooks). Hooks solves all the problems I attempted to address with Recompose three years ago, and more on top of that. I will be discontinuing active maintenance of this package (excluding perhaps bugfixes or patches for compatibility with future React releases), and recommending that people use Hooks instead. **Your existing code with Recompose will still work**, just don't expect any new features. Thank you so, so much to [@wuct](https://github.com/wuct) and [@istarkov](https://github.com/istarkov) for their heroic work maintaining Recompose over the last few years.
+Hi! I created Recompose about three years ago. About a year after that, I joined the React team. Today, we announced a proposal for [_Hooks_](https://reactjs.org/hooks). Hooks solves all the problems I attempted to address with Recompose three years ago, and more on top of that. I will be discontinuing active maintenance of this package (excluding perhaps bugfixes or patches for compatibility with future React releases), and recommending that people use Hooks instead. **Your existing code with Recompose will still work**, just don't expect any new features. Thank you so, so much to [@wuct](https://github.com/wuct) and [@istarkov](https://github.com/istarkov) for their heroic work maintaining Recompose over the last few years.
 
 Read more discussion about this decision [here](https://github.com/acdlite/recompose/issues/756#issuecomment-438674573).
 
-***
+---
 
-Recompose
------
+## Recompose
+
+[![npm version](https://img.shields.io/npm/v/myapos_recompose?style=flat-square)](https://www.npmjs.com/package/myapos_recompose)
 
 Recompose is a React utility belt for function components and higher-order components. Think of it like lodash for React.
 
@@ -24,7 +25,7 @@ npm install recompose --save
 ```
 
 **📺 Watch Andrew's [talk on Recompose at React Europe](https://www.youtube.com/watch?v=zD_judE-bXk).**
-*(Note: Performance optimizations he speaks about have been removed, more info [here](https://github.com/acdlite/recompose/releases/tag/v0.26.0))*
+_(Note: Performance optimizations he speaks about have been removed, more info [here](https://github.com/acdlite/recompose/releases/tag/v0.26.0))_
 
 ### Related modules
 
@@ -38,13 +39,13 @@ Helpers like `withState()` and `withReducer()` provide a nicer way to express st
 
 ```js
 const enhance = withState('counter', 'setCounter', 0)
-const Counter = enhance(({ counter, setCounter }) =>
+const Counter = enhance(({ counter, setCounter }) => (
   <div>
     Count: {counter}
     <button onClick={() => setCounter(n => n + 1)}>Increment</button>
     <button onClick={() => setCounter(n => n - 1)}>Decrement</button>
   </div>
-)
+))
 ```
 
 Or with a Redux-style reducer:
@@ -52,23 +53,23 @@ Or with a Redux-style reducer:
 ```js
 const counterReducer = (count, action) => {
   switch (action.type) {
-  case INCREMENT:
-    return count + 1
-  case DECREMENT:
-    return count - 1
-  default:
-    return count
+    case INCREMENT:
+      return count + 1
+    case DECREMENT:
+      return count - 1
+    default:
+      return count
   }
 }
 
 const enhance = withReducer('counter', 'dispatch', counterReducer, 0)
-const Counter = enhance(({ counter, dispatch }) =>
+const Counter = enhance(({ counter, dispatch }) => (
   <div>
     Count: {counter}
     <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
     <button onClick={() => dispatch({ type: DECREMENT })}>Decrement</button>
   </div>
-)
+))
 ```
 
 ### ...perform the most common React patterns
@@ -84,10 +85,8 @@ const Button = enhance(componentFromProp('component'))
 ```
 
 ```js
-const provide = store => withContext(
-  { store: PropTypes.object },
-  () => ({ store })
-)
+const provide = store =>
+  withContext({ store: PropTypes.object }, () => ({ store }))
 
 // Apply to base component
 // Descendants of App have access to context.store
@@ -124,18 +123,18 @@ const enhance = compose(
           title,
           content
         }
-      `
-    }
+      `,
+    },
   }),
   flattenProp('post')
 )
 
-const Post = enhance(({ title, content }) =>
+const Post = enhance(({ title, content }) => (
   <article>
     <h1>{title}</h1>
     <div>{content}</div>
   </article>
-)
+))
 ```
 
 ### ...build your own libraries
@@ -178,10 +177,7 @@ Forget ES6 classes vs. `createClass()`.
 An idiomatic React application consists mostly of function components.
 
 ```js
-const Greeting = props =>
-  <p>
-    Hello, {props.name}!
-  </p>
+const Greeting = props => <p>Hello, {props.name}!</p>
 ```
 
 Function components have several key advantages:
@@ -212,12 +208,12 @@ All functions are available on the top-level export.
 import { compose, mapProps, withState /* ... */ } from 'recompose'
 ```
 
-**Note:** `react` is a _peer dependency_ of Recompose.  If you're using `preact`, add this to your `webpack.config.js`:
+**Note:** `react` is a _peer dependency_ of Recompose. If you're using `preact`, add this to your `webpack.config.js`:
 
 ```js
 resolve: {
   alias: {
-    react: "preact"
+    react: 'preact'
   }
 }
 ```
@@ -301,17 +297,17 @@ const enhance = compose(
 )
 ```
 
-
 ## Who uses Recompose
+
 If your company or project uses Recompose, feel free to add it to [the official list of users](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose) by [editing](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) the wiki page.
 
 ## Recipes for Inspiration
+
 We have a community-driven Recipes page. It's a place to share and see recompose patterns for inspiration. Please add to it! [Recipes](https://github.com/acdlite/recompose/wiki/Recipes).
 
 ## Feedback wanted
 
 Project is still in the early stages. Please file an issue or submit a PR if you have suggestions! Or ping me (Andrew Clark) on [Twitter](https://twitter.com/acdlite).
-
 
 ## Getting Help
 
