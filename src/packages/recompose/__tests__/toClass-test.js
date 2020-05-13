@@ -33,7 +33,6 @@ test('toClass copies propTypes, displayName, contextTypes and defaultProps from 
   expect(TestComponent.displayName).toBe('Stateless')
   expect(TestComponent.propTypes).toEqual({
     foo: PropTypes.string,
-    fizz: PropTypes.string,
   })
   expect(TestComponent.contextTypes).toEqual({ bar: PropTypes.object })
   expect(TestComponent.defaultProps).toEqual({ foo: 'bar', fizz: 'buzz' })
