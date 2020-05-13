@@ -15,6 +15,8 @@
     "lint": "eslint scripts src",
     "lint:fix": "eslint --fix scripts src",
     "build:myapos_recompose": "cross-env PACKAGE_NAME=myapos_recompose rollup --config scripts/rollup.config.js",
+    "flow:check": "flow check",
+    "flow": "flow",
     "test": "jest && flow check && cross-env SNAPSHOT=match npm run build:myapos_recompose",
     "test:watch": "cross-env BABEL_ENV=cjs jest --watch",
     "release": "node scripts/release.js",
