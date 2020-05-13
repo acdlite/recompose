@@ -1,12 +1,12 @@
 {
-  "author": "Andrew Clark <acdlite@me.com>",
+  "author": "Myron Apostolakis <myapos@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/acdlite/recompose.git"
+    "url": "https://github.com/myapos/recompose.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/acdlite/recompose/issues"
+    "url": "https://github.com/myapos/recompose/issues"
   },
-  "homepage": "https://github.com/acdlite/recompose"
+  "homepage": "https://github.com/myapos/recompose"
 }

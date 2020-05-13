@@ -1,18 +1,66 @@
 {
   "lib/packages/recompose/dist/Recompose.umd.js": {
-    "bundled": 46425,
-    "minified": 16484,
-    "gzipped": 4625
+    "bundled": 46349,
+    "minified": 16359,
+    "gzipped": 4641
   },
   "lib/packages/recompose/dist/Recompose.min.js": {
-    "bundled": 42863,
-    "minified": 15204,
-    "gzipped": 4194
+    "bundled": 42787,
+    "minified": 15079,
+    "gzipped": 4202
   },
   "lib/packages/recompose/dist/Recompose.esm.js": {
-    "bundled": 32428,
-    "minified": 15083,
-    "gzipped": 3550,
+    "bundled": 32444,
+    "minified": 15257,
+    "gzipped": 3571,
+    "treeshaked": {
+      "rollup": {
+        "code": 310,
+        "import_statements": 310
+      },
+      "webpack": {
+        "code": 1838
+      }
+    }
+  },
+  "lib/packages/@myapos/recompose/dist/MyaposRecompose.umd.js": {
+    "bundled": 46355,
+    "minified": 16365,
+    "gzipped": 4647
+  },
+  "lib/packages/@myapos/recompose/dist/MyaposRecompose.min.js": {
+    "bundled": 42793,
+    "minified": 15085,
+    "gzipped": 4206
+  },
+  "lib/packages/@myapos/recompose/dist/MyaposRecompose.esm.js": {
+    "bundled": 32444,
+    "minified": 15257,
+    "gzipped": 3571,
+    "treeshaked": {
+      "rollup": {
+        "code": 310,
+        "import_statements": 310
+      },
+      "webpack": {
+        "code": 1838
+      }
+    }
+  },
+  "lib/packages/myapos_recompose/dist/MyaposRecompose.umd.js": {
+    "bundled": 46355,
+    "minified": 16365,
+    "gzipped": 4647
+  },
+  "lib/packages/myapos_recompose/dist/MyaposRecompose.min.js": {
+    "bundled": 42793,
+    "minified": 15085,
+    "gzipped": 4206
+  },
+  "lib/packages/myapos_recompose/dist/MyaposRecompose.esm.js": {
+    "bundled": 32444,
+    "minified": 15257,
+    "gzipped": 3571,
     "treeshaked": {
       "rollup": {
         "code": 310,
