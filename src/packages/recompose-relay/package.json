@@ -17,7 +17,7 @@
   "main": "cjs/RecomposeRelay.js",
   "module": "es/RecomposeRelay.js",
   "dependencies": {
-    "lodash": "^4.0.0"
+    "lodash": "^4.17.19"
   },
   "peerDependencies": {
     "recompose": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0",
