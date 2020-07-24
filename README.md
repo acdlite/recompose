@@ -200,7 +200,7 @@ Function components have several key advantages:
 
 Most of the time when we talk about composition in React, we're talking about composition of components. For example, a `<Blog>` component may be composed of many `<Post>` components, which are composed of many `<Comment>` components.
 
-Recompose focuses on another unit of composition: **higher-order components** (HoCs). HoCs are functions that accept a base component and return a new component with additional functionality. They can be used to abstract common tasks into reusable pieces.
+Recompose focuses on another unit of composition: **higher-order components** (HOCs). HOCs are functions that accept a base component and return a new component with additional functionality. They can be used to abstract common tasks into reusable pieces.
 
 Recompose provides a toolkit of helper functions for creating higher-order components.
 
