@@ -180,9 +180,9 @@ defaultProps(
 ): HigherOrderComponent
 ```
 
-Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided to the HoC.
+Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided to the HOC.
 
-Although it has a similar effect, using the `defaultProps()` HoC is *not* the same as setting the static `defaultProps` property directly on the component.
+Although it has a similar effect, using the `defaultProps()` HOC is *not* the same as setting the static `defaultProps` property directly on the component.
 
 
 ### `renameProp()`
@@ -297,7 +297,7 @@ stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
 stateUpdater(newValue: any, ?callback: Function): void
 ```
 
-The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` to create specific updater functions. For example, to create a HoC that adds basic counting functionality to a component:
+The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` to create specific updater functions. For example, to create a HOC that adds basic counting functionality to a component:
 
 ```js
 const addCounting = compose(
