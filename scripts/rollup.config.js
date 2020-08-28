@@ -13,9 +13,9 @@ const packageName = process.env.PACKAGE_NAME
 
 const libraryName = pascalCase(packageName)
 
-const input = `./${path.join(PACKAGES_SRC_DIR, packageName, 'index.js')}`
+const input = `./${path.posix.join(PACKAGES_SRC_DIR, packageName, 'index.js')}`
 
-const outDir = path.join(PACKAGES_OUT_DIR, packageName, 'dist')
+const outDir = path.posix.join(PACKAGES_OUT_DIR, packageName, 'dist')
 
 const isExternal = id => !id.startsWith('.') && !id.startsWith('/')
 
@@ -86,9 +86,6 @@ export default [
       format: 'es',
     },
     external: isExternal,
-    plugins: [
-      babel(getBabelOptions({ useESModules: true })),
-      sizeSnapshot({ matchSnapshot }),
-    ],
+    plugins: [babel(getBabelOptions({ useESModules: true }))],
   },
 ]
