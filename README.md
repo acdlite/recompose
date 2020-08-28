@@ -1,3 +1,11 @@
+## A Note from the Author (acdlite, Oct 25 2018):
+
+Hi! I created Recompose about three years ago. About a year after that, I joined the React team. Today, we announced a proposal for [*Hooks*](https://reactjs.org/hooks). Hooks solves all the problems I attempted to address with Recompose three years ago, and more on top of that. I will be discontinuing active maintenance of this package (excluding perhaps bugfixes or patches for compatibility with future React releases), and recommending that people use Hooks instead. **Your existing code with Recompose will still work**, just don't expect any new features. Thank you so, so much to [@wuct](https://github.com/wuct) and [@istarkov](https://github.com/istarkov) for their heroic work maintaining Recompose over the last few years.
+
+Read more discussion about this decision [here](https://github.com/acdlite/recompose/issues/756#issuecomment-438674573).
+
+***
+
 Recompose
 -----
 
@@ -184,7 +192,7 @@ Function components have several key advantages:
 - They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 - They encourage code that is more reusable and modular.
 - They discourage giant, complicated components that do too many things.
-- In the future, they will allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
+- They allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
 
 (Note that although Recompose encourages the use of function components whenever possible, it works with normal React components as well.)
 

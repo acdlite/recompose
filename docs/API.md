@@ -197,6 +197,25 @@ renameProp(
 
 Renames a single prop.
 
+Example:
+
+```js
+const enhance = compose(
+  withProps({ 'loadingDataFromApi': true, 'posts': [] }),
+  renameProp('loadingDataFromApi', 'isLoading'),
+  renameProp('posts', 'items'),
+);
+
+const Posts = enhance(({ isLoading, items }) => (
+  <div>
+    <div>Loading: { isLoading ? 'yes' : 'no'}</div>
+    <ul>
+      {isLoading && items.map(({ id, title }) => (<li key={id}>{title}</li>))}
+    </ul>
+  </div>
+));
+```
+
 ### `renameProps()`
 
 ```js
@@ -206,6 +225,24 @@ renameProps(
 ```
 
 Renames multiple props, using a map of old prop names to new prop names.
+
+Example:
+
+```js
+const enhance = compose(
+  withProps({ 'loadingDataFromApi': true, 'posts': [] }),
+  renameProps({ 'loadingDataFromApi': 'isLoading', 'posts': 'items' }),
+);
+
+const Posts = enhance(({ isLoading, items }) => (
+  <div>
+    <div>Loading: { isLoading ? 'yes' : 'no'}</div>
+    <ul>
+      {isLoading && items.map(({ id, title }) => (<li key={id}>{title}</li>))}
+    </ul>
+  </div>
+));
+```
 
 ### `flattenProp()`
 
