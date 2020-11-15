@@ -3,6 +3,7 @@ const path = require('path')
 
 exports.PACKAGES_SRC_DIR = './src/packages'
 exports.PACKAGES_OUT_DIR = './lib/packages'
+exports.PACKAGES_RELEASE_DIR = '../recompose'
 
 let names
 

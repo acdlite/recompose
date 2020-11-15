@@ -14,6 +14,7 @@ const BIN = './node_modules/.bin'
 const {
   PACKAGES_SRC_DIR,
   PACKAGES_OUT_DIR,
+  PACKAGES_RELEASE_DIR,
   getPackageNames,
 } = require('./getPackageNames')
 
@@ -80,6 +81,9 @@ try {
   const sourceDir = path.resolve(PACKAGES_SRC_DIR, packageName)
   const outDir = path.resolve(PACKAGES_OUT_DIR, packageName)
 
+  log('Updating VERSION file...')
+  writeFile(versionLoc, `${nextVersion}\n`)
+
   log('Cleaning destination directory...')
   rm('-rf', outDir)
 
@@ -94,7 +98,7 @@ try {
   )
 
   log('Copying additional project files...')
-  const additionalProjectFiles = ['README.md', '.npmignore']
+  const additionalProjectFiles = ['README.md', '.npmignore', 'VERSION']
   additionalProjectFiles.forEach(filename => {
     const src = path.resolve(sourceDir, filename)
 
@@ -131,36 +135,8 @@ try {
     path.resolve(outDir, 'dist', `${libraryName}.cjs.js.flow`)
   )
 
-  log(`About to publish ${packageName}@${nextVersion} to npm.`)
-  if (!readline.keyInYN('Sound good? ')) {
-    log('OK. Stopping release.')
-    exit(0)
-  }
-
-  log('Publishing...')
-  if (exec(`cd ${outDir} && npm publish`).code !== 0) {
-    logError('Publish failed. Aborting release.')
-    exit(1)
-  }
-
-  logSuccess(`${packageName}@${nextVersion} was successfully published.`)
-
-  log('Updating VERSION file...')
-  writeFile(versionLoc, `${nextVersion}\n`)
-
-  log('Committing changes...')
-  const newTagName = `v${nextVersion}`
-  exec(`git add ${versionLoc}`)
-  exec(`git commit -m "${packageName} ${newTagName}"`)
-
-  if (packageName === 'recompose') {
-    log(`Tagging release... (${newTagName})`)
-    exec(`git tag ${newTagName}`)
-  }
-
-  log('Pushing to GitHub...')
-  exec('git push')
-  exec('git push --tags')
+  log(`Releasing into ${PACKAGES_RELEASE_DIR}...`)
+  cp('-Rf', `${outDir}/`, PACKAGES_RELEASE_DIR)
 
   logSuccess('Done.')
 } catch (error) {
