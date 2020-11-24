@@ -9,7 +9,7 @@
     "glamor": "^3.0.0-3",
     "glamor-reset": "^3.0.0-2",
     "hoist-non-react-statics": "^2.0.0",
-    "react": "^15.6.1",
+    "react": "^17.0.1",
     "react-dom": "^15.6.1",
     "react-motion": "^0.5.0",
     "recompose": "^0.24.0"
