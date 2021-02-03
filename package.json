@@ -26,7 +26,9 @@
       "text-summary",
       "lcov"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/scripts/jest.setup.js"
+    "setupFilesAfterEnv": [
+      "<rootDir>/scripts/jest.setup.js"
+    ]
   },
   "lint-staged": {
     "*.js": [
@@ -63,7 +65,7 @@
     "flow-bin": "^0.72.0",
     "flyd": "^0.2.4",
     "husky": "^0.13.3",
-    "jest": "^22.4.3",
+    "jest": "^26.6.3",
     "kefir": "^3.2.3",
     "lint-staged": "^3.4.0",
     "most": "^1.0.2",
