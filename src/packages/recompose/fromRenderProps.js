@@ -1,4 +1,4 @@
-import React from 'react'
+import createFactory from './createFactory'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 
@@ -7,8 +7,8 @@ const fromRenderProps = (
   propsMapper,
   renderPropName = 'children'
 ) => BaseComponent => {
-  const baseFactory = React.createFactory(BaseComponent)
-  const renderPropsFactory = React.createFactory(RenderPropsComponent)
+  const baseFactory = createFactory(BaseComponent)
+  const renderPropsFactory = createFactory(RenderPropsComponent)
 
   const FromRenderProps = ownerProps =>
     renderPropsFactory({

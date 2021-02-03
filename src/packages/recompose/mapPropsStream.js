@@ -1,5 +1,5 @@
-import { createFactory } from 'react'
 import $$observable from 'symbol-observable'
+import createFactory from './createFactory'
 import { componentFromStreamWithConfig } from './componentFromStream'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'

@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { createFactory, Component } from 'react'
+import { Component } from 'react'
+import createFactory from './createFactory'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 
