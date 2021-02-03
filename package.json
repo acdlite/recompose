@@ -52,7 +52,7 @@
     "chalk": "^1.1.1",
     "change-case": "^2.3.1",
     "codecov": "^1.0.1",
-    "create-react-class": "^15.5.0",
+    "create-react-class": "^15.7.0",
     "cross-env": "^4.0.0",
     "enzyme": "^3.3.0",
     "eslint": "^7.19.0",
