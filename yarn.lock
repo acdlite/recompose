@@ -1958,9 +1958,10 @@ babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
 
-baconjs@^0.7.84:
-  version "0.7.94"
-  resolved "https://registry.yarnpkg.com/baconjs/-/baconjs-0.7.94.tgz#bdba8c4ab92aac5c8096d22f273eb0674b1afdb2"
+baconjs@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/baconjs/-/baconjs-1.0.1.tgz#3bb3cc14426840c06fb0b62dd410a5e25fe13d5d"
+  integrity sha512-f4YHGKrxagnsgzrd5E33VIcfTJaFBgBwvwINP0vi0mJW9Rddjda6sG/ICBeT5a5foZmqwWDhRbWpbSH+TLVKxw==
 
 balanced-match@^1.0.0:
   version "1.0.0"
