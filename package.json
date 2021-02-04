@@ -70,7 +70,7 @@
     "lint-staged": "^3.4.0",
     "most": "^1.9.0",
     "prettier": "~1.5.3",
-    "prop-types": "^15.6.1",
+    "prop-types": "^15.7.2",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
     "readline-sync": "^1.2.21",
