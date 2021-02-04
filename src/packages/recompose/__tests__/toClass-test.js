@@ -21,7 +21,9 @@ test('toClass copies propTypes, displayName, contextTypes and defaultProps from 
   StatelessComponent.displayName = 'Stateless'
   StatelessComponent.propTypes = { foo: PropTypes.string }
   StatelessComponent.contextTypes = { bar: PropTypes.object }
+  /* eslint-disable react/default-props-match-prop-types */
   StatelessComponent.defaultProps = { foo: 'bar', fizz: 'buzz' }
+  /* eslint-enable react/default-props-match-prop-types */
 
   const TestComponent = toClass(StatelessComponent)
 

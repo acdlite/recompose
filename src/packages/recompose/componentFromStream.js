@@ -29,7 +29,7 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     // Stream of vdom
     vdom$ = config.toESObservable(propsToVdom(this.props$))
 
-    componentWillMount() {
+    componentDidMount() {
       // Subscribe to child prop changes so we know when to re-render
       this.subscription = this.vdom$.subscribe({
         next: vdom => {
@@ -39,6 +39,9 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
       this.propsEmitter.emit(this.props)
     }
 
+    // TODO: componentWillReceiveProps method is not supported by React 17;
+    // UNSAFE_componentWillReceiveProps may not work with older React versions.
+    // Another solution is wanted.
     componentWillReceiveProps(nextProps) {
       // Receive new props from the owner
       this.propsEmitter.emit(nextProps)
