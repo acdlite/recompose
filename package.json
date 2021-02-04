@@ -82,7 +82,7 @@
     "rollup-plugin-size-snapshot": "^0.6.1",
     "rollup-plugin-uglify": "^4.0.0",
     "rx": "^4.1.0",
-    "rxjs": "^5.0.0",
+    "rxjs": "^5.5.12",
     "shelljs": "^0.6.0",
     "sinon": "^1.17.1",
     "webpack": "^2.4.1",
