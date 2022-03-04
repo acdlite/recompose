@@ -25,15 +25,17 @@ test('withContext + getContext adds to and grabs from context', () => {
   }
 
   const Provider = compose(
-    withContext({ store: PropTypes.object }, props => ({ store: props.store }))
+    withContext({ store: PropTypes.object }, (props) => ({
+      store: props.store,
+    }))
   )(BaseProvider)
 
   expect(Provider.displayName).toBe('withContext(BaseProvider)')
 
-  const connect = selector =>
+  const connect = (selector) =>
     compose(
       getContext({ store: PropTypes.object }),
-      mapProps(props => selector(props.store.getState()))
+      mapProps((props) => selector(props.store.getState()))
     )
 
   const component = sinon.spy(() => null)

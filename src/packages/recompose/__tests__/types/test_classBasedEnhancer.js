@@ -8,12 +8,12 @@ function fetcher<Response: {}, Base: {}>(
   dest: string,
   nullRespType: ?Response
 ): HOC<{ ...$Exact<Base>, data?: Response }, Base> {
-  return BaseComponent =>
+  return (BaseComponent) =>
     class Fetcher extends React.Component<Base, { data?: Response }> {
       state = { data: undefined }
       componentDidMount() {
         fetch(dest)
-          .then(r => r.json())
+          .then((r) => r.json())
           .then((data: Response) => this.setState({ data }))
       }
       render() {

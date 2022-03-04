@@ -1,4 +1,4 @@
-const isClassComponent = Component =>
+const isClassComponent = (Component) =>
   Boolean(
     Component &&
       Component.prototype &&

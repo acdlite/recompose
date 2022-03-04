@@ -55,7 +55,7 @@ test('receives state from reducer when initialState is not provided', () => {
 
   const initialState = { counter: 0 }
 
-  const reducer = (state = initialState, action) =>
+  const reducer = (state = initialState, action = {}) =>
     action.type === SET_COUNTER ? { counter: action.payload } : state
 
   const Counter = compose(

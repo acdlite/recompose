@@ -4,7 +4,7 @@ import xstream from 'xstream'
 const noop = () => {}
 
 const config = {
-  fromESObservable: observable =>
+  fromESObservable: (observable) =>
     xstream.create({
       subscription: null,
       start(listener) {
@@ -14,8 +14,8 @@ const config = {
         this.subscription.unsubscribe()
       },
     }),
-  toESObservable: stream => ({
-    subscribe: observer => {
+  toESObservable: (stream) => ({
+    subscribe: (observer) => {
       const listener = {
         next: observer.next || noop,
         error: observer.error || noop,

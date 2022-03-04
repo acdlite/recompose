@@ -10,7 +10,7 @@ test('renderComponent always renders the given component', () => {
   const Foobar = compose(
     withState('flip', 'updateFlip', false),
     branch(
-      props => props.flip,
+      (props) => props.flip,
       renderComponent(componentA),
       renderComponent(componentB)
     )

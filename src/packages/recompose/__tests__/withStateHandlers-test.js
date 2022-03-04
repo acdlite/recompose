@@ -5,18 +5,17 @@ import sinon from 'sinon'
 import { compose, withStateHandlers } from '../'
 
 test('withStateHandlers should persist events passed as argument', () => {
-  const component = ({ value, onChange }) =>
+  const component = ({ value, onChange }) => (
     <div>
       <input type="text" value={value} onChange={onChange} />
-      <p>
-        {value}
-      </p>
+      <p>{value}</p>
     </div>
+  )
 
   const InputComponent = withStateHandlers(
     { value: '' },
     {
-      onChange: () => e => ({
+      onChange: () => (e) => ({
         value: e.target.value,
       }),
     }
@@ -45,9 +44,11 @@ test('withStateHandlers adds a stateful value and a function for updating it', (
   const Counter = withStateHandlers(
     { counter: 0 },
     {
-      updateCounter: ({ counter }) => increment => ({
-        counter: counter + increment,
-      }),
+      updateCounter:
+        ({ counter }) =>
+        (increment) => ({
+          counter: counter + increment,
+        }),
     }
   )(component)
   expect(Counter.displayName).toBe('withStateHandlers(component)')
@@ -76,9 +77,11 @@ test('withStateHandlers accepts initialState as function of props', () => {
       counter: initialCounter,
     }),
     {
-      updateCounter: ({ counter }) => increment => ({
-        counter: counter + increment,
-      }),
+      updateCounter:
+        ({ counter }) =>
+        (increment) => ({
+          counter: counter + increment,
+        }),
     }
   )(component)
 
@@ -109,9 +112,11 @@ test('withStateHandlers have access to props', () => {
       counter: initialCounter,
     }),
     {
-      increment: ({ counter }, { incrementValue }) => () => ({
-        counter: counter + incrementValue,
-      }),
+      increment:
+        ({ counter }, { incrementValue }) =>
+        () => ({
+          counter: counter + incrementValue,
+        }),
     }
   )(component)
 
@@ -139,9 +144,11 @@ test('withStateHandlers passes immutable state updaters', () => {
       counter: initialCounter,
     }),
     {
-      increment: ({ counter }, { incrementValue }) => () => ({
-        counter: counter + incrementValue,
-      }),
+      increment:
+        ({ counter }, { incrementValue }) =>
+        () => ({
+          counter: counter + incrementValue,
+        }),
     }
   )(component)
 
@@ -169,12 +176,14 @@ test('withStateHandlers does not rerender if state updater returns undefined', (
       counter: initialCounter,
     }),
     {
-      updateCounter: ({ counter }) => increment =>
-        increment === 0
-          ? undefined
-          : {
-              counter: counter + increment,
-            },
+      updateCounter:
+        ({ counter }) =>
+        (increment) =>
+          increment === 0
+            ? undefined
+            : {
+                counter: counter + increment,
+              },
     }
   )(component)
 
@@ -202,19 +211,23 @@ test('withStateHandlers rerenders if parent props changed', () => {
         counter: initialCounter,
       }),
       {
-        increment: ({ counter }) => incrementValue => ({
-          counter: counter + incrementValue,
-        }),
+        increment:
+          ({ counter }) =>
+          (incrementValue) => ({
+            counter: counter + incrementValue,
+          }),
       }
     ),
     withStateHandlers(
       { incrementValue: 1 },
       {
         // updates parent state and return undefined
-        updateParentIncrement: ({ incrementValue }, { increment }) => () => {
-          increment(incrementValue)
-          return undefined
-        },
+        updateParentIncrement:
+          ({ incrementValue }, { increment }) =>
+          () => {
+            increment(incrementValue)
+            return undefined
+          },
       }
     )
   )(component)

@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { polyfill } from 'react-lifecycles-compat'
 
-const createSink = callback => {
+const createSink = (callback) => {
   class Sink extends Component {
     state = {}
 

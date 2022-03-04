@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import getDisplayName from './getDisplayName'
 import isClassComponent from './isClassComponent'
 
-const toClass = baseComponent =>
+const toClass = (baseComponent) =>
   isClassComponent(baseComponent)
     ? baseComponent
     : class ToClass extends Component {

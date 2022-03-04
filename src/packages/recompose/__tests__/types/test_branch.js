@@ -14,7 +14,7 @@ import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ eA }) =>
+const Comp = ({ eA }) => (
   <div>
     {(eA: number)}
     {
@@ -22,23 +22,27 @@ const Comp = ({ eA }) =>
       (eA: string)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
   branch(({ eA }) => eA === 1, renderNothing),
-  withProps(props => ({
+  withProps((props) => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
   })),
-  withProps(props => ({
+  withProps((props) => ({
     // $ExpectError property not found
     err: props.iMNotExists,
   }))
 )
 
 const enhacerLoading: HOC<*, EnhancedCompProps> = compose(
-  branch(({ eA }) => eA === 1, renderComponent(p => <div>Loading</div>)),
-  withProps(props => ({
+  branch(
+    ({ eA }) => eA === 1,
+    renderComponent((p) => <div>Loading</div>)
+  ),
+  withProps((props) => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
@@ -48,7 +52,7 @@ const enhacerLoading: HOC<*, EnhancedCompProps> = compose(
 // can work with onlyUpdateForKeys
 const enhacerUpdating: HOC<*, EnhancedCompProps> = compose(
   branch(({ eA }) => eA === 1, onlyUpdateForKeys(['eA'])),
-  withProps(props => ({
+  withProps((props) => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
@@ -57,8 +61,11 @@ const enhacerUpdating: HOC<*, EnhancedCompProps> = compose(
 
 // can infer withProps type
 const enhacerWithProps: HOC<*, EnhancedCompProps> = compose(
-  branch(({ eA }) => eA === 1, withProps(props => ({ x: 1 }))),
-  withProps(props => ({
+  branch(
+    ({ eA }) => eA === 1,
+    withProps((props) => ({ x: 1 }))
+  ),
+  withProps((props) => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
@@ -70,16 +77,16 @@ const enhacerWithCompose: HOC<*, EnhancedCompProps> = compose(
   branch(
     ({ eA }) => eA === 1,
     compose(
-      withProps(props => {
+      withProps((props) => {
         // $ExpectError eA nor any nor string
         ;(props.eA: string)
 
         return { x: 1 }
       }),
-      withProps(props => ({ y: 2 }))
+      withProps((props) => ({ y: 2 }))
     )
   ),
-  withProps(props => ({
+  withProps((props) => ({
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
     // $ExpectError x nor any nor string
@@ -92,10 +99,10 @@ const enhacerWithCompose: HOC<*, EnhancedCompProps> = compose(
 const enhacerLeftRight: HOC<*, EnhancedCompProps> = compose(
   branch(
     ({ eA }) => eA === 1,
-    renderComponent(p => <div>A</div>),
-    renderComponent(p => <div>B</div>)
+    renderComponent((p) => <div>A</div>),
+    renderComponent((p) => <div>B</div>)
   ),
-  withProps(props => ({
+  withProps((props) => ({
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
     // $ExpectError x nor any nor string

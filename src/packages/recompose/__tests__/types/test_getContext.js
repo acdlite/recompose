@@ -12,7 +12,7 @@ const PropTypes = {
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ eA }) =>
+const Comp = ({ eA }) => (
   <div>
     {(eA: number)}
     {
@@ -20,6 +20,7 @@ const Comp = ({ eA }) =>
       (eA: string)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
   getContext({
@@ -28,7 +29,7 @@ const enhacer: HOC<*, EnhancedCompProps> = compose(
     color: ((PropTypes.string: any): string),
     num: ((PropTypes.number: any): number),
   }),
-  withProps(props => ({
+  withProps((props) => ({
     eA: (props.eA: number),
     color: (props.color: string),
     // $ExpectError eA nor any nor string
@@ -36,7 +37,7 @@ const enhacer: HOC<*, EnhancedCompProps> = compose(
     // $ExpectError color nor any nor number
     colorErr: (props.color: number),
   })),
-  withProps(props => ({
+  withProps((props) => ({
     // $ExpectError property not found
     err: props.iMNotExists,
   }))

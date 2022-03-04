@@ -4,12 +4,12 @@ import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 
 const renameProp = (oldName, newName) => {
-  const hoc = mapProps(props => ({
+  const hoc = mapProps((props) => ({
     ...omit(props, [oldName]),
     [newName]: props[oldName],
   }))
   if (process.env.NODE_ENV !== 'production') {
-    return BaseComponent =>
+    return (BaseComponent) =>
       setDisplayName(wrapDisplayName(BaseComponent, 'renameProp'))(
         hoc(BaseComponent)
       )

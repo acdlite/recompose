@@ -7,7 +7,7 @@ import type { HOC } from '../..'
 
 type EnhancedCompProps = { a: string, b: number }
 
-const Comp = ({ hello, b }) =>
+const Comp = ({ hello, b }) => (
   <div>
     {hello}
     {b}
@@ -20,6 +20,7 @@ const Comp = ({ hello, b }) =>
       (hello: number)
     }
   </div>
+)
 
 const enhancer: HOC<*, EnhancedCompProps> = compose(
   withProps(({ a, b }) => ({
@@ -35,7 +36,7 @@ const enhancer: HOC<*, EnhancedCompProps> = compose(
   withProps({
     d: 'hi',
   }),
-  withProps(props => ({
+  withProps((props) => ({
     a: (props.a: string),
     d: (props.d: string),
     // $ExpectError property not found

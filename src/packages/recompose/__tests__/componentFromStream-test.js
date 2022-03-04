@@ -8,12 +8,8 @@ import { componentFromStreamWithConfig } from '../componentFromStream'
 const componentFromStream = componentFromStreamWithConfig(rxjsConfig)
 
 test('componentFromStream creates a component from a prop stream transformation', () => {
-  const Double = componentFromStream(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
+  const Double = componentFromStream((props$) =>
+    props$.map(({ n }) => <div>{n * 2}</div>)
   )
   const wrapper = mount(<Double n={112} />)
   const div = wrapper.find('div')
@@ -24,7 +20,7 @@ test('componentFromStream creates a component from a prop stream transformation'
 
 test('componentFromStream unsubscribes from stream before unmounting', () => {
   let subscriptions = 0
-  const vdom$ = new Observable(observer => {
+  const vdom$ = new Observable((observer) => {
     subscriptions += 1
     observer.next(<div />)
     return {
@@ -52,9 +48,9 @@ test('componentFromStream renders nothing until the stream emits a value', () =>
 
 test('handler multiple observers of props stream', () => {
   const Other = () => <div />
-  const Div = componentFromStream(props$ =>
+  const Div = componentFromStream((props$) =>
     // Adds three observers to props stream
-    props$.combineLatest(props$, props$, props1 => <Other {...props1} />)
+    props$.combineLatest(props$, props$, (props1) => <Other {...props1} />)
   )
 
   const wrapper = mount(<Div data-value={1} />)
@@ -70,7 +66,7 @@ test('handler multiple observers of props stream', () => {
 test('complete props stream before unmounting', () => {
   let counter = 0
 
-  const Div = componentFromStream(props$ => {
+  const Div = componentFromStream((props$) => {
     const first$ = props$.first().do(() => {
       counter += 1
     })
@@ -82,7 +78,7 @@ test('complete props stream before unmounting', () => {
       })
       .startWith(null)
 
-    return props$.combineLatest(first$, last$, props1 => <div {...props1} />)
+    return props$.combineLatest(first$, last$, (props1) => <div {...props1} />)
   })
 
   const wrapper = mount(<Div />)
@@ -95,10 +91,13 @@ test('complete props stream before unmounting', () => {
 })
 
 test('completed props stream should throw an exception', () => {
-  const Div = componentFromStream(props$ => {
-    const first$ = props$.filter(() => false).first().startWith(null)
+  const Div = componentFromStream((props$) => {
+    const first$ = props$
+      .filter(() => false)
+      .first()
+      .startWith(null)
 
-    return props$.combineLatest(first$, props1 => <div {...props1} />)
+    return props$.combineLatest(first$, (props1) => <div {...props1} />)
   })
 
   const wrapper = mount(<Div />)

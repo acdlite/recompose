@@ -1,5 +1,4 @@
-recompose-relay
-===============
+# recompose-relay
 
 [![npm version](https://img.shields.io/npm/v/recompose-relay.svg?style=flat-square)](https://www.npmjs.com/package/recompose-relay)
 
@@ -38,8 +37,8 @@ const Post = compose(
             name
           }
         }
-      `
-    }
+      `,
+    },
   }),
   flattenProp('post')
 )(({ title, content, author }) => (
@@ -48,5 +47,5 @@ const Post = compose(
     <h2>By {author.name}</h2>
     <div>{content}</div>
   </article>
-));
+))
 ```

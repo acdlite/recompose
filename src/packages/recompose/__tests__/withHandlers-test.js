@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
@@ -8,26 +9,24 @@ test('withHandlers passes handlers to base component', () => {
   const enhanceForm = compose(
     withState('value', 'updateValue', ''),
     withHandlers({
-      onChange: props => event => {
+      onChange: (props) => (event) => {
         props.updateValue(event.target.value)
       },
-      onSubmit: props => () => {
+      onSubmit: (props) => () => {
         submittedFormValue = props.value
       },
     })
   )
 
-  const Form = enhanceForm(({ value, onChange, onSubmit }) =>
+  const Form = enhanceForm(({ value, onChange, onSubmit }) => (
     <form onSubmit={onSubmit}>
       <label>
         Value
         <input type="text" value={value} onChange={onChange} />
       </label>
-      <p>
-        {value}
-      </p>
+      <p>{value}</p>
     </form>
-  )
+  ))
 
   const wrapper = mount(<Form />)
   const input = wrapper.find('input')
@@ -83,7 +82,7 @@ test('withHandlers warns if handler is not a higher-order function', () => {
 })
 
 test('withHandlers allow handers to be a factory', () => {
-  const enhance = withHandlers(initialProps => {
+  const enhance = withHandlers((initialProps) => {
     let cache_
 
     return {

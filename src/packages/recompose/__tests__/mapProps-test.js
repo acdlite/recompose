@@ -19,7 +19,7 @@ test('mapProps maps owner props to child props', () => {
 
   mount(<StringConcat />)
   const { updateStrings } = component.firstCall.args[0]
-  updateStrings(strings => [...strings, 'fa'])
+  updateStrings((strings) => [...strings, 'fa'])
 
   expect(component.firstCall.args[0].string).toBe('doremi')
   expect(component.secondCall.args[0].string).toBe('doremifa')

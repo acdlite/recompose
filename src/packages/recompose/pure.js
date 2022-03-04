@@ -3,7 +3,7 @@ import shallowEqual from './shallowEqual'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 
-const pure = BaseComponent => {
+const pure = (BaseComponent) => {
   const hoc = shouldUpdate(
     (props, nextProps) => !shallowEqual(props, nextProps)
   )

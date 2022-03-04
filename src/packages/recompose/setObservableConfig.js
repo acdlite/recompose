@@ -3,16 +3,16 @@ let _config = {
   toESObservable: null,
 }
 
-const configureObservable = c => {
+const configureObservable = (c) => {
   _config = c
 }
 
 export const config = {
-  fromESObservable: observable =>
+  fromESObservable: (observable) =>
     typeof _config.fromESObservable === 'function'
       ? _config.fromESObservable(observable)
       : observable,
-  toESObservable: stream =>
+  toESObservable: (stream) =>
     typeof _config.toESObservable === 'function'
       ? _config.toESObservable(stream)
       : stream,

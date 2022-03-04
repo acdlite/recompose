@@ -7,7 +7,7 @@ import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ eA }) =>
+const Comp = ({ eA }) => (
   <div>
     {(eA: number)}
     {
@@ -15,19 +15,20 @@ const Comp = ({ eA }) =>
       (eA: string)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
-  withContext({}, props => {
+  withContext({}, (props) => {
     // $ExpectError eA nor any nor string
     ;(props.eA: string)
     return {}
   }),
-  withProps(props => ({
+  withProps((props) => ({
     eA: (props.eA: number),
     // $ExpectError eA nor any nor string
     eAErr: (props.eA: string),
   })),
-  withProps(props => ({
+  withProps((props) => ({
     // $ExpectError property not found
     err: props.iMNotExists,
   }))

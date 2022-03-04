@@ -2,7 +2,7 @@ import React from 'react'
 import setDisplayName from '../setDisplayName'
 import wrapDisplayName from '../wrapDisplayName'
 
-export const countRenders = BaseComponent => {
+export const countRenders = (BaseComponent) => {
   class CountRenders extends React.Component {
     renderCount = 0
 
