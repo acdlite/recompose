@@ -1,26 +1,26 @@
-import { createFactory } from 'react'
 import $$observable from 'symbol-observable'
 import { componentFromStreamWithConfig } from './componentFromStream'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
 import { config as globalConfig } from './setObservableConfig'
+import { createFactory } from './utils/factory'
 
-const identity = t => t
+const identity = (t) => t
 
-export const mapPropsStreamWithConfig = config => {
+export const mapPropsStreamWithConfig = (config) => {
   const componentFromStream = componentFromStreamWithConfig({
     fromESObservable: identity,
     toESObservable: identity,
   })
-  return transform => BaseComponent => {
+  return (transform) => (BaseComponent) => {
     const factory = createFactory(BaseComponent)
     const { fromESObservable, toESObservable } = config
-    return componentFromStream(props$ => ({
+    return componentFromStream((props$) => ({
       subscribe(observer) {
         const subscription = toESObservable(
           transform(fromESObservable(props$))
         ).subscribe({
-          next: childProps => observer.next(factory(childProps)),
+          next: (childProps) => observer.next(factory(childProps)),
         })
         return {
           unsubscribe: () => subscription.unsubscribe(),
@@ -33,11 +33,11 @@ export const mapPropsStreamWithConfig = config => {
   }
 }
 
-const mapPropsStream = transform => {
+const mapPropsStream = (transform) => {
   const hoc = mapPropsStreamWithConfig(globalConfig)(transform)
 
   if (process.env.NODE_ENV !== 'production') {
-    return BaseComponent =>
+    return (BaseComponent) =>
       setDisplayName(wrapDisplayName(BaseComponent, 'mapPropsStream'))(
         hoc(BaseComponent)
       )

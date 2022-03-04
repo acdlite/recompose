@@ -1,6 +1,9 @@
 {
   "extends": ["eslint-config-airbnb", "prettier"],
   "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
   "env": {
     "browser": true,
     "node": true,
@@ -36,12 +39,14 @@
     "react/prefer-stateless-function": [0],
     "react/no-multi-comp": [0],
     "react/sort-comp": [0],
+    "react/state-in-constructor": [0],
     "react/jsx-filename-extension": [0],
     "prettier/prettier": [
       "error",
       { "semi": false, "trailingComma": "es5", "singleQuote": true }
     ],
     "react/destructuring-assignment": [0],
+    "react/function-component-definition": [0],
     "react/jsx-curly-brace-presence": [0],
     "react/no-unused-prop-types": [0],
     "react/require-default-props": [0],

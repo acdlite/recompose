@@ -27,7 +27,7 @@
       "text-summary",
       "lcov"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/scripts/jest.setup.js"
+    "setupFilesAfterEnv": ["<rootDir>/scripts/jest.setup.js"]
   },
   "lint-staged": {
     "*.js": [
@@ -50,7 +50,7 @@
     "@rollup/plugin-replace": "^4.0.0",
     "babel-jest": "^27.5.1",
     "baconjs": "^0.7.84",
-    "chalk": "^5.0.0",
+    "chalk": "^4.0.0",
     "change-case": "^2.3.1",
     "codecov": "^3.8.3",
     "create-react-class": "^15.5.0",

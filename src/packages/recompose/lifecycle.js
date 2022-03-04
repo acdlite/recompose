@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
-import { createFactory, Component } from 'react'
+import { Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
+import { createFactory } from './utils/factory'
 
-const lifecycle = spec => BaseComponent => {
+const lifecycle = (spec) => (BaseComponent) => {
   const factory = createFactory(BaseComponent)
 
   if (process.env.NODE_ENV !== 'production' && spec.hasOwnProperty('render')) {
@@ -22,7 +23,7 @@ const lifecycle = spec => BaseComponent => {
     }
   }
 
-  Object.keys(spec).forEach(hook => (Lifecycle.prototype[hook] = spec[hook]))
+  Object.keys(spec).forEach((hook) => (Lifecycle.prototype[hook] = spec[hook]))
 
   if (process.env.NODE_ENV !== 'production') {
     return setDisplayName(wrapDisplayName(BaseComponent, 'lifecycle'))(
