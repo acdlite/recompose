@@ -1,14 +1,6 @@
 {
-  "extends": [
-    "eslint-config-airbnb",
-    "prettier",
-    "prettier/flowtype",
-    "prettier/react"
-  ],
-  "plugins": [
-    "prettier"
-  ],
-  "parser": "babel-eslint",
+  "extends": ["eslint-config-airbnb", "prettier"],
+  "plugins": ["prettier"],
   "env": {
     "browser": true,
     "node": true,
@@ -27,7 +19,10 @@
     "no-plusplus": [0],
     "no-prototype-builtins": [0],
     "no-return-assign": [0],
-    "max-len": ["error", { "code": 120, "ignorePattern": "^test", "ignoreUrls": true }],
+    "max-len": [
+      "error",
+      { "code": 120, "ignorePattern": "^test", "ignoreUrls": true }
+    ],
     "lines-between-class-members": [0],
     "prefer-destructuring": [0],
     "import/no-unresolved": [0],
@@ -42,7 +37,10 @@
     "react/no-multi-comp": [0],
     "react/sort-comp": [0],
     "react/jsx-filename-extension": [0],
-    "prettier/prettier": ["error", {"semi": false, "trailingComma": "es5", "singleQuote": true}],
+    "prettier/prettier": [
+      "error",
+      { "semi": false, "trailingComma": "es5", "singleQuote": true }
+    ],
     "react/destructuring-assignment": [0],
     "react/jsx-curly-brace-presence": [0],
     "react/no-unused-prop-types": [0],
