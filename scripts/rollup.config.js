@@ -1,10 +1,10 @@
 import path from 'path'
-import nodeResolve from 'rollup-plugin-node-resolve'
-import babel from 'rollup-plugin-babel'
-import replace from 'rollup-plugin-replace'
-import commonjs from 'rollup-plugin-commonjs'
-import { uglify } from 'rollup-plugin-uglify'
+import nodeResolve from '@rollup/plugin-node-resolve'
+import babel from '@rollup/plugin-babel'
+import replace from '@rollup/plugin-replace'
+import commonjs from '@rollup/plugin-commonjs'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
+import { terser } from 'rollup-plugin-terser'
 import { pascalCase } from 'change-case'
 
 const { PACKAGES_SRC_DIR, PACKAGES_OUT_DIR } = require('./getPackageNames')
@@ -17,11 +17,11 @@ const input = `./${path.join(PACKAGES_SRC_DIR, packageName, 'index.js')}`
 
 const outDir = path.join(PACKAGES_OUT_DIR, packageName, 'dist')
 
-const isExternal = id => !id.startsWith('.') && !id.startsWith('/')
+const isExternal = (id) => !id.startsWith('.') && !id.startsWith('/')
 
 const getBabelOptions = ({ useESModules }) => ({
   exclude: '**/node_modules/**',
-  runtimeHelpers: true,
+  babelHelpers: 'runtime',
   plugins: [['@babel/transform-runtime', { useESModules }]],
 })
 
@@ -43,8 +43,12 @@ export default [
       nodeResolve(),
       babel(getBabelOptions({ useESModules: true })),
       commonjs(),
-      replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
+      replace({
+        preventAssignment: true,
+        'process.env.NODE_ENV': JSON.stringify('development'),
+      }),
       sizeSnapshot({ matchSnapshot }),
+      terser(),
     ],
   },
 
@@ -63,9 +67,12 @@ export default [
       nodeResolve(),
       babel(getBabelOptions({ useESModules: true })),
       commonjs(),
-      replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+      replace({
+        preventAssignment: true,
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
       sizeSnapshot({ matchSnapshot }),
-      uglify(),
+      terser(),
     ],
   },
 

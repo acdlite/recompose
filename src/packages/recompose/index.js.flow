@@ -113,9 +113,7 @@ declare export function withStateHandlers<
 declare export function withHandlers<
   Enhanced,
   Handlers:
-    | ((
-        props: Enhanced
-      ) => {
+    | ((props: Enhanced) => {
         [key: string]: (props: Enhanced) => Function,
       })
     | {
@@ -255,7 +253,7 @@ declare export function hoistStatics<A, B, H: HOC<A, B>>(hoc: H): H
 
 declare export function componentFromStream<T>(
   (props$: any) => any
-): T => React$Element<any>
+): (T) => React$Element<any>
 
 declare export function createEventHandler(): {
   stream: any,
@@ -273,6 +271,6 @@ declare export function fromRenderProps<B, E, RenderPropName, Props>(
   RenderPropsComponent: Component<{
     [RenderPropName]: (...props: Props) => React$Node,
   }>,
-  propsMapper: ((...props: Props) => B),
+  propsMapper: (...props: Props) => B,
   renderPropName?: RenderPropName
 ): HOC<{ ...$Exact<E>, ...B }, E>

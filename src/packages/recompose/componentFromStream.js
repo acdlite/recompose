@@ -1,9 +1,10 @@
+/* eslint-disable react/no-this-in-sfc */
 import { Component } from 'react'
 import { createChangeEmitter } from 'change-emitter'
 import $$observable from 'symbol-observable'
 import { config as globalConfig } from './setObservableConfig'
 
-export const componentFromStreamWithConfig = config => propsToVdom =>
+export const componentFromStreamWithConfig = (config) => (propsToVdom) =>
   class ComponentFromStream extends Component {
     state = { vdom: null }
 
@@ -11,8 +12,8 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
 
     // Stream of props
     props$ = config.fromESObservable({
-      subscribe: observer => {
-        const unsubscribe = this.propsEmitter.listen(props => {
+      subscribe: (observer) => {
+        const unsubscribe = this.propsEmitter.listen((props) => {
           if (props) {
             observer.next(props)
           } else {
@@ -32,7 +33,7 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     componentWillMount() {
       // Subscribe to child prop changes so we know when to re-render
       this.subscription = this.vdom$.subscribe({
-        next: vdom => {
+        next: (vdom) => {
           this.setState({ vdom })
         },
       })
@@ -61,7 +62,7 @@ export const componentFromStreamWithConfig = config => propsToVdom =>
     }
   }
 
-const componentFromStream = propsToVdom =>
+const componentFromStream = (propsToVdom) =>
   componentFromStreamWithConfig(globalConfig)(propsToVdom)
 
 export default componentFromStream

@@ -9,7 +9,7 @@ test('createSink creates a React component that fires a callback when receiving 
   const Counter = compose(
     withState('counter', 'updateCounter', 0),
     mapProps(({ updateCounter, ...rest }) => ({
-      increment: () => updateCounter(n => n + 1),
+      increment: () => updateCounter((n) => n + 1),
       ...rest,
     }))
   )(Sink)

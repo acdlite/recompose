@@ -37,13 +37,13 @@ test('withPropsOnChange maps subset of owner props to child props', () => {
   expect(mapSpy.callCount).toBe(1)
 
   // Does not re-map for non-dependent prop updates
-  updateStrings(strings => ({ ...strings, c: 'baz' }))
+  updateStrings((strings) => ({ ...strings, c: 'baz' }))
   expect(component.lastCall.args[0].foobar).toBe('ab')
   expect(component.lastCall.args[0].c).toBe('c')
   expect(component.calledTwice).toBe(true)
   expect(mapSpy.callCount).toBe(1)
 
-  updateStrings(strings => ({ ...strings, a: 'foo', b: 'bar' }))
+  updateStrings((strings) => ({ ...strings, a: 'foo', b: 'bar' }))
   expect(component.lastCall.args[0].foobar).toBe('foobar')
   expect(component.lastCall.args[0].c).toBe('baz')
   expect(component.calledThrice).toBe(true)
@@ -60,9 +60,11 @@ test('withPropsOnChange maps subset of owner props to child props with custom pr
     withStateHandlers(
       { result: { hasError: false, loading: true, error: null } },
       {
-        updateResult: ({ result }) => payload => ({
-          result: { ...result, ...payload },
-        }),
+        updateResult:
+          ({ result }) =>
+          (payload) => ({
+            result: { ...result, ...payload },
+          }),
       }
     ),
     withPropsOnChange(

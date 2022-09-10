@@ -8,7 +8,7 @@ import type { HOC } from '../..'
 
 type EnhancedCompProps = { eA: 1 }
 
-const Comp = ({ a }) =>
+const Comp = ({ a }) => (
   <div>
     {(a: string)}
     {
@@ -16,15 +16,16 @@ const Comp = ({ a }) =>
       (a: number)
     }
   </div>
+)
 
 const enhacer: HOC<*, EnhancedCompProps> = compose(
-  mapProps(p => ({
+  mapProps((p) => ({
     a: '1',
   })),
   // If you need to to detect erros after a mapProps HOC
   // you need to explicitly set Types for all HOCs below
   // seems like this https://github.com/facebook/flow/issues/4342 issue
-  withProps(props => ({
+  withProps((props) => ({
     a: (props.a: string),
     // $ExpectError but not
     e: Math.round(props.a),

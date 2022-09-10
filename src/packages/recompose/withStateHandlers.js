@@ -1,29 +1,32 @@
-import { createFactory, Component } from 'react'
+import { Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
+import { createFactory } from './utils/factory'
 import mapValues from './utils/mapValues'
 
-const withStateHandlers = (initialState, stateUpdaters) => BaseComponent => {
+const withStateHandlers = (initialState, stateUpdaters) => (BaseComponent) => {
   const factory = createFactory(BaseComponent)
 
   class WithStateHandlers extends Component {
-    state = typeof initialState === 'function'
-      ? initialState(this.props)
-      : initialState
+    state =
+      typeof initialState === 'function'
+        ? initialState(this.props)
+        : initialState
 
     stateUpdaters = mapValues(
       stateUpdaters,
-      handler => (mayBeEvent, ...args) => {
-        // Having that functional form of setState can be called async
-        // we need to persist SyntheticEvent
-        if (mayBeEvent && typeof mayBeEvent.persist === 'function') {
-          mayBeEvent.persist()
-        }
+      (handler) =>
+        (mayBeEvent, ...args) => {
+          // Having that functional form of setState can be called async
+          // we need to persist SyntheticEvent
+          if (mayBeEvent && typeof mayBeEvent.persist === 'function') {
+            mayBeEvent.persist()
+          }
 
-        this.setState((state, props) =>
-          handler(state, props)(mayBeEvent, ...args)
-        )
-      }
+          this.setState((state, props) =>
+            handler(state, props)(mayBeEvent, ...args)
+          )
+        }
     )
 
     render() {

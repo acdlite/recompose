@@ -15,13 +15,13 @@ const mapKeys = (obj, func) =>
     return result
   }, {})
 
-const renameProps = nameMap => {
-  const hoc = mapProps(props => ({
+const renameProps = (nameMap) => {
+  const hoc = mapProps((props) => ({
     ...omit(props, keys(nameMap)),
     ...mapKeys(pick(props, keys(nameMap)), (_, oldName) => nameMap[oldName]),
   }))
   if (process.env.NODE_ENV !== 'production') {
-    return BaseComponent =>
+    return (BaseComponent) =>
       setDisplayName(wrapDisplayName(BaseComponent, 'renameProps'))(
         hoc(BaseComponent)
       )

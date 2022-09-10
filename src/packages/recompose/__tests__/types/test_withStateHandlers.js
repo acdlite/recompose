@@ -18,17 +18,16 @@ const enhancer: HOC<*, EnhancedCompProps> = compose(
       setValue: (state, props) => (value: string) => ({
         value,
       }),
-      changeValue: (state, props) => (
-        { i, j }: { i: number, j: string },
-        k: number
-      ) => ({
-        value: `world again ${i} ${j}`,
-      }),
-      inform: state => () => {},
+      changeValue:
+        (state, props) =>
+        ({ i, j }: { i: number, j: string }, k: number) => ({
+          value: `world again ${i} ${j}`,
+        }),
+      inform: (state) => () => {},
     }
   ),
   // here props itself will not be infered without explicit handler args types
-  withProps(props => ({
+  withProps((props) => ({
     hi: (props.value: string),
     ic: (props.initialCounter: number),
     cc: (props.obj.a: string),
@@ -45,18 +44,20 @@ const enhancer: HOC<*, EnhancedCompProps> = compose(
 
 const enhancerFuncInit: HOC<*, EnhancedCompProps> = compose(
   withStateHandlers(
-    props => ({
+    (props) => ({
       counter: props.initialCounter,
     }),
     {
       // it's better to set argument type with named props, easier to find an error
       // if you call it with wrong arguments
-      incCounter: ({ counter }) => ({ value }: { value: number }) => ({
-        counter: counter + value,
-      }),
+      incCounter:
+        ({ counter }) =>
+        ({ value }: { value: number }) => ({
+          counter: counter + value,
+        }),
     }
   ),
-  withProps(props => ({
+  withProps((props) => ({
     // check that result is void
     iVal: (props.incCounter({ value: 1 }): void),
     // $ExpectError check that incCounter is not any
@@ -66,7 +67,7 @@ const enhancerFuncInit: HOC<*, EnhancedCompProps> = compose(
   }))
 )
 
-const BaseComponent = ({ hi, changeValue, setValue }) =>
+const BaseComponent = ({ hi, changeValue, setValue }) => (
   <div
     onClick={() => {
       // check that supports few arguments
@@ -88,6 +89,7 @@ const BaseComponent = ({ hi, changeValue, setValue }) =>
   >
     {hi}
   </div>
+)
 
 const EnhancedComponent = enhancer(BaseComponent)
 ;<EnhancedComponent initialCounter={0} />
@@ -100,7 +102,7 @@ const enhancer3: HOC<*, EnhancedCompProps> = compose(
     }: { mapA2B: { [key: string]: string } }),
     {}
   ),
-  withProps(props => ({
+  withProps((props) => ({
     // check that result is void
     iVal: props.mapA2B.c,
   }))

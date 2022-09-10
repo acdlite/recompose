@@ -1,10 +1,12 @@
-import { createFactory, Component } from 'react'
+import { Component } from 'react'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
+import { createFactory } from './utils/factory'
 
-const withContext = (childContextTypes, getChildContext) => BaseComponent => {
+const withContext = (childContextTypes, getChildContext) => (BaseComponent) => {
   const factory = createFactory(BaseComponent)
   class WithContext extends Component {
+    // eslint-disable-next-line react/no-arrow-function-lifecycle
     getChildContext = () => getChildContext(this.props)
 
     render() {

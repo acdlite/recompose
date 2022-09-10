@@ -95,7 +95,7 @@ try {
 
   log('Copying additional project files...')
   const additionalProjectFiles = ['README.md', '.npmignore']
-  additionalProjectFiles.forEach(filename => {
+  additionalProjectFiles.forEach((filename) => {
     const src = path.resolve(sourceDir, filename)
 
     if (!test('-e', src)) return
@@ -104,11 +104,12 @@ try {
   })
 
   log('Generating package.json...')
-  const packageConfig = Object.assign(
-    { name: packageName, version: nextVersion },
-    require(BASE_PACKAGE_LOC),
-    require(path.resolve(sourceDir, 'package.json'))
-  )
+  const packageConfig = {
+    name: packageName,
+    version: nextVersion,
+    ...require(BASE_PACKAGE_LOC),
+    ...require(path.resolve(sourceDir, 'package.json')),
+  }
 
   writeFile(
     path.resolve(outDir, 'package.json'),

@@ -2,7 +2,7 @@ import Rx from 'rxjs'
 
 const config = {
   fromESObservable: Rx.Observable.from,
-  toESObservable: stream => stream,
+  toESObservable: (stream) => stream,
 }
 
 export default config

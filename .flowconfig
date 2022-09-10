@@ -1,5 +1,6 @@
 [ignore]
 <PROJECT_ROOT>/types/.*
+<PROJECT_ROOT>/node_modules/resolve/.*
 
 [include]
 

@@ -6,6 +6,6 @@ class Nothing extends Component {
   }
 }
 
-const renderNothing = _ => Nothing
+const renderNothing = (_) => Nothing
 
 export default renderNothing

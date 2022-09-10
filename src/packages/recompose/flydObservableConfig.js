@@ -4,11 +4,11 @@ import flyd from 'flyd'
 const noop = () => {}
 
 const config = {
-  fromESObservable: observable => {
+  fromESObservable: (observable) => {
     const stream = flyd.stream()
     const { unsubscribe } = observable.subscribe({
-      next: value => stream(value),
-      error: error => stream({ error }),
+      next: (value) => stream(value),
+      error: (error) => stream({ error }),
       complete: () => stream.end(true),
     })
 
@@ -16,10 +16,10 @@ const config = {
     return stream
   },
 
-  toESObservable: stream => ({
-    subscribe: observer => {
+  toESObservable: (stream) => ({
+    subscribe: (observer) => {
       const sub = flyd.on(observer.next || noop, stream)
-      flyd.on(_ => observer.complete(), sub.end)
+      flyd.on((_) => observer.complete(), sub.end)
       return {
         unsubscribe: () => sub.end(true),
       }

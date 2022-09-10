@@ -1,5 +1,4 @@
-recompose
-=========
+# recompose
 
 [![npm version](https://img.shields.io/npm/v/recompose.svg?style=flat-square)](https://www.npmjs.com/package/recompose)
 

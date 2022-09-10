@@ -29,7 +29,7 @@ test('shouldUpdate implements shouldComponentUpdate', () => {
   updateTodos(initialTodos)
   expect(component.calledOnce).toBe(true)
 
-  updateTodos(todos => todos.slice(0, -1))
+  updateTodos((todos) => todos.slice(0, -1))
   expect(component.calledTwice).toBe(true)
   expect(component.lastCall.args[0].todos).toEqual(['eat', 'drink'])
   expect(component.lastCall.args[0].renderCount).toBe(2)

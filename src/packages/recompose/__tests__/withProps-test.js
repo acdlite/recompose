@@ -20,7 +20,7 @@ test('withProps takes precedent over owner props', () => {
 })
 
 test('withProps should accept function', () => {
-  const DoReMi = withProps(props => ({
+  const DoReMi = withProps((props) => ({
     'data-so': props['data-la'],
   }))('div')
 

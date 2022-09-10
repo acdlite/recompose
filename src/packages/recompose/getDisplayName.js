@@ -1,4 +1,4 @@
-const getDisplayName = Component => {
+const getDisplayName = (Component) => {
   if (typeof Component === 'string') {
     return Component
   }

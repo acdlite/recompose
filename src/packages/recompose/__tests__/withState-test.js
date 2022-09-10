@@ -17,8 +17,8 @@ test('withState adds a stateful value and a function for updating it', () => {
   expect(component.lastCall.args[0].counter).toBe(0)
   expect(component.lastCall.args[0].pass).toBe('through')
 
-  updateCounter(n => n + 9)
-  updateCounter(n => n * 2)
+  updateCounter((n) => n + 9)
+  updateCounter((n) => n * 2)
 
   expect(component.lastCall.args[0].counter).toBe(18)
   expect(component.lastCall.args[0].pass).toBe('through')
@@ -59,13 +59,13 @@ test('withState also accepts initialState as function of props', () => {
   const Counter = withState(
     'counter',
     'updateCounter',
-    props => props.initialCounter
+    (props) => props.initialCounter
   )(component)
 
   mount(<Counter initialCounter={1} />)
   const { updateCounter } = component.firstCall.args[0]
 
   expect(component.lastCall.args[0].counter).toBe(1)
-  updateCounter(n => n * 3)
+  updateCounter((n) => n * 3)
   expect(component.lastCall.args[0].counter).toBe(3)
 })

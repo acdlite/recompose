@@ -10,7 +10,7 @@ import flydConfig from '../flydObservableConfig'
 import setObservableConfig from '../setObservableConfig'
 import componentFromStream from '../componentFromStream'
 
-const testTransform = transform => {
+const testTransform = (transform) => {
   const Double = componentFromStream(transform)
   const wrapper = mount(<Double n={112} />)
   const div = wrapper.find('div')
@@ -21,77 +21,35 @@ const testTransform = transform => {
 
 test('works with RxJS 5', () => {
   setObservableConfig(rxjs5Config)
-  testTransform(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
-  )
+  testTransform((props$) => props$.map(({ n }) => <div>{n * 2}</div>))
 })
 
 test('works with RxJS 4', () => {
   setObservableConfig(rxjs4Config)
-  testTransform(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
-  )
+  testTransform((props$) => props$.map(({ n }) => <div>{n * 2}</div>))
 })
 
 test('works with most', () => {
   setObservableConfig(mostConfig)
-  testTransform(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
-  )
+  testTransform((props$) => props$.map(({ n }) => <div>{n * 2}</div>))
 })
 
 test('works with xstream', () => {
   setObservableConfig(xstreamConfig)
-  testTransform(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
-  )
+  testTransform((props$) => props$.map(({ n }) => <div>{n * 2}</div>))
 })
 
 test('works with bacon', () => {
   setObservableConfig(baconConfig)
-  testTransform(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
-  )
+  testTransform((props$) => props$.map(({ n }) => <div>{n * 2}</div>))
 })
 
 test('works with kefir', () => {
   setObservableConfig(kefirConfig)
-  testTransform(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
-  )
+  testTransform((props$) => props$.map(({ n }) => <div>{n * 2}</div>))
 })
 
 test('works with flyd', () => {
   setObservableConfig(flydConfig)
-  testTransform(props$ =>
-    props$.map(({ n }) =>
-      <div>
-        {n * 2}
-      </div>
-    )
-  )
+  testTransform((props$) => props$.map(({ n }) => <div>{n * 2}</div>))
 })

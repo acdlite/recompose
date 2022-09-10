@@ -1,3 +1,4 @@
+/* eslint-disable react/default-props-match-prop-types */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { mount } from 'enzyme'
@@ -60,11 +61,14 @@ test('toClass passes context and props correctly', () => {
   }
 
   Provider = compose(
-    withContext({ store: PropTypes.object }, props => ({ store: props.store }))
+    withContext({ store: PropTypes.object }, (props) => ({
+      store: props.store,
+    }))
   )(Provider)
 
-  const StatelessComponent = (props, context) =>
+  const StatelessComponent = (props, context) => (
     <div data-props={props} data-context={context} />
+  )
 
   StatelessComponent.contextTypes = { store: PropTypes.object }
 
