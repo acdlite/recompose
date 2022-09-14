@@ -1,6 +1,7 @@
-import React, { createFactory } from 'react'
+import React from 'react'
 import { mount } from 'enzyme'
 import sinon from 'sinon'
+import createFactory from '../utils/createFactory'
 import { hoistStatics, mapProps } from '../'
 
 test('copies non-React static properties from base component to new component', () => {
