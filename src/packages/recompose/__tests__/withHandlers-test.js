@@ -17,6 +17,7 @@ test('withHandlers passes handlers to base component', () => {
     })
   )
 
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   const Form = enhanceForm(({ value, onChange, onSubmit }) =>
     <form onSubmit={onSubmit}>
       <label>
@@ -28,6 +29,7 @@ test('withHandlers passes handlers to base component', () => {
       </p>
     </form>
   )
+  /* eslint-enable jsx-a11y/label-has-associated-control */
 
   const wrapper = mount(<Form />)
   const input = wrapper.find('input')
