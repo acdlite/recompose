@@ -1,22 +1,29 @@
 {
-  "name": "recompose-build",
+  "name": "@myapos/recompose",
+  "version": "0.30.6",
   "private": true,
   "author": "Andrew Clark <acdlite@me.com>",
+  "contributors": [
+    "Myron Apostolakis <myron.apostolakis@sunlight.io>"
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/acdlite/recompose.git"
+    "url": "git://github.com/myapos/recompose.git"
   },
   "license": "MIT",
   "scripts": {
     "lint": "eslint scripts src",
-    "build:recompose": "cross-env PACKAGE_NAME=recompose rollup --config scripts/rollup.config.js",
-    "test": "jest && flow check && cross-env SNAPSHOT=match npm run build:recompose",
+    "lint:fix": "eslint --fix scripts src",
+    "build:myapos_recompose": "cross-env PACKAGE_NAME=myapos_recompose rollup --config scripts/rollup.config.js",
+    "flow:check": "flow check",
+    "flow": "flow",
+    "test": "jest && flow check && cross-env SNAPSHOT=match npm run build:myapos_recompose",
     "test:watch": "cross-env BABEL_ENV=cjs jest --watch",
     "release": "node scripts/release.js",
     "postinstall": "node scripts/installNestedPackageDeps.js",
     "format": "prettier --semi false --trailing-comma es5 --single-quote --write 'scripts/*.js' 'src/packages/*/*.js' 'src/packages/*/!(node_modules)/**/*.js'",
     "precommit": "lint-staged",
-    "prepush": "yarn test"
+    "prepush": "npm run test"
   },
   "jest": {
     "testMatch": [
@@ -26,7 +33,7 @@
       "text-summary",
       "lcov"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/scripts/jest.setup.js"
+    "setupFilesAfterEnv": ["<rootDir>/scripts/jest.setup.js"]
   },
   "lint-staged": {
     "*.js": [
@@ -36,16 +43,16 @@
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^9.0.0",
-    "babel-jest": "^22.4.3",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.0.1",
     "baconjs": "^0.7.84",
     "chalk": "^1.1.1",
     "change-case": "^2.3.1",
@@ -63,7 +70,7 @@
     "flow-bin": "^0.72.0",
     "flyd": "^0.2.4",
     "husky": "^0.13.3",
-    "jest": "^22.4.3",
+    "jest": "^26.0.1",
     "kefir": "^3.2.3",
     "lint-staged": "^3.4.0",
     "most": "^1.0.2",
@@ -83,7 +90,7 @@
     "rxjs": "^5.0.0",
     "shelljs": "^0.6.0",
     "sinon": "^1.17.1",
-    "webpack": "^2.4.1",
+    "webpack": "^4.43.0",
     "xstream": "^5.0.5"
   },
   "devEngines": {
