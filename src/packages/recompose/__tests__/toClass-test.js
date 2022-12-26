@@ -80,8 +80,15 @@ test('toClass passes context and props correctly', () => {
   expect(div.prop('data-context').store).toBe(store)
 })
 
-test('toClass works with strings (DOM components)', () => {
-  const Div = toClass('div')
-  const div = mount(<Div>Hello</Div>)
-  expect(div.html()).toBe('<div>Hello</div>')
+test('toClass works with function components that use hooks', () => {
+  const StatelessComponent = () => {
+    React.useEffect(() => {})
+    return null
+  }
+
+  StatelessComponent.displayName = 'Stateless'
+
+  const TestComponent = toClass(StatelessComponent)
+
+  mount(<TestComponent />)
 })
