@@ -1,14 +1,30 @@
-import { createFactory, Component } from 'react'
+import React, { Component } from 'react'
+import { getContextPair } from './contextManager'
 import setDisplayName from './setDisplayName'
 import wrapDisplayName from './wrapDisplayName'
+import mapValues from './utils/mapValues'
 
 const withContext = (childContextTypes, getChildContext) => BaseComponent => {
-  const factory = createFactory(BaseComponent)
+  const contextNames = Object.keys(childContextTypes)
+  const contextProviders = mapValues(
+    childContextTypes,
+    (v, k) => getContextPair(k).Provider
+  )
   class WithContext extends Component {
     getChildContext = () => getChildContext(this.props)
 
     render() {
-      return factory(this.props)
+      const contextValues = this.getChildContext()
+      const element = contextNames.reduce((acc, contextName) => {
+        const Provider = contextProviders[contextName]
+        return (
+          <Provider value={contextValues[contextName]}>
+            {acc}
+          </Provider>
+        )
+      }, <BaseComponent {...this.props} />)
+
+      return element
     }
   }
 
