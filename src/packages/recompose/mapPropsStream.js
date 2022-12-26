@@ -1,9 +1,8 @@
 import { createFactory } from 'react'
 import $$observable from 'symbol-observable'
 import { componentFromStreamWithConfig } from './componentFromStream'
-import setDisplayName from './setDisplayName'
-import wrapDisplayName from './wrapDisplayName'
 import { config as globalConfig } from './setObservableConfig'
+import composeWithDisplayName from './composeWithDisplayName'
 
 const identity = t => t
 
@@ -35,14 +34,7 @@ export const mapPropsStreamWithConfig = config => {
 
 const mapPropsStream = transform => {
   const hoc = mapPropsStreamWithConfig(globalConfig)(transform)
-
-  if (process.env.NODE_ENV !== 'production') {
-    return BaseComponent =>
-      setDisplayName(wrapDisplayName(BaseComponent, 'mapPropsStream'))(
-        hoc(BaseComponent)
-      )
-  }
-  return hoc
+  return composeWithDisplayName('mapPropsStream', hoc)
 }
 
 export default mapPropsStream

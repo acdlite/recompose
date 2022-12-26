@@ -1,17 +1,12 @@
 import { createFactory } from 'react'
-import setDisplayName from './setDisplayName'
-import wrapDisplayName from './wrapDisplayName'
+import composeWithDisplayName from './composeWithDisplayName'
 
-const defaultProps = props => BaseComponent => {
-  const factory = createFactory(BaseComponent)
-  const DefaultProps = ownerProps => factory(ownerProps)
-  DefaultProps.defaultProps = props
-  if (process.env.NODE_ENV !== 'production') {
-    return setDisplayName(wrapDisplayName(BaseComponent, 'defaultProps'))(
-      DefaultProps
-    )
-  }
-  return DefaultProps
-}
+const defaultProps = props =>
+  composeWithDisplayName('defaultProps', BaseComponent => {
+    const factory = createFactory(BaseComponent)
+    const DefaultProps = ownerProps => factory(ownerProps)
+    DefaultProps.defaultProps = props
+    return DefaultProps
+  })
 
 export default defaultProps
