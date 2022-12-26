@@ -81,7 +81,7 @@
     "rollup-plugin-uglify": "^4.0.0",
     "rx": "^4.1.0",
     "rxjs": "^5.0.0",
-    "shelljs": "^0.6.0",
+    "shelljs": "^0.8.5",
     "sinon": "^1.17.1",
     "webpack": "^2.4.1",
     "xstream": "^5.0.5"
