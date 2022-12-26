@@ -575,7 +575,10 @@ lifecycle(
 
 A higher-order component version of [`React.Component()`](https://facebook.github.io/react/docs/react-api.html#react.component). It supports the entire `Component` API, except the `render()` method, which is implemented by default (and overridden if specified; an error will be logged to the console). You should use this helper as an escape hatch, in case you need to access component lifecycle methods.
 
-Any state changes made in a lifecycle method, by using `setState`, will be propagated to the wrapped component as props.
+Each hook lifecycle will receive as an input a high-order function with the current props.
+The hooks will not longer have access to the `this` reference of the generated high-order component, encouraging a more functional style for your components.
+
+If you need to use `setState` here, please use [`withState()`](#withstate).
 
 Example:
 ```js
@@ -584,9 +587,9 @@ const PostsList = ({ posts }) => (
 )
 
 const PostsListWithData = lifecycle({
-  componentDidMount() {
-    fetchPosts().then(posts => {
-      this.setState({ posts });
+  componentDidMount: props => () => {
+    fetchPosts(props.id).then(posts => {
+      // Do something with the posts
     })
   }
 })(PostsList);
